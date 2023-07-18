@@ -1,7 +1,7 @@
 import { createBrowserRouter, Routes, Route} from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
-import About from "./pages/About";
+import SelectSinglePractice from "./pages/SelectSinglePractice";
 import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"about",
-                element: <About/>,
+                path:"selectsinglepractice",
+                element: <SelectSinglePractice/>,
                 errorElement: <ErrorComponent/>,
             },
         ],
