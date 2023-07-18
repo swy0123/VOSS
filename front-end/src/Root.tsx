@@ -14,7 +14,6 @@ function Root() {
   return (
     <Container>
     {/* <div> */}
-      <Header />
       <Outlet />
     {/* </div>  */}
     </Container>
