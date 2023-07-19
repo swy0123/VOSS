@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import Login from "../components/Login";
 import Join from "../components/Join";
-import MainImg from "../assets/MainImg.jpg";
+import MainImg from "../assets/main/MainImg.jpg";
 
-const BackgroundImg = styled.div`
+const Mainimg = styled.div`
   background-image: url("${MainImg}");
   background-repeat: no-repeat;
   background-size: cover;
@@ -20,16 +20,13 @@ function Home() {
   }
 
   return (
-    <BackgroundImg>
+    <Mainimg>
       <div>
         {loginMode ? 
         <Login isLoginMode = {isLoginMode} /> : 
         <Join isLoginMode = {isLoginMode} />}
       </div>
-
-      
-
-    </BackgroundImg>
+    </Mainimg>
   );
 }
 
