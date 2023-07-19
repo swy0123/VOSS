@@ -1,5 +1,7 @@
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import Login from "../components/Login";
+import Join from "../components/Join";
 import MainImg from "../assets/MainImg.jpg";
 
 const BackgroundImg = styled.div`
@@ -10,10 +12,23 @@ const BackgroundImg = styled.div`
 `;
 
 function Home() {
+  const [loginMode, setLoginMode] = useState(true);
+
+  const isLoginMode = (flag:boolean) => {
+    console.log(flag);
+    setLoginMode(!flag);
+  }
+
   return (
     <BackgroundImg>
-      <h1>Home</h1>
-      <Login />
+      <div>
+        {loginMode ? 
+        <Login isLoginMode = {isLoginMode} /> : 
+        <Join isLoginMode = {isLoginMode} />}
+      </div>
+
+      
+
     </BackgroundImg>
   );
 }

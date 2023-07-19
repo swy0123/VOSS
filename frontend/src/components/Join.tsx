@@ -78,25 +78,6 @@ const Input = styled.input`
   margin-top: 20px;
 `;
 
-const CheckBoxDiv = styled.div`
-  margin: 0 auto;
-  position: relative;
-  width: 85%;
-  height: 40px; 
-  font-size: 12px;
-`;
-
-const CheckBox = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 0px;
-`;
-const Forgot = styled.div`
-  position: absolute;
-  top: 13px;
-  right: 0px;
-`;
-
 const Button = styled.button`
   background-color: #212121;
   border: #212121;
@@ -107,19 +88,26 @@ const Button = styled.button`
   height: 40px;
   border-width: 1px;
   border-radius: 8px;
-  margin-top: 0px;
+  margin-top: 20px;
 `;
 
 type Props = {
-  isLoginMode: (flag: boolean) => void;
+  isLoginMode: (flag: boolean) =>void;
 }
 
-const Login: React.FC<Props> = ({ isLoginMode }) => {
+const Login:React.FC<Props> = ({isLoginMode}) =>{
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const MAX_LENGTH = 20;
 
+  const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setUsername(e.target.value);
+  };
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
@@ -140,17 +128,21 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(`${email}\n${password}\n`);
+    alert(`${username}\n${email}\n${password}\n`);
   };
 
   return (
     <Container>
       <Title>
-        <P>WELCOME BACK</P>
-        <H2>Log In to your Account</H2>
+        <P>LET'S GET YOU STARTED</P>
+        <H2>Create an Account</H2>
       </Title>
 
       <form onSubmit={handleSubmit}>
+        <InputDiv>
+          <InputHeader>Username</InputHeader>
+          <Input type="text" onChange={handleUsernameField} placeholder="Username" />
+        </InputDiv>
         <InputDiv>
           <InputHeader>Email</InputHeader>
           <Input type="email" onChange={handleEmailField} placeholder="Email" />
@@ -165,31 +157,13 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
             <img src={Eye} />
           </ShowPswd>
         </InputDiv>
-        <CheckBoxDiv>
-          <CheckBox>
-          <input
-            type="checkbox"
-          // checked={checked}
-          // onChange={({ target: { checked } }) => onChange(checked)}
-          />
-          Remember me
-          </CheckBox>
 
-          <Forgot onClick={() => { console.log("Forgot") }} style={{ textDecoration: "none" }}>Forgot Password?</Forgot>
-
-        </CheckBoxDiv>
-
-        <Button type="submit">CONTINUE</Button>
+        <Button type="submit">GET STARTED</Button>
       </form>
-
-      <div>
-      <hr/>
-      </div>
-      
 
       <UnderText>
         <P>
-          New User? <a onClick={() => isLoginMode(true)} style={{ textDecoration: "none" }}>SIGN UP HERE</a>
+          Already have an account? <a onClick={() => isLoginMode(false)} style={{ textDecoration: "none" }}>LOGIN HERE</a>
         </P>
       </UnderText>
     </Container>
