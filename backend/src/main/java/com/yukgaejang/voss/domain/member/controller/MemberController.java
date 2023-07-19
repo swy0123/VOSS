@@ -1,12 +1,11 @@
 package com.yukgaejang.voss.domain.member.controller;
 
-import com.yukgaejang.voss.domain.member.service.dto.MemberService;
+import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 
 @RestController
 @RequiredArgsConstructor
