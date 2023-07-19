@@ -1,0 +1,31 @@
+# Ignore Gradle build files in root directory
+build/
+
+# Ignore backend Gradle project
+/backend/.gradle/
+/backend/build/
+/backend/out/
+/backend/.idea/
+/backend/*.iml
+/backend/*.ipr
+/backend/*.iws
+/backend/*.classpath
+/backend/*.project
+
+# Ignore backend generated files
+/backend/spring-configuration-metadata.json
+/backend/application-{profile}.yml
+/backend/application-{profile}.properties
+/backend/application.yml
+/backend/application.properties
+/backend/application-{profile}.yml
+/backend/application-{profile}.properties
+/backend/src/main/resources/external/
+
+# Ignore miscellaneous
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
