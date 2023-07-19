@@ -1,7 +1,10 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import Eye from "../assets/eye.png";
+import Eye from "../assets/main/eye.png";
+import GoogleIcon from "../assets/main/googleIcon.png";
+import NaverIcon from "../assets/main/naverIcon.png";
+import KakaoIcon from "../assets/main/kakaoIcon.png";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -110,6 +113,31 @@ const Button = styled.button`
   margin-top: 0px;
 `;
 
+const OAuthDiv = styled.div`
+  position: relative;
+  margin: 0 auto;
+  margin-top: 12px;
+  width: 85%;
+`;
+
+const LineText = styled.div`
+  width: max-content;
+  font-size: 12px;
+  color: #757575;
+  height: 12px;
+  background-color: #ffffff;
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const Icon = styled.span`
+  margin: 10px;
+  position: relative;
+  top: 20px;
+`;
+
 type Props = {
   isLoginMode: (flag: boolean) => void;
 }
@@ -149,43 +177,44 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
         <P>WELCOME BACK</P>
         <H2>Log In to your Account</H2>
       </Title>
-
-      <form onSubmit={handleSubmit}>
-        <InputDiv>
-          <InputHeader>Email</InputHeader>
-          <Input type="email" onChange={handleEmailField} placeholder="Email" />
-        </InputDiv>
-        <InputDiv>
-          <InputHeader>Password</InputHeader>
-          <Input type={showPswd ? "text" : "password"}
-            onChange={handlePasswordField}
-            placeholder="Password"
-          />
-          <ShowPswd onClick={ShowPassword}>
-            <img src={Eye} />
-          </ShowPswd>
-        </InputDiv>
-        <CheckBoxDiv>
-          <CheckBox>
-          <input
-            type="checkbox"
-          // checked={checked}
-          // onChange={({ target: { checked } }) => onChange(checked)}
-          />
-          Remember me
-          </CheckBox>
-
-          <Forgot onClick={() => { console.log("Forgot") }} style={{ textDecoration: "none" }}>Forgot Password?</Forgot>
-
-        </CheckBoxDiv>
-
-        <Button type="submit">CONTINUE</Button>
-      </form>
-
       <div>
-      <hr/>
+        <form onSubmit={handleSubmit}>
+          <InputDiv>
+            <InputHeader>Email</InputHeader>
+            <Input type="email" onChange={handleEmailField} placeholder="Email" />
+          </InputDiv>
+          <InputDiv>
+            <InputHeader>Password</InputHeader>
+            <Input type={showPswd ? "text" : "password"}
+              onChange={handlePasswordField}
+              placeholder="Password"
+            />
+            <ShowPswd onClick={ShowPassword}>
+              <img src={Eye} />
+            </ShowPswd>
+          </InputDiv>
+          <CheckBoxDiv>
+            <CheckBox>
+              <input
+                type="checkbox"
+              // checked={checked}
+              // onChange={({ target: { checked } }) => onChange(checked)}
+              />
+              Remember me
+            </CheckBox>
+            <Forgot onClick={() => { console.log("Forgot") }} style={{ textDecoration: "none" }}>Forgot Password?</Forgot>
+          </CheckBoxDiv>
+          <Button type="submit">CONTINUE</Button>
+        </form>
       </div>
-      
+
+      <OAuthDiv>
+        <LineText>간편 로그인</LineText>
+        <hr />
+        <Icon onClick={() => { console.log("GoogleIcon") }}><img src={GoogleIcon}/></Icon>
+        <Icon onClick={() => { console.log("NaverIcon") }}><img src={NaverIcon}/></Icon>
+        <Icon onClick={() => { console.log("KakaoIcon") }}><img src={KakaoIcon}/></Icon>        
+      </OAuthDiv>
 
       <UnderText>
         <P>

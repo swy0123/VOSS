@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import Eye from "../assets/eye.png";
+import Eye from "../assets/main/eye.png";
 
 const Container = styled.div`
   background-color: #ffffff;
