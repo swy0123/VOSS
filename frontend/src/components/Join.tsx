@@ -156,7 +156,6 @@ const Login:React.FC<Props> = ({isLoginMode}) =>{
           <ShowPswd onClick={ShowPassword}>
             <img src={Eye} />
           </ShowPswd>
-
         </InputDiv>
 
         <Button type="submit">GET STARTED</Button>
