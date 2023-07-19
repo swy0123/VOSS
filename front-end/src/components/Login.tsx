@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 
 const Container = styled.div`
   background-color: #ffffff;
-  width: 460px;
-  height: 768px;
+  width: 25%;
+  height: 75%;
   border: #bdbdbd;
   border-style: solid;
   border-width: 1px;
@@ -17,28 +17,29 @@ const Container = styled.div`
 `;
 
 const P = styled.p`
-  font-size: 12.8px;
+  font-size: 12px;
   font-weight: bold;
 `;
 
 const H2 = styled.h2`
-  font-size: 25px;
+  font-size: 24px;
   font-weight: bold;
 `;
 
 const Title = styled.div`
-  width: 380px;
+position: relative;
+  width: 80%;
   height: auto;
-  margin: 40px auto;
-  margin-bottom: 100px;
+  margin: 30px auto;
+  margin-bottom: 20%;
   text-align: left;
 `;
 
 const UnderText = styled.div`
-  width: 380px;
+  width: auto;
   height: auto;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 20%;
 `;
 
 const InputDiv = styled.div`
@@ -47,42 +48,46 @@ const InputDiv = styled.div`
 
 const InputHeader = styled.div`
   width: fit-content;
+  font-size: 12px;
+  color: #757575;
   padding: 5px;
-  height: 22;
+  height: 12px;
   background-color: #ffffff;
   position: absolute;
-  top: 5px;
-  left: 15%;
+  top: 2px;
+  left: 12%;
 `;
 
 const Input = styled.input`
   border: #bdbdbd;
   border-style: solid;
-  width: 380px;
-  height: 56px;
+  width: 80%;
+  height: 40px;
   padding: 0px;
+  padding-left: 5%;
   border-width: 1px;
   border-radius: 8px;
-  margin-top: 25px;
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
   background-color: #212121;
   border: #212121;
-  font-size: 12.8px;
+  font-size: 12px;
   color: #ffffff;
   border-style: solid;
-  width: 380px;
-  height: 56px;
+  width: 85%;
+  height: 40px;
   border-width: 1px;
   border-radius: 8px;
-  margin-top: 25px;
+  margin-top: 20px;
 `;
 
 function Login() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPswd, setShowPswd] = useState<boolean>(false);
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -117,7 +122,11 @@ function Login() {
         </InputDiv>
         <InputDiv>
           <InputHeader>Password</InputHeader>
-          <Input type="password" onChange={handlePasswordField} placeholder="Password" />
+          <Input type={showPswd ? "text" : "password"}
+            onChange={handlePasswordField}
+            placeholder="Password"
+          />
+          
         </InputDiv>
 
         <Button type="submit">GET STARTED</Button>
