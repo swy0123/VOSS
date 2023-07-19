@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.member.repository.entity;
 
-import com.yukgaejang.voss.global.dto.BaseEntity;
+import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
