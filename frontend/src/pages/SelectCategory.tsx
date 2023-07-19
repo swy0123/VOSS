@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const BackGroundImage = styled.div`
-  background: url("/src/assets/background.jpg") no-repeat;
+const MainImg = styled.div`
+  background: url("/src/assets/MainImg.jpg") no-repeat;
   background-size: cover;
   background-position: center center;
   height: 100vh;
@@ -120,7 +120,7 @@ function SelectCategory () {
 
   return(
     <div>
-      <BackGroundImage>
+      <MainImg>
         <AllCategory>
           <Training 
             onMouseEnter={() => setTrainIsShown(true)}
@@ -168,7 +168,7 @@ function SelectCategory () {
             </AllBoard>
           </Community>
         </AllCategory>
-      </BackGroundImage>
+      </MainImg>
     </div>
   )
 }
