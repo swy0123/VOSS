@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/join").permitAll()
+                                .requestMatchers("/member/join").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();
