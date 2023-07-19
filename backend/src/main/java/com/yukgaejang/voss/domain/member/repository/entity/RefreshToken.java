@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.member.repository.entity;
 
+import com.yukgaejang.voss.global.dto.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshToken {
+public class RefreshToken extends BaseEntity {
     @Id
     @Column(length = 180)
     String refreshToken;

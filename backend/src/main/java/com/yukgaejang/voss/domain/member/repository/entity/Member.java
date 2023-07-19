@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.member.repository.entity;
 
+import com.yukgaejang.voss.global.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
