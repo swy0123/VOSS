@@ -56,6 +56,7 @@ const Description = styled.div`
 const AllSinglePractice = styled.div`
   height: 200px;
 `
+
 const SinglePractice = styled.div`
   background-color: #EFEFEF;
   border-radius: 3px;
