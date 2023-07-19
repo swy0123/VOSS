@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
+import Eye from "../assets/main/eye.png";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -17,29 +18,30 @@ const Container = styled.div`
 `;
 
 const P = styled.p`
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
 `;
 
 const H2 = styled.h2`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  margin-top: 5%;
 `;
 
 const Title = styled.div`
 position: relative;
   width: 80%;
   height: auto;
-  margin: 30px auto;
+  margin: 10% auto;
   margin-bottom: 20%;
   text-align: left;
 `;
 
 const UnderText = styled.div`
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  margin-top: 20%;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
 `;
 
 const InputDiv = styled.div`
@@ -50,13 +52,19 @@ const InputHeader = styled.div`
   width: fit-content;
   font-size: 12px;
   color: #757575;
-  padding: 5px;
+  padding: 8px;
   height: 12px;
   background-color: #ffffff;
   position: absolute;
   top: 2px;
   left: 12%;
 `;
+
+const ShowPswd = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 12%;
+`
 
 const Input = styled.input`
   border: #bdbdbd;
@@ -83,20 +91,39 @@ const Button = styled.button`
   margin-top: 20px;
 `;
 
-function Login() {
+type Props = {
+  isLoginMode: (flag: boolean) =>void;
+}
+
+const Login:React.FC<Props> = ({isLoginMode}) =>{
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPswd, setShowPswd] = useState<boolean>(false);
+  const MAX_LENGTH = 20;
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
     setUsername(e.target.value);
   };
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
     setEmail(e.target.value);
   };
   const handlePasswordField = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
     setPassword(e.target.value);
+  };
+
+  const ShowPassword = () => {
+    if (showPswd) setShowPswd(false);
+    else setShowPswd(true);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -126,7 +153,9 @@ function Login() {
             onChange={handlePasswordField}
             placeholder="Password"
           />
-          
+          <ShowPswd onClick={ShowPassword}>
+            <img src={Eye} />
+          </ShowPswd>
         </InputDiv>
 
         <Button type="submit">GET STARTED</Button>
@@ -134,7 +163,7 @@ function Login() {
 
       <UnderText>
         <P>
-          Already have an account? <Link to={"/about"}>LOGIN HERE</Link>
+          Already have an account? <a onClick={() => isLoginMode(false)} style={{ textDecoration: "none" }}>LOGIN HERE</a>
         </P>
       </UnderText>
     </Container>
