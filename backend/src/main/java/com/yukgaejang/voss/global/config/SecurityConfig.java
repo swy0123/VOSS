@@ -1,11 +1,14 @@
 package com.yukgaejang.voss.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yukgaejang.voss.domain.auth.controller.CustomJsonUsernamePasswordAuthenticationFilter;
 import com.yukgaejang.voss.domain.auth.service.AuthService;
 import com.yukgaejang.voss.domain.auth.service.LoginFailureHandler;
 import com.yukgaejang.voss.domain.auth.service.LoginSuccessHandler;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
+import com.yukgaejang.voss.global.jwt.controller.JwtAuthenticationProcessingFilter;
+import com.yukgaejang.voss.global.jwt.controller.JwtExceptionFilter;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -35,14 +39,21 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable);
-
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/member/join").permitAll()
+                                .requestMatchers("/member").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
+                                .requestMatchers("/sample").permitAll()
                                 .anyRequest().authenticated()
                 );
+        http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
+
+
+        http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtExceptionFilter(), JwtAuthenticationProcessingFilter.class);
+
         return http.build();
     }
 
@@ -67,5 +78,26 @@ public class SecurityConfig {
     @Bean
     public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler();
+    }
+
+    @Bean
+    public CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordAuthenticationFilter() {
+        CustomJsonUsernamePasswordAuthenticationFilter customJsonUsernamePasswordLoginFilter
+                = new CustomJsonUsernamePasswordAuthenticationFilter(objectMapper);
+        customJsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
+        customJsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
+        customJsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        return customJsonUsernamePasswordLoginFilter;
+    }
+
+    @Bean
+    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+        JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, memberRepository, refreshTokenRepository, passwordEncoder());
+        return jwtAuthenticationFilter;
+    }
+
+    @Bean
+    public JwtExceptionFilter jwtExceptionFilter() {
+        return new JwtExceptionFilter(objectMapper);
     }
 }
