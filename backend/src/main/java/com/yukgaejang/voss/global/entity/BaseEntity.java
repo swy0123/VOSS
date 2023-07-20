@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.global.dto;
+package com.yukgaejang.voss.global.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
