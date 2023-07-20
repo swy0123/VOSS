@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class ClassifyClient {
-    private final WebClient webClient;
+    private final WebClient webClient = WebClient.builder().build();
 
     public ClassifyResponse classify(MultipartFile file) throws Exception {
         String url = "http://wonyoung210.p-e.kr:5000/classify";
