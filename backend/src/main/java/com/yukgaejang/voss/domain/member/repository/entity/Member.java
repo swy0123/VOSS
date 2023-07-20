@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.member.repository.entity;
 
-import com.yukgaejang.voss.global.dto.BaseEntity;
+import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
