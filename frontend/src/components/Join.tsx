@@ -5,8 +5,10 @@ import Eye from "../assets/main/eye.png";
 
 const Container = styled.div`
   background-color: #ffffff;
-  width: 25%;
-  height: 75%;
+  /* width: 25%;
+  height: 75%; */
+  width: 380px;
+  height: 600px;
   border: #bdbdbd;
   border-style: solid;
   border-width: 1px;
