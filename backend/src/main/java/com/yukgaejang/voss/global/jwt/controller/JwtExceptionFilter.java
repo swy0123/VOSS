@@ -17,15 +17,20 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws TokenNotValidateException, ServletException, IOException {
         response.setCharacterEncoding("utf-8");
-        try{
+        try {
             filterChain.doFilter(request, response);
+
         } catch (TokenNotValidateException e){
             request.setAttribute("exception", "유효하지 않은 토큰");
+
         } catch (IOException | ServletException e) {
             request.setAttribute("exception", "에러 종류");
-        }
-        filterChain.doFilter(request, response);
 
+        }
+
+        if (!response.isCommitted()) {
+            filterChain.doFilter(request, response);
+        }
 
     }
 }

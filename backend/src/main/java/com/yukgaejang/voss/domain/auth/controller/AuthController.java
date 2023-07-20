@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.member.controller;
+package com.yukgaejang.voss.domain.auth.controller;
 
 import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member")
-public class MemberController {
+@RequestMapping("/auth")
+public class AuthController {
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest joinRequest) {
-        memberService.join(joinRequest);
-        return ResponseEntity.ok(new JoinResponse(true));
+    @GetMapping("/jwt-test")
+    public String jwtTest() {
+        // throw new TokenNotValidateException("rrr");
+        return "jwtTest 요청 성공";
     }
 }
