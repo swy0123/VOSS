@@ -8,8 +8,8 @@ import KakaoIcon from "../assets/main/kakaoIcon.png";
 
 const Container = styled.div`
   background-color: #ffffff;
-  width: 25%;
-  height: 75%;
+  width: 380px;
+  height: 600px;
   border: #bdbdbd;
   border-style: solid;
   border-width: 1px;
@@ -146,6 +146,8 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPswd, setShowPswd] = useState<boolean>(false);
+  //체크박스는 이후 기본 상태 받아와서 설정
+  const [checkbox, setCheckbox] = useState<boolean>(/**/false);
   const MAX_LENGTH = 20;
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -161,9 +163,16 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     setPassword(e.target.value);
   };
 
+  const handleCheckboxField = () => {
+    if (checkbox) setCheckbox(false);
+    else setCheckbox(true);
+    console.log("setCheckbox")
+  };
+
   const ShowPassword = () => {
     if (showPswd) setShowPswd(false);
     else setShowPswd(true);
+    console.log("setShowPswd")
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -197,8 +206,8 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
             <CheckBox>
               <input
                 type="checkbox"
-              // checked={checked}
-              // onChange={({ target: { checked } }) => onChange(checked)}
+                checked={checkbox}
+                onChange={handleCheckboxField}
               />
               Remember me
             </CheckBox>
