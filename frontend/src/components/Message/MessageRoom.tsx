@@ -36,16 +36,17 @@ const MessegeBodyDiv = styled.div`
 
 
 type Props = {
-    handleMessageField: () => void;
+    openRoomNum:number;
+    onClickSetRoom: () => void;
 }
 
-const MessageRoom: React.FC<Props> = ({ handleMessageField }) => {
+const MessageRoom: React.FC<Props> = ({onClickSetRoom}, {openRoomNum}) => {
 
     return (
         <MessegeListDiv>
             <div>
-                <MessegeTitle>채팅목록</MessegeTitle>
-                <ExitImg src={ExitBox} onClick={handleMessageField} />
+                <MessegeTitle>d{openRoomNum}</MessegeTitle>
+                <ExitImg src={ExitBox} onClick={onClickSetRoom} />
                 <hr />
             </div>
 
