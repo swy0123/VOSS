@@ -1,5 +1,5 @@
 import { createBrowserRouter, Routes, Route} from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
@@ -20,22 +20,22 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"selectcategory",
+                path:"category",
                 element: <SelectCategory/>,
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"trainingvoiceanalysis",
+                path:"analysis",
                 element: <TrainingVoiceAnalysis/>,
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"trainingdubbing",
+                path:"dubbing",
                 element: <TrainingDubbing/>,
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"trainingaccent",
+                path:"accent",
                 element: <TrainingAccent/>,
                 errorElement: <ErrorComponent/>,
             },
