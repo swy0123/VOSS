@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import MessengerIcon from "../../assets/Messenger/messengerIcon.png"
-import MessageList from "./MessageList";
+import MessagePage from "./MessagePage";
 import { useState } from "react";
 
 const MessegeDiv = styled.div`
@@ -24,7 +24,7 @@ const Messenger = () =>{
 
     return(
         <MessegeDiv>
-            {showMessage ? <MessageList handleMessageField={handleMessageField}></MessageList>
+            {showMessage ? <MessagePage handleMessageField={handleMessageField}></MessagePage>
             : <MessageIcon src={MessengerIcon}  onClick={handleMessageField}/>}
         </MessegeDiv>
 
