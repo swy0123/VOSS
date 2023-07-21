@@ -162,7 +162,7 @@ function SelectCategory () {
             onMouseEnter={() => setCommunityIsShown(true)}
             onMouseLeave={() => setCommunityIsShown(false)}>
             <Cartegory_units>
-              <Icon src="/src/assets/ategory/Community.png"/>
+              <Icon src="/src/assets/Category/Community.png"/>
               <Title>Community</Title>
               <Description>나만의 연습 방법을 공유하고, 연습 기록을 공유하는 게시판</Description>
             </Cartegory_units>
