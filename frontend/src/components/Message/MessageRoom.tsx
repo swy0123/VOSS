@@ -40,7 +40,7 @@ type Props = {
     onClickSetRoom: () => void;
 }
 
-const MessageRoom: React.FC<Props> = ({onClickSetRoom}, {openRoomNum}) => {
+const MessageRoom: React.FC<Props> = ({onClickSetRoom, openRoomNum}) => {
 
     return (
         <MessegeListDiv>
