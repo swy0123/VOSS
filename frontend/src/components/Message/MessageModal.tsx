@@ -17,9 +17,11 @@ const ModalContainer = styled.div`
 const DialogBox = styled.dialog`
     width: 360px;
     height: 400px;
+    padding: 7px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    font-weight: bold;
+    /* align-items: center; */
     border: none;
     border-radius: 10px;
     box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
@@ -53,14 +55,23 @@ const MessageModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     return (
         <ModalContainer>
             <DialogBox>
+                친구찾기
                 <ExitImg src={ExitBox} onClick={(e: React.MouseEvent) => {
                     e.preventDefault();
                     if (onClickToggleModal) {
                         onClickToggleModal();
                     }
                 }}/>
-
+                <form>
+                    <input type="text"></input>
+                </form>
                 {children}
+                {
+                    // 여기에 모달 친구추가 컴포넌트 만들어야..
+                    // 이미지, 이름 props로 전달 클릭 시 이벤트...
+                    // messagepage에서 props로 함수도 받아서 있는 방인지 확인하고
+                    // 해당 방으로 옮기거나 새로운 방 개설..
+                }
             </DialogBox>
             <Backdrop
                 onClick={(e: React.MouseEvent) => {

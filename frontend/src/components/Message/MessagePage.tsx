@@ -20,8 +20,8 @@ const MessegePageDiv = styled.div`
 `;
 
 const MessegeTitle = styled.div`
-  font-size: 15px;
-  font-weight: bolder;
+  font-size: 14px;
+  font-weight: bold;
   margin-top: 10px;
   margin-left: 10px;
 `;
@@ -39,12 +39,12 @@ const MessegeBodyDiv = styled.div`
 `;
 
 const MessegeList = styled.div`
-  height: 300px;
+  height: 340px;
   position: relative;
-  margin: 1px;
+  /* margin: 1px; */
   display: grid;
   grid-template-columns: repeat(auto-fill, 100%);
-  grid-gap: 4px;
+  grid-gap: 5px;
   overflow-y: auto;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
@@ -61,18 +61,18 @@ const MessageAdd = styled.img`
 `;
 
 const Temp = [
-  { name: "이시영1", msg: "뭐함;;", roomNum: 1 },
-  { name: "정현우1", msg: "뭐뭐함;;", roomNum: 2 },
-  { name: "김준섭1", msg: "뭐뭐뭐함;;", roomNum: 3 },
-  { name: "이시영2", msg: "뭐함;;", roomNum: 4 },
-  { name: "정현우2", msg: "뭐뭐함;;", roomNum: 5 },
-  { name: "김준섭2", msg: "뭐뭐뭐함;;", roomNum: 6 },
-  { name: "이시영3", msg: "뭐함;;", roomNum: 7 },
-  { name: "정현우3", msg: "뭐뭐함;;", roomNum: 8 },
-  { name: "김준섭3", msg: "뭐뭐뭐함;;", roomNum: 9 },
-  { name: "이시영4", msg: "뭐함;;", roomNum: 10 },
-  { name: "정현우4", msg: "뭐뭐함;;", roomNum: 11 },
-  { name: "김준섭4", msg: "뭐뭐뭐함;;", roomNum: 12 },
+  { member: "이시영1", id: 1 },
+  { member: "정현우1", id: 2 },
+  { member: "김준섭1", id: 3 },
+  { member: "이시영2", id: 4 },
+  { member: "정현우2", id: 5 },
+  { member: "김준섭2", id: 6 },
+  { member: "이시영3", id: 7 },
+  { member: "정현우3", id: 8 },
+  { member: "김준섭3", id: 9 },
+  { member: "이시영4", id: 10 },
+  { member: "정현우4", id: 11 },
+  { member: "김준섭4", id: 12 },
 ];
 
 type Props = {
@@ -83,20 +83,20 @@ const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [result, setResult] = useState(Temp);
   const [isOpenRoom, setOpenRoom] = useState(false);
-  const [openRoomNum, setOpenRoomNum] = useState(0);
+  const [openRoomId, setOpenRoomId] = useState("");
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
   const onClickSetRoom = () => {
-    console.log(openRoomNum);
+    console.log(openRoomId);
     setOpenRoom(!isOpenRoom);
-    console.log(openRoomNum);
+    console.log(openRoomId);
   };
 
-  const onClickSetRoomNum = (num: number) => {
-    setOpenRoomNum(num);
+  const onClickSetRoomId = (id: string) => {
+    setOpenRoomId(id);
     onClickSetRoom();
   };
 
@@ -115,7 +115,7 @@ const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
           <MessegeList>
             {/* 모든 채팅방 목록 가져오기 때문에 테이블 가져올 때 목록이랑 내용 분리해서 구현해야될 듯 */}
             {result.map((room) => (
-              <div key={room.name} onClick={() => onClickSetRoomNum(room.roomNum)}>
+              <div key={room.id} onClick={() => onClickSetRoomId(room.member)}>
                 <MessageCard room={room} />
               </div>
             ))}
@@ -129,7 +129,7 @@ const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
         )}
       </MessegePageDiv>
       { isOpenRoom? (
-        <MessageRoom onClickSetRoom={onClickSetRoom} openRoomNum={openRoomNum}></MessageRoom>
+        <MessageRoom onClickSetRoom={onClickSetRoom} openRoomId={openRoomId}></MessageRoom>
       ) : (
         <></>
       )}
