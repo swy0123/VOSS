@@ -16,6 +16,7 @@ public class AuthController {
     @GetMapping("/jwt-test")
     public String jwtTest() {
         // throw new TokenNotValidateException("rrr");
+        System.out.println("jwt 요청요철");
         return "jwtTest 요청 성공";
     }
 }
