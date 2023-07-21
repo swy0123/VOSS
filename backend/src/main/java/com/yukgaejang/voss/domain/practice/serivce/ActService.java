@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ActService {
-    ClassifyResponse analysis(@RequestParam("file") MultipartFile file) throws Exception;
+    ClassifyResponse analysis(@RequestParam("file") MultipartFile file);
 }

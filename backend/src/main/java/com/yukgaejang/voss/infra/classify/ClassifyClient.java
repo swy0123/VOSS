@@ -1,24 +1,18 @@
 package com.yukgaejang.voss.infra.classify;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ClassifyResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RequiredArgsConstructor
 public class ClassifyClient {
     private final WebClient webClient = WebClient.builder().build();
 
-    public ClassifyResponse classify(MultipartFile file) throws Exception {
+    public ClassifyResponse classify(MultipartFile file) {
         String url = "http://wonyoung210.p-e.kr:5000/classify";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -39,16 +33,9 @@ public class ClassifyClient {
         return parseClassification(responseBody);
     }
 
-    private ClassifyResponse parseClassification(String body) throws Exception {
-        List<String> selectedKeywords = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(body);
-
-        int age = jsonNode.get(0).asInt();
-        String gender = jsonNode.get(1).asText();
-
-        System.out.println("age :::: " + age);
-        System.out.println("gender :::: " + gender);
+    private ClassifyResponse parseClassification(String body) {
+        int age = Integer.parseInt(body.substring(8,10));
+        String gender = body.substring(22).replaceAll("[^a-z]","");
 
         return new ClassifyResponse(age, gender);
     }

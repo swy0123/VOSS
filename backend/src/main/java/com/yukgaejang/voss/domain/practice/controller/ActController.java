@@ -13,9 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ActController {
     private final ActService actService;
 
-    @PostMapping("/analysis")
-    public ResponseEntity<ClassifyResponse> analysis(@ModelAttribute("file") MultipartFile file) throws Exception {
-        System.out.println(file + "=============");
+    @PostMapping("/classify")
+    public  ResponseEntity<ClassifyResponse> classify(@RequestParam("file") MultipartFile file) {
         ClassifyResponse result = actService.analysis(file);
 
         return ResponseEntity.ok(result);
