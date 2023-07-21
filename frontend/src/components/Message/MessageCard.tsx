@@ -3,12 +3,12 @@ import RedDot from "../../assets/Messenger/RedDot.png";
 
 const MessageCardDiv = styled.div`
   width: 95%;
-  height: 36px;
+  height: 40px;
   border: 1px;
   border-radius: 4px;
   border-color: #d2d2d2;
   border-style: solid;
-  margin: 5px auto;
+  margin: 0 auto;
 `;
 
 const MessageTitle = styled.div`
@@ -24,17 +24,15 @@ const MessageChecked = styled.img`
 
 interface CardProp {
     // key: string;
-    room:{name: string;
-        msg: string;
-        roomNum: number;};  
+    room:{member: string;
+        id: number;};  
 }
 
 const MessageCard = (props:CardProp) => {
   return (
     <MessageCardDiv>
       <MessageTitle>
-        {props.room.name}
-        {props.room.msg}
+        {props.room.member}
         {true ? <MessageChecked src={RedDot} /> : <></>}
       </MessageTitle>
     </MessageCardDiv>
