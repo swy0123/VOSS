@@ -1,5 +1,4 @@
 import { createBrowserRouter, Routes, Route} from "react-router-dom";
-import Header from "./components/Header/Header";
 import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
@@ -8,6 +7,7 @@ import SelectCategory from "./pages/SelectCategory";
 import TrainingVoiceAnalysis from "./pages/TrainingVoiceAnalysis";
 import TrainingDubbing from "./pages/TrainingDubbing";
 import TrainingAccent from "./pages/TrainingAccent";
+import FreeBoard from "./pages/FreeBoard";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +37,11 @@ const router = createBrowserRouter([
             {
                 path:"accent",
                 element: <TrainingAccent/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"freeboard",
+                element: <FreeBoard/>,
                 errorElement: <ErrorComponent/>,
             },
         ],
