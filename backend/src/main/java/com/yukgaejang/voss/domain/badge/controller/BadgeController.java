@@ -18,9 +18,9 @@ public class BadgeController {
     @PostMapping
     public ResponseEntity<GiveBadgeResponse> badge(@RequestBody GiveBadgeRequest giveBadgeRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        badgeService.giveBadge(giveBadgeRequest, authentication.getName());
+        boolean success = badgeService.giveBadge(giveBadgeRequest, authentication.getName());
 
-        return ResponseEntity.ok(new GiveBadgeResponse(true));
+        return ResponseEntity.ok(new GiveBadgeResponse(success));
     }
 
 }
