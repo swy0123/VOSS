@@ -36,6 +36,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   const goVoiceAnalysis = () => {navigate("/analysis")}
   const goDubbing = () => {navigate("/dubbing")}
   const goAccent = () => {navigate("/accent")}
+  const goFreeBoard = () => {navigate("/freeboard")}
 
   return(
     <MenuBox 
@@ -52,7 +53,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       </Menuitems>     
     
       <Menuitems>
-        <Item>자유게시판</Item>  
+        <Item onClick={goFreeBoard}>자유게시판</Item>  
         <Item>녹음게시판</Item>  
       </Menuitems>
     </MenuBox>
