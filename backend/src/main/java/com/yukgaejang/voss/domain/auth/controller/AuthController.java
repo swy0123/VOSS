@@ -5,6 +5,8 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +17,7 @@ public class AuthController {
 
     @GetMapping("/jwt-test")
     public String jwtTest() {
-        // throw new TokenNotValidateException("rrr");
-        System.out.println("jwt 요청요철");
-        return "jwtTest 요청 성공";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return "jwtTest 요청 성공 : " + authentication.getName();
     }
 }
