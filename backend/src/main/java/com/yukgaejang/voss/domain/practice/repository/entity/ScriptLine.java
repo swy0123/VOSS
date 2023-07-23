@@ -28,4 +28,7 @@ public class ScriptLine {
         this.endSec = endSec;
         this.content = content;
     }
+
+    public ScriptLine() {
+    }
 }

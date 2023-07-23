@@ -29,4 +29,7 @@ public class Script extends BaseEntity {
         this.videoUrl = videoUrl;
         this.roleCnt = roleCnt;
     }
+
+    public Script() {
+    }
 }

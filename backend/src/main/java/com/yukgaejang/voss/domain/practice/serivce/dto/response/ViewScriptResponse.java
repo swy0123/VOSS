@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 public class ViewScriptResponse {
     private Script script;
-    private List<ScriptLine> lines;
+    private List<ViewScriptLineResponse> lines;
 
-    public ViewScriptResponse(Script script, List<ScriptLine> lines) {
+    public ViewScriptResponse(Script script, List<ViewScriptLineResponse> lines) {
         this.script = script;
         this.lines = lines;
     }
