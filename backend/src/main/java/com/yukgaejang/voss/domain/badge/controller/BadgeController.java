@@ -1,14 +1,13 @@
 package com.yukgaejang.voss.domain.badge.controller;
 
 import com.yukgaejang.voss.domain.badge.service.BadgeService;
+import com.yukgaejang.voss.domain.badge.service.dto.request.GiveBadgeRequest;
+import com.yukgaejang.voss.domain.badge.service.dto.response.GiveBadgeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,11 +16,11 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @PostMapping
-    public ResponseEntity<Void> badge() {
+    public ResponseEntity<GiveBadgeResponse> badge(@RequestBody GiveBadgeRequest giveBadgeRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        badgeService.giveBadge(authentication.getName());
+        badgeService.giveBadge(giveBadgeRequest, authentication.getName());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new GiveBadgeResponse(true));
     }
 
 }

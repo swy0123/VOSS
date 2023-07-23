@@ -6,15 +6,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GiveBadgeRequest {
-    private String senderId;
-    private String receiverId;
+    private Long receiverId;
+    private Long badgeId;
 
-    public GiveBadgeRequest(String receiverId) {
+    public GiveBadgeRequest(Long receiverId, Long badgeId) {
         this.receiverId = receiverId;
+        this.badgeId = badgeId;
     }
 
-    public GiveBadgeRequest(String senderId, String receiverId) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+    public GiveBadgeRequest() {
     }
 }
