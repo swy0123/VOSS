@@ -1,18 +1,54 @@
-
-import { axiosInstance, axiosWithAccessToken } from "./";
+// import { axiosInstance, axiosWithAccessToken } from "./";
 import axios from "axios";
-import { setCookie } from "./cookie";
+// import { setCookie } from "./cookie";
 
 interface LoginProps {
-    email: string,
-    password: string
+  email: string;
+  password: string;
 }
 
 export const testLogin = async () => {
-    const response = await axios.get("http://wonyoung210.p-e.kr:8080/auth/test");
+  const response = await axios.get("http://wonyoung210.p-e.kr:8080/auth/test");
+};
+
+export const postTest = async (user: LoginProps) => {
+  const tmp = {
+    name: user.email,
+    age: 12,
+  };
+  const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/post-test", tmp);
+
+  console.log(response);
+};
+
+// export const postLogin = (user: LoginProps) => {
+//   console.log(user + JSON.stringify(user));
+//   console.log("login");
+//   axios({ method: "post", url: "http://wonyoung210.p-e.kr:8080/member/login", data: user })
+//     .then((res) => {
+//       if (res.status === 200) {
+//         let accessToken = res.headers["authorization"]; // 응답헤더에서 토큰 받기
+//         let refreshToken = res.headers["authorization-refresh"]; // 응답헤더에서 토큰 받기
+//         console.log("access 토큰 :", accessToken);
+//         console.log("refresh 토큰 :", refreshToken);
+//       }
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
+
+export const postLogin = async (user: LoginProps) => {
+    console.log(user + JSON.stringify(user));
+    console.log("login");
+    const res = await axios.post("http://wonyoung210.p-e.kr:8080/member/login", user);
+    console.log(res.data);
+    console.log(res.headers['Authorization']);
+    console.log(res.headers['Authorization-refresh']);
+    console.log(res.headers['authorization']);
+    console.log(res.headers['authorization-refresh']);
 
 }
-
 
 // let data = JSON.stringify({
 //   "email": "new@naver.com",
@@ -23,7 +59,7 @@ export const testLogin = async () => {
 //   method: 'post',
 //   maxBodyLength: Infinity,
 //   url: 'http://wonyoung210.p-e.kr:8080/auth/login',
-//   headers: { 
+//   headers: {
 //     'Content-Type': 'application/json'
 //   },
 //   data : data
@@ -38,48 +74,6 @@ export const testLogin = async () => {
 //       console.log(error);
 //     });
 // }
-
-
-
-
-// export const getLogin = async (user: LoginProps) => {
-//     console.log("getLogin")
-//     console.log(user)
-//     // const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/login", {
-//     //     email: "new@naver.com",
-//     //     password: "1234"
-//     // });
-
-//     try {
-//         // POST 요청은 body에 실어 보냄
-//         await axios.post("http://wonyoung210.p-e.kr:8080/auth/login", {
-//             email: "new@naver.com",
-//             password: "1234"
-//         });
-//     } catch (e) {
-//         console.error(e);
-//     }
-//     // console.log(response.headers);
-// }
-
-export const postTest = async () => {
-    const tmp = {
-        "name" : "ttt",
-        "age" : 12
-    }
-    const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/post-test", tmp);
-
-    console.log(response);
-}
-
-export const getLogin = async (user: LoginProps) => {
-    console.log(" !!! " + user.email+" "+user.password);
-    console.log(" !--! " + JSON.stringify(user));
-    const tmp =  JSON.stringify(user);
-    const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/login", tmp);
-    alert(response.headers);
-    console.log(response.headers);
-}
 
 // export const getLogin = async (user: LoginProps) => {
 //     console.log("getLogin")
