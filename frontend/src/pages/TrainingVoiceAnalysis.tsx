@@ -3,6 +3,7 @@ import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
 import Script from '../components/Training/Script';
 import Recording from '../components/Training/Recording';
+import AnalysisButton from '../components/Training/AnalysisButton';
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ function TrainingVoiceAnalysis() {
         </LeftSection>
         <RightSection>
           <Recording></Recording>
+          <AnalysisButton></AnalysisButton>
         </RightSection>
       </Container>
     </BackGroundImg>
