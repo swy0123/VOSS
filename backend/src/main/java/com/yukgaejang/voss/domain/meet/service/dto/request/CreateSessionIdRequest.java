@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateSessionIdRequest {
+    private String email;
     private String title;
     private int maxCount;
     private String password;
