@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
+import WaveSurfer from 'wavesurfer.js'
 
 const RecordBox = styled.div`
   display: flex;
@@ -70,8 +71,10 @@ function RecordButton () {
   };
 
   
+
   return(
     <RecordBox>
+      <div id="waveform"></div>
       <StopWatch>{formatTime(time)}</StopWatch>
       <SectionBtn>
         <RestartBtn
