@@ -17,7 +17,7 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public Page<MeetResponseDto> list(int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<Meet> all = meetRepository.findAll(pageRequest);
+        Page<Meet> all = meetRepository.findAllList(pageRequest);
         return all.map(o -> new MeetResponseDto(o));
     }
 }
