@@ -5,6 +5,8 @@ import Eye from "../assets/main/eye.png";
 import GoogleIcon from "../assets/main/googleIcon.png";
 import NaverIcon from "../assets/main/naverIcon.png";
 import KakaoIcon from "../assets/main/kakaoIcon.png";
+import { getLogin, postTest, testLogin } from "../api/login";
+import axios from "axios";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -138,6 +140,11 @@ const Icon = styled.span`
   top: 20px;
 `;
 
+interface LoginProps {
+  email: string,
+  password: string
+}
+
 type Props = {
   isLoginMode: (flag: boolean) => void;
 }
@@ -175,8 +182,41 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     console.log("setShowPswd")
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const loginData: LoginProps = {
+      email: email,
+      password: password
+    }
+
+    console.log("test")
+    testLogin();
+    // postTest();
+    getLogin(loginData);
+
+    // let data = JSON.stringify({
+    //   "email": "won@naver.com",
+    //   "password": "1234"
+    // });
+    
+    // let config = {
+    //   method: 'post',
+    //   maxBodyLength: Infinity,
+    //   url: 'http://wonyoung210.p-e.kr:8080/auth/login',
+    //   headers: { 
+    //     'Content-Type': 'application/json'
+    //   },
+    //   data : data
+    // };
+    
+    // axios.request(config)
+    // .then((response:any) => {
+    //   console.log(JSON.stringify(response.data));
+    // })
+    // .catch((error:any) => {
+    //   console.log(error);
+    // });
+
     alert(`${email}\n${password}\n`);
   };
 
@@ -220,9 +260,9 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
       <OAuthDiv>
         <LineText>간편 로그인</LineText>
         <hr />
-        <Icon onClick={() => { console.log("GoogleIcon") }}><img src={GoogleIcon}/></Icon>
-        <Icon onClick={() => { console.log("NaverIcon") }}><img src={NaverIcon}/></Icon>
-        <Icon onClick={() => { console.log("KakaoIcon") }}><img src={KakaoIcon}/></Icon>        
+        <Icon onClick={() => { console.log("GoogleIcon") }}><img src={GoogleIcon} /></Icon>
+        <Icon onClick={() => { console.log("NaverIcon") }}><img src={NaverIcon} /></Icon>
+        <Icon onClick={() => { console.log("KakaoIcon") }}><img src={KakaoIcon} /></Icon>
       </OAuthDiv>
 
       <UnderText>
