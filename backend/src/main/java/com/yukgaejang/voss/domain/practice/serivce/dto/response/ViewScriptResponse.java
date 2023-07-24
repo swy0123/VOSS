@@ -11,10 +11,12 @@ import java.util.List;
 @Setter
 public class ViewScriptResponse {
     private Script script;
+    private List<String> roles;
     private List<ViewScriptLineResponse> lines;
 
-    public ViewScriptResponse(Script script, List<ViewScriptLineResponse> lines) {
+    public ViewScriptResponse(Script script, List<String> roles, List<ViewScriptLineResponse> lines) {
         this.script = script;
+        this.roles = roles;
         this.lines = lines;
     }
 }

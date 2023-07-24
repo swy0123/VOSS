@@ -30,4 +30,18 @@ public class ScriptSupportRepositoryImpl implements ScriptSupportRepository {
                 .orderBy(sl.id.asc())
                 .fetch();
     }
+
+    @Override
+    public List<String> getRoleNames(Long scriptId) {
+        QScript s = QScript.script;
+        QScriptLine sl = QScriptLine.scriptLine;
+
+        return jpaQueryFactory
+                .select(sl.name)
+                .from(sl)
+                .where(sl.script.id.eq(scriptId))
+                .orderBy(sl.id.asc())
+                .distinct()
+                .fetch();
+    }
 }
