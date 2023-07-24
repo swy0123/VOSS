@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { styled } from "styled-components";
 
-const Containner = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 450px; 
@@ -75,13 +75,12 @@ const AgeButton = styled(OptionButton)<{$IsClick:boolean}>`
   color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
   border: solid ${props => props.$IsClick ? "2px white" : "1px $6C6C6C"};
 `
-
 const ScriptBox = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  height: 200px;
+  height: 225px;
 `
 const ScriptInput = styled.textarea`
   background-color: transparent;
@@ -137,7 +136,7 @@ function Script() {
   }
 
   return(
-    <Containner>
+    <Container>
       <Title>스크립트</Title>
       
       <Options>
@@ -181,7 +180,7 @@ function Script() {
           <PlayButton src="/src/assets/Training/play.png"></PlayButton>
         </ScriptButtons>
       </ScriptBox>
-    </Containner>
+    </Container>
   )
 }
 
