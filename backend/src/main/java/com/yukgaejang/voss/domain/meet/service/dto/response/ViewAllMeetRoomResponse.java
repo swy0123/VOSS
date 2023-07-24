@@ -14,12 +14,14 @@ public class ViewAllMeetRoomResponse {
     private int maxCount;
     private int currentCount;
     private List<MeetJoinDto> meetJoins;
+    private String sessionId;
 
     public ViewAllMeetRoomResponse(Meet meet) {
         category = meet.getCategory();
         title = meet.getTitle();
         maxCount = meet.getMaxCount();
         currentCount = meet.getMeetJoins().size();
+        sessionId = meet.getSessionId();
         meetJoins = meet.getMeetJoins().stream()
                 .map(meetJoin -> new MeetJoinDto(meetJoin))
                 .collect(Collectors.toList());

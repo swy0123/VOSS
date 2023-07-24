@@ -22,15 +22,17 @@ public class Meet {
     private int maxCount;
     private boolean isPassword;
     private boolean isDeleted;
+    private String sessionId;
 
     @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)
     private List<MeetJoin> meetJoins = new ArrayList<>();
 
-    public Meet(String category, String title, int maxCount, boolean isPassword, boolean isDeleted) {
+    public Meet(String category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId) {
         this.category = category;
         this.title = title;
         this.maxCount = maxCount;
         this.isPassword = isPassword;
         this.isDeleted = isDeleted;
+        this.sessionId = sessionId;
     }
 }
