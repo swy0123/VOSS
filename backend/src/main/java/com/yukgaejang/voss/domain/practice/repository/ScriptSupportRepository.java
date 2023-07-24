@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ScriptSupportRepository {
     List<ViewScriptLineResponse> getScriptLines(Long scriptId);
+    List<String> getRoleNames(Long scriptId);
 }
