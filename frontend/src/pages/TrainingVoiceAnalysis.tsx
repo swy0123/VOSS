@@ -2,12 +2,18 @@ import { styled } from 'styled-components';
 import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
 import Script from '../components/Training/Script';
+import Recording from '../components/Training/Recording';
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
 `
-const Section = styled.div`
+const LeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+`
+const RightSection = styled.div`
   display: flex;
   flex-direction: column;
 `
@@ -17,9 +23,12 @@ function TrainingVoiceAnalysis() {
     <BackGroundImg>
       <Header></Header>
       <Container>
-        <Section>
+        <LeftSection>
           <Script></Script>
-        </Section>
+        </LeftSection>
+        <RightSection>
+          <Recording></Recording>
+        </RightSection>
       </Container>
     </BackGroundImg>
   )
