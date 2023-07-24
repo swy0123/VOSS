@@ -1,7 +1,9 @@
 package com.yukgaejang.voss.domain.meet.controller;
 
 import com.yukgaejang.voss.domain.meet.service.MeetService;
-import com.yukgaejang.voss.domain.meet.service.dto.response.MeetResponseDto;
+import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -15,9 +17,15 @@ public class MeetController {
     private final MeetService meetService;
 
 
+
     @GetMapping("")
-    public ResponseEntity<Page<MeetResponseDto>> list(@Param(value = "page") int page,
-                                                      @Param(value = "limit") int limit) {
-        return ResponseEntity.ok(meetService.list(page, limit));
+    public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(@Param(value = "page") int page,
+                                                                     @Param(value = "limit") int limit) {
+        return ResponseEntity.ok(meetService.getMeetList(page, limit));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<InitMeetRoomResponse> getSessionId(@RequestBody CreateSessionIdRequest createSessionIdRequest) {
+        return ResponseEntity.ok(meetService.initMeetRoom(createSessionIdRequest));
     }
 }
