@@ -1,7 +1,7 @@
 package com.yukgaejang.voss.domain.meet.controller;
 
 import com.yukgaejang.voss.domain.meet.service.MeetService;
-import com.yukgaejang.voss.domain.meet.service.dto.response.MeetResponseDto;
+import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +16,8 @@ public class MeetController {
 
 
     @GetMapping("")
-    public ResponseEntity<Page<MeetResponseDto>> list(@Param(value = "page") int page,
-                                                      @Param(value = "limit") int limit) {
-        return ResponseEntity.ok(meetService.list(page, limit));
+    public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(@Param(value = "page") int page,
+                                                                     @Param(value = "limit") int limit) {
+        return ResponseEntity.ok(meetService.getMeetList(page, limit));
     }
 }
