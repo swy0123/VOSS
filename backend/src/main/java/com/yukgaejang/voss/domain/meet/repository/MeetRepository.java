@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface MeetRepository extends JpaRepository<Meet, Long> ,MeetSupportRepository {
 
     @Query(value = "select distinct m from Meet m" +
-            " join fetch m.meetJoins mj", countQuery = "select count (m) from Meet m")
+            " join fetch m.meetJoins mj " +
+            "where m.isDeleted = false ", countQuery = "select count (m) from Meet m")
     Page<Meet> findAllList(Pageable pageable);
 }

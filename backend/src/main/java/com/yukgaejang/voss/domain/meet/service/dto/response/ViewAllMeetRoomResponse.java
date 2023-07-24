@@ -15,6 +15,7 @@ public class ViewAllMeetRoomResponse {
     private int currentCount;
     private List<MeetJoinDto> meetJoins;
     private String sessionId;
+    private boolean isPassword;
 
     public ViewAllMeetRoomResponse(Meet meet) {
         category = meet.getCategory();
@@ -22,6 +23,7 @@ public class ViewAllMeetRoomResponse {
         maxCount = meet.getMaxCount();
         currentCount = meet.getMeetJoins().size();
         sessionId = meet.getSessionId();
+        isPassword = meet.isPassword();
         meetJoins = meet.getMeetJoins().stream()
                 .map(meetJoin -> new MeetJoinDto(meetJoin))
                 .collect(Collectors.toList());
