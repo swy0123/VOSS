@@ -9,10 +9,4 @@ public class CreateSessionIdRequest {
     private String password;
     private String category;
 
-    public CreateSessionIdRequest(String title, int maxCount, String password, String category) {
-        this.title = title;
-        this.maxCount = maxCount;
-        this.password = password;
-        this.category = category;
-    }
 }
