@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -8,11 +9,11 @@ const Container = styled.div`
 
 function Root() {
   return (
-    <Container>
-    {/* <div> */}
-      <Outlet />
-    {/* </div>  */}
-    </Container>
+    <RecoilRoot>
+      <Container>
+        <Outlet />
+      </Container>
+    </RecoilRoot>
   );
 }
 
