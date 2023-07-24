@@ -60,20 +60,25 @@ const MessageAdd = styled.img`
   height: 30px;
 `;
 
+
+interface Room {
+  member: string;
+  id: number;
+};
+
 const Temp = [
-  { member: "이시영1", id: 1 },
-  { member: "정현우1", id: 2 },
-  { member: "김준섭1", id: 3 },
-  { member: "이시영2", id: 4 },
-  { member: "정현우2", id: 5 },
-  { member: "김준섭2", id: 6 },
-  { member: "이시영3", id: 7 },
-  { member: "정현우3", id: 8 },
-  { member: "김준섭3", id: 9 },
-  { member: "이시영4", id: 10 },
-  { member: "정현우4", id: 11 },
-  { member: "김준섭4", id: 12 },
+  { member: "이시영", id: 1 },
+  { member: "정현우", id: 2 },
+  { member: "김준섭", id: 3 },
+  { member: "이원영", id: 4 },
+  { member: "이승종", id: 5 },
+  { member: "이수연", id: 6 },
+  { member: "김하진", id: 7 },
+  { member: "김선진", id: 8 },
+  { member: "류민지", id: 9 },
+  { member: "아무나", id: 10 },
 ];
+
 
 type Props = {
   handleMessageField: () => void;
@@ -81,9 +86,10 @@ type Props = {
 
 const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [result, setResult] = useState(Temp);
+  const [roomList, setRoomList] = useState(Temp);
   const [isOpenRoom, setOpenRoom] = useState(false);
   const [openRoomId, setOpenRoomId] = useState("");
+  // const [newRoomId, setNewRoomId] = useState("");
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -92,15 +98,28 @@ const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
   const onClickSetRoom = () => {
     console.log(openRoomId);
     setOpenRoom(!isOpenRoom);
-    console.log(openRoomId);
   };
 
+  //아이디를 어케 쓸지 다시 정해야 함 현재 사람이름, 인덱스 등 뒤죽박죽임
   const onClickSetRoomId = (id: string) => {
     setOpenRoomId(id);
     onClickSetRoom();
   };
 
-  // setResult(Temp); //채팅방 목록 넣기
+//리코일로 테스트하자 함수 너무 여러개라 어려움
+  // const openNewRoom = () => {
+  //   setNewRoomId
+  //   setOpenRoomId(newRoomId);
+  //   const newRoom:Room = {
+  //     member: newRoomId,
+  //     id: roomList.length+1
+  //   }
+  //   const newRoomList = [...roomList]
+  //   newRoomList.push(newRoom)
+  //   onClickToggleModal();
+  //   setRoomList(newRoomList);
+  //   onClickSetRoom();
+  // };
 
   return (
     <div>
@@ -114,7 +133,7 @@ const MessagePage: React.FC<Props> = ({ handleMessageField }) => {
         <MessegeBodyDiv>
           <MessegeList>
             {/* 모든 채팅방 목록 가져오기 때문에 테이블 가져올 때 목록이랑 내용 분리해서 구현해야될 듯 */}
-            {result.map((room) => (
+            {roomList.map((room) => (
               <div key={room.id} onClick={() => onClickSetRoomId(room.member)}>
                 <MessageCard room={room} />
               </div>

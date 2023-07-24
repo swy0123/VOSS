@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-
 const MainImg = styled.div`
   background: url("/src/assets/main/MainImg.jpg") no-repeat;
   background-size: cover;
@@ -121,6 +120,7 @@ function SelectCategory () {
   const goVoiceAnalysis = () => {navigate("/analysis")}
   const goDubbing = () => {navigate("/dubbing")}
   const goAccent = () => {navigate("/accent")}
+  const goFreeBoard = () => {navigate("/freeboard")}
 
   return(
     <div>
@@ -162,13 +162,13 @@ function SelectCategory () {
             onMouseEnter={() => setCommunityIsShown(true)}
             onMouseLeave={() => setCommunityIsShown(false)}>
             <Cartegory_units>
-              <Icon src="/src/assets/ategory/Community.png"/>
+              <Icon src="/src/assets/Category/Community.png"/>
               <Title>Community</Title>
               <Description>나만의 연습 방법을 공유하고, 연습 기록을 공유하는 게시판</Description>
             </Cartegory_units>
 
             <AllBoard $isShown={CommunityIsShown}>
-              <Free>자유 게시판</Free>
+              <Free onClick={goFreeBoard}>자유 게시판</Free>
               <Record>녹음 게시판</Record>
             </AllBoard>
           </Community>
