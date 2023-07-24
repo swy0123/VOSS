@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.meet.repository.entity;
 
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MeetJoin {
+public class MeetJoin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
