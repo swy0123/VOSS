@@ -2,6 +2,7 @@ package com.yukgaejang.voss.global.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.global.jwt.exception.TokenNotValidateException;
@@ -12,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -68,7 +72,21 @@ public class JwtService {
     }
 
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
+        if(response.containsHeader("Authorization")) return;
+
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("message", "로그인 성공");
+
+        try {
+            String jsonString = mapper.writeValueAsString(responseData);
+            response.getWriter().write(jsonString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
