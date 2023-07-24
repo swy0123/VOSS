@@ -37,12 +37,13 @@ public class MeetServiceImpl implements MeetService{
         // openvidu 세션 생성
         OpenViduConnection openViduConnection = new OpenViduConnection();
         String sessionId = openViduConnection.session();
-        Optional<Member> member = memberRepository.findByEmail(createSessionIdRequest.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(createSessionIdRequest.getEmail());
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
-        meetJoinRepository.save(new MeetJoin(member.get(), meet));
+        Member member = findMember.orElseThrow();
+        meetJoinRepository.save(new MeetJoin(member, meet));
         return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 }
