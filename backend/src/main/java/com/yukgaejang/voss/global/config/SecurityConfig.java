@@ -42,9 +42,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/member").permitAll()
+                                .requestMatchers("/auth/post-test").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers("/sample").permitAll()
+                                .requestMatchers("/auth/test").permitAll()
+                                .requestMatchers("/member").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
