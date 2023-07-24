@@ -32,10 +32,12 @@ const RecordSelect = styled.input`
 `
 
 const RecordLable = styled.label`
-  color: white;
   font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 100;
+  line-height: 30px;
+  color: white;
+  
 `
 const DownloadImg = styled.img`
   height: 16px;
