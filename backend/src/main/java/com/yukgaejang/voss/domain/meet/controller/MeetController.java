@@ -1,11 +1,9 @@
 package com.yukgaejang.voss.domain.meet.controller;
 
-import com.yukgaejang.voss.domain.meet.service.MeetJoinService;
 import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
-import com.yukgaejang.voss.infra.openvidu.OpenViduConnection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -28,11 +26,6 @@ public class MeetController {
 
     @PostMapping("")
     public ResponseEntity<InitMeetRoomResponse> getSessionId(@RequestBody CreateSessionIdRequest createSessionIdRequest) {
-        System.out.println("createSessionIdRequest = " + createSessionIdRequest);
-        OpenViduConnection openViduConnection = new OpenViduConnection();
-        String sessionId = openViduConnection.session();
-        meetService.initMeetRoom(createSessionIdRequest, sessionId);
-        InitMeetRoomResponse initMeetRoomResponse = new InitMeetRoomResponse(sessionId);
-        return ResponseEntity.ok(initMeetRoomResponse);
+        return ResponseEntity.ok(meetService.initMeetRoom(createSessionIdRequest));
     }
 }

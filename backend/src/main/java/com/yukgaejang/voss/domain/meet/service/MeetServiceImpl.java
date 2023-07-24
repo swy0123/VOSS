@@ -5,9 +5,11 @@ import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.infra.openvidu.OpenViduConnection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,12 +33,16 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public void initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String sessionId) {
+    public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest) {
+        // openvidu 세션 생성
+        OpenViduConnection openViduConnection = new OpenViduConnection();
+        String sessionId = openViduConnection.session();
         Optional<Member> member = memberRepository.findByEmail(createSessionIdRequest.getEmail());
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
         meetJoinRepository.save(new MeetJoin(member.get(), meet));
+        return new InitMeetRoomResponse(sessionId);
     }
 }
