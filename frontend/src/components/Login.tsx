@@ -5,7 +5,7 @@ import Eye from "../assets/main/eye.png";
 import GoogleIcon from "../assets/main/googleIcon.png";
 import NaverIcon from "../assets/main/naverIcon.png";
 import KakaoIcon from "../assets/main/kakaoIcon.png";
-import { getLogin, postTest, testLogin } from "../api/login";
+import { postLogin, postTest, testLogin } from "../api/login";
 import axios from "axios";
 
 const Container = styled.div`
@@ -182,17 +182,18 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     console.log("setShowPswd")
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const loginData: LoginProps = {
+
+    const LoginProps = {
       email: email,
       password: password
     }
 
-    console.log("test")
-    testLogin();
-    // postTest();
-    getLogin(loginData);
+    // console.log("test")
+    // testLogin();
+    // postTest(LoginProps);
+    postLogin(LoginProps);
 
     // let data = JSON.stringify({
     //   "email": "won@naver.com",
@@ -242,7 +243,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
               <img src={Eye} />
             </ShowPswd>
           </InputDiv>
-          <CheckBoxDiv>
+          {/* <CheckBoxDiv>
             <CheckBox>
               <input
                 type="checkbox"
@@ -252,7 +253,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
               Remember me
             </CheckBox>
             <Forgot onClick={() => { console.log("Forgot") }} style={{ textDecoration: "none" }}>Forgot Password?</Forgot>
-          </CheckBoxDiv>
+          </CheckBoxDiv> */}
           <Button type="submit">CONTINUE</Button>
         </form>
       </div>
