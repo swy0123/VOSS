@@ -43,6 +43,6 @@ public class MeetServiceImpl implements MeetService{
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
         meetJoinRepository.save(new MeetJoin(member.get(), meet));
-        return new InitMeetRoomResponse(sessionId);
+        return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 }

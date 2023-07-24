@@ -6,8 +6,10 @@ import lombok.Data;
 public class InitMeetRoomResponse {
 
     private String sessionId;
+    private Long meetRoomId;
 
-    public InitMeetRoomResponse(String sessionId) {
+    public InitMeetRoomResponse(String sessionId, Long meetRoomId) {
         this.sessionId = sessionId;
+        this.meetRoomId = meetRoomId;
     }
 }
