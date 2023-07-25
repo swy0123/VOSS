@@ -44,12 +44,14 @@ export const postTest = async (user: LoginProps) => {
 //     });
 // };
 
+// http://wonyoung210.p-e.kr:8080/member/login
 export const postLogin = async (user: LoginProps) => {
   console.log(user + JSON.stringify(user));
   console.log("login");
-  const res = await axios.post("http://wonyoung210.p-e.kr:8080/member/login", user);
+  const res = await axios.post("http://i9b106.p.ssafy.io:8080/member/login", user);
   if (res.status === 200) {
     console.log(res.data);
+    console.log(res.headers);
     let accessToken = res.data.accessToken; // 응답헤더에서 토큰 받기
     let refreshToken = res.data.refreshToken; // 응답헤더에서 토큰 받기
     console.log("access 토큰 :", accessToken);
