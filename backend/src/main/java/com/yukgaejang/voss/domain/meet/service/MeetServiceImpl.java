@@ -5,8 +5,11 @@ import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
+import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.infra.openvidu.OpenViduConnection;
@@ -42,8 +45,9 @@ public class MeetServiceImpl implements MeetService{
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
-        Member member = findMember.orElseThrow();
+        Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
         return new InitMeetRoomResponse(sessionId, meet.getId());
     }
+
 }
