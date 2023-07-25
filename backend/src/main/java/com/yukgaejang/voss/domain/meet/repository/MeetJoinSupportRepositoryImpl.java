@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeetJoin.*;
 
 @Repository
@@ -25,5 +24,14 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
                 .where(meetJoin.meet.id.eq(meetId))
                 .fetch();
         return meetJoins;
+    }
+
+    @Override
+    public MeetJoin findByEmail(String email) {
+        MeetJoin findMeetJoin = queryFactory
+                .selectFrom(meetJoin)
+                .where(meetJoin.member.email.eq(email))
+                .fetchOne();
+        return findMeetJoin;
     }
 }
