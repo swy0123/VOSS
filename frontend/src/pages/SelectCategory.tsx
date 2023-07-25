@@ -118,7 +118,7 @@ function SelectCategory () {
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
   const goVoiceAnalysis = () => {navigate("/analysis")}
-  const goDubbing = () => {navigate("/dubbing")}
+  const goDubbingList = () => {navigate("/dubbinglist")}
   const goAccent = () => {navigate("/accent")}
   const goFreeBoard = () => {navigate("/freeboard")}
   const goMeetingBoard = () => {navigate("/meeting")}
@@ -140,7 +140,7 @@ function SelectCategory () {
             
             <AllSinglePractice $isShown={TrainIsShown}>
               <VoiceAnalysis onClick={goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
-              <Dubbing onClick={goDubbing}>더빙 연습</Dubbing>
+              <Dubbing onClick={goDubbingList}>더빙 연습</Dubbing>
               <Accent onClick={goAccent}>발음 연습</Accent>
             </AllSinglePractice>
           </Training>

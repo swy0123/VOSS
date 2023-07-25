@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import SelectCategory from "./pages/SelectCategory";
 import VoiceAnalysis from "./pages/VoiceAnalysis";
 import Dubbing from "./pages/Dubbing";
+import DubbingList from "./pages/DubbingList/DubbingList";
 import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard";
 import MeetingBoard from "./pages/MeetingBoard";
@@ -28,6 +29,16 @@ const router = createBrowserRouter([
             {
                 path:"analysis",
                 element: <VoiceAnalysis/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"dubbing",
+                element: <Dubbing/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"dubbinglist",
+                element: <DubbingList/>,
                 errorElement: <ErrorComponent/>,
             },
             {
