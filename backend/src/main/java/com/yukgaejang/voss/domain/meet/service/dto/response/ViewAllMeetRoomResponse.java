@@ -8,18 +8,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class MeetResponseDto {
+public class ViewAllMeetRoomResponse {
     private String category;
     private String title;
     private int maxCount;
     private int currentCount;
     private List<MeetJoinDto> meetJoins;
+    private String sessionId;
+    private boolean isPassword;
 
-    public MeetResponseDto(Meet meet) {
+    public ViewAllMeetRoomResponse(Meet meet) {
         category = meet.getCategory();
         title = meet.getTitle();
         maxCount = meet.getMaxCount();
         currentCount = meet.getMeetJoins().size();
+        sessionId = meet.getSessionId();
+        isPassword = meet.isPassword();
         meetJoins = meet.getMeetJoins().stream()
                 .map(meetJoin -> new MeetJoinDto(meetJoin))
                 .collect(Collectors.toList());
