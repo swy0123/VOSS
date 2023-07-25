@@ -13,11 +13,11 @@ public class PostListResponse {
     private String nickname;
     private LocalDateTime createdAt;
 
-    public PostListResponse(Post post, String nickname) {
+    public PostListResponse(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hit = post.getHit();
+        this.nickname = post.getMember().getNickname();
         this.createdAt = post.getCreatedAt();
-        this.nickname = nickname;
     }
 }
