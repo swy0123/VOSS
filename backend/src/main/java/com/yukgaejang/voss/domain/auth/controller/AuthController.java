@@ -24,7 +24,7 @@ public class AuthController {
 
     @GetMapping("/test")
     public String test() {
-        return "cors 통과잼 설정 완료 ㅌㅔ스튼";
+        return "cors 통과, 도커 배포 완료";
     }
 
     @PostMapping("/post-test")
