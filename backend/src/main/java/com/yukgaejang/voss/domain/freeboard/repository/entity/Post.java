@@ -3,14 +3,17 @@ package com.yukgaejang.voss.domain.freeboard.repository.entity;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 
     @Id
@@ -25,9 +28,6 @@ public class Post extends BaseEntity {
     private String content;
     private Long hit;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
     private int isDeleted;
     private LocalDateTime deletedAt;
 
@@ -40,8 +40,6 @@ public class Post extends BaseEntity {
         this.isDeleted = isDeleted;
         this.deletedAt = LocalDateTime.now();
     }
-
-    public Post() {}
 
     @Builder
     public Post(String title, String content, Member member) {
