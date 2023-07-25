@@ -12,7 +12,7 @@ const AnalysisBtn = styled.button`
   width: 80px;
   border: none;
   border-radius: 20px;
-  margin: 17px;
+  margin: 8px;
   cursor: pointer;
 `
 const AnalysisResult = styled.div`
