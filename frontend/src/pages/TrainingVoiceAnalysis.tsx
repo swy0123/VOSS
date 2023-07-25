@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
 import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
-import Script from '../components/Training/Script';
-import Recording from '../components/Training/Recording';
-import AnalysisButton from '../components/Training/AnalysisButton';
+import Script from '../components/VoiceAnalysis/Script';
+import Recording from '../components/VoiceAnalysis/Recording';
+import AnalysisButton from '../components/VoiceAnalysis/AnalysisButton';
 import Messenger from '../components/Message/Messenger';
-import RecordButton from '../components/Training/RecordButton';
+import RecordButton from '../components/VoiceAnalysis/RecordButton';
 
 const Container = styled.div`
   display: flex;

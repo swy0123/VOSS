@@ -3,12 +3,12 @@ import { styled } from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px; 
+  width: 400px;
+  margin: 0px 0px 20px 0px;
 `
 const Title = styled.h2`
   color: white;
   text-align: center;
-  margin: 0px 0px 20px 0px;
 `
 const RecordBox = styled.div`
   display: flex;
