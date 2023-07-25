@@ -5,11 +5,12 @@ interface JoinProps {
     password: string,
     nickname: string
 }
-
+// http://i9b106.p.ssafy.io:8080/
+// http://wonyoung210.p-e.kr:8080/member
 export const postJoin = async (user:JoinProps) => {
     console.log(user + JSON.stringify(user));
     console.log("join");
-    const response = await axios.post("http://wonyoung210.p-e.kr:8080/member", user);
+    const response = await axios.post("http://i9b106.p.ssafy.io:8080/member", user);
     console.log(response.data);
 }
 
