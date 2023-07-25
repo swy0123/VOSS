@@ -1,19 +1,18 @@
 import { useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import WaveSurfer from 'wavesurfer.js'
 
 const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   border-top: 1px dashed #efefef;
-  margin-top: 40px;
+  margin-top: 42px;
   height: 170px;
   width: 350px;
 `
 const StopWatch = styled.p`
   color: white;
-  margin: 30px 0px 20px 0px;
+  margin: 40px 0px 20px 0px;
 `
 const SectionBtn = styled.div`
   display: flex;
@@ -70,16 +69,12 @@ function RecordButton () {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
-  
-
   return(
     <RecordBox>
-      <div id="waveform"></div>
       <StopWatch>{formatTime(time)}</StopWatch>
       <SectionBtn>
         <RestartBtn
-          onClick={resetTimer}>취소
-        </RestartBtn>
+          onClick={resetTimer}>취소</RestartBtn>
         { initialBtn ? 
           (<RecordBtn
             onClick={startOrStop}
@@ -92,7 +87,8 @@ function RecordButton () {
               onClick={startOrStop}
               src="/src/assets/Training/restartbtn.png"></RecordBtn>)
         }
-        <CompleteBtn>완료</CompleteBtn>
+        <CompleteBtn
+          onClick={resetTimer}>완료</CompleteBtn>
       </SectionBtn>
     </RecordBox>
   )
