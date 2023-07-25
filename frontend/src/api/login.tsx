@@ -10,7 +10,7 @@ interface LoginProps {
 
 
 export const testLogin = async () => {
-  const response = await axios.get("http://wonyoung210.p-e.kr:8080/auth/test");
+  const response = await axios.get("http://i9b106.p.ssafy.io:8080/auth/test");
 };
 
 export const postTest = async (user: LoginProps) => {
@@ -18,7 +18,7 @@ export const postTest = async (user: LoginProps) => {
     name: user.email,
     age: 12,
   };
-  const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/post-test", tmp);
+  const response = await axios.post("http://i9b106.p.ssafy.io:8080/auth/post-test", tmp);
 
   console.log(response);
 };
