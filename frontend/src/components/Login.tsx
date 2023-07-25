@@ -190,7 +190,6 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
       password: password
     }
 
-    // console.log("test")
     // testLogin();
     // postTest(LoginProps);
     postLogin(LoginProps);
@@ -199,7 +198,6 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     //   "email": "won@naver.com",
     //   "password": "1234"
     // });
-    
     // let config = {
     //   method: 'post',
     //   maxBodyLength: Infinity,
@@ -209,7 +207,6 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     //   },
     //   data : data
     // };
-    
     // axios.request(config)
     // .then((response:any) => {
     //   console.log(JSON.stringify(response.data));
