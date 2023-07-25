@@ -20,7 +20,8 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
     @Override
     public List<MeetJoin> findByMeetId(Long meetId) {
         List<MeetJoin> meetJoins = queryFactory
-                .selectFrom(meetJoin)
+                .selectDistinct(meetJoin)
+                .from(meetJoin)
                 .where(meetJoin.meet.id.eq(meetId))
                 .fetch();
         return meetJoins;
