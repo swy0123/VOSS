@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.global.error;
 
-import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumber;
+import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
@@ -18,7 +18,7 @@ public class ControllerAdvice {
         return ResponseEntity.ok(errorResponse);
     }
 
-    @ExceptionHandler(ExceedMaxNumber.class)
+    @ExceptionHandler(ExceedMaxNumberException.class)
     public ResponseEntity<ErrorResponse> exceedMax() {
         ErrorResponse errorResponse = new ErrorResponse("방이 가득 찼습니다.");
         return ResponseEntity.ok(errorResponse);

@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.meet.service;
 
-import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumber;
+import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
@@ -13,7 +13,6 @@ import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
-import com.yukgaejang.voss.domain.member.exception.WrongPasswordException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.infra.openvidu.OpenViduConnection;
@@ -61,7 +60,7 @@ public class MeetServiceImpl implements MeetService{
         Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
         int maxCount = meet.getMaxCount();
         List<MeetJoin> joinMeetList = meetJoinRepository.findByMeetId(joinMeetRoomRequest.getMeetId());
-        if (maxCount <= joinMeetList.size()) throw new ExceedMaxNumber("이미 방이 가득 찼습니다.");
+        if (maxCount <= joinMeetList.size()) throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
 
         String password = meet.getPassword();
         if (!password.equals(joinMeetRoomRequest.getPassword())) throw new WrongPinException("비밀번호가 틀립니다");
