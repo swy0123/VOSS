@@ -2,6 +2,8 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import Eye from "../assets/main/eye.png";
+import { postJoin, postTest } from "../api/join";
+import axios from "axios";
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -130,6 +132,43 @@ const Login:React.FC<Props> = ({isLoginMode}) =>{
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const JoinProps = {
+      email:email,
+      password:password,
+      nickname:username
+    }
+    postJoin(JoinProps);
+
+
+    // 스니펫펫
+    // let data = JSON.stringify({
+    //   "email": "wy@naver.com",
+    //   "password": "1234",
+    //   "nickname": "wy"
+    // });
+    
+    // let config = {
+    //   method: 'post',
+    //   maxBodyLength: Infinity,
+    //   url: 'http://wonyoung210.p-e.kr:8080/member',
+    //   headers: { 
+    //     'Content-Type': 'application/json'
+    //   },
+    //   data : data
+    // };
+    
+    // axios.request(config)
+    // .then((response) => {
+    //   console.log(JSON.stringify(response.data));
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+
+    //테스트
+    // postTest(JoinProps);
+
     alert(`${username}\n${email}\n${password}\n`);
   };
 
