@@ -19,7 +19,9 @@ public class Meet extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     private String title;
     private int maxCount;
     private boolean isPassword;
@@ -32,7 +34,7 @@ public class Meet extends BaseEntity {
     @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)
     private List<MeetJoin> meetJoins = new ArrayList<>();
 
-    public Meet(String category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId) {
+    public Meet(Category category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId) {
         this.category = category;
         this.title = title;
         this.maxCount = maxCount;
@@ -41,7 +43,7 @@ public class Meet extends BaseEntity {
         this.sessionId = sessionId;
     }
 
-    public Meet(String category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId, String password) {
+    public Meet(Category category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId, String password) {
         this.category = category;
         this.title = title;
         this.maxCount = maxCount;

@@ -2,7 +2,9 @@ package com.yukgaejang.voss.domain.meet.controller;
 
 import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,5 +29,10 @@ public class MeetController {
     @PostMapping("")
     public ResponseEntity<InitMeetRoomResponse> getSessionId(@RequestBody CreateSessionIdRequest createSessionIdRequest) {
         return ResponseEntity.ok(meetService.initMeetRoom(createSessionIdRequest));
+    }
+
+    @PostMapping("/join")
+    public ResponseEntity<JoinMeetRoomResponse> joinMeetRoom(@RequestBody JoinMeetRoomRequest joinMeetRoomRequest) {
+        return ResponseEntity.ok(meetService.joinMeetRoom(joinMeetRoomRequest));
     }
 }

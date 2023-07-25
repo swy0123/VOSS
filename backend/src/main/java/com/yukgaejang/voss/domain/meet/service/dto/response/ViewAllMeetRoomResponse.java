@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.meet.service.dto.response;
 
+import com.yukgaejang.voss.domain.meet.repository.entity.Category;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
 import lombok.Data;
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class ViewAllMeetRoomResponse {
-    private String category;
+    private Category category;
     private String title;
     private int maxCount;
     private int currentCount;
