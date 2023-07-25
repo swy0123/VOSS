@@ -8,6 +8,7 @@ import TrainingVoiceAnalysis from "./pages/TrainingVoiceAnalysis";
 import TrainingDubbing from "./pages/TrainingDubbing";
 import TrainingAccent from "./pages/TrainingAccent";
 import FreeBoard from "./pages/FreeBoard";
+import MeetingBoard from "./pages/MeetingBoard";
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
             {
                 path:"freeboard",
                 element: <FreeBoard/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"meeting",
+                element: <MeetingBoard/>,
                 errorElement: <ErrorComponent/>,
             },
         ],

@@ -37,6 +37,8 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   const goDubbing = () => {navigate("/dubbing")}
   const goAccent = () => {navigate("/accent")}
   const goFreeBoard = () => {navigate("/freeboard")}
+  const goMeetingBoard = () => {navigate("/meeting")}
+
 
   return(
     <MenuBox 
@@ -49,7 +51,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       </Menuitems>
 
       <Menuitems>
-        <Item>화상 회의</Item>  
+        <Item onClick={goMeetingBoard}>화상 회의</Item>  
       </Menuitems>     
     
       <Menuitems>

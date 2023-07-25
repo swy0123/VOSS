@@ -121,6 +121,7 @@ function SelectCategory () {
   const goDubbing = () => {navigate("/dubbing")}
   const goAccent = () => {navigate("/accent")}
   const goFreeBoard = () => {navigate("/freeboard")}
+  const goMeetingBoard = () => {navigate("/meeting")}
 
   return(
     <div>
@@ -154,7 +155,7 @@ function SelectCategory () {
             </Cartegory_units>
             
             <MeetingEnter $isShown={MeetIsShown}>
-              <MeetingEnterIcon src="/src/assets/Category/EnterMeeting.png"/>
+              <MeetingEnterIcon src="/src/assets/Category/EnterMeeting.png" onClick={goMeetingBoard}/>
             </MeetingEnter>
           </Meeting>
 
