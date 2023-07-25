@@ -10,16 +10,16 @@ public class ScriptLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Script script;
 
-    private String name;
+    private String name; // 배역
 
     private Integer startSec;
 
     private Integer endSec;
 
-    private String content;
+    private String content; // 대사
 
     public ScriptLine(Script script, String name, Integer startSec, Integer endSec, String content) {
         this.script = script;
