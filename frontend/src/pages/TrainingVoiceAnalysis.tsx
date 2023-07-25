@@ -28,7 +28,7 @@ const RightSection = styled.div`
 function TrainingVoiceAnalysis() {
   return (
     <BackGroundImg>
-      <Header></Header>
+      <Header/>
       <Container>
         <UpSection>
           <LeftSection>
