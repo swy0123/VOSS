@@ -1,11 +1,13 @@
 // import { axiosInstance, axiosWithAccessToken } from "./";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 // import { setCookie } from "./cookie";
 
 interface LoginProps {
   email: string;
   password: string;
 }
+
 
 export const testLogin = async () => {
   const response = await axios.get("http://wonyoung210.p-e.kr:8080/auth/test");
@@ -21,49 +23,42 @@ export const postTest = async (user: LoginProps) => {
   console.log(response);
 };
 
-export const postLogin = (user: LoginProps) => {
+// export const postLogin = (user: LoginProps) => {
+//   console.log(user + JSON.stringify(user));
+//   console.log("login");
+//   axios({ method: "post", url: "http://wonyoung210.p-e.kr:8080/member/login", data: user })
+//     .then((res) => {
+//       let returnMsg = "";
+//       if (res.status === 200) {
+//         console.log(res.data)
+//         let accessToken = res.data.accessToken; // 응답헤더에서 토큰 받기
+//         let refreshToken = res.data.refreshToken; // 응답헤더에서 토큰 받기
+//         console.log("access 토큰 :", accessToken);
+//         console.log("refresh 토큰 :", refreshToken);
+//         returnMsg = ("로그인 되었습니다.");
+//       }
+//       console.log(returnMsg);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
+
+export const postLogin = async (user: LoginProps) => {
   console.log(user + JSON.stringify(user));
   console.log("login");
-  axios({ method: "post", url: "http://wonyoung210.p-e.kr:8080/member/login", data: user })
-    .then((res) => {
-      let returnMsg = "";
-      if (res.status === 200) {
-        console.log(res.data)
-        let accessToken = res.data.accessToken; // 응답헤더에서 토큰 받기
-        let refreshToken = res.data.refreshToken; // 응답헤더에서 토큰 받기
-        console.log("access 토큰 :", accessToken);
-        console.log("refresh 토큰 :", refreshToken);
-        returnMsg = ("로그인 되었습니다.");
-      }
-      if (res.data.code === 400) {
-        returnMsg = ("ID, Password가 비어있습니다.");
-      }
-      if (res.data.code === 401) {
-        returnMsg = ("존재하지 않는 ID입니다.");
-      }
-      if (res.data.code === 402) {
-        returnMsg = ("Password가 틀립니다.");
-      }
-      if (res.data.code === 403) {
-        returnMsg = ("없는 계정입니다.");
-      }
-      console.log(returnMsg);
-    })
-    .catch((error) => {
-      console.log("ssssss")
-      console.log(error);
-    });
-};
+  const res = await axios.post("http://wonyoung210.p-e.kr:8080/member/login", user);
+  if (res.status === 200) {
+    console.log(res.data);
+    let accessToken = res.data.accessToken; // 응답헤더에서 토큰 받기
+    let refreshToken = res.data.refreshToken; // 응답헤더에서 토큰 받기
+    console.log("access 토큰 :", accessToken);
+    console.log("refresh 토큰 :", refreshToken);
+    return true;
+  }
+  else return false;
 
-// export const postLogin = async (user: LoginProps) => {
-//     console.log(user + JSON.stringify(user));
-//     console.log("login");
-//     const res = await axios.post("http://wonyoung210.p-e.kr:8080/member/login", user);
-//     console.log(res.data);
-//     console.log(res.headers['authorization']);
-//     console.log(res.headers['authorization-refresh']);
-
-// }
+}
 
 // let data = JSON.stringify({
 //   "email": "new@naver.com",
