@@ -21,8 +21,7 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
     public List<MeetJoin> findByMeetId(Long meetId) {
         List<MeetJoin> meetJoins = queryFactory
                 .selectFrom(meetJoin)
-                .join(meetJoin.meet, meet)
-                .where(meetJoin.id.eq(meetId))
+                .where(meetJoin.meet.id.eq(meetId))
                 .fetch();
         return meetJoins;
     }
