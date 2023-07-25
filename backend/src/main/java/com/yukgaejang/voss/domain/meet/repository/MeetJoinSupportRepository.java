@@ -7,4 +7,6 @@ import java.util.List;
 public interface MeetJoinSupportRepository {
 
     List<MeetJoin> findByMeetId(Long meetId);
+
+    MeetJoin findByEmail(String email);
 }
