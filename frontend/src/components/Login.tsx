@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Eye from "../assets/main/eye.png";
 import GoogleIcon from "../assets/main/googleIcon.png";
@@ -156,6 +156,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
   //체크박스는 이후 기본 상태 받아와서 설정
   const [checkbox, setCheckbox] = useState<boolean>(/**/false);
   const MAX_LENGTH = 20;
+  const navigate = useNavigate()  
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -182,8 +183,13 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     console.log("setShowPswd")
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (email === "" || password === "") {
+      window.alert("아이디와 비밀번호를 입력해주세요.");
+      return;
+    }
 
     const LoginProps = {
       email: email,
@@ -192,7 +198,11 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
 
     // testLogin();
     // postTest(LoginProps);
-    postLogin(LoginProps);
+    if(await postLogin(LoginProps)){
+      console.log("pass")
+      navigate("category")
+    }
+    else console.log("fail")
 
     // let data = JSON.stringify({
     //   "email": "won@naver.com",
@@ -240,7 +250,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
               <img src={Eye} />
             </ShowPswd>
           </InputDiv>
-          {/* <CheckBoxDiv>
+          <CheckBoxDiv>
             <CheckBox>
               <input
                 type="checkbox"
@@ -250,7 +260,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
               Remember me
             </CheckBox>
             <Forgot onClick={() => { console.log("Forgot") }} style={{ textDecoration: "none" }}>Forgot Password?</Forgot>
-          </CheckBoxDiv> */}
+          </CheckBoxDiv>
           <Button type="submit">CONTINUE</Button>
         </form>
       </div>
