@@ -5,6 +5,7 @@ import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/Dubbing/RecordButton';
 import Recording from '../components/Dubbing/Recording';
 import Script from '../components/Dubbing/Script';
+import Video from '../components/Dubbing/Video';
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ function TrainingDubbing() {
       <Container>
 
         <LeftSection>
+          <Video></Video>
           <Script></Script>
         </LeftSection>
         
