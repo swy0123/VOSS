@@ -1,7 +1,9 @@
 spring:
-  config:
-    import:
-      - classpath:/external/external.yaml
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,6 +17,14 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+jwt:
+  secretKey: test210
+  access:
+    expiration: ${ACCESS_EXPIRATION} # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    header: Authorization
+  refresh:
+    expiration: ${REFRESH_EXPIRATION} #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+    header: Authorization-refresh
 logging:
   level:
     org.org.hibernate.SQL: debug
