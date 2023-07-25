@@ -3,7 +3,7 @@ import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
 import Script from '../components/VoiceAnalysis/Script';
 import Recording from '../components/VoiceAnalysis/Recording';
-import AnalysisButton from '../components/VoiceAnalysis/AnalysisButton';
+import AnalysisButton from '../components/VoiceAnalysis/AnalysisButton/AnalysisButton';
 import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/VoiceAnalysis/RecordButton';
 
@@ -25,7 +25,7 @@ const RightSection = styled.div`
   flex-direction: column;
 `
 
-function TrainingVoiceAnalysis() {
+function VoiceAnalysis() {
   return (
     <BackGroundImg>
       <Header/>
@@ -41,9 +41,8 @@ function TrainingVoiceAnalysis() {
         </UpSection>
         <RecordButton></RecordButton>
       </Container>
-
       <Messenger/>
     </BackGroundImg>
   )
 }
-export default TrainingVoiceAnalysis
+export default VoiceAnalysis

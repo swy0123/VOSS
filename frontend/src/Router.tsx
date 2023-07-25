@@ -4,9 +4,9 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import SelectCategory from "./pages/SelectCategory";
-import TrainingVoiceAnalysis from "./pages/TrainingVoiceAnalysis";
-import TrainingDubbing from "./pages/TrainingDubbing";
-import TrainingAccent from "./pages/TrainingAccent";
+import VoiceAnalysis from "./pages/VoiceAnalysis";
+import Dubbing from "./pages/Dubbing";
+import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard";
 import MeetingBoard from "./pages/MeetingBoard";
 
@@ -27,17 +27,17 @@ const router = createBrowserRouter([
             },
             {
                 path:"analysis",
-                element: <TrainingVoiceAnalysis/>,
+                element: <VoiceAnalysis/>,
                 errorElement: <ErrorComponent/>,
             },
             {
                 path:"dubbing",
-                element: <TrainingDubbing/>,
+                element: <Dubbing/>,
                 errorElement: <ErrorComponent/>,
             },
             {
                 path:"accent",
-                element: <TrainingAccent/>,
+                element: <Accent/>,
                 errorElement: <ErrorComponent/>,
             },
             {

@@ -1,11 +1,11 @@
+import { BackGroundImg } from '../components/BackGroundImg';
 import { styled } from 'styled-components';
-import { BackGroundImg } from "../components/BackGroundImg"
-import Header from "../components/Header/Header"
+import Header from '../components/Header/Header';
 import Messenger from '../components/Message/Messenger';
-import Script from '../components/Accent/Script';
-import Recording from '../components/Accent/Recording';
-import RecordButton from '../components/Accent/RecordButton';
-import AccentResult from '../components/Accent/AccentResult';
+import RecordButton from '../components/DubbingRoom/RecordButton';
+import Recording from '../components/DubbingRoom/Recording';
+import Script from '../components/DubbingRoom/Script';
+import Video from '../components/DubbingRoom/Video';
 
 const Container = styled.div`
   display: flex;
@@ -21,32 +21,26 @@ const RightSection = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const Warning = styled.div`
-  color: #BABABA;
-  font-size: 12px;
-  margin-top: 14px;
-`
 
-function TrainingAccent() {
+function Dubbing() {
   return (
     <BackGroundImg>
       <Header/>
       <Container>
 
         <LeftSection>
+          <Video></Video>
           <Script></Script>
-          <AccentResult></AccentResult>
-          <Warning>발음 교정은 한국어만 가능합니다.</Warning>
         </LeftSection>
-
+        
         <RightSection>
           <Recording></Recording>
           <RecordButton></RecordButton>
         </RightSection>
-
+      
       </Container>
       <Messenger/>
     </BackGroundImg>
   )
 }
-export default TrainingAccent
+export default Dubbing
