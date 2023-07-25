@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class ViewAllMeetRoomResponse {
+    private Long meetRoodId;
     private Category category;
     private String title;
     private int maxCount;
@@ -19,6 +20,7 @@ public class ViewAllMeetRoomResponse {
     private boolean isPassword;
 
     public ViewAllMeetRoomResponse(Meet meet) {
+        meetRoodId = meet.getId();
         category = meet.getCategory();
         title = meet.getTitle();
         maxCount = meet.getMaxCount();
