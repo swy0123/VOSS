@@ -38,6 +38,8 @@ public class FreeboardServiceImpl implements FreeboardService {
     public PostDetailResponse detail(Long id) {
         Optional<Post> findPost = postRepository.findById(id);
         Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
+        post.increaseHit(post.getHit()+1);
+        postRepository.save(post);
         Optional<Member> findMember = memberRepository.findById(post.getMember().getId());
         Member member = findMember.orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         return new PostDetailResponse(member.getNickname(), post);
