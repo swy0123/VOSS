@@ -12,10 +12,10 @@ public class PostDetailResponse {
     private String content;
     private LocalDateTime createdAt;
 
-    public PostDetailResponse(String nickname, Post post) {
+    public PostDetailResponse(Post post) {
         this.id = post.getId();
         this.hit = post.getHit();
-        this.nickname = nickname;
+        this.nickname = post.getMember().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
