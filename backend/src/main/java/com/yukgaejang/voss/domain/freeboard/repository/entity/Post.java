@@ -30,11 +30,6 @@ public class Post extends BaseEntity {
     private int isDeleted;
     private LocalDateTime deletedAt;
 
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
     public void delete(int isDeleted) {
         this.isDeleted = isDeleted;
         this.deletedAt = LocalDateTime.now();
