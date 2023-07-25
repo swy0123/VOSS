@@ -12,6 +12,7 @@ public class PostListResponse {
     private Long hit;
     private String nickname;
     private LocalDateTime createdAt;
+    private Long commentCount;
 
     public PostListResponse(Post post) {
         this.id = post.getId();
@@ -19,5 +20,6 @@ public class PostListResponse {
         this.hit = post.getHit();
         this.nickname = post.getMember().getNickname();
         this.createdAt = post.getCreatedAt();
+        this.commentCount = post.getPostComments().size() == 0 ? 0L : post.getPostComments().size();
     }
 }

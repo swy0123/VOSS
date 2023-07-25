@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
-import com.yukgaejang.voss.domain.freeboard.service.dto.FreeboardService;
+import com.yukgaejang.voss.domain.freeboard.service.dto.PostService;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
@@ -10,36 +10,34 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/freeboard")
-public class FreeboardController {
-    private final FreeboardService freeboardService;
+public class PostController {
+    private final PostService postService;
 
     @PostMapping
     public ResponseEntity<CreatePostResponse> write(@RequestBody CreatePostRequest createPostRequest) {
-        return ResponseEntity.ok(freeboardService.write(createPostRequest));
+        return ResponseEntity.ok(postService.write(createPostRequest));
     }
 
     @PutMapping
     public  ResponseEntity<UpdatePostResponse> modify(@RequestBody UpdatePostRequest updatePostRequest) {
-        return ResponseEntity.ok(freeboardService.modify(updatePostRequest));
+        return ResponseEntity.ok(postService.modify(updatePostRequest));
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostDetailResponse> detail(@PathVariable Long postId) {
-        return ResponseEntity.ok(freeboardService.detail(postId));
+        return ResponseEntity.ok(postService.detail(postId));
     }
 
     @GetMapping
     public ResponseEntity<Page<PostListResponse>> getPostList(@Param(value = "page") int page, @Param(value = "limit") int limit) {
-        return ResponseEntity.ok(freeboardService.getPostList(page, limit));
+        return ResponseEntity.ok(postService.getPostList(page, limit));
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<DeletePostResponse> delete(@PathVariable Long postId) {
-        return ResponseEntity.ok(freeboardService.delete(postId));
+        return ResponseEntity.ok(postService.delete(postId));
     }
 }
