@@ -56,10 +56,10 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest) {
-        Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetId());
+        Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
         Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
         int maxCount = meet.getMaxCount();
-        List<MeetJoin> joinMeetList = meetJoinRepository.findByMeetId(joinMeetRoomRequest.getMeetId());
+        List<MeetJoin> joinMeetList = meetJoinRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
         if (maxCount <= joinMeetList.size()) throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
 
         String password = meet.getPassword();
