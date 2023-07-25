@@ -3,14 +3,16 @@ package com.yukgaejang.voss.infra.classify;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ClassifyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Component
 @RequiredArgsConstructor
 public class ClassifyClient {
-    private final WebClient webClient = WebClient.builder().build();
+    private final WebClient webClient;
 
     public ClassifyResponse classify(MultipartFile file) {
         String url = "http://wonyoung210.p-e.kr:5000/classify";
