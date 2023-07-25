@@ -11,10 +11,8 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-//    @Query(value = "select distinct p from Post p" +
-//            " join fetch p.postComments pc " +
-//            "where p.isDeleted = false ", countQuery = "select count (p) from Post p")
-    @Query(value = "select distinct p from Post p " +
-            "where p.isDeleted = 0 ")
+    @Query(value = "select distinct p from Post p" +
+            " join fetch p.postComments pc " +
+            "where p.isDeleted = 0 ", countQuery = "select count (p) from Post p")
     public Page<Post> findAllByIsDeletedFalse(Pageable pageable);
 }

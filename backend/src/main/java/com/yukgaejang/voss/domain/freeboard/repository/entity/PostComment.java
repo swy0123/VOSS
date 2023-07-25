@@ -7,40 +7,30 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post extends BaseEntity {
+public class PostComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String content;
+
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    private Post post;
+
+    @ManyToOne
     private Member member;
 
-    private String title;
-    private String content;
-    private Long hit;
     private int isDeleted;
     private LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER , cascade = CascadeType.REMOVE)
-    @OrderBy("id asc")
-    private List<PostComment> postComments;
-
-    public void updateHit() {
-        this.hit += 1;
-    }
-
-    public void update(String title, String content) {
-        this.title = title;
+    public void update(String content) {
         this.content = content;
     }
 
@@ -50,11 +40,9 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(String title, String content, Member member) {
-        this.title = title;
+    public PostComment(String content, Post post, Member member) {
         this.content = content;
+        this.post = post;
         this.member = member;
-        this.hit = 0L;
-        this.isDeleted = 0;
     }
 }

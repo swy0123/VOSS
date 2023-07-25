@@ -5,7 +5,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostReques
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import org.springframework.data.domain.Page;
 
-public interface FreeboardService {
+public interface PostService {
     CreatePostResponse write(CreatePostRequest createPostRequest);
     UpdatePostResponse modify(UpdatePostRequest updatePostRequest);
     PostDetailResponse detail(Long id);
