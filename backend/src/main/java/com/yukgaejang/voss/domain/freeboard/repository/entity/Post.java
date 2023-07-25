@@ -30,8 +30,8 @@ public class Post extends BaseEntity {
     private int isDeleted;
     private LocalDateTime deletedAt;
 
-    public void increaseHit(Long hit) {
-        this.hit = hit;
+    public void updateHit() {
+        this.hit += 1;
     }
 
     public void update(String title, String content) {
@@ -39,8 +39,8 @@ public class Post extends BaseEntity {
         this.content = content;
     }
 
-    public void delete(int isDeleted) {
-        this.isDeleted = isDeleted;
+    public void delete() {
+        this.isDeleted = 1;
         this.deletedAt = LocalDateTime.now();
     }
 
