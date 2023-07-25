@@ -19,7 +19,7 @@ export const postTest = async (user:JoinProps) => {
         "name" : user.nickname,
         "age" : 12
     }
-    const response = await axios.post("http://wonyoung210.p-e.kr:8080/auth/post-test", tmp);
+    const response = await axios.post("http://i9b106.p.ssafy.io:8080/auth/post-test", tmp);
 
     console.log(response);
 }
