@@ -29,6 +29,10 @@ logging:
   level:
     org.org.hibernate.SQL: debug
     org.org.hibernate: trace
+<<<<<<< HEAD
+chatGpt:
+  apiKey: ${CHATGPT_API_KEY}
+=======
 server:
   port: 8080
   ssl:
@@ -36,3 +40,4 @@ server:
     key-store-type: pkcs12
     key-store: keystore.p12
     key-store-password: 1234
+>>>>>>> back-dev

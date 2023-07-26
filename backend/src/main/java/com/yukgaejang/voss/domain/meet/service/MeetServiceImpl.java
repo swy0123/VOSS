@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.yukgaejang.voss.domain.meet.service;
 
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
@@ -92,3 +94,4 @@ public class MeetServiceImpl implements MeetService{
         return new LeaveMeetRoomResponse("퇴장 성공");
     }
 }
+>>>>>>> back-dev
