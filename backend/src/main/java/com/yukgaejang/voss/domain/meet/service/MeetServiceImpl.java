@@ -7,10 +7,7 @@ import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
-import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
-import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
-import com.yukgaejang.voss.domain.meet.service.dto.request.LeaveMeetRomRequest;
-import com.yukgaejang.voss.domain.meet.service.dto.request.SelectScriptRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
@@ -18,7 +15,9 @@ import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomRespo
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
 import com.yukgaejang.voss.domain.practice.repository.ScriptRepository;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -40,6 +39,7 @@ public class MeetServiceImpl implements MeetService{
     private final MemberRepository memberRepository;
     private final MeetJoinRepository meetJoinRepository;
     private final ScriptRepository scriptRepository;
+    private final CastingRepository castingRepository;
     private final EntityManager em;
 
     @Override
@@ -102,5 +102,15 @@ public class MeetServiceImpl implements MeetService{
         Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
         long l = meetRepository.setScript(selectScriptRequest, script);
         return new getStatusResponse("선택 완료");
+    }
+
+    @Override
+    public void selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
+        meetJoinRepository.resetCasting(selectCastingRequestList.get(0).getMeetRoomId());
+        for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
+            Member member = memberRepository.findByEmail(selectCastingRequest.getEmail()).orElseThrow();
+            Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
+            meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
+        }
     }
 }

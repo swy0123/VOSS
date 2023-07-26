@@ -24,4 +24,13 @@ public class CastingSupportRepositoryImpl implements CastingSupportRepository {
                 .where(casting.script.id.eq(scriptId))
                 .fetch();
     }
+
+    @Override
+    public Casting findCasting(Long castingId) {
+        return queryFactory
+                .selectDistinct(casting)
+                .from(casting)
+                .where(casting.id.eq(castingId))
+                .fetchOne();
+    }
 }

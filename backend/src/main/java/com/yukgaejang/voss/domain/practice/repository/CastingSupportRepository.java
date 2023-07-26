@@ -7,4 +7,6 @@ import java.util.List;
 public interface CastingSupportRepository {
 
     List<Casting> findByScriptId(Long scriptId);
+
+    Casting findCasting(Long castingId);
 }
