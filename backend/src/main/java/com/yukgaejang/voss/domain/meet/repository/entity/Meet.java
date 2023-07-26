@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.meet.repository.entity;
 
+import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -30,6 +31,9 @@ public class Meet extends BaseEntity {
 
     @Nullable
     private String password;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Script script;
 
     @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)
     private List<MeetJoin> meetJoins = new ArrayList<>();
