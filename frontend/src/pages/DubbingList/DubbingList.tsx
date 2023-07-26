@@ -3,7 +3,10 @@ import { styled } from "styled-components"
 import { BackGroundImg } from "../../components/BackGroundImg"
 import Header from "../../components/Header/Header"
 import Messenger from "../../components/Message/Messenger"
-import { getVideos, test } from "../../api/videolist"
+import { getVideoList } from "../../api/videolist"
+import { useRecoilState } from "recoil"
+import { videoListState } from "../../recoil/h_atom"
+import { useNavigate } from "react-router-dom"
 import { 
   Container,
   TitleBox,
@@ -23,215 +26,11 @@ import {
   CountImg,
   TimeImg,} from "./DubbingList.style" 
 
-const tmp = {
-  result : [
-    {
-    script: {
-        "createdAt": null,
-        "updatedAt": null,
-        "id": 1,
-        "category": "DRAMA",
-        "title": "[거침없이 하이킼] 7부 몰아보기",
-        "durationInSec": 661,
-        "imageUrl": "https://img.youtube.com/vi/1iwhi9EykjQ/mqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/embed/1iwhi9EykjQ",
-        "roleCnt": 2
-    },
-    roles: [
-        "은조",
-        "현우"
-    ],
-    lines: [
-        {
-            "id": 1,
-            "name": "은조",
-            "content": "대사대사",
-            "startSec": 1,
-            "endSec": 2
-        },
-        {
-            "id": 2,
-            "name": "현우",
-            "content": "두번째",
-            "startSec": 3,
-            "endSec": 4
-        },
-        {
-            "id": 3,
-            "name": "은조",
-            "content": "삼삼",
-            "startSec": 5,
-            "endSec": 6
-        }
-    ] 
-    },
-    {
-    script: {
-        "createdAt": null,
-        "updatedAt": null,
-        "id": 2,
-        "category": "DRAMA",
-        "title": "[무한도전] 장마철 라이브 스트리밍",
-        "durationInSec": 661,
-        "imageUrl": "https://img.youtube.com/vi/iCaY92oVVmI/mqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/embed/iCaY92oVVmI",
-        "roleCnt": 2
-    },
-    roles: [
-        "은조",
-        "현우"
-    ],
-    lines: [
-        {
-            "id": 1,
-            "name": "은조",
-            "content": "대사대사",
-            "startSec": 1,
-            "endSec": 2
-        },
-        {
-            "id": 2,
-            "name": "현우",
-            "content": "두번째",
-            "startSec": 3,
-            "endSec": 4
-        },
-        {
-            "id": 3,
-            "name": "은조",
-            "content": "삼삼",
-            "startSec": 5,
-            "endSec": 6
-        }
-    ] 
-    },
-    {
-    script: {
-        "createdAt": null,
-        "updatedAt": null,
-        "id": 3,
-        "category": "DRAMA",
-        "title": "레이스 고백장면",
-        "durationInSec": 661,
-        "imageUrl": "https://img.youtube.com/vi/mzickrfK0Co/mqdefault.jpg",
-        "videoUrl": "https://www.youtube.com/embed/mzickrfK0Co",
-        "roleCnt": 2
-    },
-    roles: [
-        "은조",
-        "현우"
-    ],
-    lines: [
-        {
-            "id": 1,
-            "name": "은조",
-            "content": "대사대사",
-            "startSec": 1,
-            "endSec": 2
-        },
-        {
-            "id": 2,
-            "name": "현우",
-            "content": "두번째",
-            "startSec": 3,
-            "endSec": 4
-        },
-        {
-            "id": 3,
-            "name": "은조",
-            "content": "삼삼",
-            "startSec": 5,
-            "endSec": 6
-        }
-    ] 
-    },
-    {
-      script: {
-          "createdAt": null,
-          "updatedAt": null,
-          "id": 4,
-          "category": "DRAMA",
-          "title": "[무한도전] 장마철 라이브 스트리밍",
-          "durationInSec": 661,
-          "imageUrl": "https://img.youtube.com/vi/iCaY92oVVmI/mqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/embed/iCaY92oVVmI",
-          "roleCnt": 2
-      },
-      roles: [
-          "은조",
-          "현우"
-      ],
-      lines: [
-          {
-              "id": 1,
-              "name": "은조",
-              "content": "대사대사",
-              "startSec": 1,
-              "endSec": 2
-          },
-          {
-              "id": 2,
-              "name": "현우",
-              "content": "두번째",
-              "startSec": 3,
-              "endSec": 4
-          },
-          {
-              "id": 3,
-              "name": "은조",
-              "content": "삼삼",
-              "startSec": 5,
-              "endSec": 6
-          }
-      ] 
-      },
-      {
-      script: {
-          "createdAt": null,
-          "updatedAt": null,
-          "id": 5,
-          "category": "DRAMA",
-          "title": "레이스 고백장면",
-          "durationInSec": 661,
-          "imageUrl": "https://img.youtube.com/vi/mzickrfK0Co/mqdefault.jpg",
-          "videoUrl": "https://www.youtube.com/embed/mzickrfK0Co",
-          "roleCnt": 2
-      },
-      roles: [
-          "은조",
-          "현우"
-      ],
-      lines: [
-          {
-              "id": 1,
-              "name": "은조",
-              "content": "대사대사",
-              "startSec": 1,
-              "endSec": 2
-          },
-          {
-              "id": 2,
-              "name": "현우",
-              "content": "두번째",
-              "startSec": 3,
-              "endSec": 4
-          },
-          {
-              "id": 3,
-              "name": "은조",
-              "content": "삼삼",
-              "startSec": 5,
-              "endSec": 6
-          }
-      ] 
-      }
-  ]
-}
 
 function DubbingList() {
-  const [videoList, setVideoList] = useState([])
+  const [videoList, setVideoList] = useRecoilState(videoListState)
   const [isGenreSelect,setIsGenreSelect] = useState<boolean[]>([])
-  const genreOpt = ["영화/드라마", "애니메이션", "기타"]
+  const genreOpt = ["영화", "드라마", "애니메이션", "기타"]
 
   const handleGenreBtn = (index:number) => {
     const newGenderSelect = Array(genreOpt.length).fill(false)
@@ -245,12 +44,21 @@ function DubbingList() {
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
 
-  useEffect(()=>{
-    setVideoList(tmp.result)
-    getVideos()
-    test()
-  },[])
-  
+  const navigate = useNavigate()
+  const goDubbing = (id:number) => navigate(`/dubbing/${id}`)
+
+  useEffect(() => {
+    const axiosVideoList = async () => {
+      try {
+        const Videos = await getVideoList();
+        setVideoList(Videos);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    axiosVideoList();
+  }, []);
+
   return(
     <BackGroundImg>
       <Header/>
@@ -276,19 +84,19 @@ function DubbingList() {
           <VideoBox>
             {videoList.map((video,index) => (
               <VideoItem key={index}>
-                <Thumbnail src={video.script.videoUrl}></Thumbnail>
+                <Thumbnail src={video.videoUrl}></Thumbnail>
                 <Infos>
                   <Count>
                     <CountImg src="/src/assets/Dubbing/count.png"/>
-                    {video.script.roleCnt}인
+                    {video.roleCnt}인
                   </Count>
                   <Time>
                     <TimeImg src="/src/assets/Dubbing/time.png"/>
-                    {formatTime(video.script.durationInSec)}
+                    {formatTime(video.durationInSec)}
                   </Time>
                 </Infos>
-                <Description>{video.script.title}</Description>
-                <PracticeBtn>연습하기</PracticeBtn>
+                <Description>{video.title}</Description>
+                <PracticeBtn onClick={() => goDubbing(video.id)}>연습하기</PracticeBtn>
               </VideoItem>
             ))}
           </VideoBox>

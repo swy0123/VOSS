@@ -45,7 +45,7 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
             },
             {
-                path:"dubbing",
+                path:"dubbing/:id",
                 element: <Dubbing/>,
                 errorElement: <ErrorComponent/>,
             },
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
                 element: <PostCreate/>,
                 errorElement: <ErrorComponent/>,
             },
-                       {
+            {
                 path:"freeboard/update/:id",
                 element: <PostUpdate/>,
                 errorElement: <ErrorComponent/>,
