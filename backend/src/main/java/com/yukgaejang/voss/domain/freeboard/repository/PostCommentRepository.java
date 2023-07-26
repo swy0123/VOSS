@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PostCommentRepository extends JpaRepository<PostComment, Long> {
 
-    @Query(value = "select pc from PostComment pc where pc.post.id = ?1 and pc.isDeleted = 0")
+    @Query(value = "select distinct pc from PostComment pc" +
+            " join fetch pc.post p " +
+            "where p.id = :postId and pc.isDeleted = 0 ", countQuery = "select count (pc) from PostComment pc")
     public Page<PostComment> findAllByPostIdAndIsDeletedFalse(Long postId, Pageable pageable);
 }
