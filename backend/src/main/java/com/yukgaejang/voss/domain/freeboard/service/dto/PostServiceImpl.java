@@ -25,7 +25,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public CreatePostResponse createPost(CreatePostRequest createPostRequest) {
-        Optional<Member> findMember = memberRepository.findById(createPostRequest.getMemberId());
+        Optional<Member> findMember = memberRepository.findByEmail(createPostRequest.getEmail());
         Member member = findMember.orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         Post post = new Post(createPostRequest.getTitle(), createPostRequest.getContent(), member);
         return new CreatePostResponse(postRepository.save(post) != null ? true : false);
