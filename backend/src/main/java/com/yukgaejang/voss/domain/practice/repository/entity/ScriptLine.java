@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.practice.repository.entity;
 
-import com.yukgaejang.voss.domain.grouppractice.repository.entity.Cast;
+import com.yukgaejang.voss.domain.grouppractice.repository.entity.Casting;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,8 +14,8 @@ public class ScriptLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Cast cast;
+    @ManyToOne
+    private Casting casting;
 
     private Integer startSec;
 
@@ -23,8 +23,8 @@ public class ScriptLine {
 
     private String content; // 대사
 
-    public ScriptLine(Cast cast, Integer startSec, Integer endSec, String content) {
-        this.cast = cast;
+    public ScriptLine(Casting casting, Integer startSec, Integer endSec, String content) {
+        this.casting = casting;
         this.startSec = startSec;
         this.endSec = endSec;
         this.content = content;

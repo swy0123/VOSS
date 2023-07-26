@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.meet.repository.entity;
 
-import com.yukgaejang.voss.domain.grouppractice.repository.entity.Cast;
+import com.yukgaejang.voss.domain.grouppractice.repository.entity.Casting;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -28,16 +28,16 @@ public class MeetJoin extends BaseEntity {
 
     @Nullable
     @OneToOne(fetch = FetchType.LAZY)
-    private Cast cast;
+    private Casting casting;
 
     public MeetJoin(Member member, Meet meet) {
         this.member = member;
         this.meet = meet;
     }
 
-    public MeetJoin(Member member, Meet meet, Cast cast) {
+    public MeetJoin(Member member, Meet meet, Casting casting) {
         this.member = member;
         this.meet = meet;
-        this.cast = cast;
+        this.casting = casting;
     }
 }

@@ -2,6 +2,7 @@ package com.yukgaejang.voss.domain.practice.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yukgaejang.voss.domain.grouppractice.repository.entity.QCasting;
 import com.yukgaejang.voss.domain.practice.repository.entity.QScript;
 import com.yukgaejang.voss.domain.practice.repository.entity.QScriptLine;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ViewScriptLineResponse;
@@ -21,12 +22,14 @@ public class ScriptSupportRepositoryImpl implements ScriptSupportRepository {
     public List<ViewScriptLineResponse> getScriptLines(Long scriptId) {
         QScript s = QScript.script;
         QScriptLine sl = QScriptLine.scriptLine;
+        QCasting c = QCasting.casting;
 
         return jpaQueryFactory
                 .select(Projections.constructor(ViewScriptLineResponse.class,
-                        sl.id, sl.name, sl.content, sl.startSec, sl.endSec))
+                        sl.id, sl.casting.name, sl.content, sl.startSec, sl.endSec))
                 .from(sl)
-                .where(sl.script.id.eq(scriptId))
+                .join(sl.casting, c)
+                .where(sl.casting.script.id.eq(scriptId))
                 .orderBy(sl.id.asc())
                 .fetch();
     }
@@ -37,9 +40,9 @@ public class ScriptSupportRepositoryImpl implements ScriptSupportRepository {
         QScriptLine sl = QScriptLine.scriptLine;
 
         return jpaQueryFactory
-                .select(sl.name)
+                .select(sl.casting.name)
                 .from(sl)
-                .where(sl.script.id.eq(scriptId))
+                .where(sl.casting.script.id.eq(scriptId))
                 .orderBy(sl.id.asc())
                 .distinct()
                 .fetch();
