@@ -7,7 +7,7 @@ import io.openvidu.java.client.Session;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OpenViduConnection {
+public class OpenViduClient {
 
     private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io";
     private final String SECRET = "MY_SECRET";
