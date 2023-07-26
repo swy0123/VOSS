@@ -9,6 +9,8 @@ import Dubbing from "./pages/Dubbing";
 import DubbingList from "./pages/DubbingList/DubbingList";
 import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard";
+import PostDetail from "./components/FreeBoard/PostDetail";
+import PostCreate from "./components/FreeBoard/PostCreate";
 import MeetingBoard from "./pages/MeetingBoard";
 
 const router = createBrowserRouter([
@@ -54,6 +56,21 @@ const router = createBrowserRouter([
             {
                 path:"freeboard",
                 element: <FreeBoard/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"freeboard/:id",
+                element: <PostDetail/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"freeboard/create",
+                element: <PostCreate/>,
+                errorElement: <ErrorComponent/>,
+            },
+                       {
+                path:"freeboard/:id",
+                element: <PostDetail/>,
                 errorElement: <ErrorComponent/>,
             },
             {
