@@ -8,6 +8,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreateCommentResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.DeleteCommentResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.UpdateCommentResponse;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
@@ -49,6 +50,14 @@ public class PostCommentServiceImpl implements PostCommentService {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<PostComment> allPostComments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId, pageRequest);
         return allPostComments.map(o -> new CommentDetailResponse(o));
+    }
+
+    @Override
+    public DeleteCommentResponse deleteComment(Long commentId) {
+        Optional<PostComment> findPostComment = postCommentRepository.findById(commentId);
+        PostComment postComment = findPostComment.orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
+        postComment.delete();
+        return new DeleteCommentResponse(postCommentRepository.save(postComment) != null ? true : false);
     }
 
 }

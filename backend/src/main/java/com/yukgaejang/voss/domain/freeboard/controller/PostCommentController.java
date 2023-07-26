@@ -5,6 +5,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreateCommentResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.DeleteCommentResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.UpdateCommentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,5 +32,10 @@ public class PostCommentController {
     @GetMapping("/{postId}")
     public ResponseEntity<Page<CommentDetailResponse>> getComments(@PathVariable Long postId, @RequestParam int page, @RequestParam int limit) {
         return ResponseEntity.ok(postCommentService.getComments(postId, page, limit));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestParam Long commentId) {
+        return ResponseEntity.ok(postCommentService.deleteComment(commentId));
     }
 }
