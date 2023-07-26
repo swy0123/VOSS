@@ -286,7 +286,7 @@ function DubbingList() {
           <VideoBox>
             {videoList.map((video,index) => (
               <VideoItem key={index}>
-                <Thumbnail src={video.script.imageUrl}></Thumbnail>
+                <Thumbnail src={video.script.videoUrl}></Thumbnail>
                 <Infos>
                   <Count>
                     <CountImg src="/src/assets/Dubbing/count.png"/>

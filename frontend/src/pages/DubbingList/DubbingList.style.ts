@@ -63,7 +63,7 @@ export const VideoItem = styled.div`
   height: 250px;
   width: 215px;
 `
-export const Thumbnail = styled.img`
+export const Thumbnail = styled.iframe`
   margin-top: 15px;
   height: 120px;
   width: 215px;
