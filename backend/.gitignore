@@ -37,4 +37,8 @@ out/
 ### VS Code ###
 .vscode/
 
+<<<<<<< HEAD
 backend/*.p12
+=======
+keystore.p12
+>>>>>>> back-dev

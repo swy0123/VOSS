@@ -18,15 +18,22 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
 
     @Override
     public List<MeetJoin> findByMeetId(Long meetId) {
+<<<<<<< HEAD
         List<MeetJoin> meetJoins = queryFactory
                 .selectDistinct(meetJoin)
                 .from(meetJoin)
                 .where(meetJoin.meet.id.eq(meetId))
+=======
+        return queryFactory
+                .selectFrom(meetJoin)
+                .join(meetJoin.meet, meet)
+                .where(meetJoin.id.eq(meetId))
+>>>>>>> back-dev
                 .fetch();
-        return meetJoins;
     }
 
     @Override
+<<<<<<< HEAD
     public MeetJoin findByEmail(String email) {
         MeetJoin findMeetJoin = queryFactory
                 .selectFrom(meetJoin)
@@ -34,4 +41,14 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
                 .fetchOne();
         return findMeetJoin;
     }
+=======
+    public MeetJoin findByMemberId(Long memberId) {
+        return queryFactory
+                .selectFrom(meetJoin)
+                .where(meetJoin.member.id.eq(memberId))
+                .fetchOne();
+    }
+
+
+>>>>>>> back-dev
 }

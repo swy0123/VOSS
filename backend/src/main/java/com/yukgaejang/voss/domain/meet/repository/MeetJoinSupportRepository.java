@@ -8,5 +8,9 @@ public interface MeetJoinSupportRepository {
 
     List<MeetJoin> findByMeetId(Long meetId);
 
+<<<<<<< HEAD
     MeetJoin findByEmail(String email);
+=======
+    MeetJoin findByMemberId(Long memberId);
+>>>>>>> back-dev
 }
