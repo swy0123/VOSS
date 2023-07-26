@@ -29,9 +29,6 @@ public class ChatGptClient {
                 "    \"messages\": [{\"role\": \"user\", \"content\": \"" + cmd + "\"}]\n" +
                 "}";
 
-        System.out.println("============client  " + requestBody);
-
-
         String responseBody = webClient.post()
                 .uri(url)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
