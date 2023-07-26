@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import Messenger from '../../components/Message/Messenger';
 import Script from '../../components/DubbingRoom/Script';
 import Video from '../../components/DubbingRoom/Video';
+import { useParams } from 'react-router';
 
 const Container = styled.div`
   display: flex;
@@ -19,25 +20,41 @@ const RightSection = styled.div`
   align-items: center;
 `
 
-function Dubbing() {
+const H1 = styled.h1`
+color: white;
+`
+
+interface MeetingData {
+  index: number;
+  type: number;
+  title: string;
+  password: string;
+  curMan: number;
+  limit: number;
+}
+
+
+function Meeting() {
+  const {id} = useParams() as { id: string };
+
+  //id를 통해 해당 화상회의방 api 호출
+
   return (
     <BackGroundImg>
-      <Header/>
       <Container>
+        <H1>{id}</H1>
 
         <LeftSection>
           <Video></Video>
           <Script></Script>
         </LeftSection>
-        
+
         <RightSection>
-          <Recording></Recording>
-          <RecordButton></RecordButton>
         </RightSection>
-      
+
       </Container>
-      <Messenger/>
+      <Messenger />
     </BackGroundImg>
   )
 }
-export default Dubbing
+export default Meeting
