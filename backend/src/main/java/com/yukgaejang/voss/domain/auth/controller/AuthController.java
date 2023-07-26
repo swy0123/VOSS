@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
     private final MemberService memberService;
 
     @GetMapping("/jwt-test")
-    @CrossOrigin(origins = "*")
     public String jwtTest() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return "jwtTest 요청 성공 : " + authentication.getName();
