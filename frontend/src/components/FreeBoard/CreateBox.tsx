@@ -7,7 +7,7 @@ import {
 
 function CreateBox() {
   const navigate = useNavigate() 
-  const goPostCreate = () => navigate(`/freeboard/create`);
+  const goPostCreate = () => navigate('/freeboard/create');
 
   return (
     <CreateBoxDesign>
