@@ -3,9 +3,6 @@ package com.yukgaejang.voss.domain.meet.service.dto.request;
 import lombok.Data;
 
 @Data
-public class JoinMeetRoomRequest {
+public class LeaveMeetRomRequest {
     private String email;
-    private String password;
-    private Long meetRoomId;
-
 }

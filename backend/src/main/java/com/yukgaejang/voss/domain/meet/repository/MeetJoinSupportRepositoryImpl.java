@@ -19,11 +19,20 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
 
     @Override
     public List<MeetJoin> findByMeetId(Long meetId) {
-        List<MeetJoin> meetJoins = queryFactory
+        return queryFactory
                 .selectFrom(meetJoin)
                 .join(meetJoin.meet, meet)
                 .where(meetJoin.id.eq(meetId))
                 .fetch();
-        return meetJoins;
     }
+
+    @Override
+    public MeetJoin findByMemberId(Long memberId) {
+        return queryFactory
+                .selectFrom(meetJoin)
+                .where(meetJoin.member.id.eq(memberId))
+                .fetchOne();
+    }
+
+
 }
