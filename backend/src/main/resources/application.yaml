@@ -29,3 +29,5 @@ logging:
   level:
     org.org.hibernate.SQL: debug
     org.org.hibernate: trace
+chatGpt:
+  apiKey: ${CHATGPT_API_KEY}
