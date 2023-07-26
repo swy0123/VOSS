@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ScriptLineRepository extends JpaRepository<ScriptLine, Long> {
-    List<ScriptLine> findByName(String name);
 }

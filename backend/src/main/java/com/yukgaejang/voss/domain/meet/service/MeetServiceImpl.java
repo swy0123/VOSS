@@ -69,7 +69,10 @@ public class MeetServiceImpl implements MeetService{
         if (maxCount <= joinMeetList.size()) throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
 
         String password = meet.getPassword();
-        if (!password.equals(joinMeetRoomRequest.getPassword())) throw new WrongPinException("비밀번호가 틀립니다");
+
+        if (password != null) {
+            if (!password.equals(joinMeetRoomRequest.getPassword())) throw new WrongPinException("비밀번호가 틀립니다");
+        }
 
         Optional<Member> findMember = memberRepository.findByEmail(joinMeetRoomRequest.getEmail());
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
