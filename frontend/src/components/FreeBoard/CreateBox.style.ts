@@ -6,7 +6,7 @@ const CreateBoxDesign = styled.div`
   height: 80%;
   align-self: center;
   justify-content: end;
-  width: 32.5vw;
+  width: 32vw;
   /* border: dotted 1px yellow; */
   `;
 
