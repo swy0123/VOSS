@@ -9,12 +9,17 @@ import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.LeaveMeetRomRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.LeaveMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +30,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MeetServiceImpl implements MeetService{
 
     private final MeetRepository meetRepository;
     private final MemberRepository memberRepository;
     private final MeetJoinRepository meetJoinRepository;
+    private final EntityManager em;
 
     @Override
     public Page<ViewAllMeetRoomResponse> getMeetList(int page, int limit) {
@@ -41,7 +48,16 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest) {
         // openvidu 세션 생성
-
+        OpenViduClient openViduConnection = new OpenViduClient();
+        String sessionId = openViduConnection.session();
+        Optional<Member> findMember = memberRepository.findByEmail(createSessionIdRequest.getEmail());
+        boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
+        Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
+                createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
+        meetRepository.save(meet);
+        Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        meetJoinRepository.save(new MeetJoin(member, meet));
+        return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 
     @Override
@@ -59,5 +75,20 @@ public class MeetServiceImpl implements MeetService{
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
         return new JoinMeetRoomResponse(meet.getSessionId(), "입장");
+    }
+
+    @Override
+    public LeaveMeetRoomResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
+        Member member = memberRepository.findByEmail(leaveMeetRomRequest.getEmail()).orElseThrow();
+        MeetJoin meetJoin = meetJoinRepository.findByMemberId(member.getId());
+        meetJoinRepository.delete(meetJoin);
+        em.flush();
+        em.clear();
+        Long meetRoodId = meetJoin.getMeet().getId();
+        if(meetJoinRepository.findByMeetId(meetRoodId).size() == 0) {
+            Meet meet = meetRepository.findByMeetId(meetRoodId).orElseThrow();
+            meetRepository.delete(meet);
+        }
+        return new LeaveMeetRoomResponse("퇴장 성공");
     }
 }
