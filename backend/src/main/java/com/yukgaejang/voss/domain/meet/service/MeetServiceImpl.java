@@ -17,9 +17,9 @@ import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomRespo
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
-import com.yukgaejang.voss.infra.openvidu.OpenViduConnection;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,8 +48,8 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest) {
         // openvidu 세션 생성
-        OpenViduConnection openViduConnection = new OpenViduConnection();
-        String sessionId = openViduConnection.session();
+        OpenViduClient openViduClient = new OpenViduClient();
+        String sessionId = openViduClient.session();
         Optional<Member> findMember = memberRepository.findByEmail(createSessionIdRequest.getEmail());
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
