@@ -4,11 +4,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CastSupportRepositoryImpl implements CastSupportRepository {
+public class CastingSupportRepositoryImpl implements CastingSupportRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public CastSupportRepositoryImpl(JPAQueryFactory queryFactory) {
+    public CastingSupportRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
