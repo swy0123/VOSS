@@ -10,8 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@RequiredArgsConstructor
 public class ActServiceImpl implements ActService {
-    private final ClassifyClient classifyClient = new ClassifyClient();
+    private final ClassifyClient classifyClient;
 
     @Override
     public ClassifyResponse analysis(MultipartFile file) {
