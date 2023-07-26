@@ -3,7 +3,7 @@ import { styled } from "styled-components"
 import { BackGroundImg } from "../../components/BackGroundImg"
 import Header from "../../components/Header/Header"
 import Messenger from "../../components/Message/Messenger"
-import { getVideos } from "../../api/videolist"
+import { getVideos, test } from "../../api/videolist"
 import { 
   Container,
   TitleBox,
@@ -247,20 +247,10 @@ function DubbingList() {
 
   useEffect(()=>{
     setVideoList(tmp.result)
+    getVideos()
+    test()
   },[])
-  useEffect(() => {
-    const fetchData  = async () => {
-      try{
-        const response = await getVideos();
-        setVideoList(response.data)
-      }
-      catch(err){
-        console.log("Error fetching videos",err)
-      }
-    }
-    fetchData()
-  },[])
-
+  
   return(
     <BackGroundImg>
       <Header/>
