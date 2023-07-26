@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class LeaveMeetRomRequest {
+    private Long meetRoomId;
     private String email;
 }

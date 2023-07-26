@@ -12,4 +12,6 @@ public interface MeetSupportRepository {
     Optional<Meet> findByMeetId(Long meetId);
 
     long setScript(SelectScriptRequest selectScriptRequest, Script script);
+
+    void leaveMeetRoom(Long meetId);
 }

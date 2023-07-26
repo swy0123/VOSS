@@ -93,8 +93,7 @@ public class MeetServiceImpl implements MeetService{
         em.clear();
         Long meetRoodId = meetJoin.getMeet().getId();
         if(meetJoinRepository.findByMeetId(meetRoodId).size() == 0) {
-            Meet meet = meetRepository.findByMeetId(meetRoodId).orElseThrow();
-            meetRepository.delete(meet);
+            meetRepository.leaveMeetRoom(meetRoodId);
         }
         return new getStatusResponse("퇴장 성공");
     }

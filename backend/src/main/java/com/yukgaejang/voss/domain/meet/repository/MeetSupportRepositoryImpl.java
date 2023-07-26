@@ -37,5 +37,14 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
                 .execute();
     }
 
+    @Override
+    public void leaveMeetRoom(Long meetId) {
+        queryFactory
+                .update(meet)
+                .set(meet.isDeleted, true)
+                .where(meet.id.eq(meetId))
+                .execute();
+    }
+
 
 }
