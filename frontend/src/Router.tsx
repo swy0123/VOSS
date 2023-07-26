@@ -8,6 +8,8 @@ import TrainingVoiceAnalysis from "./pages/TrainingVoiceAnalysis";
 import TrainingDubbing from "./pages/TrainingDubbing";
 import TrainingAccent from "./pages/TrainingAccent";
 import FreeBoard from "./pages/FreeBoard";
+import PostDetail from "./components/FreeBoard/PostDetail";
+import PostCreate from "./components/FreeBoard/PostCreate";
 import MeetingBoard from "./pages/MeetingBoard";
 
 const router = createBrowserRouter([
@@ -43,6 +45,21 @@ const router = createBrowserRouter([
             {
                 path:"freeboard",
                 element: <FreeBoard/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"freeboard/:id",
+                element: <PostDetail/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"freeboard/create",
+                element: <PostCreate/>,
+                errorElement: <ErrorComponent/>,
+            },
+                       {
+                path:"freeboard/:id",
+                element: <PostDetail/>,
                 errorElement: <ErrorComponent/>,
             },
             {

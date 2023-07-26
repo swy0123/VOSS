@@ -1,21 +1,31 @@
 import { styled } from "styled-components";
 
+
+const PostListDesign = styled.div`
+  display: flex;
+  width: 85vw;
+  height: 5vh;
+  text-align: center;
+  font-size: 0.8vw;
+  /* border: solid 1px white; */
+`;
+
 const PostNumberDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 10%;
-  border: solid 2px red;
-  /* text-align: center; */
+  width: 8%;
+  text-align: center;
+  /* border: solid 2px red; */
 `;
 
 const PostTitleDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 60%;
-  border: solid 2px red;
+  width: 62%;
   text-align: center;
+  /* border: solid 2px red; */
 `;
 
 const PostUserDesign = styled.div`
@@ -23,8 +33,8 @@ const PostUserDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 10%;
-  border: solid 2px red;
   text-align: center;
+  /* border: solid 2px red; */
 `;
 
 const PostCreatedatDesign = styled.div`
@@ -32,20 +42,15 @@ const PostCreatedatDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 20%;
-  border: solid 2px red;
   text-align: center;
+  /* border: solid 2px red; */
 `;
 
 
-
-function PostList({ key, title, content }: { key: number; title: string; content: string }) {
-  return(
-    <div style={{display: "flex", width: "100%", fontSize: "1vw"}}>
-        <PostNumberDesign>{key}</PostNumberDesign>
-        <PostTitleDesign>{title}</PostTitleDesign>
-        <PostUserDesign>user</PostUserDesign>
-        <PostCreatedatDesign>created_at</PostCreatedatDesign>
-    </div>
-  )
+export {
+    PostListDesign,
+    PostNumberDesign,
+    PostTitleDesign,
+    PostUserDesign,
+    PostCreatedatDesign
 }
-export default PostList
