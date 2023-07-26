@@ -3,12 +3,14 @@ package com.yukgaejang.voss.infra.classify;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ClassifyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
+@Component
 public class ClassifyClient {
     private final WebClient webClient;
 
