@@ -3,10 +3,10 @@ package com.yukgaejang.voss.domain.meet.service.dto.response;
 import lombok.Data;
 
 @Data
-public class LeaveMeetRoomResponse {
+public class getStatusResponse {
     private String status;
 
-    public LeaveMeetRoomResponse(String status) {
+    public getStatusResponse(String status) {
         this.status = status;
     }
 }
