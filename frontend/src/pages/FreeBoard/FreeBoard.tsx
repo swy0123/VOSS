@@ -34,9 +34,12 @@ function FreeBoard () {
   const [curposts, setCurPosts] = useState(posts);
   const [inputs, setInputs] = useState<string>("");
   const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value);
+
   const SearchPost = () => {
-    console.log("searching post!")
-  }
+    const trimmedInputs = inputs.trim();
+    const newCurPosts = trimmedInputs.length > 0 ? posts.filter(post => post.title.includes(trimmedInputs)) : posts;
+    setCurPosts(newCurPosts);
+  };
 
   return(
     <BackGroundImg>
