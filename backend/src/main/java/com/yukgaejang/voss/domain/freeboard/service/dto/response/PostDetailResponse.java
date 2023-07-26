@@ -1,11 +1,15 @@
 package com.yukgaejang.voss.domain.freeboard.service.dto.response;
 
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@NoArgsConstructor
 public class PostDetailResponse {
     private Long id;
     private Long hit;
