@@ -39,7 +39,7 @@ public class Post extends BaseEntity {
         this.hit += 1;
     }
 
-    public void update(String title, String content) {
+    public void updatePost(String title, String content) {
         this.title = title;
         this.content = content;
     }

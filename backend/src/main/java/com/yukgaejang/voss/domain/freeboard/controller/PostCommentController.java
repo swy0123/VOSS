@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/postcomment")
+@RequestMapping("/post-comment")
 public class PostCommentController {
 
     private final PostCommentService postCommentService;
@@ -34,8 +34,8 @@ public class PostCommentController {
         return ResponseEntity.ok(postCommentService.getComments(postId, page, limit));
     }
 
-    @DeleteMapping
-    public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestParam Long commentId) {
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long commentId) {
         return ResponseEntity.ok(postCommentService.deleteComment(commentId));
     }
 
