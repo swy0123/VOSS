@@ -8,7 +8,7 @@ import VoiceAnalysis from "./pages/VoiceAnalysis";
 import Dubbing from "./pages/Dubbing";
 import DubbingList from "./pages/DubbingList/DubbingList";
 import Accent from "./pages/Accent";
-import FreeBoard from "./pages/FreeBoard";
+import FreeBoard from "./pages/FreeBoard/FreeBoard";
 import PostDetail from "./components/FreeBoard/PostDetail";
 import PostCreate from "./components/FreeBoard/PostCreate";
 import PostUpdate from "./components/FreeBoard/PostUpdate";
