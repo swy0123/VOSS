@@ -1,7 +1,12 @@
 package com.yukgaejang.voss.domain.practice.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.yukgaejang.voss.domain.practice.repository.entity.QCasting.*;
 
 @Repository
 public class CastingSupportRepositoryImpl implements CastingSupportRepository {
@@ -12,4 +17,11 @@ public class CastingSupportRepositoryImpl implements CastingSupportRepository {
         this.queryFactory = queryFactory;
     }
 
+    @Override
+    public List<Casting> findByScriptId(Long scriptId) {
+        return queryFactory
+                .selectFrom(casting)
+                .where(casting.script.id.eq(scriptId))
+                .fetch();
+    }
 }

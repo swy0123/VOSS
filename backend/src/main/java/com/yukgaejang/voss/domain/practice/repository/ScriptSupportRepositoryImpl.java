@@ -2,7 +2,7 @@ package com.yukgaejang.voss.domain.practice.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yukgaejang.voss.domain.grouppractice.repository.entity.QCasting;
+import com.yukgaejang.voss.domain.practice.repository.entity.QCasting;
 import com.yukgaejang.voss.domain.practice.repository.entity.QScript;
 import com.yukgaejang.voss.domain.practice.repository.entity.QScriptLine;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ScriptListResponse;
