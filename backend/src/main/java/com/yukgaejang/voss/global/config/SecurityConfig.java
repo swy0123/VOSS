@@ -37,6 +37,7 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint entryPoint;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.formLogin(AbstractHttpConfigurer::disable);
         http
@@ -44,7 +45,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/**").permitAll()
+                                //.requestMatchers("/**").permitAll()
                                 .requestMatchers("/auth/post-test").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
                                 .requestMatchers("/auth/test").permitAll()
