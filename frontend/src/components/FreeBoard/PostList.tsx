@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+
+// style
 import {
   PostListDesign,
   PostNumberDesign,

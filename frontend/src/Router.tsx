@@ -11,6 +11,7 @@ import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard";
 import PostDetail from "./components/FreeBoard/PostDetail";
 import PostCreate from "./components/FreeBoard/PostCreate";
+import PostUpdate from "./components/FreeBoard/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 
 const router = createBrowserRouter([
@@ -69,8 +70,8 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent/>,
             },
                        {
-                path:"freeboard/:id",
-                element: <PostDetail/>,
+                path:"freeboard/update/:id",
+                element: <PostUpdate/>,
                 errorElement: <ErrorComponent/>,
             },
             {

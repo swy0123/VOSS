@@ -1,40 +1,47 @@
 import { useState, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { PostListState, PostListNum } from "../../states/atom";
 import { BackGroundImg } from "../BackGroundImg";
 import Header from "../Header/Header";
 import Messenger from "../Message/Messenger";
 import {
-  PostCreateBoxDesign
-} from "./PostCreate.style";
+    PostUpdateBoxDesign
+} from "./PostUpdate.style";
 
-function PostCreate() {
+function PostUpdate() {
   const navigate = useNavigate()  
-  const goFreeBoard = () => {navigate("/freeboard")}
+  const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const [posts, setPosts] = useRecoilState(PostListState);
-  const [num, setNum]= useRecoilState(PostListNum);
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const id = parseInt(useParams().id);
+  const detail = posts.filter(post => post.id == id);
+  
+  const [title, setTitle] = useState<string>(detail[0].title);
+  const [content, setContent] = useState<string>(detail[0].content);
 
   const titleChange = (event: ChangeEvent<HTMLInputElement>) =>  setTitle(event.target.value);
   const contentChange = (event: ChangeEvent<HTMLTextAreaElement>) => setContent(event.target.value);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newpost = {
-      id: num + 1,
+      id,
       title,
       content,
     }
-    setPosts([...posts, newpost])
-    setNum(num+1)
-    goFreeBoard()
+    const newposts = posts.map((item) => {
+        if (item.id === id) {
+          return { id, title, content }; // 원소 내용 수정
+        }
+        return item; // 수정하지 않은 원소는 그대로 유지
+      });
+    setPosts(newposts)
+    goPostDetail(id)
   };
 
   return (
     <BackGroundImg>
     <Header/>
-    <PostCreateBoxDesign>
+    <PostUpdateBoxDesign>
       <h1>게시글 작성</h1><hr/>
 
       <form onSubmit={onSubmit}>
@@ -48,10 +55,10 @@ function PostCreate() {
 
         <button>작성하기</button>
       </form>
-    </PostCreateBoxDesign>
+    </PostUpdateBoxDesign>
     <Messenger/>
   </BackGroundImg>
   );
 };
 
-export default PostCreate;
+export default PostUpdate;
