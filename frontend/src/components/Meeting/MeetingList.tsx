@@ -1,21 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
+import { ListBox, MeetingRoom } from "./MeetingList.style";
+import { OpenVidu } from "openvidu-browser";
 
-const ListBox = styled.div`
-  height: 90%;
-  background-color: gray;
-`;
-
-const MeetingRoom = styled.div`
-  width: 47%;
-  height: 17%;
-  border-style: solid;
-  border-radius: 5px;
-  border-width: 1px;
-  margin: 3px 7px;
-  float: left;
-`;
+// 로컬 미디어 서버 주소
+const OPENVIDU_SERVER_URL = "https://i9b106.p.ssafy.io:5173";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 interface ListProps {
   tags: boolean[];

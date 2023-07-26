@@ -52,8 +52,8 @@ export const postLogin = async (user: LoginProps) => {
   if (res.status === 200) {
     console.log(res.data);
     console.log(res.headers);
-    let accessToken = res.headers["Authorization"]; // 응답헤더에서 토큰 받기
-    let refreshToken = res.headers["Authorization-refresh"]; // 응답헤더에서 토큰 받기
+    let accessToken = res.headers["authorization"]; // 응답헤더에서 토큰 받기
+    let refreshToken = res.headers["authorization-refresh"]; // 응답헤더에서 토큰 받기
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
     console.log("access 토큰 :", accessToken);
