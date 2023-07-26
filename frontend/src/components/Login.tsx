@@ -5,7 +5,7 @@ import Eye from "../assets/main/eye.png";
 import GoogleIcon from "../assets/main/googleIcon.png";
 import NaverIcon from "../assets/main/naverIcon.png";
 import KakaoIcon from "../assets/main/kakaoIcon.png";
-import { postLogin, postTest, testLogin } from "../api/login";
+import { postLogin, headerTest, testLogin } from "../api/login";
 import axios from "axios";
 
 const Container = styled.div`
@@ -197,6 +197,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     }
 
     // testLogin();
+    // headerTest();
     // postTest(LoginProps);
     if(await postLogin(LoginProps)){
       console.log("pass")
