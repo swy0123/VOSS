@@ -7,13 +7,12 @@ const ListBox = styled.div`
 `;
 
 const MeetingRoom = styled.div`
-  width: 45%;
-  height: 18%;
+  width: 47%;
+  height: 17%;
   border-style: solid;
   border-radius: 5px;
   border-width: 1px;
-  margin: 0 1%;
-  margin-top: 1px;
+  margin: 3px 7px;
   float: left;
 `;
 
@@ -55,13 +54,13 @@ function MeetingList({ listProps }: { listProps: ListProps }) {
       ))}
       <div>
         {/* 테스트 */}
-        {/* {listProps.tags.map((data, index) => (
+        {listProps.tags.map((data, index) => (
           <div key={index}>
-            {data}{index}
+            {index}{data}
             {data ? Tag[index] : ""}
           </div>
         ))}
-        {listProps.words} */}
+        {listProps.words}
       </div>
     </ListBox>
   );
@@ -70,7 +69,6 @@ function MeetingList({ listProps }: { listProps: ListProps }) {
 export default MeetingList;
 
 const data = [
-  { index: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
   { index: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
   { index: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
   { index: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
