@@ -34,7 +34,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
   const goVoiceAnalysis = () => {navigate("/analysis")}
-  const goDubbing = () => {navigate("/dubbing")}
+  const goDubbingList = () => {navigate("/dubbinglist")}
   const goAccent = () => {navigate("/accent")}
   const goFreeBoard = () => {navigate("/freeboard")}
   const goMeetingBoard = () => {navigate("/meeting")}
@@ -46,7 +46,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       onMouseLeave={() => setMenuIsShown(false)}>
       <Menuitems>
         <Item onClick={goVoiceAnalysis}>목소리 분석</Item>  
-        <Item onClick={goDubbing}>더빙 연습</Item>  
+        <Item onClick={goDubbingList}>더빙 연습</Item>  
         <Item onClick={goAccent}>발음 연습</Item>  
       </Menuitems>
 

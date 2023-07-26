@@ -62,7 +62,6 @@ function RecordButton () {
       setTime(0);
     }
   };
-  
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -78,7 +77,8 @@ function RecordButton () {
       <StopWatch>{formatTime(time)}</StopWatch>
       <SectionBtn>
         <RestartBtn
-          onClick={resetTimer}>취소</RestartBtn>
+          onClick={resetTimer}>취소
+        </RestartBtn>
         { initialBtn ? 
           (<RecordBtn
             onClick={startOrStop}
@@ -91,8 +91,7 @@ function RecordButton () {
               onClick={startOrStop}
               src="/src/assets/Training/restartbtn.png"></RecordBtn>)
         }
-        <CompleteBtn
-          onClick={resetTimer}>완료</CompleteBtn>
+        <CompleteBtn>완료</CompleteBtn>
       </SectionBtn>
     </RecordBox>
   )

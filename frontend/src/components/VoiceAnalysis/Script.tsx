@@ -143,7 +143,7 @@ function Script() {
         <OptionSelect>
           <GenderBox>
             성별 : {genderOpt.map((data,index) => (
-              <GenderButton 
+              <GenderButton
                 key={index}
                 $IsClick={isGenderSelect[index]}
                 onClick={()=>handleGenderBtn(index)}
