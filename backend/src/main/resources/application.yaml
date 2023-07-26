@@ -35,3 +35,4 @@ server:
     enabled: true
     key-store-type: pkcs12
     key-store: keystore.p12
+    key-store-password: 1234
