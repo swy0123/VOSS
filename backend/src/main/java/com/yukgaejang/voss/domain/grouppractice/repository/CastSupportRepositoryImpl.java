@@ -2,7 +2,6 @@ package com.yukgaejang.voss.domain.grouppractice.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
-
 @Repository
 public class CastSupportRepositoryImpl implements CastSupportRepository {
 
