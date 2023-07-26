@@ -33,5 +33,5 @@ server:
   port: 8080
   ssl:
     enabled: true
-    key-store-type: PKCS12
+    key-store-type: PCS12
     key-store: keystore.p12
