@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.global.error;
 
+import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
@@ -33,6 +34,12 @@ public class ControllerAdvice {
     @ExceptionHandler(NoMeetRoomException.class)
     public ResponseEntity<ErrorResponse> noMeetRoom() {
         ErrorResponse errorResponse = new ErrorResponse("미팅방이 없습니다.");
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(NoPostException.class)
+    public ResponseEntity<ErrorResponse> noPost() {
+        ErrorResponse errorResponse = new ErrorResponse("게시글이 없습니다.");
         return ResponseEntity.ok(errorResponse);
     }
 }
