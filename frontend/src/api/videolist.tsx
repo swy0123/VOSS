@@ -31,7 +31,7 @@ export const getVideos = async () => {
     url: 'http://i9b106.p.ssafy.io:8080/practice/dub/1',
     maxBodyLength: Infinity,
     headers: {
-      Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5MDI5OTUyNCwiZW1haWwiOiJuZXdAbmF2ZXIuY29tIn0.yzMH-OXzz0uzdNJBsixPmfrsSMnoe-kho1edhrW4a0EyobvtMtWaL4YPAZGRglK6yNpmNxNAIub151G81d6Oow'
+      Authorization: 'Bearer z'
     }
   };
 
