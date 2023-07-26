@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeetJoin.*;
 
 @Repository
@@ -18,20 +19,20 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
 
     @Override
     public List<MeetJoin> findByMeetId(Long meetId) {
-        List<MeetJoin> meetJoins = queryFactory
-                .selectDistinct(meetJoin)
-                .from(meetJoin)
-                .where(meetJoin.meet.id.eq(meetId))
+        return queryFactory
+                .selectFrom(meetJoin)
+                .join(meetJoin.meet, meet)
+                .where(meetJoin.id.eq(meetId))
                 .fetch();
-        return meetJoins;
     }
 
     @Override
-    public MeetJoin findByEmail(String email) {
-        MeetJoin findMeetJoin = queryFactory
+    public MeetJoin findByMemberId(Long memberId) {
+        return queryFactory
                 .selectFrom(meetJoin)
-                .where(meetJoin.member.email.eq(email))
+                .where(meetJoin.member.id.eq(memberId))
                 .fetchOne();
-        return findMeetJoin;
     }
+
+
 }

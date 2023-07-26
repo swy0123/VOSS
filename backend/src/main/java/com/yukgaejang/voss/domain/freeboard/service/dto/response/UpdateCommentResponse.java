@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdatePostResponse {
+public class UpdateCommentResponse {
     private boolean isSuccess;
 
-    public UpdatePostResponse(boolean isSuccess) {
+    public UpdateCommentResponse(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
 }

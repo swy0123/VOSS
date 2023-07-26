@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreatePostRequest {
-    private String email;
-    private String title;
+public class UpdateCommentRequest {
+    private Long commentId;
     private String content;
 
     @Builder
-    public CreatePostRequest(String email, String title, String content) {
-        this.email = email;
-        this.title = title;
+    public UpdateCommentRequest(Long commentId, String content) {
+        this.commentId = commentId;
         this.content = content;
     }
 }
