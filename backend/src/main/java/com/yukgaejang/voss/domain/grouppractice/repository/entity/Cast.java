@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Casting extends BaseEntity {
+public class Cast extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class Casting extends BaseEntity {
     @OneToMany
     private List<ScriptLine> scriptLine;
 
-    public Casting(MeetJoin meetJoin, List<ScriptLine> scriptLine) {
+    public Cast(MeetJoin meetJoin, List<ScriptLine> scriptLine) {
         this.meetJoin = meetJoin;
         this.scriptLine = scriptLine;
     }
