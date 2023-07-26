@@ -38,4 +38,5 @@ public class PostCommentController {
     public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestParam Long commentId) {
         return ResponseEntity.ok(postCommentService.deleteComment(commentId));
     }
+
 }
