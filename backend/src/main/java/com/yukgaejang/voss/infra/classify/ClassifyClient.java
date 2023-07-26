@@ -10,14 +10,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
 public class ClassifyClient {
-    private final WebClient webClient = WebClient.builder().build();
+    private final WebClient webClient;
 
     public ClassifyResponse classify(MultipartFile file) {
         String url = "http://wonyoung210.p-e.kr:5000/classify";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        WebClient webClient = WebClient.builder().build();
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file.getResource());
