@@ -13,6 +13,7 @@ public class DictionController {
 
     @GetMapping("/script")
     public String chatGpt(@Param("cmd") String cmd) {
+        System.out.println("========controller");
         return chatGptClient.commend(cmd);
     }
 }

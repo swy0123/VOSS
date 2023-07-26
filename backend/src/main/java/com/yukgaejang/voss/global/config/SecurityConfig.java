@@ -42,20 +42,17 @@ public class SecurityConfig {
         http.cors(withDefaults());
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.formLogin(AbstractHttpConfigurer::disable);
-        http
-                .csrf(AbstractHttpConfigurer::disable);
-        http
-                .authorizeHttpRequests(
-                        authorize -> authorize
-                                .requestMatchers("/auth/post-test").permitAll()
-                                .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers("/auth/test").permitAll()
-                                .requestMatchers("/member").permitAll()
-                                .requestMatchers("/member/login").permitAll()
-                                .anyRequest().authenticated()
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests(
+                authorize -> authorize
+                        .requestMatchers("/auth/post-test").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/test").permitAll()
+                        .requestMatchers("/member").permitAll()
+                        .requestMatchers("/member/login").permitAll()
+                        .anyRequest().authenticated()
                 );
         http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
-
 
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
