@@ -32,4 +32,13 @@ public class ScriptListResponse {
         this.videoUrl = script.getVideoUrl();
         this.roleCnt = script.getRoleCnt();
     }
+
+    public ScriptListResponse(Long id, Category category, String title, Long durationInSec, String videoUrl, Integer roleCnt) {
+        this.id = id;
+        this.category = category.name();
+        this.title = title;
+        this.durationInSec = durationInSec;
+        this.videoUrl = videoUrl;
+        this.roleCnt = roleCnt;
+    }
 }
