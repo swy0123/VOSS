@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.grouppractice.repository.entity;
+package com.yukgaejang.voss.domain.practice.repository.entity;
 
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import com.yukgaejang.voss.global.entity.BaseEntity;

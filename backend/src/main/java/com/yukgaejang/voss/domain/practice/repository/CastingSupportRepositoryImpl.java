@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.grouppractice.repository;
+package com.yukgaejang.voss.domain.practice.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
