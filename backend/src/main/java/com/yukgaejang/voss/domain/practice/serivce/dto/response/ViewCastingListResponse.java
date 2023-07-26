@@ -1,18 +1,15 @@
 package com.yukgaejang.voss.domain.practice.serivce.dto.response;
 
-import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
+import com.yukgaejang.voss.domain.practice.serivce.dto.CastingDto;
 import lombok.Data;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class ViewCastingListResponse {
-    private List<String> name;
+    private List<CastingDto> castingDtoList;
 
-    public ViewCastingListResponse(List<Casting> casting) {
-        name = casting.stream()
-                .map(o -> new String(o.getName()))
-                .collect(Collectors.toList());
+    public ViewCastingListResponse(List<CastingDto> castingDtoList) {
+        this.castingDtoList = castingDtoList;
     }
 }
