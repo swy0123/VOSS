@@ -23,7 +23,7 @@ function SearchBox() {
           type="text"
           placeholder="검색"
         />
-        <InputBoxBtn><img src="src/assets/Board/SearchInput.png" alt="" style={{width: "1.5vw"}}/></InputBoxBtn>
+        <InputBoxBtn><img src="/src/assets/MeetingBoard/SearchInput.png" alt="" style={{width: "1.5vw"}}/></InputBoxBtn>
       </InputBoxDesign>
     </SearchBoxDesign>
   );
