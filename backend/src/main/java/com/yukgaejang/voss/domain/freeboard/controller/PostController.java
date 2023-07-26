@@ -17,18 +17,18 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<CreatePostResponse> write(@RequestBody CreatePostRequest createPostRequest) {
-        return ResponseEntity.ok(postService.write(createPostRequest));
+    public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
+        return ResponseEntity.ok(postService.createPost(createPostRequest));
     }
 
     @PutMapping
-    public  ResponseEntity<UpdatePostResponse> modify(@RequestBody UpdatePostRequest updatePostRequest) {
-        return ResponseEntity.ok(postService.modify(updatePostRequest));
+    public  ResponseEntity<UpdatePostResponse> updatePost(@RequestBody UpdatePostRequest updatePostRequest) {
+        return ResponseEntity.ok(postService.updatePost(updatePostRequest));
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostDetailResponse> detail(@PathVariable Long postId) {
-        return ResponseEntity.ok(postService.detail(postId));
+    public ResponseEntity<PostDetailResponse> getPostDetail(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getPostDetail(postId));
     }
 
     @GetMapping
@@ -37,7 +37,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<DeletePostResponse> delete(@PathVariable Long postId) {
-        return ResponseEntity.ok(postService.delete(postId));
+    public ResponseEntity<DeletePostResponse> deletePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.deletePost(postId));
     }
 }

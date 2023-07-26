@@ -24,7 +24,7 @@ public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
 
     @Override
-    public CreatePostResponse write(CreatePostRequest createPostRequest) {
+    public CreatePostResponse createPost(CreatePostRequest createPostRequest) {
         Optional<Member> findMember = memberRepository.findById(createPostRequest.getMemberId());
         Member member = findMember.orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         Post post = new Post(createPostRequest.getTitle(), createPostRequest.getContent(), member);
@@ -32,15 +32,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public UpdatePostResponse modify(UpdatePostRequest updatePostRequest) {
+    public UpdatePostResponse updatePost(UpdatePostRequest updatePostRequest) {
         Optional<Post> findPost = postRepository.findById(updatePostRequest.getId());
         Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
-        post.update(updatePostRequest.getTitle(), updatePostRequest.getContent());
+        post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
         return new UpdatePostResponse(postRepository.save(post) != null ? true : false);
     }
 
     @Override
-    public PostDetailResponse detail(Long id) {
+    public PostDetailResponse getPostDetail(Long id) {
         Optional<Post> findPost = postRepository.findById(id);
         Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.updateHit();
@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public DeletePostResponse delete(Long id) {
+    public DeletePostResponse deletePost(Long id) {
         Optional<Post> findPost = postRepository.findById(id);
         Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.delete();
