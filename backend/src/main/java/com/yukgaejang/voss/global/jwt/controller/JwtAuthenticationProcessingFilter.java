@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
 
-    private static final String NO_CHECK_URL = "/login";
+    private static final String NO_CHECK_URL = "/auth/login";
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;

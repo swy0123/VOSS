@@ -37,14 +37,18 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint entryPoint;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.httpBasic(AbstractHttpConfigurer::disable);
+        http.formLogin(AbstractHttpConfigurer::disable);
         http
                 .csrf(AbstractHttpConfigurer::disable);
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("/member").permitAll()
+                                .requestMatchers("/auth/post-test").permitAll()
                                 .requestMatchers("/auth/login").permitAll()
-                                .requestMatchers("/sample").permitAll()
+                                .requestMatchers("/auth/test").permitAll()
+                                .requestMatchers("/member").permitAll()
+                                .requestMatchers("/member/login").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
