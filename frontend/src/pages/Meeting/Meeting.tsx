@@ -4,25 +4,8 @@ import Messenger from '../../components/Message/Messenger';
 import Script from '../../components/DubbingRoom/Script';
 import Video from '../../components/DubbingRoom/Video';
 import { useParams } from 'react-router';
+import { Container, H1, LeftSection, RightSection } from './Meeting.style';
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-`
-const LeftSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-right: 30px;
-`
-const RightSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const H1 = styled.h1`
-color: white;
-`
 
 interface MeetingData {
   index: number;
@@ -46,10 +29,11 @@ function Meeting() {
 
         <LeftSection>
           <Video></Video>
-          <Script></Script>
+          
         </LeftSection>
 
         <RightSection>
+          <Video></Video>
         </RightSection>
 
       </Container>
