@@ -10,13 +10,16 @@ import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.request.LeaveMeetRomRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.SelectScriptRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.LeaveMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.practice.repository.ScriptRepository;
+import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
@@ -36,6 +39,7 @@ public class MeetServiceImpl implements MeetService{
     private final MeetRepository meetRepository;
     private final MemberRepository memberRepository;
     private final MeetJoinRepository meetJoinRepository;
+    private final ScriptRepository scriptRepository;
     private final EntityManager em;
 
     @Override
@@ -81,7 +85,7 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public LeaveMeetRoomResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
+    public getStatusResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
         Member member = memberRepository.findByEmail(leaveMeetRomRequest.getEmail()).orElseThrow();
         MeetJoin meetJoin = meetJoinRepository.findByMemberId(member.getId());
         meetJoinRepository.delete(meetJoin);
@@ -92,6 +96,13 @@ public class MeetServiceImpl implements MeetService{
             Meet meet = meetRepository.findByMeetId(meetRoodId).orElseThrow();
             meetRepository.delete(meet);
         }
-        return new LeaveMeetRoomResponse("퇴장 성공");
+        return new getStatusResponse("퇴장 성공");
+    }
+
+    @Override
+    public getStatusResponse selectScript(SelectScriptRequest selectScriptRequest) {
+        Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
+        long l = meetRepository.setScript(selectScriptRequest, script);
+        return new getStatusResponse("선택 완료");
     }
 }

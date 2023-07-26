@@ -4,9 +4,10 @@ import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.request.LeaveMeetRomRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.SelectScriptRequest;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.LeaveMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,12 @@ public class MeetController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<LeaveMeetRoomResponse> leaveMeetRoom(@RequestBody LeaveMeetRomRequest leaveMeetRomRequest) {
+    public ResponseEntity<getStatusResponse> leaveMeetRoom(@RequestBody LeaveMeetRomRequest leaveMeetRomRequest) {
         return ResponseEntity.ok(meetService.leaveMeetRoom(leaveMeetRomRequest));
+    }
+
+    @PostMapping("/script")
+    public ResponseEntity<getStatusResponse> selectScript(@RequestBody SelectScriptRequest selectScriptRequest) {
+        return ResponseEntity.ok(meetService.selectScript(selectScriptRequest));
     }
 }
