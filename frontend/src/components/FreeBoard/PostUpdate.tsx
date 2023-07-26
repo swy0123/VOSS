@@ -50,10 +50,10 @@ function PostUpdate() {
         <br/><br/>
 
         <label htmlFor="postcontent">Content:</label>
-        <textarea onChange={contentChange} value={content} id="postcontent" placeholder="내용"/>
+        <textarea cols={30} rows={10} onChange={contentChange} value={content} id="postcontent" placeholder="내용"/>
         <br/><br/>
 
-        <button>작성하기</button>
+        <button>수정하기</button>
       </form>
     </PostUpdateBoxDesign>
     <Messenger/>
