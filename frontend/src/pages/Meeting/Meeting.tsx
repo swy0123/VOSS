@@ -5,6 +5,10 @@ import Script from '../../components/DubbingRoom/Script';
 import Video from '../../components/DubbingRoom/Video';
 import { useParams } from 'react-router';
 import { Container, H1, LeftSection, RightSection } from './Meeting.style';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6f6f43c (feat: style 코드 분리)
 
 interface MeetingData {
   index: number;
@@ -27,10 +31,15 @@ function Meeting() {
         <H1>{id}</H1>
 
         <LeftSection>
+<<<<<<< HEAD
+=======
+          <Video></Video>
+>>>>>>> 6f6f43c (feat: style 코드 분리)
           
         </LeftSection>
 
         <RightSection>
+          <Video></Video>
         </RightSection>
 
       </Container>
