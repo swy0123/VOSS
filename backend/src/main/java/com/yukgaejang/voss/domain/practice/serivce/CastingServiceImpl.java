@@ -1,12 +1,13 @@
 package com.yukgaejang.voss.domain.practice.serivce;
 
 import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
-import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
+import com.yukgaejang.voss.domain.practice.serivce.dto.CastingDto;
 import com.yukgaejang.voss.domain.practice.serivce.dto.response.ViewCastingListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,11 @@ public class CastingServiceImpl implements CastingService {
 
     @Override
     public ViewCastingListResponse getCastingList(Long scriptId) {
-        List<Casting> byScriptId = castingRepository.findByScriptId(scriptId);
-        return new ViewCastingListResponse(byScriptId);
+        List<CastingDto> collect = castingRepository.findByScriptId(scriptId)
+                .stream()
+                .map(o -> new CastingDto(o))
+                .collect(Collectors.toList());
+        return new ViewCastingListResponse(collect);
+
     }
 }
