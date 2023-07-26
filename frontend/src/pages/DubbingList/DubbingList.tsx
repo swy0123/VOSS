@@ -248,18 +248,18 @@ function DubbingList() {
   useEffect(()=>{
     setVideoList(tmp.result)
   },[])
-  // useEffect(() => {
-  //   const fetchData  = async () => {
-  //     try{
-  //       const response = await getVideos();
-  //       setVideoList(response.data)
-  //     }
-  //     catch(err){
-  //       console.log("Error fetching videos",err)
-  //     }
-  //   }
-  //   fetchData()
-  // },[])
+  useEffect(() => {
+    const fetchData  = async () => {
+      try{
+        const response = await getVideos();
+        setVideoList(response.data)
+      }
+      catch(err){
+        console.log("Error fetching videos",err)
+      }
+    }
+    fetchData()
+  },[])
 
   return(
     <BackGroundImg>
