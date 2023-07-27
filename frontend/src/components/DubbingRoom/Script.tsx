@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Line } from '../../type/type';
 
 const ScriptBox = styled.div`
   display: flex;
@@ -27,7 +28,11 @@ const Sentence = styled(Script_Unit)`
 `
 const Time = styled(Script_Unit)``
 
-function Script ({lines}) {
+interface VideoProps {
+  lines : Line[]
+}
+
+function Script ({lines}: VideoProps) {
   const formatTime = (durationInSec: number) => {
     const minutes = Math.floor(durationInSec / 60)
     const second = Math.floor(durationInSec % 60)

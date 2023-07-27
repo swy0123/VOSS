@@ -13,7 +13,7 @@ function PostUpdate() {
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const [posts, setPosts] = useRecoilState(PostListState);
-  const id = parseInt(useParams().id);
+  const id = parseInt(useParsms().id ||"");
   const detail = posts.filter(post => post.id == id);
   
   const [title, setTitle] = useState<string>(detail[0].title);
