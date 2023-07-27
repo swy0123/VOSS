@@ -19,7 +19,7 @@ function PostDetail() {
   const UpdatePost = () => {navigate(`/freeboard/update/${id}`)}
 
   const [posts, setPosts] = useRecoilState(PostListState);
-  const [num, setNum]= useRecoilState(PostListNum);
+  const [num, setNum] = useRecoilState(PostListNum);
   const id = parseInt(useParams().id || "");
   const detail = posts.filter(post => post.id == id);
   const DeletePost = () => {

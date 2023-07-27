@@ -9,24 +9,7 @@ import KakaoIcon from "../../../assets/main/kakaoIcon.png";
 import NaverIcon from "../../../assets/main/naverIcon.png";
 import { useRecoilState } from "recoil";
 import { CurrentUserAtom, LoginModeAtom } from "../../../recoil/Auth";
-import {
-  Button,
-  CheckBox,
-  CheckBoxDiv,
-  Container,
-  Forgot,
-  H2,
-  Icon,
-  Input,
-  InputDiv,
-  InputHeader,
-  LineText,
-  OAuthDiv,
-  P,
-  ShowPswd,
-  Title,
-  UnderText,
-} from "./Login.style";
+import { Button, CheckBox, CheckBoxDiv, Container, Forgot, H2, Icon, Input, InputDiv, InputHeader, LineText, OAuthDiv, P, ShowPswd, Title, UnderText } from "./Login.style";
 
 interface LoginProps {
   email: string;
@@ -75,7 +58,7 @@ const Login: React.FC<Props> = () => {
       window.alert("아이디와 비밀번호를 입력해주세요.");
       return;
     }
-    const LoginProps = {
+    const LoginProps: LoginProps = {
       email: email,
       password: password,
     }
@@ -87,7 +70,6 @@ const Login: React.FC<Props> = () => {
     // 로그인 요청한 후 userinfo 가 있으면 recoil 에 유저 정보 저장
     if (userinfo) {
       setCurrentUser(userinfo)
-      alert(`${email} 님 안녕하세요!`)
       navigate("category")
     }
     else {
@@ -164,11 +146,8 @@ const Login: React.FC<Props> = () => {
       </OAuthDiv>
 
       <UnderText>
-        <P>
-          New User?{" "}
-          <a onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
-            SIGN UP HERE
-          </a>
+        <P onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
+          New User? SIGN UP HERE
         </P>
       </UnderText>
     </Container>
