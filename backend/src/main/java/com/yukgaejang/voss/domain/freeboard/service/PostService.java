@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.freeboard.service.dto;
+package com.yukgaejang.voss.domain.freeboard.service;
 
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;

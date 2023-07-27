@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.freeboard.service.dto;
+package com.yukgaejang.voss.domain.freeboard.service;
 
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostCommentException;
 import com.yukgaejang.voss.domain.freeboard.repository.PostCommentRepository;
@@ -11,7 +11,6 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreateCommentRe
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.DeleteCommentResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.UpdateCommentResponse;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
-import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

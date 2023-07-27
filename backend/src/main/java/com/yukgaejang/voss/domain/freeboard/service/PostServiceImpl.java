@@ -1,8 +1,9 @@
-package com.yukgaejang.voss.domain.freeboard.service.dto;
+package com.yukgaejang.voss.domain.freeboard.service;
 
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
+import com.yukgaejang.voss.domain.freeboard.service.PostService;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
