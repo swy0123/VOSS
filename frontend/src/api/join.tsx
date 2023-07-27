@@ -13,6 +13,7 @@ export const postJoin = async (user:JoinProps) => {
     console.log("join");
     const response = await publicApi.post("/member", user);
     console.log(response.data);
+    return response.data;
 }
 
 export const postTest = async (user:JoinProps) => {

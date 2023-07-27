@@ -50,6 +50,7 @@ export const postLogin = async (user: LoginProps) => {
   console.log("postLogin");
   const res = await publicApi.post("/auth/login", user);
   if (res.status === 200) {
+    console.log(res);
     console.log(res.data);
     console.log(res.headers);
     let accessToken = res.headers["authorization"]; // 응답헤더에서 토큰 받기
@@ -58,9 +59,16 @@ export const postLogin = async (user: LoginProps) => {
     localStorage.setItem('refresh_token', refreshToken);
     console.log("access 토큰 :", accessToken);
     console.log("refresh 토큰 :", refreshToken);
-    return true;
+    
+    let userinfo = res.config.data.split('":"');
+    let email = userinfo[1].slice(0, -11); // 이메일 정보 받기
+    let password = userinfo[2].slice(0, -2); // 비밀번호 정보 받기
+    console.log("userinfo: ", email, password, accessToken)
+    return {email, password, accessToken};
   }
-  else return false;
+  else {
+    return false
+  }
 }
 
 
