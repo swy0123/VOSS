@@ -38,5 +38,7 @@ export interface ScriptData {
 export interface postListType {
   id: number,
   title: string,
-  content: string
+  content: string,
+  userid: number,
+  nickname: string,
 }

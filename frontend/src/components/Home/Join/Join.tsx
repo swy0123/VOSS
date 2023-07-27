@@ -61,7 +61,7 @@ const Login:React.FC<Props> = () => {
         // 회원가입 성공
         if (res.isJoinSuccess) {
           setLoginMode(true)
-          alert("회원가입이 성공하였습니다.")
+          alert(`${JoinProps.nickname}님, 회원 가입을 축하합니다!`)
         }
         // 회원가입 실패
         else {
@@ -102,8 +102,8 @@ const Login:React.FC<Props> = () => {
       </form>
 
       <UnderText>
-        <P>
-          Already have an account? <a onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>LOGIN HERE</a>
+        <P onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>
+          Already have an account? LOGIN HERE
         </P>
       </UnderText>
     </Container>
