@@ -21,7 +21,7 @@ interface MeetingData {
 
 
 function Meeting() {
-  const {id} = useParams() as { id: string };
+  const { id } = useParams() as { id: string };
 
   //id를 통해 해당 화상회의방 api 호출
 
