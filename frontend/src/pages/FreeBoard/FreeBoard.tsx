@@ -6,7 +6,7 @@ import Messenger from "../../components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
 // recoil
 import { useRecoilState } from "recoil";
-import { PostListState } from "../../states/atom";
+import { PostListState } from "../../recoil/atoms";
 // style
 import {
   FreeBoardDesign,

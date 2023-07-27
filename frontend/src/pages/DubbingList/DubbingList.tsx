@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react"
-import { styled } from "styled-components"
+import { useState, useEffect } from "react"
 import { BackGroundImg } from "../../components/BackGroundImg"
 import Header from "../../components/Header/Header"
 import Messenger from "../../components/Message/Messenger"
-import { getVideoList } from "../../api/videolist"
 import { useRecoilState } from "recoil"
-import { videoListState } from "../../recoil/h_atom"
 import { useNavigate } from "react-router-dom"
+import { getVideoList } from "../../api/videolist"
+import { videoListState } from "../../recoil/atoms"
+import { Video } from "../../type/type"
 import { 
   Container,
   TitleBox,
@@ -26,9 +26,8 @@ import {
   CountImg,
   TimeImg,} from "./DubbingList.style" 
 
-
 function DubbingList() {
-  const [videoList, setVideoList] = useRecoilState(videoListState)
+  const [videoList, setVideoList] = useRecoilState<Video[]>(videoListState)
   const [isGenreSelect,setIsGenreSelect] = useState<boolean[]>([])
   const genreOpt = ["영화", "드라마", "애니메이션", "기타"]
 
@@ -43,19 +42,20 @@ function DubbingList() {
     const second = Math.floor(durationInSec % 60)
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
-
   const navigate = useNavigate()
   const goDubbing = (id:number) => navigate(`/dubbing/${id}`)
+  
+  const axiosVideoList = async () => {
+    try {
+      const Videos: Video[] = await getVideoList() || [];
+      setVideoList(Videos);
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const axiosVideoList = async () => {
-      try {
-        const Videos = await getVideoList();
-        setVideoList(Videos);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     axiosVideoList();
   }, []);
 

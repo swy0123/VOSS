@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { PostListState, PostListNum } from "../../states/atom";
+import { PostListState, PostListNum } from "../../recoil/atoms";
 import { BackGroundImg } from "../BackGroundImg";
 import Header from "../Header/Header";
 import Messenger from "../Message/Messenger";
