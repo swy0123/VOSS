@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.meet.controller;
 
+import com.yukgaejang.voss.domain.auth.controller.AuthController;
 import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,17 +33,23 @@ public class MeetController {
 
     @PostMapping("")
     public ResponseEntity<InitMeetRoomResponse> getSessionId(@RequestBody CreateSessionIdRequest createSessionIdRequest) {
-        return ResponseEntity.ok(meetService.initMeetRoom(createSessionIdRequest));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(meetService.initMeetRoom(createSessionIdRequest, email));
     }
 
     @PostMapping("/join")
     public ResponseEntity<JoinMeetRoomResponse> joinMeetRoom(@RequestBody JoinMeetRoomRequest joinMeetRoomRequest) {
-        return ResponseEntity.ok(meetService.joinMeetRoom(joinMeetRoomRequest));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(meetService.joinMeetRoom(joinMeetRoomRequest, email));
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<getStatusResponse> leaveMeetRoom(@RequestBody LeaveMeetRomRequest leaveMeetRomRequest) {
-        return ResponseEntity.ok(meetService.leaveMeetRoom(leaveMeetRomRequest));
+    @DeleteMapping("/{meetRoomId}")
+    public ResponseEntity<getStatusResponse> leaveMeetRoom(@PathVariable Long meetRoomId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(meetService.leaveMeetRoom(meetRoomId, email));
     }
 
     @PostMapping("/script")
