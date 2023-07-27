@@ -13,11 +13,11 @@ public interface MeetService {
 
     Page<ViewAllMeetRoomResponse> getMeetList(int page, int limit);
 
-    InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest);
+    InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email);
 
-    JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest);
+    JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email);
 
-    getStatusResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest);
+    getStatusResponse leaveMeetRoom(Long meetRoomId, String email);
 
     getStatusResponse selectScript(SelectScriptRequest selectScriptRequest);
 

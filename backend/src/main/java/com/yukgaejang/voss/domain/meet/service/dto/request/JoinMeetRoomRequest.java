@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class JoinMeetRoomRequest {
-    private String email;
     private String password;
     private Long meetRoomId;
 

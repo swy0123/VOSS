@@ -50,22 +50,24 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest) {
+    public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email) {
         // openvidu 세션 생성
         OpenViduClient openViduClient = new OpenViduClient();
         String sessionId = openViduClient.session();
-        Optional<Member> findMember = memberRepository.findByEmail(createSessionIdRequest.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(email);
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
+        em.flush();
+        em.clear();
         return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 
     @Override
-    public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest) {
+    public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email) {
         Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
         Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
         if(meet.isDeleted()) throw new NoMeetRoomException("해당 방이 없습니다.");
@@ -81,15 +83,17 @@ public class MeetServiceImpl implements MeetService{
             }
         }
 
-        Optional<Member> findMember = memberRepository.findByEmail(joinMeetRoomRequest.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(email);
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
+        em.flush();
+        em.clear();
         return new JoinMeetRoomResponse(meet.getSessionId(), "입장");
     }
 
     @Override
-    public getStatusResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
-        Member member = memberRepository.findByEmail(leaveMeetRomRequest.getEmail()).orElseThrow();
+    public getStatusResponse leaveMeetRoom(Long meetRoomId, String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow();
         MeetJoin meetJoin = meetJoinRepository.findByMemberId(member.getId());
         meetJoinRepository.delete(meetJoin);
         em.flush();
@@ -116,5 +120,7 @@ public class MeetServiceImpl implements MeetService{
             Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
             meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
         }
+        em.flush();
+        em.clear();
     }
 }
