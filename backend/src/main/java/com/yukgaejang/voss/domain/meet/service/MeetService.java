@@ -13,7 +13,7 @@ public interface MeetService {
 
     Page<ViewAllMeetRoomResponse> getMeetList(int page, int limit);
 
-    InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest);
+    InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email);
 
     JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest);
 
