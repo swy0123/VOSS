@@ -48,7 +48,7 @@ public class MeetController {
         return ResponseEntity.ok(meetService.selectScript(selectScriptRequest));
     }
 
-    @PostMapping("/select")
+    @PostMapping("/select-casting")
     public ResponseEntity<getStatusResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
         meetService.selectCasting(selectCastingRequestList);
         return ResponseEntity.ok(new getStatusResponse("역할 선정 완료"));
