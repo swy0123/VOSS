@@ -61,6 +61,8 @@ public class MeetServiceImpl implements MeetService{
         meetRepository.save(meet);
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
+        em.flush();
+        em.clear();
         return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 
@@ -84,6 +86,8 @@ public class MeetServiceImpl implements MeetService{
         Optional<Member> findMember = memberRepository.findByEmail(email);
         Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         meetJoinRepository.save(new MeetJoin(member, meet));
+        em.flush();
+        em.clear();
         return new JoinMeetRoomResponse(meet.getSessionId(), "입장");
     }
 
@@ -116,5 +120,7 @@ public class MeetServiceImpl implements MeetService{
             Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
             meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
         }
+        em.flush();
+        em.clear();
     }
 }
