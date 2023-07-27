@@ -8,13 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCommentRequest {
     private String email;
-    private Long postId;
     private String content;
 
     @Builder
-    public CreateCommentRequest(String email, Long postId, String content) {
+    public CreateCommentRequest(String email, String content) {
         this.email = email;
-        this.postId = postId;
         this.content = content;
     }
 }

@@ -48,9 +48,9 @@ public class FreeboardController {
         return ResponseEntity.ok(postService.deletePost(postId));
     }
 
-    @PostMapping("/comment")
-    public ResponseEntity<CreateCommentResponse> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
-        return ResponseEntity.ok(postCommentService.createComment(createCommentRequest));
+    @PostMapping("/{postId}/comment")
+    public ResponseEntity<CreateCommentResponse> createComment(@PathVariable Long postId, @RequestBody CreateCommentRequest createCommentRequest) {
+        return ResponseEntity.ok(postCommentService.createComment(postId, createCommentRequest));
     }
 
     @GetMapping("/{postId}/comment")
