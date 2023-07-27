@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Casting extends BaseEntity{
+public class Casting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

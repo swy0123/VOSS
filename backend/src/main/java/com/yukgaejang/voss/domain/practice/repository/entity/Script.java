@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Script extends BaseEntity {
+public class Script {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
