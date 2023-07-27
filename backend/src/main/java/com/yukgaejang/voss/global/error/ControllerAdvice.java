@@ -2,6 +2,7 @@ package com.yukgaejang.voss.global.error;
 
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
+import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
@@ -40,6 +41,12 @@ public class ControllerAdvice {
     @ExceptionHandler(NoPostException.class)
     public ResponseEntity<ErrorResponse> noPost() {
         ErrorResponse errorResponse = new ErrorResponse("게시글이 없습니다.");
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(NoLimitRequest.class)
+    public ResponseEntity<ErrorResponse> noLimit() {
+        ErrorResponse errorResponse = new ErrorResponse("limit가 없습니다.");
         return ResponseEntity.ok(errorResponse);
     }
 }
