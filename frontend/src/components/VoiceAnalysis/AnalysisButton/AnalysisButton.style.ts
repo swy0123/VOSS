@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `
-const AnalysisBtn = styled.button`
+export const AnalysisBtn = styled.button`
   background-color: #132b31;
   color: white;
   height: 30px;
@@ -15,7 +15,7 @@ const AnalysisBtn = styled.button`
   margin: 8px;
   cursor: pointer;
 `
-const AnalysisResult = styled.div`
+export const AnalysisResult = styled.div`
   background-color: #444444;
   line-height: 37px;
   text-align: center;
@@ -25,9 +25,3 @@ const AnalysisResult = styled.div`
   margin-top: 5px;
   border-radius: 8px;
 `
-
-export {
-  Container,
-  AnalysisBtn,
-  AnalysisResult,
-}
