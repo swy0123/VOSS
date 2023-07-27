@@ -1,6 +1,5 @@
 package com.yukgaejang.voss.domain.practice.repository.entity;
 
-import com.yukgaejang.voss.domain.grouppractice.repository.entity.Casting;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

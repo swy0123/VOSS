@@ -1,4 +1,4 @@
-package com.yukgaejang.voss.domain.grouppractice.repository.entity;
+package com.yukgaejang.voss.domain.practice.repository.entity;
 
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import com.yukgaejang.voss.global.entity.BaseEntity;
@@ -15,7 +15,7 @@ public class Casting extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Script script;
 
     private String name;

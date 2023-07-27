@@ -7,16 +7,18 @@ import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
-import com.yukgaejang.voss.domain.meet.service.dto.request.CreateSessionIdRequest;
-import com.yukgaejang.voss.domain.meet.service.dto.request.JoinMeetRoomRequest;
-import com.yukgaejang.voss.domain.meet.service.dto.request.LeaveMeetRomRequest;
+import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.LeaveMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
 import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
+import com.yukgaejang.voss.domain.practice.repository.ScriptRepository;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
+import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
@@ -36,6 +38,8 @@ public class MeetServiceImpl implements MeetService{
     private final MeetRepository meetRepository;
     private final MemberRepository memberRepository;
     private final MeetJoinRepository meetJoinRepository;
+    private final ScriptRepository scriptRepository;
+    private final CastingRepository castingRepository;
     private final EntityManager em;
 
     @Override
@@ -64,14 +68,17 @@ public class MeetServiceImpl implements MeetService{
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest) {
         Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
         Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
+        if(meet.isDeleted()) throw new NoMeetRoomException("해당 방이 없습니다.");
         int maxCount = meet.getMaxCount();
-        List<MeetJoin> joinMeetList = meetJoinRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
-        if (maxCount <= joinMeetList.size()) throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
+        if (maxCount <= meet.getMeetJoins().size()) {
+            throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
+        }
 
         String password = meet.getPassword();
-
         if (password != null) {
-            if (!password.equals(joinMeetRoomRequest.getPassword())) throw new WrongPinException("비밀번호가 틀립니다");
+            if (!password.equals(joinMeetRoomRequest.getPassword())) {
+                throw new WrongPinException("비밀번호가 틀립니다");
+            }
         }
 
         Optional<Member> findMember = memberRepository.findByEmail(joinMeetRoomRequest.getEmail());
@@ -81,7 +88,7 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public LeaveMeetRoomResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
+    public getStatusResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest) {
         Member member = memberRepository.findByEmail(leaveMeetRomRequest.getEmail()).orElseThrow();
         MeetJoin meetJoin = meetJoinRepository.findByMemberId(member.getId());
         meetJoinRepository.delete(meetJoin);
@@ -89,9 +96,25 @@ public class MeetServiceImpl implements MeetService{
         em.clear();
         Long meetRoodId = meetJoin.getMeet().getId();
         if(meetJoinRepository.findByMeetId(meetRoodId).size() == 0) {
-            Meet meet = meetRepository.findByMeetId(meetRoodId).orElseThrow();
-            meetRepository.delete(meet);
+            meetRepository.leaveMeetRoom(meetRoodId);
         }
-        return new LeaveMeetRoomResponse("퇴장 성공");
+        return new getStatusResponse("퇴장 성공");
+    }
+
+    @Override
+    public getStatusResponse selectScript(SelectScriptRequest selectScriptRequest) {
+        Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
+        long l = meetRepository.setScript(selectScriptRequest, script);
+        return new getStatusResponse("선택 완료");
+    }
+
+    @Override
+    public void selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
+        meetJoinRepository.resetCasting(selectCastingRequestList.get(0).getMeetRoomId());
+        for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
+            Member member = memberRepository.findByEmail(selectCastingRequest.getEmail()).orElseThrow();
+            Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
+            meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
+        }
     }
 }
