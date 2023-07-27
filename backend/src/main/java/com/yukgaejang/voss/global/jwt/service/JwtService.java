@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.global.jwt.exception.TokenNotValidateException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,18 +68,22 @@ public class JwtService {
 
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(HttpServletResponse.SC_OK);
-
         response.setHeader(accessHeader, accessToken);
     }
 
-    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
+    public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, String email) {
         if(response.containsHeader("Authorization")) return;
+        Member member = memberRepository.findByEmail(email).get();
 
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("message", "로그인 성공");
+        responseData.put("status", "토큰 발행 완료");
+        responseData.put("userId", member.getId());
+        responseData.put("email", email);
+        responseData.put("nickname", member.getNickname());
+        responseData.put("imageUrl", member.getImageUrl());
 
         try {
             String jsonString = mapper.writeValueAsString(responseData);
@@ -86,7 +91,6 @@ public class JwtService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
@@ -138,8 +142,7 @@ public class JwtService {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
             return true;
         } catch (Exception e) {
-            System.out.println("유효하지 않은 토큰입니다");
-            throw new TokenNotValidateException("service의 오류");
+            throw new TokenNotValidateException("유효하지 않은 토큰입니다");
         }
     }
 }

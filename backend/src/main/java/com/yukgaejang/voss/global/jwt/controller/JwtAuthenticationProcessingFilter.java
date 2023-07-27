@@ -4,6 +4,7 @@ import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.member.repository.entity.RefreshToken;
+import com.yukgaejang.voss.global.jwt.exception.TokenNotValidateException;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -57,11 +58,10 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         Optional<RefreshToken> token = refreshTokenRepository.findByRefreshToken(refreshToken);
         if (token.isEmpty()) {
-            System.out.println("없는 리프레시 토큰");
-            return;
+            throw new TokenNotValidateException("유효하지 않은 리프레시 토큰입니다");
         }
 
-        jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(token.get().getEmail()), reIssueRefreshToken(refreshToken));
+        jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(token.get().getEmail()), reIssueRefreshToken(refreshToken), token.get().getEmail());
     }
 
     private String reIssueRefreshToken(String originRefreshToken) {
