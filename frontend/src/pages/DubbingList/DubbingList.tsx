@@ -5,7 +5,7 @@ import Messenger from "../../components/Message/Messenger"
 import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
 import { getVideoList } from "../../api/videolist"
-import { videoListState } from "../../recoil/hw_atom"
+import { videoListState } from "../../recoil/atoms"
 import { Video } from "../../type/type"
 import { 
   Container,
