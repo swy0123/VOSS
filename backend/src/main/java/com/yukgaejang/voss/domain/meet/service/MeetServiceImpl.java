@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.meet.service;
 
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
+import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
@@ -43,9 +44,12 @@ public class MeetServiceImpl implements MeetService{
     private final EntityManager em;
 
     @Override
-    public Page<ViewAllMeetRoomResponse> getMeetList(int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<Meet> all = meetRepository.findAllList(pageRequest);
+    public Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
+        if(condition.getLimit() == 0 ) {
+            throw new NoLimitRequest("limit 없음");
+        }
+        PageRequest pageRequest = PageRequest.of(condition.getPage(), condition.getLimit());
+        Page<Meet> all = meetRepository.getMeetList(condition, pageRequest);
         return all.map(o -> new ViewAllMeetRoomResponse(o));
     }
 

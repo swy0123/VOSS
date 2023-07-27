@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface MeetService {
 
-    Page<ViewAllMeetRoomResponse> getMeetList(int page, int limit);
+    Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition);
 
     InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email);
 
