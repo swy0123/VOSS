@@ -110,6 +110,7 @@ export const PracticeBtn = styled.button`
   height: 20px;
   margin-bottom: 10px;
   cursor: pointer;
+  
   &:hover {
     transform: scale(1.3);
     transition: .5s;
