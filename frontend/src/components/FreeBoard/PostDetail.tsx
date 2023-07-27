@@ -5,7 +5,7 @@ import Header from "../Header/Header";
 import Messenger from "../Message/Messenger";
 // recoil
 import { useRecoilState } from "recoil";
-import { PostListState, PostListNum } from "../../states/atom";
+import { PostListState, PostListNum } from "../../recoil/atoms";
 // style
   import {
   PostDetailDesign
@@ -20,7 +20,7 @@ function PostDetail() {
 
   const [posts, setPosts] = useRecoilState(PostListState);
   const [num, setNum]= useRecoilState(PostListNum);
-  const id = parseInt(useParams().id);
+  const id = parseInt(useParams().id || "");
   const detail = posts.filter(post => post.id == id);
   const DeletePost = () => {
     const newposts = posts.filter(item => item.id !== id);
