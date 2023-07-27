@@ -26,9 +26,8 @@ public class MeetController {
 
 
     @GetMapping("")
-    public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(@Param(value = "page") int page,
-                                                                     @Param(value = "limit") int limit) {
-        return ResponseEntity.ok(meetService.getMeetList(page, limit));
+    public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(MeetSearchCondition condition) {
+        return ResponseEntity.ok(meetService.getMeetList(condition));
     }
 
     @PostMapping("")
