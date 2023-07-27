@@ -14,6 +14,7 @@ import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,9 +46,8 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public Page<CommentDetailResponse> getComments(Long postId, int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<PostComment> allPostComments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId, pageRequest);
+    public Page<CommentDetailResponse> getComments(Long postId, Pageable pageable) {
+        Page<PostComment> allPostComments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId, pageable);
         return allPostComments.map(o -> new CommentDetailResponse(o));
     }
 

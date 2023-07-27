@@ -8,8 +8,11 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +39,8 @@ public class FreeboardController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PostListResponse>> getPostList(@Param(value = "page") int page, @Param(value = "limit") int limit) {
-        return ResponseEntity.ok(postService.getPostList(page, limit));
+    public ResponseEntity<Page<PostListResponse>> getPostList(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(postService.getPostList(pageable));
     }
 
     @DeleteMapping("/{postId}")
@@ -51,8 +54,8 @@ public class FreeboardController {
     }
 
     @GetMapping("/{postId}/comment")
-    public ResponseEntity<Page<CommentDetailResponse>> getComments(@PathVariable Long postId, @RequestParam int page, @RequestParam int limit) {
-        return ResponseEntity.ok(postCommentService.getComments(postId, page, limit));
+    public ResponseEntity<Page<CommentDetailResponse>> getComments(@PathVariable Long postId, @PageableDefault(size = 100) Pageable pageable) {
+        return ResponseEntity.ok(postCommentService.getComments(postId, pageable));
     }
 
     @PutMapping("/comment")

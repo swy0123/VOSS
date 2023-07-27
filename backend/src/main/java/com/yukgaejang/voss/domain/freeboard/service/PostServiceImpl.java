@@ -13,6 +13,7 @@ import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -49,9 +50,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostListResponse> getPostList(int page, int limit) {
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<Post> allPosts = postRepository.findAllByIsDeletedFalse(pageRequest);
+    public Page<PostListResponse> getPostList(Pageable pageable) {
+        Page<Post> allPosts = postRepository.findAllByIsDeletedFalse(pageable);
         return allPosts.map(o -> new PostListResponse(o));
     }
 
