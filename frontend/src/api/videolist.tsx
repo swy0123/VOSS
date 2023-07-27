@@ -1,14 +1,6 @@
 import {AxiosResponse} from "axios";
 import { privateApi } from ".";
-
-interface Video {
-  id: number;
-  category: string;
-  title: string;
-  durationInSec: number;
-  videoUrl: string;
-  roleCnt: number;
-}
+import { Video } from "../type/type";
 
 export const getVideoList = async () => {
   try{
