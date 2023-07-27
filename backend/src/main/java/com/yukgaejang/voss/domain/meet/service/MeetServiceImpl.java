@@ -8,11 +8,9 @@ import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
+import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
-import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
@@ -30,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -96,7 +95,7 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public getStatusResponse leaveMeetRoom(Long meetRoomId, String email) {
+    public GetStatusResponse leaveMeetRoom(Long meetRoomId, String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow();
         MeetJoin meetJoin = meetJoinRepository.findByMemberId(member.getId());
         meetJoinRepository.delete(meetJoin);
@@ -106,14 +105,14 @@ public class MeetServiceImpl implements MeetService{
         if(meetJoinRepository.findByMeetId(meetRoodId).size() == 0) {
             meetRepository.leaveMeetRoom(meetRoodId);
         }
-        return new getStatusResponse("퇴장 성공");
+        return new GetStatusResponse("퇴장 성공");
     }
 
     @Override
-    public getStatusResponse selectScript(SelectScriptRequest selectScriptRequest) {
+    public GetStatusResponse selectScript(SelectScriptRequest selectScriptRequest) {
         Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
         long l = meetRepository.setScript(selectScriptRequest, script);
-        return new getStatusResponse("선택 완료");
+        return new GetStatusResponse("선택 완료");
     }
 
     @Override
@@ -126,5 +125,14 @@ public class MeetServiceImpl implements MeetService{
         }
         em.flush();
         em.clear();
+    }
+
+    @Override
+    public GetAllMeetJoinResponse getMeetJoinList(Long meetRoomId) {
+        List<MeetJoin> meetJoinList = meetJoinRepository.findByMeetId(meetRoomId);
+        List<MeetJoinDto> meetJoinDtoList = meetJoinList.stream()
+                .map(o -> new MeetJoinDto(o))
+                .collect(Collectors.toList());
+        return new GetAllMeetJoinResponse(meetJoinDtoList);
     }
 }
