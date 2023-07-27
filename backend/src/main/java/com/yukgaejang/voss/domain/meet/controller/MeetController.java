@@ -40,12 +40,16 @@ public class MeetController {
 
     @PostMapping("/join")
     public ResponseEntity<JoinMeetRoomResponse> joinMeetRoom(@RequestBody JoinMeetRoomRequest joinMeetRoomRequest) {
-        return ResponseEntity.ok(meetService.joinMeetRoom(joinMeetRoomRequest));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(meetService.joinMeetRoom(joinMeetRoomRequest, email));
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<getStatusResponse> leaveMeetRoom(@RequestBody LeaveMeetRomRequest leaveMeetRomRequest) {
-        return ResponseEntity.ok(meetService.leaveMeetRoom(leaveMeetRomRequest));
+    @DeleteMapping("/{meetRoomId}")
+    public ResponseEntity<getStatusResponse> leaveMeetRoom(@PathVariable Long meetRoomId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(meetService.leaveMeetRoom(meetRoomId, email));
     }
 
     @PostMapping("/script")

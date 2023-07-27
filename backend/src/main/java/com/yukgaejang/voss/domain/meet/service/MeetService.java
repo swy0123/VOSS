@@ -15,9 +15,9 @@ public interface MeetService {
 
     InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email);
 
-    JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest);
+    JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email);
 
-    getStatusResponse leaveMeetRoom(LeaveMeetRomRequest leaveMeetRomRequest);
+    getStatusResponse leaveMeetRoom(Long meetRoomId, String email);
 
     getStatusResponse selectScript(SelectScriptRequest selectScriptRequest);
 
