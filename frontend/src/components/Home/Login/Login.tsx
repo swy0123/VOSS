@@ -7,6 +7,8 @@ import Eye from "../../../assets/main/eye.png";
 import GoogleIcon from "../../../assets/main/googleIcon.png";
 import KakaoIcon from "../../../assets/main/kakaoIcon.png";
 import NaverIcon from "../../../assets/main/naverIcon.png";
+import { useRecoilState } from "recoil";
+import { CurrentUserAtom, LoginModeAtom } from "../../../recoil/Auth";
 import {
   Button,
   CheckBox,
@@ -31,18 +33,16 @@ interface LoginProps {
   password: string;
 }
 
-type Props = {
-  isLoginMode: (flag: boolean) => void;
-};
-
-const Login: React.FC<Props> = ({ isLoginMode }) => {
+const Login: React.FC<Props> = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPswd, setShowPswd] = useState<boolean>(false);
   //체크박스는 이후 기본 상태 받아와서 설정
   const [checkbox, setCheckbox] = useState<boolean>(/**/ false);
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
+  const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const MAX_LENGTH = 20;
-  const navigate = useNavigate();
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -71,26 +71,29 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (email === "" || password === "") {
       window.alert("아이디와 비밀번호를 입력해주세요.");
       return;
     }
-
     const LoginProps = {
       email: email,
       password: password,
-    };
-
+    }
     // testLogin();
     // headerTest();
     // postTest(LoginProps);
-    if (await postLogin(LoginProps)) {
-      console.log("pass");
-      navigate("category");
-    } else console.log("fail");
 
-    alert(`${email}\n${password}\n`);
+    const userinfo = await postLogin(LoginProps)
+    // 로그인 요청한 후 userinfo 가 있으면 recoil 에 유저 정보 저장
+    if (userinfo) {
+      setCurrentUser(userinfo)
+      alert(`${email} 님 안녕하세요!`)
+      navigate("category")
+    }
+    else {
+      console.log("fail")
+      alert("로그인이 실패하였습니다");
+    }
   };
 
   return (
@@ -163,7 +166,7 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
       <UnderText>
         <P>
           New User?{" "}
-          <a onClick={() => isLoginMode(true)} style={{ textDecoration: "none" }}>
+          <a onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
             SIGN UP HERE
           </a>
         </P>
@@ -171,4 +174,5 @@ const Login: React.FC<Props> = ({ isLoginMode }) => {
     </Container>
   );
 };
+
 export default Login;
