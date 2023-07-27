@@ -6,7 +6,6 @@ import Video from '../../components/DubbingRoom/Video';
 import { useParams } from 'react-router';
 import { Container, H1, LeftSection, RightSection } from './Meeting.style';
 
-
 interface MeetingData {
   index: number;
   type: number;
@@ -28,12 +27,10 @@ function Meeting() {
         <H1>{id}</H1>
 
         <LeftSection>
-          <Video></Video>
           
         </LeftSection>
 
         <RightSection>
-          <Video></Video>
         </RightSection>
 
       </Container>
