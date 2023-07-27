@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Script } from '../../type/type';
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +17,11 @@ const Display = styled.iframe`
   height: 250px;
 `
 
-function Video ({script}) {
+interface VideoProps {
+  script : Script
+}
+
+function Video ({script}: VideoProps) {
   return(
     <Container>
       <Title>{script.title}</Title>

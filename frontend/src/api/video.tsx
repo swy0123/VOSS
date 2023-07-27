@@ -12,5 +12,3 @@ export const getVideo = async (id:number) => {
     console.log(error)
   }
 }
-
-

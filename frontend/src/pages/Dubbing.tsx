@@ -28,7 +28,7 @@ const RightSection = styled.div`
 `
 
 function Dubbing() {
-  const [video, setVideo] = useState()
+  const [video, setVideo] = useState<ScriptData | null>(null)
   const id = parseInt(useParams().id || "");
 
   const axiosVideo = async () => {
