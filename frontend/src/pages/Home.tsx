@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import Login from "../components/Login";
-import Join from "../components/Join";
+import Login from "../components/Home/Login/Login";
+import Join from "../components/Home/Join/Join";
 import MainImg from "../assets/main/MainImg.jpg";
-import HomeContent from "../components/HomeContent"
+import HomeContent from "../components/Home/HomeContent/HomeContent"
 import Messenger from "../components/Message/Messenger";
 
 const Mainimg = styled.div`

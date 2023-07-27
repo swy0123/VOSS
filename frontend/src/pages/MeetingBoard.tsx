@@ -5,7 +5,6 @@ import Header from "../components/Header/Header";
 import Messenger from "../components/Message/Messenger";
 import MeetingList from "../components/Meeting/MeetingList";
 import SearchInputImg from "../assets/MeetingBoard/SearchInput.png";
-import TrainingDubbing from "./TrainingDubbing";
 
 const Container = styled.div`
   background-color: #a1a1a1;

@@ -13,6 +13,7 @@ import PostDetail from "./components/FreeBoard/PostDetail";
 import PostCreate from "./components/FreeBoard/PostCreate";
 import PostUpdate from "./components/FreeBoard/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
+import Meeting from "./pages/Meeting/Meeting";
 
 const router = createBrowserRouter([
     {
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
             {
                 path:"meeting",
                 element: <MeetingBoard/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"meeting/:id",
+                element: <Meeting/>,
                 errorElement: <ErrorComponent/>,
             },
         ],
