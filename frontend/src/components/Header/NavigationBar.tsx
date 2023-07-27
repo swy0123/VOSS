@@ -1,6 +1,8 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { useRecoilState } from "recoil";
+import { CurrentUserAtom } from "../../recoil/Auth";
 
 const Navbar = styled.div`
   display: flex;
@@ -90,6 +92,8 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
   const navigate = useNavigate()  
   const goSelectCategory = () => {navigate("/category")}
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
+  // 현재 유저 정보
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
 
   return(
     <>
@@ -107,6 +111,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
       </LeftSection>
       
       <IconList>
+        <div style={{color: "white"}}>{currentUser.email} 님</div>
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
           <AlarmCount>3</AlarmCount>

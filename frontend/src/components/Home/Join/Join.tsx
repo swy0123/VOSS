@@ -5,16 +5,16 @@ import Eye from "../../../assets/main/eye.png";
 import { postJoin, postTest } from "../../../api/join";
 import axios from "axios";
 import { Button, Container, H2, Input, InputDiv, InputHeader, P, ShowPswd, Title, UnderText } from "./Join.style";
+import { useRecoilState } from "recoil";
+import { LoginModeAtom } from "../../../recoil/Auth";
 
-type Props = {
-  isLoginMode: (flag: boolean) =>void;
-}
 
-const Login:React.FC<Props> = ({isLoginMode}) =>{
+const Login:React.FC<Props> = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPswd, setShowPswd] = useState<boolean>(false);
+  const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const MAX_LENGTH = 20;
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,17 +44,31 @@ const Login:React.FC<Props> = ({isLoginMode}) =>{
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const JoinProps = {
-      email:email,
-      password:password,
-      nickname:username
+    // username 이 비어있으면 알람
+    if (!username.trim().length) {
+      alert("유저네임이 비어있습니다")
     }
-    postJoin(JoinProps);
+    // 회원가입
+    else {
+      const JoinProps = {
+        email:email,
+        password:password,
+        nickname:username
+      }
 
-    //테스트
-    // postTest(JoinProps);
-
-    alert(`${username}\n${email}\n${password}\n`);
+      const joininfo = postJoin(JoinProps)
+      joininfo.then(res => {
+        // 회원가입 성공
+        if (res.isJoinSuccess) {
+          setLoginMode(true)
+          alert("회원가입이 성공하였습니다.")
+        }
+        // 회원가입 실패
+        else {
+          alert("회원가입 정보가 잘못되었습니다")
+        }
+      });
+    }
   };
 
   return (
@@ -89,10 +103,11 @@ const Login:React.FC<Props> = ({isLoginMode}) =>{
 
       <UnderText>
         <P>
-          Already have an account? <a onClick={() => isLoginMode(false)} style={{ textDecoration: "none" }}>LOGIN HERE</a>
+          Already have an account? <a onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>LOGIN HERE</a>
         </P>
       </UnderText>
     </Container>
   );
 }
+
 export default Login;
