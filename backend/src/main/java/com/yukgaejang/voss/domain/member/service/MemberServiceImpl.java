@@ -38,20 +38,4 @@ public class MemberServiceImpl implements MemberService {
         member.passwordEncode(passwordEncoder);
         memberRepository.save(member);
     }
-
-    @Override
-    public void login(LoginRequest loginRequest) {
-        if (!memberRepository.findByEmail(loginRequest.getEmail()).isPresent()) {
-            throw new NoMemberException("존재하지 않는 사용자입니다");
-        }
-
-//        Member member = memberRepository.findByEmail(loginRequest.getEmail()).get();
-//        String encodePassword = passwordEncoder.encode(loginRequest.getPassword());
-//
-//        if (!encodePassword.equals(member.getPassword())) {
-//            throw new WrongPasswordException("잘못된 비밀번호입니다");
-//        }
-
-
-    }
 }

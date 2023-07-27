@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -28,12 +27,10 @@ public class MemberController {
         return ResponseEntity.ok(new JoinResponse(true));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        memberService.login(loginRequest);
-        String accessToken = jwtService.createAccessToken(loginRequest.getEmail());
-        String refreshToken = jwtService.createRefreshToken();
-        refreshTokenRepository.save(new RefreshToken(refreshToken, loginRequest.getEmail()));
-        return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
-    }
+//    @GetMapping("/my-page")
+//    public ResponseEntity<> getUserInfo() {
+//        memberService.getOnboarding();
+//        return ResponseEntity.ok();
+//    }
+
 }
