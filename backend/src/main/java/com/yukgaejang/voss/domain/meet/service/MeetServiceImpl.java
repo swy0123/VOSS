@@ -119,7 +119,7 @@ public class MeetServiceImpl implements MeetService{
     public void selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
         meetJoinRepository.resetCasting(selectCastingRequestList.get(0).getMeetRoomId());
         for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
-            Member member = memberRepository.findByEmail(selectCastingRequest.getEmail()).orElseThrow();
+            Member member = memberRepository.findById(selectCastingRequest.getMemberId()).orElseThrow();
             Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
             meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
         }
