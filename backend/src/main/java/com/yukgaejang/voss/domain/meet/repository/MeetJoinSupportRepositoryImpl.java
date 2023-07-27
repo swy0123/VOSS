@@ -2,6 +2,7 @@ package com.yukgaejang.voss.domain.meet.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,5 +35,21 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
                 .fetchOne();
     }
 
+    @Override
+    public void selectCasting(Long memberId, Long meetRoomId, Casting casting) {
+        queryFactory
+                .update(meetJoin)
+                .set(meetJoin.casting, casting)
+                .where(meetJoin.member.id.eq(memberId).and(meetJoin.meet.id.eq(meetRoomId)))
+                .execute();
+    }
 
+    @Override
+    public void resetCasting(Long meetRoomId) {
+        queryFactory
+                .update(meetJoin)
+                .setNull(meetJoin.casting)
+                .where(meetJoin.meet.id.eq(meetRoomId))
+                .execute();
+    }
 }

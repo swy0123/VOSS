@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.meet.repository.entity;
 
-import com.yukgaejang.voss.domain.grouppractice.repository.entity.Casting;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
