@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "../../components/BackGroundImg";
 import Header from "../../components/Header/Header";
@@ -6,7 +6,7 @@ import Messenger from "../../components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
 // recoil
 import { useRecoilState } from "recoil";
-import { PostListState } from "../../recoil/atoms";
+import { PostListState, PostSearchState } from "../../recoil/atoms";
 // style
 import {
   FreeBoardDesign,
@@ -27,20 +27,30 @@ import {
 } from "./FreeBoard.style"
 
 
+
+
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
+  const [searchCond, setSearchCond] = useState("4");
   const [posts, setPosts] = useRecoilState(PostListState);
-  const [curposts, setCurPosts] = useState(posts);
+  const [curPosts, setCurPosts] = useRecoilState(PostSearchState);
   const [inputs, setInputs] = useState<string>("");
-  const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value);
+  const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value)
 
-  const SearchPost = () => {
+  const searchPost = () => {
     const trimmedInputs = inputs.trim();
-    const newCurPosts = trimmedInputs.length > 0 ? posts.filter(post => post.title.includes(trimmedInputs)) : posts;
-    setCurPosts(newCurPosts);
+    trimmedInputs.length > 0
+    ? setCurPosts(posts.filter(post => post.title.includes(trimmedInputs)))
+    : setCurPosts(posts)
   };
 
+  const EnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      searchPost();
+    }
+  };
+  
   return(
     <BackGroundImg>
       <Header/>
@@ -62,29 +72,28 @@ function FreeBoard () {
           <PostCreatedatDesign>작성일</PostCreatedatDesign>
         </PostListDesign>
 
-        {curposts.map(post => (
+        {curPosts.map(post => (
         <PostListDesign>
-          <PostList key={post.id} id={post.id} title={post.title}/>
+          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid}/>
         </PostListDesign>
         ))}
 
         <SearchboxDesign>
-          <SearchSelectDesign id="search-select">
-            <option value="4">제목</option>
-            <option value="5">제목+내용</option>
-            <option value="6">작성자</option>
+          <SearchSelectDesign id="search-select" onChange={()=>setSearchCond(value)}>
+            <option value="title">제목</option>
+            <option value="content">제목+내용</option>
+            <option value="user">작성자</option>
           </SearchSelectDesign>
 
           <InputBoxDesign>
-          <InputBoxIpt onChange={inputChange} type="text" placeholder="검색" />
+          <InputBoxIpt onChange={inputChange} onKeyPress={EnterKeyDown} type="text" placeholder="검색" />
           <InputBoxBtn
           ><img 
           src="/src/assets/MeetingBoard/SearchInput.png" alt="" style={{width: "1vw"}}
-          onClick={() => SearchPost()}
+          onClick={() => searchPost()}
           />
           </InputBoxBtn>
           </InputBoxDesign>
-          
           <CreateSpaceDesign/>
           <CreateBtnDesign onClick={() => goPostCreate()}>작성하기</CreateBtnDesign>
         </SearchboxDesign>

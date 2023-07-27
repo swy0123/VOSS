@@ -1,6 +1,6 @@
 import { privateApi, publicApi } from "./";
-import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { Navigate, useNavigate } from "react-router-dom";
 // import { setCookie } from "./cookie";
 
 interface LoginProps {
@@ -48,11 +48,12 @@ export const headerTest = () => {
 
 export const postLogin = async (user: LoginProps) => {
   console.log("postLogin");
-  const res = await publicApi.post("/auth/login", user);
-  if (res.status === 200) {
-    console.log(res);
-    console.log(res.data);
-    console.log(res.headers);
+  const res = await publicApi.post("/auth/login", user)
+    .catch(err => {
+      console.log("postLogin catch: ", err)
+    })
+  if (res && res.status === 200) {
+    console.log("postLogin then: ", res);
     let accessToken = res.headers["authorization"]; // 응답헤더에서 토큰 받기
     let refreshToken = res.headers["authorization-refresh"]; // 응답헤더에서 토큰 받기
     localStorage.setItem('access_token', accessToken);
@@ -60,15 +61,15 @@ export const postLogin = async (user: LoginProps) => {
     console.log("access 토큰 :", accessToken);
     console.log("refresh 토큰 :", refreshToken);
     
-    let userinfo = res.config.data.split('":"');
-    let email = userinfo[1].slice(0, -11); // 이메일 정보 받기
-    let password = userinfo[2].slice(0, -2); // 비밀번호 정보 받기
-    console.log("userinfo: ", email, password, accessToken)
-    return {email, password, accessToken};
+    let email = res.data.email
+    let nickname = res.data.nickname
+    let userid = res.data.userId
+    let userinfo = {email, nickname, userid, accessToken, refreshToken}
+    console.log("userinfo: ", userinfo)
+
+    return userinfo; // Login 컴포넌트로 현재 유저 정보 보내기
   }
-  else {
-    return false
-  }
+  else return false
 }
 
 

@@ -14,6 +14,7 @@ import PostCreate from "./components/FreeBoard/PostCreate";
 import PostUpdate from "./components/FreeBoard/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
+import Profile from "./components/Profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -83,6 +84,11 @@ const router = createBrowserRouter([
             {
                 path:"meeting/:id",
                 element: <Meeting/>,
+                errorElement: <ErrorComponent/>,
+            },
+            {
+                path:"profile/:id",
+                element: <Profile/>,
                 errorElement: <ErrorComponent/>,
             },
         ],
