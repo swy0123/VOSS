@@ -23,7 +23,7 @@ public class MeetJoinSupportRepositoryImpl implements MeetJoinSupportRepository{
         return queryFactory
                 .selectFrom(meetJoin)
                 .join(meetJoin.meet, meet)
-                .where(meetJoin.id.eq(meetId))
+                .where(meetJoin.meet.id.eq(meetId))
                 .fetch();
     }
 
