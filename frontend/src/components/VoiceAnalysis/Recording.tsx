@@ -1,4 +1,6 @@
+import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
+import { analysisRecordState } from "../../recoil/hw_atom";
 
 const Container = styled.div`
   display: flex;
@@ -50,23 +52,21 @@ const Warning = styled.div`
 `
 
 function Recording (){
-  const TmpFile = [
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-  ]
+  const [analysisRecord, setanalysisRecord] = useRecoilState(analysisRecordState)
 
   return(
     <Container>
       <Title>녹음 기록</Title>
       <RecordBox>
-        {TmpFile.map((data,index) => (
+        {analysisRecord.map((file,index) => (
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
-            <RecordLable>{data}</RecordLable>
-            <DownloadImg src="/src/assets/Training/download.png"></DownloadImg>
+            <RecordLable>
+              voss_username_23-07-11-16-12.mp3
+            </RecordLable>
+            <a href={file} download="my-audio-file.mp3">
+              <DownloadImg src="/src/assets/Training/download.png"/>
+            </a>
           </RecordItem>
         ))}
       </RecordBox>

@@ -5,7 +5,7 @@ import Script from '../components/VoiceAnalysis/Script';
 import Recording from '../components/VoiceAnalysis/Recording';
 import AnalysisButton from '../components/VoiceAnalysis/AnalysisButton/AnalysisButton';
 import Messenger from '../components/Message/Messenger';
-import RecordButton from '../components/VoiceAnalysis/RecordButton';
+import RecordButton from '../components/VoiceAnalysis/RecordButton/RecordButton';
 
 const Container = styled.div`
   display: flex;
