@@ -18,6 +18,7 @@ import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
 import com.yukgaejang.voss.domain.practice.repository.ScriptRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
+import com.yukgaejang.voss.domain.practice.serivce.dto.response.ViewScriptLineResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
@@ -116,15 +117,18 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public void selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
+    public SelectCastingResponse selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
         meetJoinRepository.resetCasting(selectCastingRequestList.get(0).getMeetRoomId());
         for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
-            Member member = memberRepository.findById(selectCastingRequest.getMemberId()).orElseThrow();
             Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
-            meetJoinRepository.selectCasting(member.getId(), selectCastingRequest.getMeetRoomId(), casting);
+            meetJoinRepository.selectCasting(selectCastingRequest.getMemberId(), selectCastingRequest.getMeetRoomId(), casting);
         }
         em.flush();
         em.clear();
+        Casting casting = castingRepository.findCasting(selectCastingRequestList.get(0).getCastingId());
+        Long scriptId = casting.getScript().getId();
+        List<ViewScriptLineResponse> scriptLines = scriptRepository.getScriptLines(scriptId);
+        return new SelectCastingResponse(scriptLines);
     }
 
     @Override

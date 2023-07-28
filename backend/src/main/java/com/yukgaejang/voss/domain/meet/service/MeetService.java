@@ -18,7 +18,7 @@ public interface MeetService {
 
     GetStatusResponse selectScript(SelectScriptRequest selectScriptRequest);
 
-    void selectCasting(List<SelectCastingRequest> selectCastingRequestList);
+    SelectCastingResponse selectCasting(List<SelectCastingRequest> selectCastingRequestList);
 
     GetAllMeetJoinResponse getMeetJoinList(Long meetRoomId);
 }

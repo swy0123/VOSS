@@ -17,9 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MeetController {
     private final MeetService meetService;
-
-
-
     @GetMapping("")
     public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(MeetSearchCondition condition) {
         return ResponseEntity.ok(meetService.getMeetList(condition));
@@ -57,8 +54,7 @@ public class MeetController {
     }
 
     @PostMapping("/select-casting")
-    public ResponseEntity<GetStatusResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
-        meetService.selectCasting(selectCastingRequestList);
-        return ResponseEntity.ok(new GetStatusResponse("역할 선정 완료"));
+    public ResponseEntity<SelectCastingResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
+        return ResponseEntity.ok(meetService.selectCasting(selectCastingRequestList));
     }
 }
