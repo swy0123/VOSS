@@ -1,15 +1,10 @@
 package com.yukgaejang.voss.domain.meet.controller;
 
-import com.yukgaejang.voss.domain.auth.controller.AuthController;
 import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
-import com.yukgaejang.voss.domain.meet.service.dto.response.InitMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.JoinMeetRoomResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.getStatusResponse;
-import com.yukgaejang.voss.domain.meet.service.dto.response.ViewAllMeetRoomResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MeetController {
     private final MeetService meetService;
-
-
-
     @GetMapping("")
     public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(MeetSearchCondition condition) {
         return ResponseEntity.ok(meetService.getMeetList(condition));
+    }
+
+    @GetMapping("/{meetRoomId}")
+    public ResponseEntity<GetAllMeetJoinResponse> getMeetJoinList(@PathVariable Long meetRoomId) {
+        return ResponseEntity.ok(meetService.getMeetJoinList(meetRoomId));
     }
 
     @PostMapping("")
@@ -45,20 +42,19 @@ public class MeetController {
     }
 
     @DeleteMapping("/{meetRoomId}")
-    public ResponseEntity<getStatusResponse> leaveMeetRoom(@PathVariable Long meetRoomId) {
+    public ResponseEntity<GetStatusResponse> leaveMeetRoom(@PathVariable Long meetRoomId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(meetService.leaveMeetRoom(meetRoomId, email));
     }
 
     @PostMapping("/script")
-    public ResponseEntity<getStatusResponse> selectScript(@RequestBody SelectScriptRequest selectScriptRequest) {
+    public ResponseEntity<GetStatusResponse> selectScript(@RequestBody SelectScriptRequest selectScriptRequest) {
         return ResponseEntity.ok(meetService.selectScript(selectScriptRequest));
     }
 
     @PostMapping("/select-casting")
-    public ResponseEntity<getStatusResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
-        meetService.selectCasting(selectCastingRequestList);
-        return ResponseEntity.ok(new getStatusResponse("역할 선정 완료"));
+    public ResponseEntity<SelectCastingResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
+        return ResponseEntity.ok(meetService.selectCasting(selectCastingRequestList));
     }
 }

@@ -32,7 +32,7 @@ public class Meet extends BaseEntity {
     @Nullable
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Script script;
 
     @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)

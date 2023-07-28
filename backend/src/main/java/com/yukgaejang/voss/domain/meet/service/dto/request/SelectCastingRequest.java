@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class SelectCastingRequest {
-    private String email;
+    private Long memberId;
     private Long meetRoomId;
     private Long castingId;
 }
