@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PostCommentService {
-    CreateCommentResponse createComment(Long postId, CreateCommentRequest createCommentRequest);
+    CreateCommentResponse createComment(Long postId, String email, CreateCommentRequest createCommentRequest);
     UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest);
     Page<CommentDetailResponse> getComments(Long postId, Pageable pageable);
     DeleteCommentResponse deleteComment(Long commentId);

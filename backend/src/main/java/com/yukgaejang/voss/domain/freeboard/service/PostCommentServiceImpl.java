@@ -28,9 +28,9 @@ public class PostCommentServiceImpl implements PostCommentService {
     private final MemberRepository memberRepository;
 
     @Override
-    public CreateCommentResponse createComment(Long postId, CreateCommentRequest createCommentRequest) {
+    public CreateCommentResponse createComment(Long postId, String email, CreateCommentRequest createCommentRequest) {
         PostComment postComment = PostComment.builder()
-                .member(memberRepository.findByEmail(createCommentRequest.getEmail()).orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다.")))
+                .member(memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다.")))
                 .post(postRepository.findById(postId).orElseThrow(() -> new RuntimeException("존재하지 않는 글입니다.")))
                 .content(createCommentRequest.getContent())
                 .build();

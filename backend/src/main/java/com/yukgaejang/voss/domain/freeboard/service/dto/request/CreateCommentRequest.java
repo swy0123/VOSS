@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CreateCommentRequest {
-    private String email;
     private String content;
 
     @Builder
-    public CreateCommentRequest(String email, String content) {
-        this.email = email;
+    public CreateCommentRequest(String content) {
         this.content = content;
     }
 }
