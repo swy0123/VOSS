@@ -9,7 +9,7 @@ export const RecordBox = styled.div`
   height: 170px;
   width: 350px;
 `
-export const StopWatch = styled.p`
+export const StopWatch = styled.div`
   color: white;
   margin: 30px 0px 20px 0px;
 `
