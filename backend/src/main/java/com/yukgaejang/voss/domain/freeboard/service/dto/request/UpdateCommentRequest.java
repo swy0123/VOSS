@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateCommentRequest {
-    private Long commentId;
     private String content;
 
     @Builder
-    public UpdateCommentRequest(Long commentId, String content) {
-        this.commentId = commentId;
+    public UpdateCommentRequest(String content) {
         this.content = content;
     }
 }
