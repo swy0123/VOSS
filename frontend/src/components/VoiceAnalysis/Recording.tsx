@@ -1,6 +1,7 @@
 import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
-import { analysisRecordState } from "../../recoil/hw_atom";
+import { analysisRecordState, analysisRecordTimeState } from "../../recoil/hw_atom";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -52,7 +53,22 @@ const Warning = styled.div`
 `
 
 function Recording (){
-  const [analysisRecord, setanalysisRecord] = useRecoilState(analysisRecordState)
+  const [analysisRecord] = useRecoilState(analysisRecordState)
+  // const [timeList, setTimeList] = useState([])
+  const [timeList, setTimeList] = useRecoilState(analysisRecordTimeState)
+  
+  const currentTime = () => {
+    const date = new Date()
+    const hours = String(date.getHours()).padStart(2,"0")
+    const minutes = String(date.getMinutes()).padStart(2,"0")
+    const seconds = String(date.getSeconds()).padStart(2,"0")
+    const time = `${hours}-${minutes}-${seconds}`
+    setTimeList([time,...timeList.slice(0,4)])
+  }
+  
+  useEffect(()=>{
+    currentTime()
+  },[analysisRecord])
 
   return(
     <Container>
@@ -62,8 +78,12 @@ function Recording (){
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
             <RecordLable>
-              voss_username_23-07-11-16-12.mp3
+            "voss"{timeList[index]}.mp3
             </RecordLable>
+            <audio src={file} controls style={{
+              width :'100px',
+              height : '28px',
+            }}/>
             <a href={file} download="my-audio-file.mp3">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a>
