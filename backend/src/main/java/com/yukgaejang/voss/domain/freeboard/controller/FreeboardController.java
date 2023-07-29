@@ -63,7 +63,7 @@ public class FreeboardController {
         return ResponseEntity.ok(postCommentService.updateComment(updateCommentRequest));
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/{postId}/comment/{commentId}")
     public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long commentId) {
         return ResponseEntity.ok(postCommentService.deleteComment(commentId));
     }
