@@ -34,8 +34,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public UpdatePostResponse updatePost(UpdatePostRequest updatePostRequest) {
-        Optional<Post> findPost = postRepository.findById(updatePostRequest.getId());
+    public UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest) {
+        Optional<Post> findPost = postRepository.findById(id);
         Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
         return new UpdatePostResponse(postRepository.save(post) != null ? true : false);
@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public DeletePostResponse deletePost(Long id) {
         Optional<Post> findPost = postRepository.findById(id);
-        Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.delete();
         return new DeletePostResponse(postRepository.save(post) != null ? true : false);
     }

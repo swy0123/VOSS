@@ -38,8 +38,8 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public UpdateCommentResponse updateComment(UpdateCommentRequest updateCommentRequest) {
-        Optional<PostComment> findPostComment = postCommentRepository.findById(updateCommentRequest.getCommentId());
+    public UpdateCommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest) {
+        Optional<PostComment> findPostComment = postCommentRepository.findById(commentId);
         PostComment postComment = findPostComment.orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
         postComment.update(updateCommentRequest.getContent());
         return new UpdateCommentResponse(postCommentRepository.save(postComment) != null ? true : false);

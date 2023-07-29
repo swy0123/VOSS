@@ -30,9 +30,9 @@ public class FreeboardController {
         return ResponseEntity.ok(postService.createPost(email, createPostRequest));
     }
 
-    @PutMapping
-    public  ResponseEntity<UpdatePostResponse> updatePost(@RequestBody UpdatePostRequest updatePostRequest) {
-        return ResponseEntity.ok(postService.updatePost(updatePostRequest));
+    @PutMapping("/{postId}")
+    public  ResponseEntity<UpdatePostResponse> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest updatePostRequest) {
+        return ResponseEntity.ok(postService.updatePost(postId, updatePostRequest));
     }
 
     @GetMapping("/{postId}")
@@ -62,9 +62,9 @@ public class FreeboardController {
         return ResponseEntity.ok(postCommentService.getComments(postId, pageable));
     }
 
-    @PutMapping("/{postId}/comment")
-    public ResponseEntity<UpdateCommentResponse> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
-        return ResponseEntity.ok(postCommentService.updateComment(updateCommentRequest));
+    @PutMapping("/{postId}/comment/{commentId}")
+    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
+        return ResponseEntity.ok(postCommentService.updateComment(commentId, updateCommentRequest));
     }
 
     @DeleteMapping("/{postId}/comment/{commentId}")

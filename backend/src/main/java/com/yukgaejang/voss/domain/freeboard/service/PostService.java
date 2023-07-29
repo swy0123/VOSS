@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostService {
     CreatePostResponse createPost(String email, CreatePostRequest createPostRequest);
-    UpdatePostResponse updatePost(UpdatePostRequest updatePostRequest);
+    UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest);
     PostDetailResponse getPostDetail(Long id);
     Page<PostListResponse> getPostList(Pageable pageable);
     DeletePostResponse deletePost(Long id);
