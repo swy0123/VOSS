@@ -20,4 +20,7 @@ public class Chat extends BaseEntity {
 
     private String session;
 
+    public Chat(String session) {
+        this.session = session;
+    }
 }

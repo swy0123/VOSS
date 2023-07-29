@@ -1,8 +1,17 @@
 package com.yukgaejang.voss.domain.messenger.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yukgaejang.voss.domain.member.repository.MemberRepository;
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
+import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
+import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
+import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
+import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +27,10 @@ import java.util.*;
 public class MessengerServiceImpl implements MessengerService{
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoom> chatRooms;
+
+    private final ChatRepository chatRepository;
+    private final MemberRepository memberRepository;
+    private final AttendRepository attendRepository;
 
     @PostConstruct
     private void init() {
@@ -35,14 +48,28 @@ public class MessengerServiceImpl implements MessengerService{
     }
 
     @Override
-    public ChatRoom createRoom(String  memberId) {
-        String randomId = UUID.randomUUID().toString();
+    public CreateMessengerResponse createRoom(CreateMessengerRequest createMessengerRequest) {
+        String email = createMessengerRequest.getMyMemberEmail();
+        Member myMember = memberRepository.findByEmail(email).orElseThrow();
+        Long myMemberId = myMember.getId();
+        String myId = myMemberId.toString();
+        String yourId = createMessengerRequest.getYourMemberId().toString();
+        Member yourMember = memberRepository.findById(createMessengerRequest.getYourMemberId()).orElseThrow();
+        String sessionId = myId + yourId;
         ChatRoom chatRoom = ChatRoom.builder()
-                .chatId(randomId)
-                .memberId(memberId)
+                .chatId(sessionId)
                 .build();
-        chatRooms.put(randomId, chatRoom);
-        return chatRoom;
+        chatRooms.put(sessionId, chatRoom);
+        Chat chat = new Chat(sessionId);
+
+        chatRepository.save(chat);
+        System.out.println("레포전");
+        Chat findChat = chatRepository.findBySessionId(sessionId);
+        System.out.println("레포후");
+        attendRepository.save(new Attend(myMember, findChat));
+        attendRepository.save(new Attend(yourMember, findChat));
+
+        return new CreateMessengerResponse("생성 성공");
     }
 
     @Override

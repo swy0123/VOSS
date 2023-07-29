@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ChatMessageDto {
     private MessageType type;
-    private String chatId;
+    private String sessionId;
     private String memberId; // sender
     private String content; // message
 }
