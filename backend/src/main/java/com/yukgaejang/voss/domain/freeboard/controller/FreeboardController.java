@@ -58,7 +58,7 @@ public class FreeboardController {
         return ResponseEntity.ok(postCommentService.getComments(postId, pageable));
     }
 
-    @PutMapping("/comment")
+    @PutMapping("/{postId}/comment")
     public ResponseEntity<UpdateCommentResponse> updateComment(@RequestBody UpdateCommentRequest updateCommentRequest) {
         return ResponseEntity.ok(postCommentService.updateComment(updateCommentRequest));
     }
