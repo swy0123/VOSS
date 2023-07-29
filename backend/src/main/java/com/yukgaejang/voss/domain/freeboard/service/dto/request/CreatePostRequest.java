@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CreatePostRequest {
-    private String email;
     private String title;
     private String content;
 
     @Builder
-    public CreatePostRequest(String email, String title, String content) {
-        this.email = email;
+    public CreatePostRequest(String title, String content) {
         this.title = title;
         this.content = content;
     }
