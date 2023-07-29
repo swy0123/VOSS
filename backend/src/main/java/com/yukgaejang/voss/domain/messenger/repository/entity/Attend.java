@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class attend {
+public class Attend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class attend {
     @ManyToOne(fetch = FetchType.LAZY)
     private Chat chat;
 
-    public attend(Member member, Chat chat) {
+    public Attend(Member member, Chat chat) {
         this.member = member;
         this.chat = chat;
     }

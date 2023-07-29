@@ -2,7 +2,6 @@ package com.yukgaejang.voss.domain.messenger.websocket;
 
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.ChatMessageDto;
-import com.yukgaejang.voss.domain.messenger.service.dto.MessageType;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.socket.WebSocketSession;
@@ -12,14 +11,12 @@ import java.util.Set;
 
 @Getter
 public class ChatRoom {
-    private String  chatId; // 방 번호
-    private String  memberId;
+    private String sessionId; // 방 번호
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(String  chatId, String  memberId) {
-        this.chatId = chatId;
-        this.memberId = memberId;
+    public ChatRoom(String  chatId) {
+        this.sessionId = chatId;
     }
 
     public void handlerAction(WebSocketSession session, ChatMessageDto chatMessageDto, MessengerService messengerService) {
