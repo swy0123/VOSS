@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ChatMessageDto {
-    private MessageType type;
+    private Long chatId;
     private String sessionId;
-    private String memberId; // sender
+    private Long memberId; // sender
     private String content; // message
 }

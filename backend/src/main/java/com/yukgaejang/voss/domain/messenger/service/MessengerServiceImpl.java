@@ -63,13 +63,11 @@ public class MessengerServiceImpl implements MessengerService{
         Chat chat = new Chat(sessionId);
 
         chatRepository.save(chat);
-        System.out.println("레포전");
         Chat findChat = chatRepository.findBySessionId(sessionId);
-        System.out.println("레포후");
         attendRepository.save(new Attend(myMember, findChat));
         attendRepository.save(new Attend(yourMember, findChat));
 
-        return new CreateMessengerResponse("생성 성공");
+        return new CreateMessengerResponse("생성 성공", findChat.getId());
     }
 
     @Override

@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class CreateMessengerResponse {
     private String status;
+    private Long chatId;
 
-    public CreateMessengerResponse(String status) {
+    public CreateMessengerResponse(String status, Long chatId) {
         this.status = status;
+        this.chatId = chatId;
     }
 }
