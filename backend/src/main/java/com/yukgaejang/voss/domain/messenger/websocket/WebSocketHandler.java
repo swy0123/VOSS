@@ -15,6 +15,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.Date;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -33,7 +35,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatRoom chatRoom = messengerService.findRoomById(chatMessageDto.getSessionId());
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
 
-        FirebaseDto firebaseDto = new FirebaseDto(chatMessageDto.getChatId(), chatMessageDto.getMemberId(), chatMessageDto.getContent());
+        FirebaseDto firebaseDto = new FirebaseDto(chatMessageDto.getChatId(), chatMessageDto.getMemberId(),
+                chatMessageDto.getContent(), new Date());
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<DocumentReference> add = firestore.collection(COLLECTION_NAME).add(firebaseDto);
         System.out.println(add.get().toString());
