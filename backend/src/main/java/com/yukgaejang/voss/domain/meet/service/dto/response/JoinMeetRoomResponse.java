@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class JoinMeetRoomResponse {
-    private String sessionId;
+    private String token;
     private String status;
 
-    public JoinMeetRoomResponse(String sessionId, String status) {
-        this.sessionId = sessionId;
+    public JoinMeetRoomResponse(String token, String status) {
+        this.token = token;
         this.status = status;
     }
 }

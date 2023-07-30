@@ -42,6 +42,7 @@ public class MeetServiceImpl implements MeetService{
     private final ScriptRepository scriptRepository;
     private final CastingRepository castingRepository;
     private final EntityManager em;
+    private final OpenViduClient openViduClient;
 
     @Override
     public Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
@@ -55,9 +56,7 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email) {
-        // openvidu 세션 생성
-        OpenViduClient openViduClient = new OpenViduClient();
-        String sessionId = openViduClient.session();
+        String sessionId = openViduClient.createSession();
         Optional<Member> findMember = memberRepository.findByEmail(email);
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
@@ -72,27 +71,14 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email) {
-        Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
-        Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
-        if(meet.isDeleted()) throw new NoMeetRoomException("해당 방이 없습니다.");
-        int maxCount = meet.getMaxCount();
-        if (maxCount <= meet.getMeetJoins().size()) {
-            throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
-        }
-
-        String password = meet.getPassword();
-        if (password != null) {
-            if (!password.equals(joinMeetRoomRequest.getPassword())) {
-                throw new WrongPinException("비밀번호가 틀립니다");
-            }
-        }
-
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        Meet meet = getMeetBuJoinMeetRoomRequest(joinMeetRoomRequest);
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        String token = openViduClient.getJoinMeetToken(meet.getSessionId(), member.getNickname());
         meetJoinRepository.save(new MeetJoin(member, meet));
         em.flush();
         em.clear();
-        return new JoinMeetRoomResponse(meet.getSessionId(), "입장");
+
+        return new JoinMeetRoomResponse(token, "입장");
     }
 
     @Override
@@ -138,5 +124,25 @@ public class MeetServiceImpl implements MeetService{
                 .map(o -> new MeetJoinDto(o))
                 .collect(Collectors.toList());
         return new GetAllMeetJoinResponse(meetJoinDtoList);
+    }
+
+    private Meet getMeetBuJoinMeetRoomRequest(JoinMeetRoomRequest joinMeetRoomRequest) {
+        Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
+        Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
+
+        if(meet.isDeleted()) {
+            throw new NoMeetRoomException("해당 방이 없습니다.");
+        }
+
+        if (meet.getMaxCount() <= meet.getMeetJoins().size()) {
+            throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
+        }
+
+        String password = meet.getPassword();
+        if (meet.getPassword() != null && !password.equals(joinMeetRoomRequest.getPassword())) {
+            throw new WrongPinException("비밀번호가 틀립니다");
+        }
+
+        return meet;
     }
 }
