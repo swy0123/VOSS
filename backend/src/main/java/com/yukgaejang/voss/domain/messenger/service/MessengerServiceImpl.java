@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.messenger.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
@@ -50,11 +51,13 @@ public class MessengerServiceImpl implements MessengerService{
     @Override
     public CreateMessengerResponse createRoom(CreateMessengerRequest createMessengerRequest) {
         String email = createMessengerRequest.getMyMemberEmail();
-        Member myMember = memberRepository.findByEmail(email).orElseThrow();
+        Member myMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("회원이 없습니다"));
         Long myMemberId = myMember.getId();
         String myId = myMemberId.toString();
         String yourId = createMessengerRequest.getYourMemberId().toString();
-        Member yourMember = memberRepository.findById(createMessengerRequest.getYourMemberId()).orElseThrow();
+        Member yourMember = memberRepository.findById(createMessengerRequest.getYourMemberId())
+                .orElseThrow(() -> new NoMemberException("회원이 없습니다."));
         String sessionId = myId + yourId;
         ChatRoom chatRoom = ChatRoom.builder()
                 .chatId(sessionId)
