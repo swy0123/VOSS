@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react';
 import { getVideo } from '../api/video';
 import { ScriptData } from '../type/type';
 import Video from '../components/DubbingRoom/Video/Video';
-
+import { useRecoilState } from 'recoil';
+import { videoState } from '../recoil/hw_atom';
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ const RightSection = styled.div`
 `
 
 function Dubbing() {
-  const [video, setVideo] = useState<ScriptData | null>(null)
+  const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
   const id = parseInt(useParams().id || "");
 
   const axiosVideo = async () => {

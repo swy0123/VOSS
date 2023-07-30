@@ -48,10 +48,9 @@ export const Scripts = styled.div<{$IsClick:boolean}>`
   font-weight: ${props => props.$IsClick ? '800' : '100'};
 
 `
-
 export const Script_Unit = styled.p`
   color: white;
-  font-size: 14px;
+  font-size: 20px;
   text-align: left;
   margin: 0px;
 `

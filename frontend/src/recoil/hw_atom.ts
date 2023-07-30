@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { ScriptData } from "../type/type";
 
 export const analysisRecordState = atom({
   key: 'analysisRecordState',
@@ -33,4 +34,9 @@ export const ScriptSelectState = atom<boolean[]>({
 export const PlayChangebState = atom<number[]>({
   key: 'PlayChangebState',
   default: [],
+})
+
+export const videoState = atom<ScriptData | null>({
+  key: 'videoState',
+  default: "",
 })

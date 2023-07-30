@@ -23,15 +23,12 @@ interface VideoProps {
 
 function Script ({lines,roles}: VideoProps) {
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
-  const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>
-  (ScriptSelectState)
+  const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
   const scrollRef = useRef<number|null>();
   
-  console.log(scrollRef.current)
-
   const handleRoleBtn = async (index:number) => {
     const newRoleSelect = await Array(roles.length).fill(false)
     newRoleSelect[index] = await !isRoleSelect[index]
@@ -40,9 +37,9 @@ function Script ({lines,roles}: VideoProps) {
     if (newRoleSelect[index] === true){
       const newScriptSelect = await lines.map((line) => line.name===roles[index])
       await setIsScriptSelect(newScriptSelect)
-      console.log(isScriptSelect)
       }
-  }
+    console.log(isScriptSelect)
+   }
 
   const fixTopScript = () => {
     // 1은 PlayingState
@@ -79,7 +76,6 @@ function Script ({lines,roles}: VideoProps) {
       <ScriptBox ref={scrollRef}>
         {lines.map((line,index) => (
           <Scripts
-            id={index}
             key={index}
             $IsClick={isScriptSelect[index]}>
             <Role>{line.name}</Role>
