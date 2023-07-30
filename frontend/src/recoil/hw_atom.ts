@@ -19,3 +19,8 @@ export const accentRecordTimeState = atom({
   key: 'accentRecordTimeState',
   default: [],
 })
+
+export const RoleSelectState = atom<boolean[]>({
+  key: 'RoleSelectState',
+  default: [],
+})

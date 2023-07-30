@@ -4,7 +4,7 @@ import Header from '../components/Header/Header';
 import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/DubbingRoom/RecordButton';
 import Recording from '../components/DubbingRoom/Recording';
-import Script from '../components/DubbingRoom/Script';
+import Script from '../components/DubbingRoom/Script/Script';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getVideo } from '../api/video';
