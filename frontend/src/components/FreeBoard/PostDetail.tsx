@@ -23,7 +23,7 @@ function PostDetail() {
   const id = parseInt(useParams().id || "");
   const detail = posts.filter(post => post.id == id);
   const DeletePost = () => {
-    const newposts = posts.filter(item => item.id !== id);
+    const newposts = posts.filter(post => post.id !== id);
     setPosts(newposts);
     goFreeBoard();
   }
@@ -37,7 +37,7 @@ function PostDetail() {
     <hr/>
     <div>{detail[0].content}</div>
     <br/>
-    <div><button onClick={() => UpdatePost(id)}>수정하기</button></div>
+    <div><button onClick={() => UpdatePost()}>수정하기</button></div>
     <br/>
     <div><button onClick={() => DeletePost()}>삭제하기</button></div>
     </PostDetailDesign>

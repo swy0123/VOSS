@@ -68,8 +68,8 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
           <ProfileHoverList 
             onMouseEnter={() => setProfileMenuShown(true)} 
             onMouseLeave={() => setProfileMenuShown(false)}>
-            <ProfileHoverListItem>{currentUser.nickname}</ProfileHoverListItem>
-            <ProfileHoverListItem>내가 쓴 글</ProfileHoverListItem>
+            <ProfileHoverListItem onClick={() => goProfile(currentUser.userid)}>{currentUser.nickname}</ProfileHoverListItem>
+            <ProfileHoverListItem >내가 쓴 글</ProfileHoverListItem>
             <ProfileHoverListItem>내가 쓴 댓글</ProfileHoverListItem>
             <ProfileHoverListItem>로그아웃</ProfileHoverListItem>
           </ProfileHoverList>

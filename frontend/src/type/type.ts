@@ -41,4 +41,5 @@ export interface postListType {
   content: string,
   userid: number,
   nickname: string,
+  createAt: string,
 }
