@@ -30,6 +30,7 @@ function DubbingList() {
   const [videoList, setVideoList] = useRecoilState<Video[]>(videoListState)
   const [isGenreSelect,setIsGenreSelect] = useState<boolean[]>([])
   const genreOpt = ["영화", "드라마", "애니메이션", "기타"]
+  const navigate = useNavigate()
 
   const handleGenreBtn = (index:number) => {
     const newGenderSelect = Array(genreOpt.length).fill(false)
@@ -42,9 +43,11 @@ function DubbingList() {
     const second = Math.floor(durationInSec % 60)
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
-  
-  const navigate = useNavigate()
-  const goDubbing = (id:number) => navigate(`/dubbing/${id}`)
+
+  const goDubbing = (id:number) => {
+    navigate(`/dubbing/${id}`)
+    window.location.reload()
+  }
   
   const axiosVideoList = async () => {
     try {
@@ -56,13 +59,10 @@ function DubbingList() {
     }
   };
   
-  useEffect(() => {
-    axiosVideoList();
-  }, []);
-
   // 여기서 부터 iframe player API
   const onYouTubeIframeAPIReady = () => {
     videoList.forEach((video, index) => {
+      console.log("여기 오니?")
       new YT.Player(`player-${index}`, {
         videoId: video.videoUrl.slice(-11),
         events: {
@@ -86,6 +86,14 @@ function DubbingList() {
   }
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
+  useEffect(() => {
+    axiosVideoList();
+  }, []);
+  
+  // useEffect(() => {
+  //   onYouTubeIframeAPIReady();
+  // }, [videoList]);
+  
   return(
     <BackGroundImg>
       <Header/>
@@ -114,7 +122,6 @@ function DubbingList() {
                 <Thumbnail 
                   key={`player-${index}`} 
                   id={`player-${index}`}></Thumbnail>
-
                 <Infos>
                   <Count>
                     <CountImg src="/src/assets/Dubbing/count.png"/>
