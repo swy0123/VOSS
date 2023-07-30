@@ -9,4 +9,6 @@ public interface ChatSupportRepository {
     Chat findBySessionId(String sessionId);
 
     List<FirebaseDto> viewChatList(Long chatId, int page, int limit);
+
+    Chat findByChatId(Long chatId);
 }

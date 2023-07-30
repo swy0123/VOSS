@@ -50,4 +50,13 @@ public class ChatSupportRepositoryImpl implements ChatSupportRepository{
         }
         return list;
     }
+
+    @Override
+    public Chat findByChatId(Long chatId) {
+        return queryFactory
+                .selectDistinct(chat)
+                .from(chat)
+                .where(chat.id.eq(chatId))
+                .fetchOne();
+    }
 }

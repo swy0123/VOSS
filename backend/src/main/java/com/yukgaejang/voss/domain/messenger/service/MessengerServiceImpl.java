@@ -99,4 +99,16 @@ public class MessengerServiceImpl implements MessengerService{
         List<FirebaseDto> firebaseDtos = chatRepository.viewChatList(chatId, offset, limit);
         return new ViewChatListResponse(firebaseDtos);
     }
+
+    @Override
+    public void JoinChatSession(Long chatId) {
+        Chat chat = chatRepository.findByChatId(chatId);
+        ChatRoom findChatRoom = chatRooms.get(chat.getSession());
+        if (findChatRoom == null) {
+            ChatRoom chatRoom = ChatRoom.builder()
+                .chatId(chat.getSession())
+                .build();
+            chatRooms.put(chat.getSession(), chatRoom);
+        }
+    }
 }

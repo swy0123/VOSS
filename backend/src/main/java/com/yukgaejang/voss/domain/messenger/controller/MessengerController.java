@@ -34,6 +34,7 @@ public class MessengerController {
 
     @GetMapping("/{chatId}")
     public ResponseEntity<ViewChatListResponse> viewChatList(@PathVariable Long chatId, int offset, int limit) {
+        messengerService.JoinChatSession(chatId);
         return ResponseEntity.ok(messengerService.viewChatList(chatId, offset, limit));
     }
 }

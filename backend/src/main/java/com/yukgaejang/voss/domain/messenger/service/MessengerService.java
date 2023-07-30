@@ -22,4 +22,6 @@ public interface MessengerService {
     ViewMessengerResponse viewMessenger(String email);
 
     ViewChatListResponse viewChatList(Long chatId, int offset, int limit);
+
+    void JoinChatSession(Long chatId);
 }
