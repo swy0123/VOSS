@@ -8,9 +8,11 @@ import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
+import com.yukgaejang.voss.domain.messenger.service.dto.FirebaseDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.ViewMessengerListDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewChatListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
 import jakarta.annotation.PostConstruct;
@@ -90,5 +92,11 @@ public class MessengerServiceImpl implements MessengerService{
         List<Long> chatIdList = attendRepository.findByMemberId(member.getId());
         List<ViewMessengerListDto> messengerList = attendRepository.findByChatId(chatIdList, member.getId());
         return new ViewMessengerResponse(messengerList);
+    }
+
+    @Override
+    public ViewChatListResponse viewChatList(Long chatId, int offset, int limit) {
+        List<FirebaseDto> firebaseDtos = chatRepository.viewChatList(chatId, offset, limit);
+        return new ViewChatListResponse(firebaseDtos);
     }
 }
