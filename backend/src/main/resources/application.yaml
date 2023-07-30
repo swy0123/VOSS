@@ -38,3 +38,9 @@ server:
     key-store-password: 1234
 chatGpt:
   apiKey: ${CHATGPT_API_KEY}
+
+firebase:
+#  로컬 경로
+#  path: src/main/resources/external/serviceAccountKey.json
+#  서버 경로
+  path: serviceAccountKey.json
