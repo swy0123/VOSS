@@ -1,66 +1,72 @@
 import { styled } from "styled-components";
 
 
-const FreeBoardDesign = styled.div`  
-  margin-left: 7%;
+export const FreeBoardDesign = styled.div`
+  margin-left: 10vw;
+  width: 80vw;
   color: white;
+  /* border: dotted 1px yellow; */
 `;
 
-const DropdownDesign = styled.div`
+export const OrderBoxDesign = styled.div`
   display: flex;
   justify-content: end;
-  width: 85vw;
-  height: 5vh;
-  font-size: 0.8vw;
-  text-align: center;
-  border: solid 1px white;
+  width: 80vw;
+  height: 3.8vh;
+  /* border: dotted 1px red; */
 `;
 
-const OrderSelectDesign = styled.select`
+export const OrderSelectDesign = styled.select`
   display: flex;
-  height: 80%;
   align-self: center;
-  width: 7vw;
-  /* border: dotted 1px yellow; */
-  `;
-
-const PostListDesign = styled.div`
-  display: flex;
-  width: 85vw;
-  height: 5vh;
+  width: 6vw;
+  height: 4vh;
+  color: white;
   font-size: 0.8vw;
-  text-align: center;
-  border: solid 1px white;
+  background-color: #313131;
+  border-radius: 5px;
+  border: none;
 `;
 
-const PostNumberDesign = styled.div`
+export const PostCategoryDesign = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80vw;
+  height: 5.3vh;
+  font-size: 0.8vw;
+  text-align: center;
+  border-bottom: solid 1px white;
+`;
+
+
+export const PostCategoryNumberDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 8%;
   text-align: center;
   /* border: solid 2px red; */
-`;
+  `;
 
-const PostTitleDesign = styled.div`
+export const PostCategoryTitleDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 62%;
+  width: 60%;
   text-align: center;
   /* border: solid 2px red; */
-`;
+  `;
 
-const PostUserDesign = styled.div`
+export const PostCategoryUserDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 10%;
+  width: 12%;
   text-align: center;
   /* border: solid 2px red; */
-`;
+  `;
 
-const PostCreatedatDesign = styled.div`
+export const PostCategoryCreatedatDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,95 +75,108 @@ const PostCreatedatDesign = styled.div`
   /* border: solid 2px red; */
 `;
 
-const SearchboxDesign = styled.div`
+export const SearchboxDesign = styled.div`
   display: flex;
   justify-content: end;
-  width: 85vw;
-  height: 5vh;
-  border: solid 1px white;
-`;
-
-const SearchSelectDesign = styled.select`
-  display: flex;
-  width: 7vw;
-  height: 80%;
-  align-self: center;
-  margin-right: 1vw;
+  width: 80vw;
+  height: 9vh;
+  /* border: solid 1px white; */
   `;
 
-const InputBoxDesign = styled.form`
+export const SearchSelectDesign = styled.select`
+  display: flex;
+  width: 7vw;
+  height: 4vh;
+  align-self: center;
+  margin-right: 1vw;
+  font-size: 0.8vw;
+  color: white;
+  background-color: #313131;
+  border-radius: 5px;
+  border: none;
+  `;
+
+export const InputBoxDesign = styled.form`
   display: flex;
   justify-content: center;
   align-self: center;
   width: 14vw;
-  height: 80%;
-  border: solid 1px white;
+  height: 4vh;
   font-size: 0.8vw;
-  background-color: black;
-  border-radius: 10px;
-  /* border: solid 1px red; */
-`;
+  border: solid 1px #EFEFEF;
+  background-color: rgba(239, 239, 239, 0.2);
+  border-radius: 5px;
+  border: none;
+  `;
 
-const InputBoxIpt = styled.input`
+export const InputBoxIpt = styled.input`
   display: flex;
   width: 10vw;
   color: white;
-  background-color: black;
+  background-color: transparent;
   border: none;
   border-radius: 10px;
   outline: none;
+  &::placeholder {
+    color: rgba(239, 239, 239, 0.8);
+  }
 `;
 
-const InputBoxBtn = styled.button`
+export const InputBoxBtn = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 3vw;
-  background-color: black;
+  background-color: transparent;
   border: none;
   border-radius: 10px;
 `;
 
-const CreateSpaceDesign = styled.div`
+export const CreateSpaceDesign = styled.div`
   display: flex;
-  height: 80%;
   align-self: center;
-  justify-content: end;
-  width: 26vw;
+  width: 23.5vw;
+  height: 4vh;
   /* border: dotted 1px yellow; */
-  `;
+`;
 
-const CreateBtnDesign = styled.div`
+export const CreateBtnDesign = styled.div`
+  align-self: center;
   margin-right: 1vw;
   display: flex;
-  height: 80%;
-  align-self: center;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 5vw;
-  height: 80%;
+  height: 4vh;
   border: solid 1px white;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 0.8vw;
-  `;
+`;
 
+export const PaginationWrapper = styled.ul`
+display: flex;
+list-style: none;
+padding: 0;
+margin: 0;
+justify-content: center;
+align-items: center;
+`;
 
-export {
-    FreeBoardDesign,
-    DropdownDesign,
-    OrderSelectDesign,
-    PostListDesign,
-    PostNumberDesign,
-    PostTitleDesign,
-    PostUserDesign,
-    PostCreatedatDesign,
-    SearchboxDesign,
-    SearchSelectDesign,
-    InputBoxDesign,
-    InputBoxIpt,
-    InputBoxBtn,
-    CreateSpaceDesign,
-    CreateBtnDesign,
+export const PaginationItem = styled.li`
+cursor: pointer;
+font-size: 1.1vw;
+margin: 0 6px;
+padding: 5px 5px;
+color: #ffffff;
+background-color: transparent;
+transition: background-color 0.3s ease;
+
+&:hover {
+  background-color: #ccc;
 }
+
+&.active {
+  background-color: #007bff;
+}
+`;
