@@ -1,22 +1,20 @@
-import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
+import { useEffect, useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "../../components/BackGroundImg";
 import Header from "../../components/Header/Header";
 import Messenger from "../../components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
-// recoil
 import { useRecoilState } from "recoil";
-import { PostListState, PostSearchState } from "../../recoil/atoms";
-// style
+import { PostListState } from "../../recoil/atoms";
 import {
   FreeBoardDesign,
-  DropdownDesign,
+  OrderBoxDesign,
   OrderSelectDesign,
-  PostListDesign,
-  PostNumberDesign,
-  PostTitleDesign,
-  PostUserDesign,
-  PostCreatedatDesign,
+  PostCategoryDesign,
+  PostCategoryNumberDesign,
+  PostCategoryTitleDesign,
+  PostCategoryUserDesign,
+  PostCategoryCreatedatDesign,
   SearchboxDesign,
   SearchSelectDesign,
   InputBoxDesign,
@@ -24,81 +22,134 @@ import {
   InputBoxBtn,
   CreateSpaceDesign,
   CreateBtnDesign,
+  PaginationWrapper,
+  PaginationItem
 } from "./FreeBoard.style"
-
-
 
 
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
-  const [searchCond, setSearchCond] = useState("4");
   const [posts, setPosts] = useRecoilState(PostListState);
-  const [curPosts, setCurPosts] = useRecoilState(PostSearchState);
+  const [curPosts, setCurPosts] = useState(posts);
+  const [showPosts, setShowPosts] = useState(curPosts);
+  const [searchCond, setSearchCond] = useState<string>("title");
   const [inputs, setInputs] = useState<string>("");
-  const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value)
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(Math.ceil(posts.length / 10));
 
-  const searchPost = () => {
-    const trimmedInputs = inputs.trim();
-    trimmedInputs.length > 0
-    ? setCurPosts(posts.filter(post => post.title.includes(trimmedInputs)))
-    : setCurPosts(posts)
+  const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value);
+
+  const handlePageChange = (page: number) => {setCurrentPage(page);};
+  
+  const clickSearchBtn = (event: FormEvent) => {
+    event.preventDefault();
+    searchPostAndUpdate();
   };
-
+  
   const EnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      searchPost();
+    if (event.key === "Enter") { // 이걸 안하면 모든 키 입력을 못 받음
+      event.preventDefault();
+      searchPostAndUpdate();
     }
   };
   
+  const searchPostAndUpdate = () => {
+    const trimmedInputs = inputs.trim();
+    if (trimmedInputs.length > 0) {
+      if (searchCond === "title") {
+        setCurPosts(posts.filter((post) => post.title.includes(trimmedInputs)));
+      } else if (searchCond === "content") {
+        setCurPosts(posts.filter((post) => post.title.includes(trimmedInputs) || post.content.includes(trimmedInputs)));
+      } else {
+        setCurPosts(posts.filter((post) => post.nickname.includes(trimmedInputs)));
+      }
+    } else setCurPosts(posts);
+    setCurrentPage(1)
+  };
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(curPosts.length / 10)); // Update totalPages after filtering
+    setShowPosts(curPosts.slice((currentPage-1) * 10, currentPage*10))
+  }, [currentPage, curPosts]);
+
+  const pages = [...Array(totalPages).keys()].map((page) => page + 1);
+  const maxDisplayedPages = 10;
+  const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
+  let startPage = Math.max(currentPage - halfDisplayedPages, 1);
+  let endPage = Math.min(currentPage + halfDisplayedPages, totalPages);
+
+  if (totalPages <= maxDisplayedPages) {
+    startPage = 1;
+    endPage = totalPages;
+  } else {
+    if (currentPage <= halfDisplayedPages) {
+      startPage = 1;
+      endPage = maxDisplayedPages;
+    } else if (currentPage >= totalPages - halfDisplayedPages) {
+      startPage = totalPages - maxDisplayedPages + 1;
+      endPage = totalPages;
+    }
+  }
+
   return(
     <BackGroundImg>
       <Header/>
       <FreeBoardDesign>
-        <h3>자유 게시판</h3>
+        <h2 style={{ height: "1vh" }}>자유 게시판</h2>
 
-        <DropdownDesign>
+        <OrderBoxDesign>
           <OrderSelectDesign id="order-select">
             <option value="1">최신순</option>
             <option value="2">조회순</option>
             <option value="3">좋아요순</option>
           </OrderSelectDesign>
-        </DropdownDesign>
+        </OrderBoxDesign>
 
-        <PostListDesign>
-          <PostNumberDesign>글 번호</PostNumberDesign>
-          <PostTitleDesign>제목</PostTitleDesign>
-          <PostUserDesign>작성자</PostUserDesign>
-          <PostCreatedatDesign>작성일</PostCreatedatDesign>
-        </PostListDesign>
+        <PostCategoryDesign>
+          <PostCategoryNumberDesign>글 번호</PostCategoryNumberDesign>
+          <PostCategoryTitleDesign>제목</PostCategoryTitleDesign>
+          <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
+          <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
+        </PostCategoryDesign>
 
-        {curPosts.map(post => (
-        <PostListDesign>
-          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid}/>
-        </PostListDesign>
+        {showPosts.map(post => (
+        <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid} createAt={post.createAt}/>
         ))}
 
-        <SearchboxDesign>
-          <SearchSelectDesign id="search-select" onChange={()=>setSearchCond(value)}>
+        <SearchboxDesign style={{borderTop: "solid 1px white"}}>
+          <SearchSelectDesign id="search-select" onChange={(e)=>setSearchCond(e.target.value)}>
             <option value="title">제목</option>
             <option value="content">제목+내용</option>
             <option value="user">작성자</option>
           </SearchSelectDesign>
 
-          <InputBoxDesign>
-          <InputBoxIpt onChange={inputChange} onKeyPress={EnterKeyDown} type="text" placeholder="검색" />
-          <InputBoxBtn
-          ><img 
-          src="/src/assets/MeetingBoard/SearchInput.png" alt="" style={{width: "1vw"}}
-          onClick={() => searchPost()}
-          />
-          </InputBoxBtn>
+          <InputBoxDesign onSubmit={clickSearchBtn}>
+            <InputBoxIpt value={inputs} onChange={inputChange} onKeyPress={EnterKeyDown} type="text" placeholder="검색" />
+            <InputBoxBtn>
+            <img src="/src/assets/MeetingBoard/SearchInput.png" alt="" style={{width: "1vw"}}/>
+            </InputBoxBtn>
           </InputBoxDesign>
           <CreateSpaceDesign/>
           <CreateBtnDesign onClick={() => goPostCreate()}>작성하기</CreateBtnDesign>
         </SearchboxDesign>
-
       </FreeBoardDesign>
+
+      <PaginationWrapper>
+      {currentPage > 1 && (
+        <PaginationItem onClick={() => handlePageChange(currentPage - 1)}>이전</PaginationItem>
+      )}
+
+      {pages.slice(startPage - 1, endPage).map((page) => (
+        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => handlePageChange(page)}>
+          {page}
+        </PaginationItem>
+      ))}
+
+      {currentPage < totalPages && (
+        <PaginationItem onClick={() => handlePageChange(currentPage + 1)}>다음</PaginationItem>
+      )}
+      </PaginationWrapper>
       <Messenger/>
     </BackGroundImg>
   )

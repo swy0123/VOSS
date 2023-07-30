@@ -8,7 +8,7 @@ import GoogleIcon from "../../../assets/main/googleIcon.png";
 import KakaoIcon from "../../../assets/main/kakaoIcon.png";
 import NaverIcon from "../../../assets/main/naverIcon.png";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginModeAtom } from "../../../recoil/Auth";
+import { CurrentUserAtom, LoginModeAtom, LoginState } from "../../../recoil/Auth";
 import { Button, CheckBox, CheckBoxDiv, Container, Forgot, H2, Icon, Input, InputDiv, InputHeader, LineText, OAuthDiv, P, ShowPswd, Title, UnderText } from "./Login.style";
 
 interface LoginProps {
@@ -24,6 +24,7 @@ const Login: React.FC<Props> = () => {
   //체크박스는 이후 기본 상태 받아와서 설정
   const [checkbox, setCheckbox] = useState<boolean>(/**/ false);
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
+  const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const MAX_LENGTH = 20;
 
@@ -67,9 +68,10 @@ const Login: React.FC<Props> = () => {
     // postTest(LoginProps);
 
     const userinfo = await postLogin(LoginProps)
-    // 로그인 요청한 후 userinfo 가 있으면 recoil 에 유저 정보 저장
+    // 로그인 요청이 성공하면
     if (userinfo) {
-      setCurrentUser(userinfo)
+      setCurrentUser(userinfo) // 유저 정보 아톰에 저장
+      setIsLogin(true) // 로그인 여부 아톰에 저장
       navigate("category")
     }
     else {

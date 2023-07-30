@@ -13,7 +13,6 @@ const CreateBoxDesign = styled.div`
 const CreateBtnDesign = styled.div`
   margin-right: 1vw;
   display: flex;
-  height: 80%;
   align-self: center;
   flex-direction: column;
   justify-content: center;

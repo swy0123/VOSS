@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import { useRecoilState } from "recoil";
+import { CurrentUserAtom } from "../recoil/Auth";
 //수정
 const BASE_URL = "https://i9b106.p.ssafy.io:8080";
 axios.defaults.withCredentials = true;
@@ -15,6 +17,7 @@ export const publicApi: AxiosInstance = axios.create({
   },
 });
 
+
 //토큰이 필요한 api요청을 보내는 axios인스턴스
 export const privateApi: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -22,6 +25,7 @@ export const privateApi: AxiosInstance = axios.create({
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    // Authorization: `Bearer ${accessToken}`,
     
   },
 });
@@ -72,6 +76,12 @@ privateApi.interceptors.response.use(
           const newAccessToken = response.data.accessToken;
           localStorage.setItem('access_token', response.data.accessToken);
           localStorage.setItem('refresh_token', response.data.refreshToken);
+          const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
+          setCurrentUser((prev) => ({
+            ...prev,
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+          }));
           axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           //진행중이던 요청 이어서하기
           originRequest.headers.Authorization = `Bearer ${newAccessToken}`;

@@ -90,10 +90,10 @@ export const ProfileHoverList = styled.div`
   justify-content: end;
   
   position: fixed;
-  top: 22px;
-  right: 26px;
+  top: 35px;
+  right: 40px;
   width: 62px;
-  height: 115px;
+  height: 103px;
   /* border: dotted 1px yellow; */
 `;
 
@@ -120,7 +120,7 @@ export const ProfileHoverListItem = styled.div`
 export const ProfileHoverTriangle = styled.div`
   position: fixed;
   top: 40px;
-  right: 52px;
+  right: 66px;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: 7px solid white; 
