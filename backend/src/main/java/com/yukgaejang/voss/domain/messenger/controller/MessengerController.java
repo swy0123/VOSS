@@ -3,13 +3,11 @@ package com.yukgaejang.voss.domain.messenger.controller;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
-import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,8 +23,10 @@ public class MessengerController {
         return messengerService.createRoom(createMessengerRequest);
     }
 
-    @GetMapping("")
-    public List<ChatRoom> findAllRoom() {
-        return messengerService.findAllRoom();
+    @GetMapping
+    public ViewMessengerResponse viewMessenger() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return messengerService.viewMessenger(email);
     }
 }
