@@ -28,16 +28,18 @@ const Sentence = styled(Script_Unit)`
 `
 const Time = styled(Script_Unit)``
 
-interface VideoProps {
-  lines : Line[]
+const formatTime = (durationInSec: number) => {
+  const minutes = Math.floor(durationInSec / 60)
+  const second = Math.floor(durationInSec % 60)
+  return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
 }
 
-function Script ({lines}: VideoProps) {
-  const formatTime = (durationInSec: number) => {
-    const minutes = Math.floor(durationInSec / 60)
-    const second = Math.floor(durationInSec % 60)
-    return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
-  }
+interface VideoProps {
+  lines : Line[]
+  roles : string[]
+}
+
+function Script ({lines,roles}: VideoProps) {
   
   return(
     <ScriptBox>
