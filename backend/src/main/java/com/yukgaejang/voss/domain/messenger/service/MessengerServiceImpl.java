@@ -8,11 +8,14 @@ import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
+import com.yukgaejang.voss.domain.messenger.service.dto.FirebaseDto;
+import com.yukgaejang.voss.domain.messenger.service.dto.ViewMessengerListDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewChatListResponse;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -80,6 +83,32 @@ public class MessengerServiceImpl implements MessengerService{
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ViewMessengerResponse viewMessenger(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        List<Long> chatIdList = attendRepository.findByMemberId(member.getId());
+        List<ViewMessengerListDto> messengerList = attendRepository.findByChatId(chatIdList, member.getId());
+        return new ViewMessengerResponse(messengerList);
+    }
+
+    @Override
+    public ViewChatListResponse viewChatList(Long chatId, int offset, int limit) {
+        List<FirebaseDto> firebaseDtos = chatRepository.viewChatList(chatId, offset, limit);
+        return new ViewChatListResponse(firebaseDtos);
+    }
+
+    @Override
+    public void JoinChatSession(Long chatId) {
+        Chat chat = chatRepository.findByChatId(chatId);
+        ChatRoom findChatRoom = chatRooms.get(chat.getSession());
+        if (findChatRoom == null) {
+            ChatRoom chatRoom = ChatRoom.builder()
+                .chatId(chat.getSession())
+                .build();
+            chatRooms.put(chat.getSession(), chatRoom);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.yukgaejang.voss.domain.messenger.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
 
         FirebaseDto firebaseDto = new FirebaseDto(chatMessageDto.getChatId(), chatMessageDto.getMemberId(),
-                chatMessageDto.getContent(), new Date());
+                chatMessageDto.getContent(), Timestamp.now());
         Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<DocumentReference> add = firestore.collection(COLLECTION_NAME).add(firebaseDto);
         System.out.println(add.get().toString());
