@@ -1,15 +1,20 @@
+import HistoryTemp from "../../../assets/ProfileImages/HistoryTemp.png";
 import {
     HistoryBoxDesign,
+    HistoryTitleDesign,
+    HistoryContentDesign,
 } from "./HistoryBox.style";
 
 
 
-function BasicBox() {
+
+function HistoryBox() {
   return (
     <HistoryBoxDesign>
-        History Box Design
+      <HistoryTitleDesign>연습기록</HistoryTitleDesign>
+      <HistoryContentDesign><img src={HistoryTemp} alt=""/></HistoryContentDesign>
     </HistoryBoxDesign>
   );
 };
 
-export default BasicBox;
+export default HistoryBox;
