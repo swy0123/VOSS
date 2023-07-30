@@ -1,15 +1,19 @@
+import BadgeTemp from "../../../assets/ProfileImages/BadgeTemp.png";
 import {
     BadgeBoxDesign,
+    BadgeTitleDesign,
+    BadgeContentDesign,
 } from "./BadgeBox.style";
 
 
 
-function BasicBox() {
+function BadgeBox() {
   return (
     <BadgeBoxDesign>
-        Badge Box Design
+      <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>
+      <BadgeContentDesign><img src={BadgeTemp} alt=""/></BadgeContentDesign>
     </BadgeBoxDesign>
   );
 };
 
-export default BasicBox;
+export default BadgeBox;

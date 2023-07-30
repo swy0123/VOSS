@@ -70,8 +70,8 @@ const Login: React.FC<Props> = () => {
     const userinfo = await postLogin(LoginProps)
     // 로그인 요청이 성공하면
     if (userinfo) {
-      setCurrentUser(userinfo) // 유저 정보 아톰에 저장
       setIsLogin(true) // 로그인 여부 아톰에 저장
+      setCurrentUser(userinfo) // 유저 정보 아톰에 저장
       navigate("category")
     }
     else {
