@@ -27,40 +27,39 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public CreatePostResponse createPost(String email, CreatePostRequest createPostRequest) {
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        Member member = findMember.orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         Post post = new Post(createPostRequest.getTitle(), createPostRequest.getContent(), member);
-        return new CreatePostResponse(postRepository.save(post) != null ? true : false);
+        postRepository.save(post);
+        return new CreatePostResponse(true);
     }
 
     @Override
     public UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest) {
-        Optional<Post> findPost = postRepository.findById(id);
-        Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
-        return new UpdatePostResponse(postRepository.save(post) != null ? true : false);
+        postRepository.save(post);
+        return new UpdatePostResponse(true);
     }
 
     @Override
     public PostDetailResponse getPostDetail(Long id) {
-        Optional<Post> findPost = postRepository.findById(id);
-        Post post = findPost.orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.updateHit();
-        return new PostDetailResponse(post);
+        return new PostDetailResponse(postRepository.save(post));
     }
 
     @Override
     public Page<PostListResponse> getPostList(Pageable pageable) {
         Page<Post> allPosts = postRepository.findAllByIsDeletedFalse(pageable);
-        return allPosts.map(o -> new PostListResponse(o));
+        return allPosts.map(PostListResponse::new);
     }
 
     @Override
     public DeletePostResponse deletePost(Long id) {
-        Optional<Post> findPost = postRepository.findById(id);
         Post post = postRepository.findById(id).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
         post.delete();
-        return new DeletePostResponse(postRepository.save(post) != null ? true : false);
+        postRepository.save(post);
+        return new DeletePostResponse(true);
     }
 
 }
