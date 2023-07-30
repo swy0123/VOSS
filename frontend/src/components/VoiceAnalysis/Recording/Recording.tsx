@@ -1,60 +1,19 @@
 import { useRecoilState } from "recoil";
-import { styled } from "styled-components";
-import { analysisRecordState, analysisRecordTimeState } from "../../recoil/hw_atom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { analysisRecordState, analysisRecordTimeState } from "../../../recoil/hw_atom";
+import { 
+  Container, 
+  DownloadImg, 
+  RecordBox, 
+  RecordItem, 
+  RecordLable, 
+  RecordSelect, 
+  Title, 
+  Warning} from "./Recording.style";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  margin: 0px 0px 20px 0px;
-`
-const Title = styled.h2`
-  color: white;
-  text-align: center;
-`
-const RecordBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  height: 185px;
-`
-const RecordItem = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 30px;
-  width: 370px;
-  margin : 2px 0px 2px 9px;
-`
-const RecordSelect = styled.input` 
-  width: 18px;
-  height: 18px;
-`
-
-const RecordLable = styled.label`
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  line-height: 30px;
-  color: white;
-  
-`
-const DownloadImg = styled.img`
-  height: 16px;
-`
-const Warning = styled.div`
-  color: #BABABA;
-  font-size: 12px;
-  margin-top: 8px;
-  text-align: end;
-`
 
 function Recording (){
   const [analysisRecord] = useRecoilState(analysisRecordState)
-  // const [timeList, setTimeList] = useState([])
   const [timeList, setTimeList] = useRecoilState(analysisRecordTimeState)
   
   const currentTime = () => {
