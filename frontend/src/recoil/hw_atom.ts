@@ -24,3 +24,13 @@ export const RoleSelectState = atom<boolean[]>({
   key: 'RoleSelectState',
   default: [],
 })
+
+export const ScriptSelectState = atom<boolean[]>({
+  key: 'ScriptSelectState',
+  default: [],
+})
+
+export const PlayChangebState = atom<number[]>({
+  key: 'PlayChangebState',
+  default: [],
+})
