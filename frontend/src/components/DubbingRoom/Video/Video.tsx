@@ -1,5 +1,7 @@
+import { useRecoilState } from "recoil";
 import { Script } from "../../../type/type";
 import { Container, Display, Title } from "./Video.style";
+import { PlayChangebState } from "../../../recoil/hw_atom";
 
 
 interface VideoProps {
@@ -7,6 +9,8 @@ interface VideoProps {
 }
 
 function Video ({script}: VideoProps) {
+  const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+
   const onYouTubeIframeAPIReady = () => {
     const player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
@@ -18,13 +22,10 @@ function Video ({script}: VideoProps) {
   
   const onPlayStateChange = (event) => {
     if (event.data == YT.PlayerState.PLAYING) {
-      console.log("진행중",Math.floor(event.target.getCurrentTime()))
-    }
-    else if (event.data == YT.PlayerState.ENDED) {
-      console.log("종료",Math.floor(event.target.getCurrentTime()))
+      setPlayChange([1,Math.floor(event.target.getCurrentTime())])
     }
     else if (event.data == YT.PlayerState.PAUSED) {
-      console.log("일시지정",Math.floor(event.target.getCurrentTime()))
+      setPlayChange([2,Math.floor(event.target.getCurrentTime())])
     }
   }
   

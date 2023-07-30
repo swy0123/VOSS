@@ -46,6 +46,7 @@ export const Scripts = styled.div<{$IsClick:boolean}>`
   justify-content: space-between;
   margin: 0px 0px 12px 0px;
   font-weight: ${props => props.$IsClick ? '800' : '100'};
+
 `
 
 export const Script_Unit = styled.p`
