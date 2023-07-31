@@ -14,21 +14,23 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class PostDetailResponse {
     private Long id;
-    private Long hit;
+    private Long hits;
     private String nickname;
     private String title;
     private String content;
+    private Long likes;
     private LocalDateTime createdAt;
     private Page<CommentDetailResponse> comments;
 
-    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments) {
+    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments, Long likes) {
         this.id = post.getId();
-        this.hit = post.getHit();
+        this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.comments = comments;
+        this.likes = likes;
     }
 
 }

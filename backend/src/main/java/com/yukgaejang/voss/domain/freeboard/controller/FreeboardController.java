@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
 import com.yukgaejang.voss.domain.freeboard.service.PostCommentService;
+import com.yukgaejang.voss.domain.freeboard.service.PostLikeService;
 import com.yukgaejang.voss.domain.freeboard.service.PostService;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class FreeboardController {
     private final PostService postService;
     private final PostCommentService postCommentService;
+    private final PostLikeService postLikeService;
 
     @PostMapping
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
@@ -71,5 +73,12 @@ public class FreeboardController {
     @DeleteMapping("/{postId}/comment/{commentId}")
     public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long commentId) {
         return ResponseEntity.ok(postCommentService.deleteComment(commentId));
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<CreatePostLikeResponse> createPostLike(@PathVariable Long postId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(postLikeService.createPostLike(postId, email));
     }
 }
