@@ -27,13 +27,13 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
                         m.id, m.email, m.nickname, jpaQueryFactory
                                 .selectOne()
                                 .from(f)
-                                .where(f.followerId.id.eq(myId).and(f.followingId.id.eq(m.id)))
+                                .where(f.follower.id.eq(myId).and(f.following.id.eq(m.id)))
                                 .exists()))
                 .from(m)
                 .where(jpaQueryFactory
                         .selectOne()
                         .from(f)
-                        .where(f.followerId.id.eq(targetId).and(f.followingId.id.eq(m.id)))
+                        .where(f.follower.id.eq(targetId).and(f.following.id.eq(m.id)))
                         .exists())
                 .fetch();
     }
@@ -48,13 +48,13 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
                         m.id, m.email, m.nickname, jpaQueryFactory
                                 .selectOne()
                                 .from(f)
-                                .where(f.followerId.id.eq(myId).and(f.followingId.id.eq(m.id)))
+                                .where(f.follower.id.eq(myId).and(f.following.id.eq(m.id)))
                                 .exists()))
                 .from(m)
                 .where(jpaQueryFactory
                         .selectOne()
                         .from(f)
-                        .where(f.followingId.id.eq(targetId).and(f.followerId.id.eq(m.id)))
+                        .where(f.following.id.eq(targetId).and(f.follower.id.eq(m.id)))
                         .exists())
                 .fetch();
     }
