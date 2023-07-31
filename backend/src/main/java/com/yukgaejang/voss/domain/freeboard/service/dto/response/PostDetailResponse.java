@@ -3,6 +3,8 @@ package com.yukgaejang.voss.domain.freeboard.service.dto.response;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,18 +19,16 @@ public class PostDetailResponse {
     private String title;
     private String content;
     private LocalDateTime createdAt;
-    private List<CommentDetailResponse> comments;
+    private Page<CommentDetailResponse> comments;
 
-    public PostDetailResponse(Post post) {
+    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments) {
         this.id = post.getId();
         this.hit = post.getHit();
         this.nickname = post.getMember().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
-        this.comments = post.getPostComments().stream()
-                .map(CommentDetailResponse::new)
-                .collect(Collectors.toList());
+        this.comments = comments;
     }
 
 }

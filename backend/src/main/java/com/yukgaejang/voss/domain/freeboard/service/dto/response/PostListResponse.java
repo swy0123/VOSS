@@ -16,12 +16,12 @@ public class PostListResponse {
     private LocalDateTime createdAt;
     private int commentCount;
 
-    public PostListResponse(Post post) {
+    public PostListResponse(Post post, int commentCount) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hit = post.getHit();
         this.nickname = post.getMember().getNickname();
         this.createdAt = post.getCreatedAt();
-        this.commentCount = post.getPostComments().size();
+        this.commentCount = commentCount;
     }
 }
