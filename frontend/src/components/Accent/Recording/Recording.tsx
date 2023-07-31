@@ -1,3 +1,6 @@
+import { useRecoilState } from "recoil"
+import { useEffect } from "react"
+import { accentRecordState, accentRecordTimeState } from "../../../recoil/Training"
 import { 
   Container, 
   DownloadImg, 
@@ -9,23 +12,39 @@ import {
   Warning } from "./Recording.style"
 
 function Recording (){
-  const TmpFile = [
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-    "voss_username_23-07-11-16-12.mp3",
-  ]
+  const [accentRecord] = useRecoilState(accentRecordState)
+  const [timeList, setTimeList] = useRecoilState(accentRecordTimeState)
+  
+  const currentTime = () => {
+    const date = new Date()
+    const hours = String(date.getHours()).padStart(2,"0")
+    const minutes = String(date.getMinutes()).padStart(2,"0")
+    const seconds = String(date.getSeconds()).padStart(2,"0")
+    const time = `${hours}-${minutes}-${seconds}`
+    setTimeList([time,...timeList.slice(0,4)])
+  }
+
+  useEffect(()=>{
+    currentTime()
+  },[accentRecord])
 
   return(
     <Container>
       <Title>녹음 기록</Title>
       <RecordBox>
-        {TmpFile.map((data,index) => (
+        {accentRecord.map((file,index) => (
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
-            <RecordLable>{data}</RecordLable>
-            <DownloadImg src="/src/assets/Training/download.png"></DownloadImg>
+            <RecordLable>
+            "voss"{timeList[index]}.mp3
+            </RecordLable>
+            <audio src={file} controls style={{
+              width :'100px',
+              height : '28px',
+            }}/>
+            <a href={file} download="my-audio-file.mp3">
+              <DownloadImg src="/src/assets/Training/download.png"/>
+            </a>
           </RecordItem>
         ))}
       </RecordBox>

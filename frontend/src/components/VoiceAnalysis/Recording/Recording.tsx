@@ -11,7 +11,6 @@ import {
   Title, 
   Warning} from "./Recording.style";
 
-
 function Recording (){
   const [analysisRecord] = useRecoilState(analysisRecordState)
   const [timeList, setTimeList] = useRecoilState(analysisRecordTimeState)

@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { makeRandomScript } from "../../../api/script";
+import { makeAnalysisScript } from "../../../api/script";
 import { 
   AgeBox,
   AgeButton,
@@ -51,7 +51,7 @@ function Script() {
   const axiosMakeScript = async (genderSelected:string,ageSelected:string) => {
     setInputSctipts("스크립트를 생성중입니다...")
     try {
-      const makeScriptData: string = await makeRandomScript(genderSelected,ageSelected);
+      const makeScriptData: string = await makeAnalysisScript(genderSelected,ageSelected);
       setInputSctipts(makeScriptData.script)
     } 
     catch (error) {
