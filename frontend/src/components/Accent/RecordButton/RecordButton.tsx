@@ -1,40 +1,11 @@
 import { useRef, useState } from 'react';
-import { styled } from 'styled-components';
-
-const RecordBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-top: 1px dashed #efefef;
-  margin-top: 42px;
-  height: 170px;
-  width: 350px;
-`
-const StopWatch = styled.p`
-  color: white;
-  margin: 40px 0px 20px 0px;
-`
-const SectionBtn = styled.div`
-  display: flex;
-  align-items: center;
-`
-const Button = styled.button`
-  background-color: #3a3a3a;
-  border-radius: 16px;
-  border: none;
-  color: white;
-  font-size: 16px;
-  height: 30px;
-  width: 50px;
-  cursor: pointer;
-`
-const RestartBtn = styled(Button)``
-const CompleteBtn = styled(Button)``
-
-const RecordBtn = styled.img`
-  width: 100px;
-  cursor: pointer;
-`
+import { 
+  CompleteBtn, 
+  RecordBox, 
+  RecordBtn, 
+  RestartBtn, 
+  SectionBtn, 
+  StopWatch } from './RecordButton.style';
 
 function RecordButton () {
   const [isRunning, setIsRunning] = useState(false);
