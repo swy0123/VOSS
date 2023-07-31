@@ -15,7 +15,10 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
   const goVoiceAnalysis = () => {navigate("/analysis")}
-  const goDubbingList = () => {navigate("/dubbinglist")}
+  const goDubbingList = () => {
+    navigate("/dubbinglist")
+    window.location.reload()
+  }
   const goAccent = () => {navigate("/accent")}
   const goFreeBoard = () => {navigate("/freeboard")}
   const goMeetingBoard = () => {navigate("/meeting")}
