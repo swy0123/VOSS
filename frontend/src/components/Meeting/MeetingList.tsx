@@ -3,50 +3,59 @@ import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { ListBox, MeetingRoom } from "./MeetingList.style";
 import { OpenVidu } from "openvidu-browser";
+import { getMeet } from "../../api/meeting";
+import { MeetingBoardProps } from "../../pages/MeetingBoard";
 
 // 로컬 미디어 서버 주소
 const OPENVIDU_SERVER_URL = "https://i9b106.p.ssafy.io:5173";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
-interface ListProps {
-  tags: boolean[];
-  words: string;
-}
-
-interface MeetingData {
-  index: number;
-  type: number;
-  title: string;
-  password: string;
-  curMan: number;
-  limit: number;
-}
-
-function MeetingList({ listProps }: { listProps: ListProps }) {
-  const Tag = ["목소리 분석 연습", "더빙 연습", "기타"]; //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
+function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
+  //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
+  const Tag = ["DUB", "PRACTICE", "FREE"];
   const navigate = useNavigate();
 
-  const [meetingData, setDate] = useState<MeetingData[]>([]);
+  const [meetingData, setDate] = useState<any[]>([]);
 
   useEffect(() => {
-    //props로 서버와 통신하여 검색 기록 불러오는 api
-    const newList = [...data];
+    //todo : meetingBoardProps받은거로 수정
+    console.log("MeetingList - meetingBoardProps");
+    console.log(meetingBoardProps);
+    SetNewList();
+  }, [meetingBoardProps]);
+
+  const SetNewList = async () => {
+    const tmp = {
+      title: meetingBoardProps.title,
+      category: "",
+      page: "0",
+      limit: "10",
+    };
+    const tttmp = await getMeet(tmp);
+    console.log("SetNewList");
+    console.log(tttmp);
+    const newList = [...tttmp];
 
     setDate([...newList]);
-  }, [listProps]);
+  };
 
-  const goPostDetail = (id: number) => navigate(`/meeting/${id}`);
-  
+  const goPostDetail = (meetRoomId: number, password: string) => {
+    if (confirm(meetRoomId+"방에 입장하시겠습니까?")) {
+      console.log("meetRoomId : " + meetRoomId + ", password : " + password);
+      navigate(`/meeting/join`, { state: { meetRoomId: meetRoomId, password: password } });
+    }
+  };
 
   return (
     <ListBox>
       {meetingData.map((data, index) => (
-        <MeetingRoom key={index} onClick={()=>(goPostDetail(data.index))}>
-          {Tag[data.type]}
+        //비번 없다고 가정하고 테스트
+        <MeetingRoom key={index} onClick={() => goPostDetail(data.meetRoomId, data.password)}>
+          {data.meetRoomId}
+          {data.category}
           {data.title}
-          {data.password}
           <br></br>
-          {data.curMan}/{data.limit}
+          {data.currentCount}/{data.maxCount}
         </MeetingRoom>
       ))}
       <div>
@@ -64,15 +73,3 @@ function MeetingList({ listProps }: { listProps: ListProps }) {
 }
 
 export default MeetingList;
-
-const data = [
-  { index: 0, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 1, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 2, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 4, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 5, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 6, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 7, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 8, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-  { index: 9, type: 0, title: "이제는.더이상.물러날곳이.없다", password: "1111", curMan: 4, limit: 6 },
-];

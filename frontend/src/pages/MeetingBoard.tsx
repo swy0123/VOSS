@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useCallback } from "react";
 import { BackGroundImg } from "../components/BackGroundImg";
 import Header from "../components/Header/Header";
 import Messenger from "../components/Message/Messenger";
 import MeetingList from "../components/Meeting/MeetingList";
 import SearchInputImg from "../assets/MeetingBoard/SearchInput.png";
+import AddMeetModal from "./Meeting/AddMeetModal";
 
 const Container = styled.div`
   background-color: #a1a1a1;
@@ -16,7 +17,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   margin-left: 1%;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const H1 = styled.h1`
@@ -52,7 +53,7 @@ const TagButton = styled.div<{ $IsClick: boolean }>`
 `;
 
 const SearchDiv = styled.div`
-position: relative;
+  position: relative;
   height: 30px;
   margin: 1%;
 `;
@@ -74,6 +75,10 @@ const SearchInputButton = styled.img`
   position: absolute;
   height: 20px;
   right: 110px;
+  &:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
 `;
 
 const RightDiv = styled.div`
@@ -82,45 +87,52 @@ const RightDiv = styled.div`
   width: 80%;
   height: 80%;
 `;
-interface ListProps {
-  tags: boolean[];
-  words: string;
+
+export interface MeetingBoardProps {
+  title: string;
+  category: boolean[];
+  page: string;
+  limit: string;
 }
+
+// title=미팅&category=DUB&page=0&limit=10
 function MeetingBoard() {
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const startProps = {
-    tags:[true, true, true],
-    words:""
-  }
+    title: "",
+    category: [true, true, true],
+    page: "0",
+    limit: "10",
+  };
   const Tag = ["목소리 분석 연습", "더빙 연습", "기타"];
   const [selectedTag, setTag] = useState<boolean[]>([true, true, true]);
   const [searchForm, setSearch] = useState("");
-  const [listProps, setListProps] = useState<ListProps>(startProps);
-
-  useEffect(() => {
-    const newKeyWord = {
-      tags:selectedTag,
-      words:searchForm
-    }
-    setListProps(newKeyWord);
-  }, []);
+  const [meetingBoardProps, setMeetingBoardProps] = useState<MeetingBoardProps>(startProps);
 
   const handleTagButton = (index: number) => {
     const newTagList = [...selectedTag];
     newTagList[index] = !newTagList[index];
     setTag(newTagList);
   };
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
 
   const handleSearchForm = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const onClickSearchButton = () =>{
+  const onClickSearchButton = () => {
     const newKeyWord = {
-      tags:selectedTag,
-      words:searchForm
-    }
-    setListProps(newKeyWord);
-  }
+      title: searchForm,
+      category: selectedTag,
+      page: "0", //페이징 처리
+      limit: "10",
+    };
+    console.log(newKeyWord)
+    console.log("isClickedSearchButton");
+    setMeetingBoardProps(newKeyWord);
+  };
 
   return (
     <BackGroundImg>
@@ -131,7 +143,7 @@ function MeetingBoard() {
           <H3>방 목록</H3>
         </Title>
         <SearchDiv>
-          <CreateRoom>+방만들기</CreateRoom>
+          <CreateRoom onClick={onClickToggleModal}>+방만들기</CreateRoom>
           <SearchInput type="text" onChange={handleSearchForm} value={searchForm} />
           <SearchInputButton src={SearchInputImg} onClick={onClickSearchButton}></SearchInputButton>
         </SearchDiv>
@@ -148,9 +160,13 @@ function MeetingBoard() {
           ))}
         </LeftDiv>
         <RightDiv>
-          <MeetingList listProps={listProps}></MeetingList>
+          <MeetingList meetingBoardProps={meetingBoardProps}></MeetingList>
         </RightDiv>
       </Container>
+
+      {isOpenModal && (
+        <AddMeetModal onClickToggleModal={onClickToggleModal}>방 만들기</AddMeetModal>
+      )}
 
       <Messenger />
     </BackGroundImg>
