@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface PostCommentService {
     CreateCommentResponse createComment(Long postId, String email, CreateCommentRequest createCommentRequest);
-    UpdateCommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest);
+    UpdateCommentResponse updateComment(Long postId, Long commentId, UpdateCommentRequest updateCommentRequest);
     List<CommentDetailResponse> getComments(Long postId);
-    DeleteCommentResponse deleteComment(Long commentId);
+    DeleteCommentResponse deleteComment(Long postId, Long commentId);
 }

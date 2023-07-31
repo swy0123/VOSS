@@ -23,10 +23,13 @@ public class PostLikeServiceImpl implements PostLikeService {
 
     @Override
     public CreatePostLikeResponse createPostLike(Long postId, String email) {
+        Post post = postRepository.findByIdAndIsDeletedFalse(postId);
+        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         if(!postLikeRepository.existsByPostIdAndEmail(postId, email)) {
             PostLike postLike = PostLike.builder()
-                    .post(postRepository.findById(postId).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다.")))
-                    .member(memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다.")))
+                    .post(post)
+                    .member(member)
                     .build();
             postLikeRepository.save(postLike);
         }
