@@ -74,12 +74,12 @@ public class OpenViduClient {
         return list;
     }
 
-    public String getJoinMeetToken(String sessionId, String nickname) {
+    public String getJoinMeetToken(String sessionId, String email) {
         String token = null;
         try {
             String url = "https://i9b106.p.ssafy.io/openvidu/api/sessions/" + sessionId + "/connection";
 
-            String requestBody = "{\"type\": \"WEBRTC\", \"data\": \"" + nickname + "\", \"role\": \"PUBLISHER\"}";
+            String requestBody = "{\"type\": \"WEBRTC\", \"data\": \"" + email + "\", \"role\": \"PUBLISHER\"}";
 
             String responseBody = WebClient.create().post()
                     .uri(url)
@@ -132,6 +132,24 @@ public class OpenViduClient {
                 .bodyToMono(String.class)
                 .block();
         return body;
+    }
+
+    public List<String> meetJoinList(String sessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/sessions/" + sessionId;
+        String body = getString(url);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        int cnt = jsonNode.get("connections").get("numberOfElements").asInt();
+        List<String> nickname = new ArrayList<>();
+        for (int i = 0; i < cnt; i++) {
+            nickname.add(jsonNode.get("connections").get("content").get(i).get("serverData").asText());
+        }
+        return nickname;
     }
 
 }

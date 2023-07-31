@@ -79,8 +79,8 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email) {
         Meet meet = getMeetBuJoinMeetRoomRequest(joinMeetRoomRequest);
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
-        String token = openViduClient.getJoinMeetToken(meet.getSessionId(), member.getNickname());
+//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        String token = openViduClient.getJoinMeetToken(meet.getSessionId(), email);
         return new JoinMeetRoomResponse(token, "입장");
     }
 
@@ -122,8 +122,10 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public GetAllMeetJoinResponse getMeetJoinList(Long meetRoomId) {
-        List<MeetJoin> meetJoinList = meetJoinRepository.findByMeetId(meetRoomId);
-        List<MeetJoinDto> meetJoinDtoList = meetJoinList.stream()
+        Meet meet = meetRepository.findByMeetId(meetRoomId).orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
+        List<String> emailList = openViduClient.meetJoinList(meet.getSessionId());
+        List<MeetJoinDto> meetJoinDtoList = memberRepository.findByEmailList(emailList)
+                .stream()
                 .map(o -> new MeetJoinDto(o))
                 .collect(Collectors.toList());
         return new GetAllMeetJoinResponse(meetJoinDtoList);
