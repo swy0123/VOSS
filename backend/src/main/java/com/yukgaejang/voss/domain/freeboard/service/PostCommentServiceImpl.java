@@ -34,28 +34,29 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .post(postRepository.findById(postId).orElseThrow(() -> new RuntimeException("존재하지 않는 글입니다.")))
                 .content(createCommentRequest.getContent())
                 .build();
-        return new CreateCommentResponse(postCommentRepository.save(postComment) != null ? true : false);
+        postCommentRepository.save(postComment);
+        return new CreateCommentResponse(true);
     }
 
     @Override
     public UpdateCommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest) {
-        Optional<PostComment> findPostComment = postCommentRepository.findById(commentId);
-        PostComment postComment = findPostComment.orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
+        PostComment postComment = postCommentRepository.findById(commentId).orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
         postComment.update(updateCommentRequest.getContent());
-        return new UpdateCommentResponse(postCommentRepository.save(postComment) != null ? true : false);
+        postCommentRepository.save(postComment);
+        return new UpdateCommentResponse(true);
     }
 
     @Override
     public Page<CommentDetailResponse> getComments(Long postId, Pageable pageable) {
         Page<PostComment> allPostComments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId, pageable);
-        return allPostComments.map(o -> new CommentDetailResponse(o));
+        return allPostComments.map(CommentDetailResponse::new);
     }
 
     @Override
     public DeleteCommentResponse deleteComment(Long commentId) {
-        Optional<PostComment> findPostComment = postCommentRepository.findById(commentId);
-        PostComment postComment = findPostComment.orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
+        PostComment postComment = postCommentRepository.findById(commentId).orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
         postComment.delete();
-        return new DeleteCommentResponse(postCommentRepository.save(postComment) != null ? true : false);
+        postCommentRepository.save(postComment);
+        return new DeleteCommentResponse(true);
     }
 }
