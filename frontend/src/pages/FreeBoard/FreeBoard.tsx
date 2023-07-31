@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import Messenger from "../../components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
 import { useRecoilState } from "recoil";
-import { PostListState } from "../../recoil/atoms";
+import { PostListState } from "../../recoil/Community";
 import {
   FreeBoardDesign,
   OrderBoxDesign,

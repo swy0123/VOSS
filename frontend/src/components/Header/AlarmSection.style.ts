@@ -3,11 +3,11 @@ import { styled } from "styled-components";
 
 export const Triangle = styled.div`
   position: fixed;
-  top: 33px;
-  right: 99px;
-  border-bottom: 18px solid white;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
+  top: 35px;
+  right: 114px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 7px solid white;
   z-index  : 1;
 `
 

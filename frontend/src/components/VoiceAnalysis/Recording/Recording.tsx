@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { analysisRecordState, analysisRecordTimeState } from "../../../recoil/hw_atom";
+import { analysisRecordState, analysisRecordTimeState } from "../../../recoil/Training";
 import { 
   Container, 
   DownloadImg, 

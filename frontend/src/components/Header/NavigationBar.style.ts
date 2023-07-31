@@ -25,14 +25,21 @@ export const MenuList = styled.ul`
   list-style: none;
   line-height: 46px;
   height: 46px;
-`
+  width: 270px;
+  `
 export const Menu = styled.li`
+  text-align: center;
+  width: 90px;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-size: 12px;
-  margin-right: 40px;
+  height: 44px;
+  line-height: 44px;
   cursor: pointer;
+  &:hover {
+    border-bottom: solid 2px #efefef;
+  }
 `
 export const IconList = styled.div`
   display: flex;
