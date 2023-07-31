@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { makeRandomScript } from "../../../api/script";
 import { 
   AgeBox,
   AgeButton,
@@ -21,7 +22,9 @@ function Script() {
   const ageOpt = ["어린이", "청소년","청년","중년","장년"]
   const [isGenderSelect,setIsGenderSelect] = useState<boolean[]>([])
   const [isAgeSelect,setIsAgeSelect] = useState<boolean[]>([])
-  
+  const [genderSelected,setGenderSelected] = useState<string[]>([])
+  const [ageSelected,setAgeSelected] = useState<string[]>([])
+
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
   }
@@ -31,13 +34,30 @@ function Script() {
     const newGenderSelect = Array(genderOpt.length).fill(false)
     newGenderSelect[index] = !isGenderSelect[index]
     setIsGenderSelect(newGenderSelect)
-  }
 
+    const GenderSelected = genderOpt.filter((gender,index)=>(newGenderSelect[index]===true))
+    setGenderSelected(GenderSelected)
+  }
+  
   const handleAgeBtn = (index:number) => {
     const newAgeSelect = Array(ageOpt.length).fill(false)
     newAgeSelect[index] = !isAgeSelect[index]
     setIsAgeSelect(newAgeSelect)
+    
+    const AgeSelected = ageOpt.filter((age,index)=>(newAgeSelect[index]===true))
+    setAgeSelected(AgeSelected)
   }
+
+  const axiosMakeScript = async (genderSelected:string,ageSelected:string) => {
+    setInputSctipts("스크립트를 생성중입니다...")
+    try {
+      const makeScriptData: string = await makeRandomScript(genderSelected,ageSelected);
+      setInputSctipts(makeScriptData.script)
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
 
   return(
     <Container>
@@ -67,7 +87,10 @@ function Script() {
             ))}
           </AgeBox>
         </OptionSelect>
-        <OptionCreate>생성</OptionCreate>
+        <OptionCreate 
+          onClick={() => axiosMakeScript(
+            genderSelected,ageSelected
+          )}>생성</OptionCreate>
       </Options>
       
       <ScriptBox>

@@ -1,5 +1,4 @@
 import { BackGroundImg } from '../../components/BackGroundImg';
-import { styled } from 'styled-components';
 import Messenger from '../../components/Message/Messenger';
 import { useParams } from 'react-router';
 import { Container, H1, LeftSection, RightSection } from './Meeting.style';
