@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom } from "../../recoil/Auth";
+import { CurrentUserAtom, LoginState } from "../../recoil/Auth";
 import {
   Navbar,
   LeftSection,
@@ -33,9 +33,23 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
   const goSelectCategory = () => {navigate("/category")}
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
   const goProfile = (id: number) => navigate(`/profile/${id}`);
-  // 현재 유저 정보
+  const setLogout = () => {
+    // 리코일 초기화
+    setLoginState(false);
+    setCurrentUser({
+      userid: 0,
+      email: "",
+      nickname: "",
+      accessToken: "",
+      refreshToken: ""});
+    // 별도로 저장했던 로컬스토리지 초기화
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate("/");
+  }
   const [profileMenuShown, setProfileMenuShown] = useState(false)
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
+  const [isLogin, setLoginState] = useRecoilState(LoginState)
 
   return(
     <>
@@ -71,7 +85,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
             <ProfileHoverListItem onClick={() => goProfile(currentUser.userid)}>{currentUser.nickname}</ProfileHoverListItem>
             <ProfileHoverListItem >내가 쓴 글</ProfileHoverListItem>
             <ProfileHoverListItem>내가 쓴 댓글</ProfileHoverListItem>
-            <ProfileHoverListItem>로그아웃</ProfileHoverListItem>
+            <ProfileHoverListItem onClick={() => setLogout()}>로그아웃</ProfileHoverListItem>
           </ProfileHoverList>
           <ProfileHoverTriangle
             onMouseEnter={() => setProfileMenuShown(true)}
