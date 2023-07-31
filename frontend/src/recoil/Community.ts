@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
-import { Video, postListType } from "../type/type";
+import { postListType } from "../type/type";
 const { persistAtom } = recoilPersist();
 
 
@@ -56,8 +56,3 @@ export const PostListNum = atom<number>({
   key: "PostListNum",
   default: 38,
 });
-
-export const videoListState = atom<Video[]>({
-  key: 'videoListState',
-  default: [],
-})

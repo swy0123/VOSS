@@ -5,7 +5,7 @@ import Header from "../Header/Header";
 import Messenger from "../Message/Messenger";
 // recoil
 import { useRecoilState } from "recoil";
-import { PostListState, PostListNum } from "../../recoil/atoms";
+import { PostListState, PostListNum } from "../../recoil/Community";
 // style
   import {
   PostDetailDesign

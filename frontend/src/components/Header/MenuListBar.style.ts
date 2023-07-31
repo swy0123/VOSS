@@ -9,8 +9,8 @@ export const MenuBox = styled.div`
   border-radius: 0px 0px 5px 5px;
   border-top: 0.25px solid grey;
   height: 100px;
-  width: 265px;
-  margin-left: 135px;
+  width: 270px;
+  margin-left: 158px;
   z-index: 1;
   top: 46px;
 `
