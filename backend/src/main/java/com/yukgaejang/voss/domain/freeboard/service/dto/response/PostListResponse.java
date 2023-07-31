@@ -14,9 +14,9 @@ public class PostListResponse {
     private Long hit;
     private String nickname;
     private LocalDateTime createdAt;
-    private int commentCount;
+    private Long commentCount;
 
-    public PostListResponse(Post post, int commentCount) {
+    public PostListResponse(Post post, Long commentCount) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hit = post.getHit();

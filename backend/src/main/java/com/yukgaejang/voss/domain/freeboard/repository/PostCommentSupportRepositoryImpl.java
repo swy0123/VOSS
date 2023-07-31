@@ -24,9 +24,9 @@ public class PostCommentSupportRepositoryImpl implements PostCommentSupportRepos
         QPostComment pc = QPostComment.postComment;
 
         return jpaQueryFactory
-                .select(Projections.constructor(CommentDetailResponse.class,
-                        pc.id, pc.member.nickname, pc.content, pc.createdAt))
+                .select(Projections.constructor(CommentDetailResponse.class, pc))
                 .from(pc)
+                .leftJoin(pc.member).fetchJoin()
                 .where(pc.post.id.eq(postId).and(pc.isDeleted.eq(0)))
                 .fetch();
     }
