@@ -33,9 +33,9 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
         QPostComment pc = QPostComment.postComment;
 
         List<PostListResponse> posts = jpaQueryFactory
-                .select(Projections.constructor(PostListResponse.class,
-                        p.id, p.title, p.hit, p.member.nickname, p.createdAt, pc.id.count()))
+                .select(Projections.constructor(PostListResponse.class, p, pc.id.count()))
                 .from(p)
+                .leftJoin(p.member).fetchJoin()
                 .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0)))
                 .where(p.isDeleted.eq(0))
                 .groupBy(p.id)
