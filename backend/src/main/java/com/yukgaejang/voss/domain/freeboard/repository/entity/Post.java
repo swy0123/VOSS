@@ -31,11 +31,11 @@ public class Post extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER , cascade = CascadeType.REMOVE)
-    @OrderBy("id asc")
+    @OrderBy("createdAt ASC")
     private List<PostComment> postComments;
 
     public void updateHit() {
-        this.hit += 1;
+        this.hit++;
     }
 
     public void updatePost(String title, String content) {
