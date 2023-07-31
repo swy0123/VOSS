@@ -1,16 +1,17 @@
 package com.yukgaejang.voss.domain.member.controller;
 
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
-import com.yukgaejang.voss.domain.member.repository.entity.RefreshToken;
 import com.yukgaejang.voss.domain.member.service.MemberService;
+import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.LoginRequest;
+import com.yukgaejang.voss.domain.member.service.dto.response.FollowResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
-import com.yukgaejang.voss.domain.member.service.dto.response.LoginResponse;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,10 +28,37 @@ public class MemberController {
         return ResponseEntity.ok(new JoinResponse(true));
     }
 
-//    @GetMapping("/my-page")
-//    public ResponseEntity<> getUserInfo() {
-//        memberService.getOnboarding();
-//        return ResponseEntity.ok();
-//    }
+    @PostMapping("/follow")
+    public ResponseEntity<FollowResponse> follow(@RequestBody FollowRequest followRequest/*, @AuthenticationPrincipal Authentication authentication*/) {;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        memberService.follow(followRequest , authentication.getName());
+        return ResponseEntity.ok(new FollowResponse(true));
+    }
+
+    @DeleteMapping("/follow/{userId}")
+    public ResponseEntity<FollowResponse> unfollow(@RequestBody FollowRequest followRequest) {;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        memberService.follow(followRequest , authentication.getName());
+        return ResponseEntity.ok(new FollowResponse(true));
+    }
+
+    @GetMapping("/follow/following")
+    public ResponseEntity<FollowResponse> myFollowings(@RequestBody FollowRequest followRequest) {;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        memberService.follow(followRequest , authentication.getName());
+        return ResponseEntity.ok(new FollowResponse(true));
+    }
+
+    @GetMapping("/follow/follower")
+    public ResponseEntity<FollowResponse> myFollowers(@RequestBody FollowRequest followRequest) {;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        memberService.follow(followRequest , authentication.getName());
+        return ResponseEntity.ok(new FollowResponse(true));
+    }
+
 
 }
