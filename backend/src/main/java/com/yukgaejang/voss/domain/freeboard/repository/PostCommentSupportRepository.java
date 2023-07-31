@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface PostCommentSupportRepository {
     public List<CommentDetailResponse> findAllByPostIdAndIsDeletedFalse(@Param("postId") Long postId);
+    public PostComment findByIdAndIsDeletedFalse(@Param("commentId") Long commentId);
 }

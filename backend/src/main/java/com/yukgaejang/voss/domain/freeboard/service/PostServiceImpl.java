@@ -29,10 +29,9 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostCommentService postCommentService;
     private final PostCommentRepository postCommentRepository;
-    private final MemberRepository memberRepository;
     private final PostLikeRepository postLikeRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public CreatePostResponse createPost(String email, CreatePostRequest createPostRequest) {
@@ -56,7 +55,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
         if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
         post.updateHit();
-        Page<CommentDetailResponse> comments = new PageImpl<>(postCommentService.getComments(id));
+        Page<CommentDetailResponse> comments = new PageImpl<>(postCommentRepository.findAllByPostIdAndIsDeletedFalse(id));
         Long likes = postLikeRepository.countByPostId(id);
         return new PostDetailResponse(postRepository.save(post), comments, likes);
     }
@@ -68,10 +67,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public DeletePostResponse deletePost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new NoPostException("존재하지 않는 글입니다."));
+        Post post = postRepository.findByIdAndIsDeletedFalse(id);
+        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
         post.delete();
         postRepository.save(post);
-        List<CommentDetailResponse> comments = postCommentService.getComments(id);
+        List<CommentDetailResponse> comments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(id);
         for(CommentDetailResponse comment : comments) {
             PostComment postComment = postCommentRepository.findById(comment.getId()).orElseThrow(() -> new NoPostCommentException("존재하지 않는 댓글입니다."));
             postComment.delete();

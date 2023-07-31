@@ -42,8 +42,6 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .leftJoin(pl).on(p.id.eq(pl.post.id))
                 .where(p.isDeleted.eq(0))
                 .groupBy(p.id)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory
