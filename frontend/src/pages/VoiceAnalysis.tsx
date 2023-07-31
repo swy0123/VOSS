@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
-import Script from '../components/VoiceAnalysis/Script';
+import Script from '../components/VoiceAnalysis/Script/Script';
 import AnalysisButton from '../components/VoiceAnalysis/AnalysisButton/AnalysisButton';
 import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/VoiceAnalysis/RecordButton/RecordButton';
