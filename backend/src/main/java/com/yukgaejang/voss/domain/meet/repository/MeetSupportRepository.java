@@ -7,6 +7,7 @@ import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -19,4 +20,6 @@ public interface MeetSupportRepository {
     void leaveMeetRoom(Long meetId);
 
     Page<Meet> getMeetList(MeetSearchCondition condition, Pageable pageable);
+
+    Page<Meet> getMeetListBySessionId(MeetSearchCondition condition, Pageable pageable, List<String> sessionIdList);
 }

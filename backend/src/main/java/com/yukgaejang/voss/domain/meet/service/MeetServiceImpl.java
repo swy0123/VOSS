@@ -8,6 +8,7 @@ import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
+import com.yukgaejang.voss.domain.meet.service.dto.GetSessionAndConnection;
 import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,8 +52,13 @@ public class MeetServiceImpl implements MeetService{
             throw new NoLimitRequest("limit 없음");
         }
         PageRequest pageRequest = PageRequest.of(condition.getPage(), condition.getLimit());
-        Page<Meet> all = meetRepository.getMeetList(condition, pageRequest);
-        return all.map(o -> new ViewAllMeetRoomResponse(o));
+        List<GetSessionAndConnection> GetSessionAndConnectionList = openViduClient.getSession();
+        List<String> sessionIdList = new ArrayList<>();
+        for (GetSessionAndConnection getSessionAndConnection : GetSessionAndConnectionList) {
+            sessionIdList.add(getSessionAndConnection.getSessionId());
+        }
+        Page<Meet> meetListBySessionId = meetRepository.getMeetListBySessionId(condition, pageRequest, sessionIdList);
+        return meetListBySessionId.map(o -> new ViewAllMeetRoomResponse(o));
     }
 
     @Override

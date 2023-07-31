@@ -4,7 +4,7 @@ package com.yukgaejang.voss.infra.openvidu;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yukgaejang.voss.domain.practice.serivce.dto.response.ClassifyResponse;
+import com.yukgaejang.voss.domain.meet.service.dto.GetSessionAndConnection;
 import com.yukgaejang.voss.infra.openvidu.exception.NoSessionExcepion;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduException;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Component
@@ -37,6 +36,38 @@ public class OpenViduClient {
             e.printStackTrace();
             return "세션 생성에 실패했습닌다.";
         }
+    }
+
+    public List<GetSessionAndConnection> getSession() {
+        String url = OPENVIDU_URL + "/openvidu/api/sessions";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU");
+        String body = WebClient.create().get()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return getSessionId(body);
+    }
+
+    private static List<GetSessionAndConnection> getSessionId(String body) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        List<GetSessionAndConnection> list = new ArrayList<>();
+        int content = jsonNode.get("content").size();
+        for (int i = 0; i < content; i++) {
+            String text = jsonNode.get("content").get(i).get("sessionId").asText();
+            int connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asInt();
+            list.add(new GetSessionAndConnection(text, connectionCnt));
+        }
+        return list;
     }
 
     public String getJoinMeetToken(String sessionId, String nickname) {

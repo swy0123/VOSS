@@ -83,6 +83,32 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
 
     }
 
+    @Override
+    public Page<Meet> getMeetListBySessionId(MeetSearchCondition condition, Pageable pageable, List<String> sessionIdList) {
+        List<Meet> content = queryFactory
+                .selectDistinct(meet)
+                .from(meet)
+                .where(
+                        meet.sessionId.in(sessionIdList),
+                        titleContains(condition.getTitle()),
+                        categoryEq(condition.getCategory())
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(meet.count())
+                .from(meet)
+                .where(
+                        meet.sessionId.in(sessionIdList),
+                        titleContains(condition.getTitle()),
+                        categoryEq(condition.getCategory())
+                );
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
     private BooleanExpression titleContains(String title) {
         return title == null ? null : meet.title.contains(title);
     }
