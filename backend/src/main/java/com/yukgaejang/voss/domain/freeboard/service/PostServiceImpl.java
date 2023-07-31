@@ -3,6 +3,7 @@ package com.yukgaejang.voss.domain.freeboard.service;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostCommentException;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.freeboard.repository.PostCommentRepository;
+import com.yukgaejang.voss.domain.freeboard.repository.PostLikeRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
@@ -31,6 +32,7 @@ public class PostServiceImpl implements PostService {
     private final PostCommentService postCommentService;
     private final PostCommentRepository postCommentRepository;
     private final MemberRepository memberRepository;
+    private final PostLikeRepository postLikeRepository;
 
     @Override
     public CreatePostResponse createPost(String email, CreatePostRequest createPostRequest) {
@@ -55,7 +57,8 @@ public class PostServiceImpl implements PostService {
         if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
         post.updateHit();
         Page<CommentDetailResponse> comments = new PageImpl<>(postCommentService.getComments(id));
-        return new PostDetailResponse(postRepository.save(post), comments);
+        Long likes = postLikeRepository.countByPostId(id);
+        return new PostDetailResponse(postRepository.save(post), comments, likes);
     }
 
     @Override

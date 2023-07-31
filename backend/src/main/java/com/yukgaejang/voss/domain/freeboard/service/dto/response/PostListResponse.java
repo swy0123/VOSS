@@ -11,17 +11,19 @@ import java.time.LocalDateTime;
 public class PostListResponse {
     private Long id;
     private String title;
-    private Long hit;
+    private Long hits;
     private String nickname;
+    private Long comments;
+    private Long likes;
     private LocalDateTime createdAt;
-    private Long commentCount;
 
-    public PostListResponse(Post post, Long commentCount) {
+    public PostListResponse(Post post, Long comments, Long likes) {
         this.id = post.getId();
         this.title = post.getTitle();
-        this.hit = post.getHit();
+        this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
         this.createdAt = post.getCreatedAt();
-        this.commentCount = commentCount;
+        this.comments = comments;
+        this.likes = likes;
     }
 }
