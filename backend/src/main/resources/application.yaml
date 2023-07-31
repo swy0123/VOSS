@@ -45,3 +45,4 @@ firebase:
 #  서버 경로
 #  path: /home/ubuntu/voss-server/serviceAccountKey.json
 #  path: serviceAccountKey.json
+ path: ${FIREBASE_SERVICE_KEY}
