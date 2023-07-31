@@ -67,7 +67,7 @@ public class MemberController {
     public ResponseEntity<List<GetFollowUserResponse>> userFollowings(@PathVariable("userId") Long userId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followings = memberService.getFollowers(userId, authentication.getName());
+        List<GetFollowUserResponse> followings = memberService.getFollowings(userId, authentication.getName());
         return ResponseEntity.ok(followings);
     }
 
@@ -78,8 +78,4 @@ public class MemberController {
         List<GetFollowUserResponse> followers = memberService.getFollowers(userId, authentication.getName());
         return ResponseEntity.ok(followers);
     }
-
-
-
-
 }
