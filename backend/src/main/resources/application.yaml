@@ -43,4 +43,5 @@ firebase:
 #  로컬 경로
 #  path: src/main/resources/external/serviceAccountKey.json
 #  서버 경로
-  path: /home/ubuntu/voss-server/serviceAccountKey.json
+#  path: /home/ubuntu/voss-server/serviceAccountKey.json
+  path: serviceAccountKey.json
