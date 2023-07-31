@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.practice.repository.entity;
 
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -20,8 +21,12 @@ public class Casting {
 
     private String name;
 
-    public Casting(Script script, String name) {
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member member;
+
+    public Casting(Script script, String name, Member member) {
         this.script = script;
         this.name = name;
+        this.member = member;
     }
 }
