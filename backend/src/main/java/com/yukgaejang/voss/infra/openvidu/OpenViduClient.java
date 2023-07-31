@@ -9,6 +9,8 @@ import com.yukgaejang.voss.infra.openvidu.exception.NoSessionExcepion;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduException;
 import io.openvidu.java.client.Session;
+import io.openvidu.java.client.SessionProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,30 +27,32 @@ public class OpenViduClient {
     private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io";
     private final String SECRET = "MY_SECRET";
     private final OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
-    private WebClient webClient;
+    private final HttpHeaders headers = new HttpHeaders();
+
+    @PostConstruct
+    public void init() {
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU");
+    }
+
 
     public String createSession() {
-
+        String sessionId = UUID.randomUUID().toString();
+        SessionProperties properties = new SessionProperties.Builder()
+                .customSessionId(sessionId)
+                .build();
         try{
-            Session session = openVidu.createSession();
+            Session session = openVidu.createSession(properties);
             return session.getSessionId();
         } catch (OpenViduException e) {
             e.printStackTrace();
-            return "세션 생성에 실패했습닌다.";
+            return "세션 생성에 실패했습니다.";
         }
     }
 
     public List<GetSessionAndConnection> getSession() {
         String url = OPENVIDU_URL + "/openvidu/api/sessions";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU");
-        String body = WebClient.create().get()
-                .uri(url)
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        String body = getString(url);
         return getSessionId(body);
     }
 
@@ -74,9 +78,6 @@ public class OpenViduClient {
         String token = null;
         try {
             String url = "https://i9b106.p.ssafy.io/openvidu/api/sessions/" + sessionId + "/connection";
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU");
 
             String requestBody = "{\"type\": \"WEBRTC\", \"data\": \"" + nickname + "\", \"role\": \"PUBLISHER\"}";
 
@@ -108,6 +109,29 @@ public class OpenViduClient {
         String token = jsonNode.get("token").asText();
 
         return token;
+    }
+
+    public int currentCount(String sessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/sessions/" + sessionId;
+        String body = getString(url);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonNode.get("connections").get("numberOfElements").asInt();
+    }
+
+    private String getString(String url) {
+        String body = WebClient.create().get()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return body;
     }
 
 }

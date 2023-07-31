@@ -81,10 +81,6 @@ public class MeetServiceImpl implements MeetService{
         Meet meet = getMeetBuJoinMeetRoomRequest(joinMeetRoomRequest);
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         String token = openViduClient.getJoinMeetToken(meet.getSessionId(), member.getNickname());
-        meetJoinRepository.save(new MeetJoin(member, meet));
-        em.flush();
-        em.clear();
-
         return new JoinMeetRoomResponse(token, "입장");
     }
 
@@ -140,8 +136,8 @@ public class MeetServiceImpl implements MeetService{
         if(meet.isDeleted()) {
             throw new NoMeetRoomException("해당 방이 없습니다.");
         }
-
-        if (meet.getMaxCount() <= meet.getMeetJoins().size()) {
+        int currentCount = openViduClient.currentCount(meet.getSessionId());
+        if (meet.getMaxCount() <= currentCount) {
             throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
         }
 
