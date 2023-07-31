@@ -3,14 +3,14 @@ import { OpenVidu } from "openvidu-browser";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import { PostMeetJoinProps, deleteMeet, joinMeet } from "../../../api/meeting";
-import { privateApi } from "../../../api";
 
-const OPENVIDU_SERVER_URL = "https://i9b106.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// import { useRecoilValue } from "recoil";
+// import { CurrentUserAtom } from "../../../recoil/Auth";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = (props: any) => {
 
+  // const currentUser = useRecoilValue(CurrentUserAtom)
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState("Participant" + Math.floor(Math.random() * 100));
   const [mainStreamManager, setMainStreamManager] = useState<any>(undefined);
@@ -59,6 +59,9 @@ const MeetJoin = (props: any) => {
   };
 
   const joinSession = async () => {
+    setMyUserName(myUserName);
+    setMySessionId(mySessionId);
+
     // --- 1) Get an OpenVidu object ---
     const OV = new OpenVidu();
 
