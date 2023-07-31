@@ -59,7 +59,7 @@ function RecordButton () {
   return(
     <RecordBox>
       <div id="waveform"></div>
-      <StopWatch onClick={onchange}>{formatTime(time)}</StopWatch>
+      <StopWatch>{formatTime(time)}</StopWatch>
           <SectionBtn>
             { !initialBtn && !isRunning ?
             <RestartBtn
