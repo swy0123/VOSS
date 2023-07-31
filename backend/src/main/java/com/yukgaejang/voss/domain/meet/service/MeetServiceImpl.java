@@ -57,15 +57,15 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email) {
         String sessionId = openViduClient.createSession();
-        Optional<Member> findMember = memberRepository.findByEmail(email);
+//        Optional<Member> findMember = memberRepository.findByEmail(email);
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
         meetRepository.save(meet);
-        Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
-        meetJoinRepository.save(new MeetJoin(member, meet));
-        em.flush();
-        em.clear();
+//        Member member = findMember.orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+//        meetJoinRepository.save(new MeetJoin(member, meet));
+//        em.flush();
+//        em.clear();
         return new InitMeetRoomResponse(sessionId, meet.getId());
     }
 
