@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,9 +48,8 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public Page<CommentDetailResponse> getComments(Long postId, Pageable pageable) {
-        Page<PostComment> allPostComments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId, pageable);
-        return allPostComments.map(CommentDetailResponse::new);
+    public List<CommentDetailResponse> getComments(Long postId) {
+        return postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId);
     }
 
     @Override

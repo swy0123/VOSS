@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostReques
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class FreeboardController {
 
     @GetMapping("/{postId}/comment")
     public ResponseEntity<Page<CommentDetailResponse>> getComments(@PathVariable Long postId, @PageableDefault(size = 100) Pageable pageable) {
-        return ResponseEntity.ok(postCommentService.getComments(postId, pageable));
+        return ResponseEntity.ok(new PageImpl<>(postCommentService.getComments(postId)));
     }
 
     @PutMapping("/{postId}/comment/{commentId}")
