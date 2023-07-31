@@ -4,13 +4,14 @@ import Header from '../components/Header/Header';
 import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/DubbingRoom/RecordButton';
 import Recording from '../components/DubbingRoom/Recording';
-import Script from '../components/DubbingRoom/Script';
-import Video from '../components/DubbingRoom/Video';
+import Script from '../components/DubbingRoom/Script/Script';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getVideo } from '../api/video';
 import { ScriptData } from '../type/type';
-
+import Video from '../components/DubbingRoom/Video/Video';
+import { useRecoilState } from 'recoil';
+import { videoState } from '../recoil/hw_atom';
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ const RightSection = styled.div`
 `
 
 function Dubbing() {
-  const [video, setVideo] = useState<ScriptData | null>(null)
+  const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
   const id = parseInt(useParams().id || "");
 
   const axiosVideo = async () => {
@@ -55,7 +56,8 @@ function Dubbing() {
           <Video 
             script={video.script}></Video>
           <Script 
-            lines={video.lines}></Script>
+            lines={video.lines}
+            roles={video.roles}></Script>
         </LeftSection>
         
         <RightSection>
