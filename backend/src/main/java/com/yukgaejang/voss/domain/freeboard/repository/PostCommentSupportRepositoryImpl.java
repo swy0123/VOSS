@@ -3,6 +3,7 @@ package com.yukgaejang.voss.domain.freeboard.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.QPostComment;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
 import org.springframework.data.domain.Page;
@@ -29,5 +30,16 @@ public class PostCommentSupportRepositoryImpl implements PostCommentSupportRepos
                 .leftJoin(pc.member).fetchJoin()
                 .where(pc.post.id.eq(postId).and(pc.isDeleted.eq(0)))
                 .fetch();
+    }
+
+    @Override
+    public PostComment findByIdAndIsDeletedFalse(Long commentId) {
+        QPostComment pc = QPostComment.postComment;
+
+        return jpaQueryFactory
+                .select(pc)
+                .from(pc)
+                .where(pc.id.eq(commentId).and(pc.isDeleted.eq(0)))
+                .fetchOne();
     }
 }
