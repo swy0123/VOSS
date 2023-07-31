@@ -35,16 +35,16 @@ public class MemberController {
     public ResponseEntity<FollowResponse> follow(@RequestBody FollowRequest followRequest/*, @AuthenticationPrincipal Authentication authentication*/) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        memberService.follow(followRequest , authentication.getName());
+        memberService.follow(followRequest, authentication.getName());
         return ResponseEntity.ok(new FollowResponse(true));
     }
 
-    @DeleteMapping("/unfollow/{userId}")
-    public ResponseEntity<FollowResponse> unfollow(@PathVariable("userId") Long userId) {;
+    @DeleteMapping("/unfollow/{memberId}")
+    public ResponseEntity<FollowResponse> unfollow(@PathVariable("memberId") Long memberId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        memberService.unfollow(userId, authentication.getName());
-        return ResponseEntity.ok(new FollowResponse(true));
+        memberService.unfollow(memberId, authentication.getName());
+        return ResponseEntity.ok(new FollowResponse(false));
     }
 
     @GetMapping("/follow/following")
@@ -63,19 +63,19 @@ public class MemberController {
         return ResponseEntity.ok(followers);
     }
 
-    @GetMapping("/follow/following/{userId}")
-    public ResponseEntity<List<GetFollowUserResponse>> userFollowings(@PathVariable("userId") Long userId) {;
+    @GetMapping("/follow/following/{memberId}")
+    public ResponseEntity<List<GetFollowUserResponse>> userFollowings(@PathVariable("memberId") Long memberId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followings = memberService.getFollowings(userId, authentication.getName());
+        List<GetFollowUserResponse> followings = memberService.getFollowings(memberId, authentication.getName());
         return ResponseEntity.ok(followings);
     }
 
-    @GetMapping("/follow/follower/{userId}")
-    public ResponseEntity<List<GetFollowUserResponse>> userFollowers(@PathVariable("userId") Long userId) {;
+    @GetMapping("/follow/follower/{memberId}")
+    public ResponseEntity<List<GetFollowUserResponse>> userFollowers(@PathVariable("memberId") Long memberId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followers = memberService.getFollowers(userId, authentication.getName());
+        List<GetFollowUserResponse> followers = memberService.getFollowers(memberId, authentication.getName());
         return ResponseEntity.ok(followers);
     }
 }

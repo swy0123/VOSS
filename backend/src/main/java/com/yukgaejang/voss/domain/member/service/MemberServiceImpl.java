@@ -12,11 +12,14 @@ import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.LoginRequest;
+import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowUserResponse;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -49,11 +52,40 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("팔로우를 시도하는 멤버가 존재하지 않습니다.")
         );
 
-        Member following = memberRepository.findByEmail(targetEmail.getTargetEmail()).orElseThrow(() ->
+        Member following = memberRepository.findById(targetEmail.getTargetId()).orElseThrow(() ->
                 new NoMemberException("팔로우하려는 대상 멤버가 존재하지 않습니다.")
         );
 
         followRepository.save(new Follow(follower, following));
+    }
+
+    @Override
+    public void unfollow(Long targetId, String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        followRepository.unfollow(targetId, me.getId());
+    }
+
+    @Override
+    public List<GetFollowUserResponse> getFollowings(String name) {
+        return null;
+    }
+
+    @Override
+    public List<GetFollowUserResponse> getFollowers(String name) {
+        return null;
+    }
+
+    @Override
+    public List<GetFollowUserResponse> getFollowers(Long userId, String name) {
+        return null;
+    }
+
+    @Override
+    public List<GetFollowUserResponse> getFollowings(Long userId, String name) {
+        return null;
     }
 
 }
