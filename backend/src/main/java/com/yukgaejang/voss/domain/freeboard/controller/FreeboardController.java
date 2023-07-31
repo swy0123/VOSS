@@ -66,13 +66,13 @@ public class FreeboardController {
     }
 
     @PutMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
-        return ResponseEntity.ok(postCommentService.updateComment(commentId, updateCommentRequest));
+    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
+        return ResponseEntity.ok(postCommentService.updateComment(postId, commentId, updateCommentRequest));
     }
 
     @DeleteMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long commentId) {
-        return ResponseEntity.ok(postCommentService.deleteComment(commentId));
+    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(postCommentService.deleteComment(postId, commentId));
     }
 
     @PostMapping("/{postId}/like")
