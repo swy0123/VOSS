@@ -15,7 +15,7 @@ function RecordButton () {
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
   const [initialBtn, setInitialBtn] = useState(true)
-  const [analysisRecord, setanalysisRecord] = useRecoilState(analysisRecordState)
+  const [analysisRecord, setAnalysisRecord] = useRecoilState(analysisRecordState)
   const { 
     startRecording, 
     stopRecording, 
@@ -53,7 +53,7 @@ function RecordButton () {
   };
 
   const addRecord = (mediaBlobUrl) => {
-    setanalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
+    setAnalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
   }
 
   return(

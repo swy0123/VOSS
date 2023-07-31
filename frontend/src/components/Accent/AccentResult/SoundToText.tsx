@@ -27,13 +27,12 @@ const SoundToText = () => {
   },[])
 
   const startListening = () => {
-    setText("")
+    setText("대사를 읽어보아요")
     setIsListening(true)
     recognition.start() 
   }
 
   const stopListening = () => {
-    setText("")
     setIsListening(false)
     recognition.stop()
   }

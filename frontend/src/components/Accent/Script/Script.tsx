@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { makeAccentScript } from "../../../api/script";
 import { 
   CategoryBox, 
   CategoryButton, 
@@ -15,19 +16,34 @@ import {
 
 function Script() {
   const [inputScripts, setInputSctipts] = useState("")
-  const ageOpt = ["뉴스", "날씨","법률","스포츠","직접 입력"]
-  const [isAgeSelect,setIsAgeSelect] = useState<boolean[]>([])
+  const categoryOpt = ["뉴스", "날씨","법률","스포츠","직접 입력"]
+  const [isCategorySelect,setIsCategorySelect] = useState<boolean[]>([])
+  const [categorySelected,setCategorySelected] = useState<string[]>([])
   
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
   }
   const DelScripts = () => {setInputSctipts("")}
 
-  const handleAgeBtn = (index:number) => {
-    const newAgeSelect = Array(ageOpt.length).fill(false)
-    newAgeSelect[index] = !isAgeSelect[index]
-    setIsAgeSelect(newAgeSelect)
+  const handleCategoryBtn = (index:number) => {
+    const newCategorySelect = Array(categoryOpt.length).fill(false)
+    newCategorySelect[index] = !isCategorySelect[index]
+    setIsCategorySelect(newCategorySelect)
+
+    const CategorySelected = categoryOpt.filter((category,index)=>(newCategorySelect[index]===true))
+    setCategorySelected(CategorySelected)
   }
+
+  const axiosMakeScript = async (categorySelected:string) => {
+    setInputSctipts("스크립트를 생성중입니다...")
+    try {
+      const makeScriptData: string = await makeAccentScript(categorySelected);
+      setInputSctipts(makeScriptData.script)
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
 
   return(
     <Container>
@@ -36,17 +52,19 @@ function Script() {
       <Options>
         <OptionSelect>
           <CategoryBox>
-            카테고리 : {ageOpt.map((data,index) => (
+            카테고리 : {categoryOpt.map((data,index) => (
               <CategoryButton 
                 key={index}
-                $IsClick={isAgeSelect[index]}
-                onClick={()=>handleAgeBtn(index)}
+                $IsClick={isCategorySelect[index]}
+                onClick={()=>handleCategoryBtn(index)}
                 >{data}
               </CategoryButton>
             ))}
           </CategoryBox>
         </OptionSelect>
-        <OptionCreate>생성</OptionCreate>
+        <OptionCreate
+          onClick={() => axiosMakeScript(
+            categorySelected)}>생성</OptionCreate>
       </Options>
       
       <ScriptBox>

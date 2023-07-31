@@ -35,7 +35,6 @@ export const ScriptSelectState = atom<boolean[]>({
   default: [],
 })
 
-// 
 export const PlayChangebState = atom<number[]>({
   key: 'PlayChangebState',
   default: [],

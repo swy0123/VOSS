@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { makeAnalysisScript } from "../../../api/script";
 import { 
   AgeBox,
