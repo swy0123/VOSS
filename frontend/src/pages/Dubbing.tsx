@@ -11,7 +11,7 @@ import { getVideo } from '../api/video';
 import { ScriptData } from '../type/type';
 import Video from '../components/DubbingRoom/Video/Video';
 import { useRecoilState } from 'recoil';
-import { videoState } from '../recoil/hw_atom';
+import { videoState } from '../recoil/Training';
 
 const Container = styled.div`
   display: flex;

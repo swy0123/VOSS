@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { useRecoilState } from 'recoil';
-import { analysisRecordState } from '../../../recoil/hw_atom';
+import { analysisRecordState } from '../../../recoil/Training';
 import { 
   CompleteBtn,
   RecordBox, 

@@ -1,8 +1,7 @@
 import { useRecoilState } from "recoil";
 import { Script } from "../../../type/type";
 import { Container, Display, Title } from "./Video.style";
-import { PlayChangebState } from "../../../recoil/hw_atom";
-
+import { PlayChangebState } from "../../../recoil/Training";
 
 interface VideoProps {
   script : Script

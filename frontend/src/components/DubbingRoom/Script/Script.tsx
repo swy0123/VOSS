@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { 
   PlayChangebState, 
   RoleSelectState, 
-  ScriptSelectState } from '../../../recoil/hw_atom';
+  ScriptSelectState } from '../../../recoil/Training';
 import { 
   Container, 
   Role, 
