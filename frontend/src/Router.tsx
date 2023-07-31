@@ -1,4 +1,4 @@
-import { createBrowserRouter, Routes, Route} from "react-router-dom";
+import { createBrowserRouter, Routes, Route } from "react-router-dom";
 import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
@@ -18,81 +18,81 @@ import Profile from "./components/Profile/Profile";
 
 const router = createBrowserRouter([
     {
-        path:"/",
-        element: <Root/>,
-        children:[
+        path: "/",
+        element: <Root />,
+        children: [
             {
-                path:"",
-                element: <Home/>,
-                errorElement: <ErrorComponent/>,
+                path: "",
+                element: <Home />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"category",
-                element: <SelectCategory/>,
-                errorElement: <ErrorComponent/>,
+                path: "category",
+                element: <SelectCategory />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"analysis",
-                element: <VoiceAnalysis/>,
-                errorElement: <ErrorComponent/>,
+                path: "analysis",
+                element: <VoiceAnalysis />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"dubbing",
-                element: <Dubbing/>,
-                errorElement: <ErrorComponent/>,
+                path: "dubbing",
+                element: <Dubbing />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"dubbinglist",
-                element: <DubbingList/>,
-                errorElement: <ErrorComponent/>,
+                path: "dubbinglist",
+                element: <DubbingList />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"dubbing/:id",
-                element: <Dubbing/>,
-                errorElement: <ErrorComponent/>,
+                path: "dubbing/:id",
+                element: <Dubbing />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"accent",
-                element: <Accent/>,
-                errorElement: <ErrorComponent/>,
+                path: "accent",
+                element: <Accent />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"freeboard",
-                element: <FreeBoard/>,
-                errorElement: <ErrorComponent/>,
+                path: "freeboard",
+                element: <FreeBoard />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"freeboard/:id",
-                element: <PostDetail/>,
-                errorElement: <ErrorComponent/>,
+                path: "freeboard/:id",
+                element: <PostDetail />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"freeboard/create",
-                element: <PostCreate/>,
-                errorElement: <ErrorComponent/>,
+                path: "freeboard/create",
+                element: <PostCreate />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"freeboard/update/:id",
-                element: <PostUpdate/>,
-                errorElement: <ErrorComponent/>,
+                path: "freeboard/update/:id",
+                element: <PostUpdate />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"meeting",
-                element: <MeetingBoard/>,
-                errorElement: <ErrorComponent/>,
+                path: "meeting",
+                element: <MeetingBoard />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"meeting/:id",
-                element: <Meeting/>,
-                errorElement: <ErrorComponent/>,
+                path: "meeting/join",
+                element: <Meeting />,
+                errorElement: <ErrorComponent />,
             },
             {
-                path:"profile/:id",
-                element: <Profile/>,
-                errorElement: <ErrorComponent/>,
+                path: "profile/:id",
+                element: <Profile />,
+                errorElement: <ErrorComponent />,
             },
         ],
-        errorElement: <NotFound/>
+        errorElement: <NotFound />
     }
 ])
 

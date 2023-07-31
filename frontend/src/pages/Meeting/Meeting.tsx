@@ -1,39 +1,47 @@
-import { BackGroundImg } from '../../components/BackGroundImg';
-import { styled } from 'styled-components';
-import Messenger from '../../components/Message/Messenger';
-import { useParams } from 'react-router';
-import { Container, H1, LeftSection, RightSection } from './Meeting.style';
+import { BackGroundImg } from "../../components/BackGroundImg";
+import { styled } from "styled-components";
+import Messenger from "../../components/Message/Messenger";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { Container, H1, LeftSection, RightSection } from "./Meeting.style";
+import App from "../../components/Meeting/OpenVidu/MeetJoin";
+import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
+import { PostMeetJoinProps } from "../../api/meeting";
 
-interface MeetingData {
-  index: number;
-  type: number;
-  title: string;
+export interface MeetingProps {
+  meetRoomId: number;
   password: string;
-  curMan: number;
-  limit: number;
 }
 
-
 function Meeting() {
-  const {id} = useParams() as { id: string };
+  const { state } = useLocation(); // 2번 라인
+  const [meetingProps, setMeetingProps] = useState<any>();
 
-  //id를 통해 해당 화상회의방 api 호출
+  useEffect(() => {
+    const newMeetingProps = {
+      meetRoomId: state.meetRoomId,
+      password: state.password,
+    };
+    setMeetingProps(newMeetingProps);
+  }, []);
+  const meetRoomId = state.id;
+  const password = state.password;
 
   return (
     <BackGroundImg>
       <Container>
-        <H1>{id}</H1>
+        <MeetJoin props={meetingProps} />
 
-        <LeftSection>
-          
-        </LeftSection>
+        <LeftSection></LeftSection>
 
         <RightSection>
+          <h1>
+            {meetRoomId} {password}
+          </h1>
         </RightSection>
-
       </Container>
       <Messenger />
     </BackGroundImg>
-  )
+  );
 }
-export default Meeting
+export default Meeting;
