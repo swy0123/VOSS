@@ -30,6 +30,7 @@ function DubbingList() {
   const [videoList, setVideoList] = useRecoilState<Video[]>(videoListState)
   const [isGenreSelect,setIsGenreSelect] = useState<boolean[]>([])
   const genreOpt = ["영화", "드라마", "애니메이션", "기타"]
+  const navigate = useNavigate()
 
   const handleGenreBtn = (index:number) => {
     const newGenderSelect = Array(genreOpt.length).fill(false)
@@ -42,8 +43,11 @@ function DubbingList() {
     const second = Math.floor(durationInSec % 60)
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
-  const navigate = useNavigate()
-  const goDubbing = (id:number) => navigate(`/dubbing/${id}`)
+
+  const goDubbing = (id:number) => {
+    navigate(`/dubbing/${id}`)
+    window.location.reload()
+  }
   
   const axiosVideoList = async () => {
     try {
@@ -54,11 +58,42 @@ function DubbingList() {
       console.log(error);
     }
   };
+  
+  // 여기서 부터 iframe player API
+  const onYouTubeIframeAPIReady = () => {
+    videoList.forEach((video, index) => {
+      console.log("여기 오니?")
+      new YT.Player(`player-${index}`, {
+        videoId: video.videoUrl.slice(-11),
+        events: {
+          'onReady': onPlayerReadyMute,
+        }
+      });
+    })
+  }
+
+  const onPlayerReadyMute = (event) => {
+    event.target.playVideo();
+    event.target.mute()
+  }
+
+  // index.html에 CDN을 동적으로 추가해주는 과정이라 생각하자
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  if (firstScriptTag && firstScriptTag.parentNode) {
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
   useEffect(() => {
     axiosVideoList();
   }, []);
-
+  
+  // useEffect(() => {
+  //   onYouTubeIframeAPIReady();
+  // }, [videoList]);
+  
   return(
     <BackGroundImg>
       <Header/>
@@ -84,7 +119,9 @@ function DubbingList() {
           <VideoBox>
             {videoList.map((video,index) => (
               <VideoItem key={index}>
-                <Thumbnail src={video.videoUrl}></Thumbnail>
+                <Thumbnail 
+                  key={`player-${index}`} 
+                  id={`player-${index}`}></Thumbnail>
                 <Infos>
                   <Count>
                     <CountImg src="/src/assets/Dubbing/count.png"/>
@@ -95,6 +132,7 @@ function DubbingList() {
                     {formatTime(video.durationInSec)}
                   </Time>
                 </Infos>
+
                 <Description>{video.title}</Description>
                 <PracticeBtn onClick={() => goDubbing(video.id)}>연습하기</PracticeBtn>
               </VideoItem>

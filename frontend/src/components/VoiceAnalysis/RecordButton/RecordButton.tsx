@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { ReactMediaRecorder } from 'react-media-recorder';
+import { useReactMediaRecorder } from 'react-media-recorder';
 import { useRecoilState } from 'recoil';
 import { analysisRecordState } from '../../../recoil/hw_atom';
 import { 
@@ -16,6 +16,13 @@ function RecordButton () {
   const intervalRef = useRef<number|null>(null);
   const [initialBtn, setInitialBtn] = useState(true)
   const [analysisRecord, setanalysisRecord] = useRecoilState(analysisRecordState)
+  const { 
+    startRecording, 
+    stopRecording, 
+    clearBlobUrl,
+    pauseRecording,
+    resumeRecording,
+    mediaBlobUrl } = useReactMediaRecorder({ audio: true });
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -45,29 +52,22 @@ function RecordButton () {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
-  const addRecording = (file) => {
-    setanalysisRecord([file, ...analysisRecord])
-    console.log(analysisRecord)
+  const addRecord = (mediaBlobUrl) => {
+    setanalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
   }
 
   return(
     <RecordBox>
       <div id="waveform"></div>
-      <StopWatch>{formatTime(time)}</StopWatch>
-        <ReactMediaRecorder
-          audio
-          render={({
-            startRecording, 
-            pauseRecording, 
-            resumeRecording, 
-            stopRecording,
-            clearBlobUrl, 
-            mediaBlobUrl }) => (
+      <StopWatch onClick={onchange}>{formatTime(time)}</StopWatch>
           <SectionBtn>
+            { !initialBtn && !isRunning ?
             <RestartBtn
               onClick={() => {
                 resetTimer()
-                stopRecording()}}>취소</RestartBtn>
+                stopRecording()
+                clearBlobUrl()}}>취소</RestartBtn> : ""}
+
             { initialBtn ? 
               (<RecordBtn
                 onClick={() => {
@@ -78,7 +78,9 @@ function RecordButton () {
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
-                    pauseRecording()}}
+                    stopRecording()
+                    pauseRecording()
+                  }}
                   src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
                 (<RecordBtn
                   onClick={() => {
@@ -86,14 +88,15 @@ function RecordButton () {
                     resumeRecording()}}
                   src="/src/assets/Training/restartbtn.png"></RecordBtn>)
             }
+
+            { !initialBtn && !isRunning ?
             <CompleteBtn
                 onClick={() => {
-                  resetTimer()
-                  stopRecording()
-                  addRecording(mediaBlobUrl)}}>완료</CompleteBtn>
+                    stopRecording()
+                    addRecord(mediaBlobUrl)
+                    resetTimer()
+                  }}>완료</CompleteBtn> : "" }
           </SectionBtn>
-          )}
-        />
     </RecordBox>
   )
 }
