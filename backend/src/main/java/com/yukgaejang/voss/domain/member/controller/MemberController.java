@@ -5,13 +5,12 @@ import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.FollowResponse;
-import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowUserResponse;
+import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,35 +46,35 @@ public class MemberController {
         return ResponseEntity.ok(new FollowResponse(false));
     }
 
-    @GetMapping("/follow/following")
-    public ResponseEntity<List<GetFollowUserResponse>> myFollowings() {;
+    @GetMapping("/following")
+    public ResponseEntity<List<GetFollowMemberResponse>> myFollowings() {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followings = memberService.getFollowings(authentication.getName());
+        List<GetFollowMemberResponse> followings = memberService.getFollowings(authentication.getName());
         return ResponseEntity.ok(followings);
     }
 
-    @GetMapping("/follow/follower")
-    public ResponseEntity<List<GetFollowUserResponse>> myFollowers() {;
+    @GetMapping("/follower")
+    public ResponseEntity<List<GetFollowMemberResponse>> myFollowers() {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followers = memberService.getFollowers(authentication.getName());
+        List<GetFollowMemberResponse> followers = memberService.getFollowers(authentication.getName());
         return ResponseEntity.ok(followers);
     }
 
-    @GetMapping("/follow/following/{memberId}")
-    public ResponseEntity<List<GetFollowUserResponse>> userFollowings(@PathVariable("memberId") Long memberId) {;
+    @GetMapping("/following/{memberId}")
+    public ResponseEntity<List<GetFollowMemberResponse>> userFollowings(@PathVariable("memberId") Long memberId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followings = memberService.getFollowings(memberId, authentication.getName());
+        List<GetFollowMemberResponse> followings = memberService.getFollowings(memberId, authentication.getName());
         return ResponseEntity.ok(followings);
     }
 
-    @GetMapping("/follow/follower/{memberId}")
-    public ResponseEntity<List<GetFollowUserResponse>> userFollowers(@PathVariable("memberId") Long memberId) {;
+    @GetMapping("/follower/{memberId}")
+    public ResponseEntity<List<GetFollowMemberResponse>> userFollowers(@PathVariable("memberId") Long memberId) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        List<GetFollowUserResponse> followers = memberService.getFollowers(memberId, authentication.getName());
+        List<GetFollowMemberResponse> followers = memberService.getFollowers(memberId, authentication.getName());
         return ResponseEntity.ok(followers);
     }
 }

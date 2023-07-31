@@ -2,18 +2,14 @@ package com.yukgaejang.voss.domain.member.service;
 
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
-import com.yukgaejang.voss.domain.member.exception.WrongPasswordException;
 import com.yukgaejang.voss.domain.member.repository.FollowRepository;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Follow;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.member.repository.entity.Role;
-import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.LoginRequest;
-import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowUserResponse;
-import com.yukgaejang.voss.global.jwt.service.JwtService;
+import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,23 +65,39 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<GetFollowUserResponse> getFollowings(String name) {
-        return null;
+    public List<GetFollowMemberResponse> getFollowings(String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        return followRepository.findFollowings(me.getId(), me.getId());
     }
 
     @Override
-    public List<GetFollowUserResponse> getFollowers(String name) {
-        return null;
+    public List<GetFollowMemberResponse> getFollowers(String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        return followRepository.findFollowers(me.getId(), me.getId());
     }
 
     @Override
-    public List<GetFollowUserResponse> getFollowers(Long userId, String name) {
-        return null;
+    public List<GetFollowMemberResponse> getFollowings(Long memberId, String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        return followRepository.findFollowings(memberId, me.getId());
     }
 
     @Override
-    public List<GetFollowUserResponse> getFollowings(Long userId, String name) {
-        return null;
+    public List<GetFollowMemberResponse> getFollowers(Long memberId, String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        return followRepository.findFollowers(memberId, me.getId());
     }
 
 }
