@@ -11,7 +11,8 @@ public class ViewAllMeetRoomResponse {
     private Category category;
     private String title;
     private int maxCount;
-    private int currentCount;
+    private Long currentCount;
+    private Long createdAt;
     private String sessionId;
     private boolean isPassword;
 

@@ -23,4 +23,12 @@ public class CastingSelectionSupportRepositoryImpl implements CastingSelectionSu
                 .where(castingSelection.member.id.eq(memberId))
                 .execute();
     }
+
+    @Override
+    public void deleteByMemberId(Long memberId) {
+        queryFactory
+                .delete(castingSelection)
+                .where(castingSelection.member.id.eq(memberId))
+                .execute();
+    }
 }
