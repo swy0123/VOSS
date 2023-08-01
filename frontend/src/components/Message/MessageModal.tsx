@@ -97,7 +97,7 @@ const MessageModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     <ModalContainer>
       <DialogBox>
         <div>
-          친구찾기
+          프로필 사진
           <ExitImg
             src={ExitBox}
             onClick={(e: React.MouseEvent) => {

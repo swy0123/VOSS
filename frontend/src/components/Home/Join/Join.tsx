@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
 import Checked from "../../../assets/main/Checked.png";
 import Email from "../../../assets/main/Email.png";
+import NoImg from "../../../assets/main/NoImg.png";
 import { authEmail, postJoin, postTest } from "../../../api/join";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
@@ -20,7 +21,11 @@ import {
   Img,
   Title,
   UnderText,
+  AvatarImg,
+  AvatarImgDiv,
 } from "./Join.style";
+import AvatarEditor from "./AvatarEditor";
+import AvatarModal from "./AvatarModal";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -29,6 +34,7 @@ const Login = () => {
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [isOpenAvatarModal, setOpenAvatarModal] = useState<boolean>(false);
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const MAX_LENGTH = 20;
 
@@ -97,6 +103,10 @@ const Login = () => {
   const toggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
+  
+  const toggleAvatarModal = useCallback(() => {
+    setOpenAvatarModal(!isOpenAvatarModal);
+  }, [isOpenAvatarModal]);
 
   const isEmailCheckd = () => {
     setEmailChecked(true);
@@ -110,6 +120,10 @@ const Login = () => {
         <P>LET'S GET YOU STARTED</P>
         <H2>Create an Account</H2>
       </Title>
+
+      <AvatarImgDiv>
+        <AvatarImg src={NoImg} onClick={toggleAvatarModal}/>
+      </AvatarImgDiv>
 
       <form onSubmit={handleSubmit}>
         <InputDiv>
@@ -145,6 +159,7 @@ const Login = () => {
       </UnderText>
 
       {isOpenModal && <EmailModal toggleModal={toggleModal} email={email} isEmailCheckd={isEmailCheckd}></EmailModal>}
+      {isOpenAvatarModal && <AvatarModal toggleAvatarModal={toggleAvatarModal}></AvatarModal>}
     </Container>
   );
 };

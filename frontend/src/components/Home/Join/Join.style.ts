@@ -32,7 +32,7 @@ position: relative;
   width: 80%;
   height: auto;
   margin: 10% auto;
-  margin-bottom: 20%;
+  margin-bottom: 15%;
   text-align: left;
 `;
 
@@ -103,4 +103,25 @@ export const Timer = styled.h1`
   border-radius: 8px;
   margin: auto;
   margin-top: 10px;
+`;
+
+
+export const AvatarImgDiv = styled.div`
+  background-color: #BEBEBE;
+  font-size: 12px;
+  color: #ffffff;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+`;
+
+
+export const AvatarImg = styled.img`
+  width: 50px;
+  margin-top: 20px;
+  &:hover {
+   transform: scale(1.1);
+   transition: 0.3s;
+}
 `;
