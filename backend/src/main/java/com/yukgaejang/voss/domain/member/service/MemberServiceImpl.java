@@ -137,7 +137,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberInfoResponse.builder()
                 .email(me.getEmail())
                 .nickname(me.getNickname())
-                .isFollowing(followRepository.amFollowing(memberId, me.getId()))
+                .isFollowing(followRepository.isFollowing(memberId, me.getId()))
                 .followerCnt(followRepository.getFollowerCount(memberId))
                 .followingCnt(followRepository.getFollowingCount(memberId))
                 .actCnt(actCnt)
