@@ -6,11 +6,13 @@ import { PostMeetJoinProps, deleteMeet, joinMeet } from "../../../api/meeting";
 
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../../recoil/Auth";
+import { useNavigate } from "react-router-dom";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = (props: any) => {
   console.log("Meetjoin : " + props)
 
+  const navigate = useNavigate();
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [mySessionId, setMySessionId] = useState(currentUser.userId);
   const [myUserName, setMyUserName] = useState(currentUser.userId);
@@ -59,6 +61,8 @@ const MeetJoin = (props: any) => {
   const deleteSubscriber = (streamManager: any) => {
     setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
   };
+  
+  const goMeetingBoard = () => {navigate("/meeting")}
 
   const joinSession = async () => {
     setMyUserName(myUserName);
@@ -141,6 +145,7 @@ const MeetJoin = (props: any) => {
     setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setMainStreamManager(undefined);
     setPublisher(undefined);
+    goMeetingBoard();
   };
 
   const switchCamera = async () => {
