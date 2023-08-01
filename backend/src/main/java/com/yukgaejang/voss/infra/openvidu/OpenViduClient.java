@@ -50,14 +50,14 @@ public class OpenViduClient {
         }
     }
 
-    public HashMap<String, Integer> getSession() {
+    public HashMap<String, List<Long>> getSession() {
         String url = OPENVIDU_URL + "/openvidu/api/sessions";
         String body = getString(url);
         return getSessionId(body);
     }
 
-    private static HashMap<String, Integer> getSessionId(String body) {
-        HashMap<String, Integer> map = new HashMap<>();
+    private static HashMap<String, List<Long>> getSessionId(String body) {
+        HashMap<String, List<Long>> map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -65,13 +65,15 @@ public class OpenViduClient {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        List<GetSessionAndConnection> list = new ArrayList<>();
+        List<Long> list = new ArrayList<>();
         int content = jsonNode.get("content").size();
         for (int i = 0; i < content; i++) {
             String text = jsonNode.get("content").get(i).get("sessionId").asText();
-            int connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asInt();
-            map.put(text, connectionCnt);
-            list.add(new GetSessionAndConnection(text, connectionCnt));
+            Long connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asLong();
+            Long createdAt = jsonNode.get("content").get(i).get("createdAt").asLong();
+            list.add(connectionCnt);
+            list.add(createdAt);
+            map.put(text, list);
         }
         return map;
     }
