@@ -1,7 +1,6 @@
 package com.yukgaejang.voss.domain.meet.service;
 
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
-import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
@@ -11,7 +10,6 @@ import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
 import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
-import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
@@ -23,12 +21,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,13 +40,19 @@ public class MeetServiceImpl implements MeetService{
     private final OpenViduClient openViduClient;
 
     @Override
-    public Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
-        if(condition.getLimit() == 0 ) {
-            throw new NoLimitRequest("limit 없음");
+    public List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
+        HashMap<String, Integer> map = openViduClient.getSession();
+        Set<String> sessionIdList = map.keySet();
+        List<ViewAllMeetRoomResponse> collect = meetRepository.getMeetListBySessionId(condition, sessionIdList)
+                .stream()
+                .map(o -> new ViewAllMeetRoomResponse(o))
+                .collect(Collectors.toList());
+        for (ViewAllMeetRoomResponse response: collect) {
+            if(map.containsKey(response.getSessionId())){
+                response.setCurrentCount(map.get(response.getSessionId()));
+            }
         }
-        PageRequest pageRequest = PageRequest.of(condition.getPage(), condition.getLimit());
-        Page<Meet> all = meetRepository.getMeetList(condition, pageRequest);
-        return all.map(o -> new ViewAllMeetRoomResponse(o));
+        return collect;
     }
 
     @Override
@@ -72,12 +73,8 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email) {
         Meet meet = getMeetBuJoinMeetRoomRequest(joinMeetRoomRequest);
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
-        String token = openViduClient.getJoinMeetToken(meet.getSessionId(), member.getNickname());
-        meetJoinRepository.save(new MeetJoin(member, meet));
-        em.flush();
-        em.clear();
-
+//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
+        String token = openViduClient.getJoinMeetToken(meet.getSessionId(), email);
         return new JoinMeetRoomResponse(token, "입장");
     }
 
@@ -119,8 +116,10 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public GetAllMeetJoinResponse getMeetJoinList(Long meetRoomId) {
-        List<MeetJoin> meetJoinList = meetJoinRepository.findByMeetId(meetRoomId);
-        List<MeetJoinDto> meetJoinDtoList = meetJoinList.stream()
+        Meet meet = meetRepository.findByMeetId(meetRoomId).orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
+        List<String> emailList = openViduClient.meetJoinList(meet.getSessionId());
+        List<MeetJoinDto> meetJoinDtoList = memberRepository.findByEmailList(emailList)
+                .stream()
                 .map(o -> new MeetJoinDto(o))
                 .collect(Collectors.toList());
         return new GetAllMeetJoinResponse(meetJoinDtoList);
@@ -133,8 +132,8 @@ public class MeetServiceImpl implements MeetService{
         if(meet.isDeleted()) {
             throw new NoMeetRoomException("해당 방이 없습니다.");
         }
-
-        if (meet.getMaxCount() <= meet.getMeetJoins().size()) {
+        int currentCount = openViduClient.currentCount(meet.getSessionId());
+        if (meet.getMaxCount() <= currentCount) {
             throw new ExceedMaxNumberException("이미 방이 가득 찼습니다.");
         }
 

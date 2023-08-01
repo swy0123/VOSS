@@ -8,7 +8,4 @@ public class MeetSearchCondition {
     // 제목, 카테고리
     private String title;
     private Category category;
-    private int page;
-    private int limit;
-
 }
