@@ -59,7 +59,11 @@ export const InputHeader = styled.div`
   left: 12%;
 `;
 
-export const ShowPswd = styled.div`
+export const Img = styled.img`
+  width: 16px;
+`
+
+export const ShowIcon = styled.div`
   position: absolute;
   top: 50%;
   right: 12%;
@@ -88,4 +92,15 @@ export const Button = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 20px;
+`;
+
+export const Timer = styled.h1`
+  font-size: 14px;
+  color: #212121;
+  width: 85%;
+  height: 40px;
+  border-width: 1px;
+  border-radius: 8px;
+  margin: auto;
+  margin-top: 10px;
 `;
