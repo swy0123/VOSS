@@ -37,6 +37,7 @@ const RecordBtn = styled.img`
 `
 
 function RecordButton () {
+  console.log("ReButton도?")
   const [isRunning, setIsRunning] = useState(false);
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);

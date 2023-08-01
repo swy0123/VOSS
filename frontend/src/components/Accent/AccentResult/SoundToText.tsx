@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { accentTextState } from '/src/recoil/HW_Atom';
+import { useRecoilState } from "recoil";
 
 let recognition: any = null
 if ("webkitSpeechRecognition" in window) {
@@ -8,7 +10,7 @@ if ("webkitSpeechRecognition" in window) {
 }
 
 const SoundToText = () => {
-  const [text, setText] = useState("")
+  const [accentText, setAccentText] = useRecoilState(accentTextState)
   const [isListening, setIsListening] = useState(false)
 
   useEffect(() => {
@@ -16,7 +18,7 @@ const SoundToText = () => {
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       console.log(event.results)
-      setText(event.results[0][0].transcript)
+      setAccentText(event.results[0][0].transcript)
       recognition.stop()
       setIsListening(false)
       setTimeout(()=> {
@@ -27,7 +29,7 @@ const SoundToText = () => {
   },[])
 
   const startListening = () => {
-    setText("대사를 읽어보아요")
+    setAccentText("대사를 읽어보아요")
     setIsListening(true)
     recognition.start() 
   }
@@ -38,7 +40,6 @@ const SoundToText = () => {
   }
 
   return {
-    text,
     isListening,
     startListening,
     stopListening,

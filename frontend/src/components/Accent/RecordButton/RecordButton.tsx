@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { useRecoilState } from 'recoil';
 import { accentRecordState } from '../../../recoil/Training';
+import SoundToText from '../AccentResult/SoundToText';
 import { 
   CompleteBtn, 
   RecordBox, 
@@ -56,10 +57,17 @@ function RecordButton () {
     setAccentRecord([mediaBlobUrl,...accentRecord.slice(0,4)])
   }
 
+  const {
+    startListening,
+    stopListening,
+    hasRecognitionSupport
+  } = SoundToText()
+
   return(
     <RecordBox>
       <div id="waveform"></div>
       <StopWatch>{formatTime(time)}</StopWatch>
+          {hasRecognitionSupport ? (
           <SectionBtn>
             { !initialBtn && !isRunning ?
             <RestartBtn
@@ -72,7 +80,8 @@ function RecordButton () {
               (<RecordBtn
                 onClick={() => {
                   startOrStop()
-                  startRecording()}}
+                  startRecording()
+                  startListening()}}
                 src="/src/assets/Training/startbtn.png"></RecordBtn>) :
               isRunning ? 
                 (<RecordBtn
@@ -80,14 +89,15 @@ function RecordButton () {
                     startOrStop()
                     stopRecording()
                     pauseRecording()
+                    stopListening()
                   }}
                   src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
-                    resumeRecording()}}
-                  src="/src/assets/Training/restartbtn.png"></RecordBtn>)
-            }
+                    resumeRecording()
+                    startListening()}}
+                  src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
 
             { !initialBtn && !isRunning ?
             <CompleteBtn
@@ -97,6 +107,9 @@ function RecordButton () {
                     resetTimer()
                   }}>완료</CompleteBtn> : "" }
           </SectionBtn>
+          ) : (
+            <h1> Your browser has no speech recognition support</h1>
+          )}
     </RecordBox>
   )
 }

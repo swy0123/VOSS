@@ -27,7 +27,6 @@ function Script ({lines,roles}: VideoProps) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
-  const scrollRef = useRef<number|null>();
   
   const handleRoleBtn = async (index:number) => {
     const newRoleSelect = await Array(roles.length).fill(false)
@@ -38,9 +37,7 @@ function Script ({lines,roles}: VideoProps) {
       const newScriptSelect = await lines.map((line) => line.name===roles[index])
       await setIsScriptSelect(newScriptSelect)
       }
-  
   }
-
   const fixTopScript = () => {
     // 1은 PlayingState
     if(playChange[0] === 1) { 
@@ -73,6 +70,7 @@ function Script ({lines,roles}: VideoProps) {
           ))}
         <div style={{color:'white'}}>{time}</div>
       </RoleBox>
+
       <ScriptBox>
         {lines.map((line,index) => (
           <Scripts
