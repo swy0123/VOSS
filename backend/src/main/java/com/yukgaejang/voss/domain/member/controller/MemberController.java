@@ -4,10 +4,7 @@ import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.response.FollowResponse;
-import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
-import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
-import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
+import com.yukgaejang.voss.domain.member.service.dto.response.*;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -93,5 +90,11 @@ public class MemberController {
 
         List<GetFollowMemberResponse> followers = memberService.getFollowers(memberId, authentication.getName());
         return ResponseEntity.ok(followers);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<GetMemberList>> getMemberList(String nickname) {
+        System.out.println("searchCondition = " + nickname);
+        return ResponseEntity.ok(memberService.getMemberList(nickname));
     }
 }
