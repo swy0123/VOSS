@@ -90,9 +90,6 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public List<ViewScriptLineResponse> selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
         for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
-            System.out.println("selectCastingRequest = " + selectCastingRequest);
-        }
-        for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
             Member member = memberRepository.findById(selectCastingRequest.getMemberId())
                     .orElseThrow(() -> new NoMemberException("회원이 아닙니다"));
             castingSelectionRepository.deleteByMemberId(member.getId());
