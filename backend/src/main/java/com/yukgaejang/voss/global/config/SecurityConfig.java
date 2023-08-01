@@ -45,11 +45,10 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(
                 authorize -> authorize
-                        .requestMatchers("/auth/post-test").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/test").permitAll()
                         .requestMatchers("/member").permitAll()
-                        .requestMatchers("/member/login").permitAll()
+                        .requestMatchers("/auth/email", "/auth/email/confirm").permitAll()
                         .anyRequest().authenticated()
                 );
         http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));

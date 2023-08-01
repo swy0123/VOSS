@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.auth.service;
 
+import com.yukgaejang.voss.domain.auth.service.dto.request.SendEmailRequest;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class AuthService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email)
@@ -23,5 +25,8 @@ public class AuthService implements UserDetailsService {
                 .password(member.getPassword())
                 .roles(member.getRole().name())
                 .build();
+    }
+
+    public void sendEmail(SendEmailRequest sendEmailRequest) {
     }
 }

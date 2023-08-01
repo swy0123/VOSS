@@ -17,6 +17,21 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: ${SMTP_EMAIL}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 jwt:
   secretKey: test210
   access:
