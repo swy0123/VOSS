@@ -16,7 +16,7 @@ interface LoginProps {
   password: string;
 }
 
-const Login: React.FC<Props> = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
