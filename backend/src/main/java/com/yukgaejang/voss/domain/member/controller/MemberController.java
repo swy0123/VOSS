@@ -94,7 +94,6 @@ public class MemberController {
 
     @GetMapping("/find")
     public ResponseEntity<List<GetMemberList>> getMemberList(String nickname) {
-        System.out.println("searchCondition = " + nickname);
         return ResponseEntity.ok(memberService.getMemberList(nickname));
     }
 }
