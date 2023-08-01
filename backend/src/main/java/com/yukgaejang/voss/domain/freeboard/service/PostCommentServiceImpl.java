@@ -34,7 +34,9 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Override
     public CreateCommentResponse createComment(Long postId, String email, CreateCommentRequest createCommentRequest) {
         Post post = postRepository.findByIdAndIsDeletedFalse(postId);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         PostComment postComment = PostComment.builder()
                 .member(memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다.")))
                 .post(post)
@@ -47,9 +49,13 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Override
     public UpdateCommentResponse updateComment(Long postId, Long commentId, UpdateCommentRequest updateCommentRequest) {
         Post post = postRepository.findByIdAndIsDeletedFalse(postId);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         PostComment postComment = postCommentRepository.findByIdAndIsDeletedFalse(commentId);
-        if(postComment == null) throw new NoPostCommentException("존재하지 않는 댓글입니다.");
+        if(postComment == null) {
+            throw new NoPostCommentException("존재하지 않는 댓글입니다.");
+        }
         postComment.update(updateCommentRequest.getContent());
         postCommentRepository.save(postComment);
         return new UpdateCommentResponse(true);
@@ -58,16 +64,22 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Override
     public List<CommentDetailResponse> getComments(Long postId) {
         Post post = postRepository.findByIdAndIsDeletedFalse(postId);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         return postCommentRepository.findAllByPostIdAndIsDeletedFalse(postId);
     }
 
     @Override
     public DeleteCommentResponse deleteComment(Long postId, Long commentId) {
         Post post = postRepository.findByIdAndIsDeletedFalse(postId);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         PostComment postComment = postCommentRepository.findByIdAndIsDeletedFalse(commentId);
-        if(postComment == null) throw new NoPostCommentException("존재하지 않는 댓글입니다.");
+        if(postComment == null) {
+            throw new NoPostCommentException("존재하지 않는 댓글입니다.");
+        }
         postComment.delete();
         postCommentRepository.save(postComment);
         return new DeleteCommentResponse(true);

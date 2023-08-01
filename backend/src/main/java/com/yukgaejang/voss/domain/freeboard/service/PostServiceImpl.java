@@ -44,7 +44,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest) {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
         postRepository.save(post);
         return new UpdatePostResponse(true);
@@ -53,7 +55,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailResponse getPostDetail(Long id) {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         post.updateHit();
         Page<CommentDetailResponse> comments = new PageImpl<>(postCommentRepository.findAllByPostIdAndIsDeletedFalse(id));
         Long likes = postLikeRepository.countByPostId(id);
@@ -68,7 +72,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public DeletePostResponse deletePost(Long id) {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
-        if(post == null) throw new NoPostException("존재하지 않는 글입니다.");
+        if(post == null) {
+            throw new NoPostException("존재하지 않는 글입니다.");
+        }
         post.delete();
         postRepository.save(post);
         List<CommentDetailResponse> comments = postCommentRepository.findAllByPostIdAndIsDeletedFalse(id);
