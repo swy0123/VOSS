@@ -1,8 +1,7 @@
 package com.yukgaejang.voss.domain.meet.repository.entity;
 
-import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
-import com.yukgaejang.voss.global.entity.BaseEntity;
+import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import org.springframework.lang.Nullable;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MeetJoin extends BaseEntity {
+public class CastingSelection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,22 +21,13 @@ public class MeetJoin extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meet_id")
-    private Meet meet;
-
     @Nullable
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "casting_id")
     private Casting casting;
 
-    public MeetJoin(Member member, Meet meet) {
+    public CastingSelection(Member member, @Nullable Casting casting) {
         this.member = member;
-        this.meet = meet;
-    }
-
-    public MeetJoin(Member member, Meet meet, Casting casting) {
-        this.member = member;
-        this.meet = meet;
         this.casting = casting;
     }
 }
