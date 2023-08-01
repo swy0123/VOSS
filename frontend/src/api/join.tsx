@@ -16,6 +16,27 @@ export const postJoin = async (user:JoinProps) => {
     return response.data;
 }
 
+export const authEmail = async (email:string) => {
+    const user = {email:email};
+    console.log(user);
+    const response = await publicApi.post("/auth/email", user);
+    console.log(response.data.sendSuccess);
+    return response.data.sendSuccess;
+}
+
+export interface ConfirmProps {
+    email: string,
+    token: string,
+}
+export const authEmailConfirm = async (confirm:ConfirmProps) => {
+    console.log(confirm);
+    const response = await publicApi.post("/auth/email/confirm", confirm);
+    console.log(response.data.confirmed);
+    return response.data.confirmed;
+}
+
+
+
 export const postTest = async (user:JoinProps) => {
     const tmp = {
         "name" : user.nickname,
