@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeetJoin.*;
@@ -81,6 +82,19 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
                 );
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
 
+    }
+
+    @Override
+    public List<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList) {
+        return queryFactory
+                .selectDistinct(meet)
+                .from(meet)
+                .where(
+                        meet.sessionId.in(sessionIdList),
+                        titleContains(condition.getTitle()),
+                        categoryEq(condition.getCategory())
+                )
+                .fetch();
     }
 
     private BooleanExpression titleContains(String title) {
