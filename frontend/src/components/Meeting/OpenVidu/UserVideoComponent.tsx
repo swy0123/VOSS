@@ -1,13 +1,15 @@
 import React from 'react';
 import OpenViduVideoComponent from './OvVideo';
 // import './UserVideo.css';
+import { useRecoilValue } from "recoil";
+import { CurrentUserAtom } from "../../../recoil/Auth";
+
 
 const UserVideoComponent = (props:any) => {
+  const currentUser = useRecoilValue( CurrentUserAtom )
   const getNicknameTag = () => {
-    // Gets the nickName of the user
-    //return JSON.parse(props.streamManager.stream.connection.data).clientData;
-    console.log(props)
-    return "wonyoung";
+    console.log(currentUser.userid)
+    return currentUser.userid;
   };
 
   return (
