@@ -1,8 +1,7 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginState } from "../../recoil/Auth";
+import { CurrentUserAtom, LoginState, ProfileState } from "../../recoil/Auth";
 import {
   Navbar,
   LeftSection,
@@ -32,18 +31,18 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
   const navigate = useNavigate()  
   const goSelectCategory = () => {navigate("/category")}
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
-  const goProfile = (id: number) => navigate(`/profile/${id}`);
+  const goProfile = (id: number) => {
+    navigate(`/profile/${id}`);
+  }
   const setLogout = () => {
-    // 리코일 초기화
-    setLoginState(false);
+    setLoginState(false); // 리코일 초기화
     setCurrentUser({
       userid: 0,
       email: "",
       nickname: "",
       accessToken: "",
       refreshToken: ""});
-    // 별도로 저장했던 로컬스토리지 초기화
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('access_token'); // 로컬스토리지 초기화
     localStorage.removeItem('refresh_token');
     navigate("/");
   }

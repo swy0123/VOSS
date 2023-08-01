@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from "recoil";
-import { CurrentUserAtom, TempUserListAtom } from "/src/recoil/Auth";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { CurrentUserAtom, ProfileState } from "/src/recoil/Auth";
 import FollowModal from '../ModalBox/FollowModal';
 import zammanbo from "../../../assets/ProfileImages/zammanbo.png";
 import UpdateIcon from "../../../assets/ProfileImages/UpdateIcon.png";
@@ -13,6 +13,8 @@ import {
     ProfileNameBoxDesign,
     ProfileNameDesign,
     ProfileBtnDesign,
+    FollowButton,
+    FollowingButton,
     FollowBoxDesign,
     ProfileFollowerDesign,
     ProfileFollowingDesign,
@@ -21,19 +23,15 @@ import {
 
 
 function BasicBox() {
+  const id = parseInt(useParams().id || "");
+  const currentUser = useRecoilValue(CurrentUserAtom)
   const [modalShow, setModalShow] = useState(false);
   const [activeTab, setActiveTab] = useState('follower');
-
-  const id = parseInt(useParams().id || "");
-  const userList = useRecoilValue(TempUserListAtom);
-  const currentUser = useRecoilValue(CurrentUserAtom);
-  const profile =
-    id === currentUser.userid
-    ? currentUser
-    : userList.find(user => user.userid === id) || {};
-  const email: string = profile.email
-  const nickname: string = profile.nickname
-  const userid: number = profile.userid
+  const [profile, setProfile] = useRecoilState(ProfileState)
+  // 아직 임시기능
+  const setFollow = () => {
+    setProfile({...profile, isFollowing: !profile.isFollowing})
+  };
 
   return (
     <BasicBoxDesign>
@@ -46,23 +44,28 @@ function BasicBox() {
       <ProfileInfoDesign>
 
         <ProfileNameBoxDesign>
-          <ProfileNameDesign>{nickname}</ProfileNameDesign>
-          <ProfileBtnDesign><img src={UpdateIcon} alt=""/></ProfileBtnDesign>
+          <ProfileNameDesign>{profile.nickname}</ProfileNameDesign>
+            { id === currentUser.userid
+            ? <ProfileBtnDesign><img src={UpdateIcon} alt=""/></ProfileBtnDesign>
+            : profile.isFollowing
+              ? <FollowingButton onClick={() => setFollow()}>팔로잉</FollowingButton>
+              : <FollowButton onClick={()=>setFollow()}>팔로우</FollowButton>
+            }
         </ProfileNameBoxDesign>
 
         <FollowBoxDesign>
           <ProfileFollowerDesign onClick={() => (setModalShow(true), setActiveTab('follower'))}>
             <p>팔로워</p>
-            <p>32명</p>
+            <p>{profile.followerCnt} 명</p>
           </ProfileFollowerDesign>
           <ProfileFollowingDesign onClick={() => (setModalShow(true), setActiveTab('following'))}>
             <p>팔로잉</p>
-            <p>12명</p>
+            <p>{profile.followingCnt} 명</p>
           </ProfileFollowingDesign>
           <ProfileFollowingSpaceDesign/>
         </FollowBoxDesign>
 
-        {modalShow ? <FollowModal onClose={() => setModalShow(false)} activeTab={activeTab} setActiveTab={setActiveTab}/> : null}
+        {modalShow ? <FollowModal onClose={()=>setModalShow(false)} activeTab={activeTab} setActiveTab={setActiveTab}/> : null}
 
       </ProfileInfoDesign>
       
