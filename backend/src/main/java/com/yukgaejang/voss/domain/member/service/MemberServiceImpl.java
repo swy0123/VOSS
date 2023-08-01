@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.member.repository.entity.Role;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
+import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,6 +99,52 @@ public class MemberServiceImpl implements MemberService {
         );
 
         return followRepository.findFollowers(memberId, me.getId());
+    }
+
+    @Override
+    public MemberInfoResponse getInfo(String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        int actCnt = 0;
+        int dubCnt = 0;
+        int dictionCnt = 0;
+
+        return MemberInfoResponse.builder()
+                .email(me.getEmail())
+                .nickname(me.getNickname())
+                .isFollowing(false)
+                .followerCnt(followRepository.getFollowerCount(me.getId()))
+                .followingCnt(followRepository.getFollowingCount(me.getId()))
+                .actCnt(actCnt)
+                .dubCnt(dubCnt)
+                .dictionCnt(dictionCnt)
+                .totalCnt(actCnt + dubCnt + dictionCnt)
+                .build();
+    }
+
+    @Override
+    public MemberInfoResponse getInfo(Long memberId, String email) {
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        int actCnt = 0;
+        int dubCnt = 0;
+        int dictionCnt = 0;
+
+        return MemberInfoResponse.builder()
+                .email(me.getEmail())
+                .nickname(me.getNickname())
+                .isFollowing(followRepository.isFollowing(memberId, me.getId()))
+                .followerCnt(followRepository.getFollowerCount(memberId))
+                .followingCnt(followRepository.getFollowingCount(memberId))
+                .actCnt(actCnt)
+                .dubCnt(dubCnt)
+                .dictionCnt(dictionCnt)
+                .totalCnt(actCnt + dubCnt + dictionCnt)
+                .build();
     }
 
 }
