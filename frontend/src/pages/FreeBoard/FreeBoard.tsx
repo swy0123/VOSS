@@ -1,8 +1,9 @@
+import { getPostList } from "/src/api/FreeBoard"
 import { useEffect, useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { BackGroundImg } from "../../components/BackGroundImg";
-import Header from "../../components/Header/Header";
-import Messenger from "../../components/Message/Messenger";
+import { BackGroundImg } from "/src/components/BackGroundImg";
+import Header from "/src/components/Header/Header";
+import Messenger from "/src/components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
 import { useRecoilState } from "recoil";
 import { PostListState } from "../../recoil/Community";
@@ -12,9 +13,11 @@ import {
   OrderSelectDesign,
   PostCategoryDesign,
   PostCategoryNumberDesign,
+  PostCategoryLikeDesign,
   PostCategoryTitleDesign,
   PostCategoryUserDesign,
   PostCategoryCreatedatDesign,
+  PostCategoryHitDesign,
   SearchboxDesign,
   SearchSelectDesign,
   InputBoxDesign,
@@ -108,14 +111,16 @@ function FreeBoard () {
 
         <PostCategoryDesign>
           <PostCategoryNumberDesign>글 번호</PostCategoryNumberDesign>
+          <PostCategoryLikeDesign></PostCategoryLikeDesign>
           <PostCategoryTitleDesign>제목</PostCategoryTitleDesign>
           <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
           <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
+          <PostCategoryHitDesign>조회수</PostCategoryHitDesign>
         </PostCategoryDesign>
 
         {showPosts.map(post => (
-        <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid} createAt={post.createAt}/>
-        ))}
+          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid} createAt={post.createAt}/>
+          ))}
 
         <SearchboxDesign style={{borderTop: "solid 1px white"}}>
           <SearchSelectDesign id="search-select" onChange={(e)=>setSearchCond(e.target.value)}>
