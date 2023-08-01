@@ -11,6 +11,8 @@ import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
+import com.yukgaejang.voss.domain.practice.repository.StatRepository;
+import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
+    private final StatRepository statRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void join(JoinRequest joinRequest) {
@@ -107,9 +110,9 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("없는 사용자입니다.")
         );
 
-        int actCnt = 0;
-        int dubCnt = 0;
-        int dictionCnt = 0;
+        int actCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.ACT);
+        int dubCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DUB);
+        int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
 
         return MemberInfoResponse.builder()
                 .email(me.getEmail())
@@ -131,9 +134,9 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("없는 사용자입니다.")
         );
 
-        int actCnt = 0;
-        int dubCnt = 0;
-        int dictionCnt = 0;
+        int actCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.ACT);
+        int dubCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DUB);
+        int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
 
         return MemberInfoResponse.builder()
                 .email(me.getEmail())
@@ -148,5 +151,4 @@ public class MemberServiceImpl implements MemberService {
                 .totalCnt(actCnt + dubCnt + dictionCnt)
                 .build();
     }
-
 }
