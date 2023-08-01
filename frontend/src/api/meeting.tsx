@@ -10,7 +10,7 @@ export interface GetMeetProps {
 }
 
 export const getMeet = async (getMeetProps: GetMeetProps) => {
-  console.log("getMeet@@@@@@@@@@@@@@");
+  console.log("-----getMeet-----");
   console.log(getMeetProps);
   const URL =
     "/meet?title=" +
@@ -35,9 +35,8 @@ export const getMeet = async (getMeetProps: GetMeetProps) => {
     .request(config)
     .then((response) => {
       console.log("response.data!!!!!!!!");
-      console.log(response.data);
-      console.log([...response.data.content]);
-      ttmp = [...response.data.content];
+      console.log([...response.data]);
+      ttmp = [...response.data];
     })
     .catch((error) => {
       console.log(error);
@@ -46,25 +45,25 @@ export const getMeet = async (getMeetProps: GetMeetProps) => {
   return ttmp;
 };
 
-export interface PostMeetJoinProps {
+export interface MeetingProps {
   password: string;
   meetRoomId: number;
 }
-
-export const joinMeet = async (postMeetJoinProps: any) => {
-  console.log("postMeetJoin");
-  console.log(postMeetJoinProps.props);
-  const data = postMeetJoinProps.props.password ? {
-    password: postMeetJoinProps.props.password,
-    meetRoomId: postMeetJoinProps.props.meetRoomId
+export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
+  console.log("-----postMeetJoin-----");
+  console.log(postMeetJoinProps);
+  const data = (postMeetJoinProps.password !== undefined) ? {
+    password: postMeetJoinProps.password,
+    meetRoomId: postMeetJoinProps.meetRoomId
   } : {
-    meetRoomId: postMeetJoinProps.props.meetRoomId
+    password: "",
+    meetRoomId: postMeetJoinProps.meetRoomId
   }
   console.log(data);
 
-  console.log("되라");
+  console.log("joinMeet되라");
   const res = await privateApi.post("/meet/join", data);
-  console.log(res);
+  console.log(res.data);
   if (res.data.status === "입장") {
     console.log("입장함");
     return res.data.token;
@@ -73,43 +72,27 @@ export const joinMeet = async (postMeetJoinProps: any) => {
   return "false";
 };
 
-export const deleteMeet = async (postMeetJoinProps: any) => {
-  console.log("deleteMeet");
-  console.log(postMeetJoinProps.props.meetRoomId);
-  const res = await privateApi.delete("/meet/" + postMeetJoinProps.props.meetRoomId);
-  console.log("deleteMeet되라");
-  console.log(res);
-  if (res.data.status === "퇴장 성공") {
-    console.log("퇴장 성공");
-  }
-  else console.log("퇴장 못함");
-};
-
-
-
+export interface MeetRoomData{
+  category: string,
+  createdAt: number,
+  currentCount: number,
+  maxCount: number,
+  meetRoomId: number,
+  password: string
+  sessionId: string,
+  title: string,
+}
 
 export interface addRoomData {
-  title: string;
-  maxCount: number;
-  password: string;
-  category: string;
+  title: string,
+  maxCount:number,
+  password: string,
+  category: string
 }
 
 export const createMeet = async ({ addRoomData }: { addRoomData: addRoomData }) => {
-  console.log("createMeet");
-  console.log(addRoomData)
-  const addNewRoomData = (addRoomData.password==undefined) ? {
-    title: addRoomData.title,
-    maxCount: addRoomData.maxCount,
-    password: addRoomData.password,
-    category: addRoomData.category,
-  } : {
-    title: addRoomData.title,
-    maxCount: addRoomData.maxCount,
-    category: addRoomData.category,
-  }
-  console.log(addNewRoomData);
-  const res = await privateApi.post("/meet", addNewRoomData);
+  console.log("-----createMeet-----");
+  const res = await privateApi.post("/meet", addRoomData);
   console.log("createMeet되라");
   console.log(res);
   return res.data.meetRoomId;

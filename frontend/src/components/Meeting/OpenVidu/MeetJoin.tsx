@@ -2,27 +2,29 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
-import { PostMeetJoinProps, deleteMeet, joinMeet } from "../../../api/meeting";
+import { MeetRoomData, MeetingProps, joinMeet } from "../../../api/meeting";
 
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../../recoil/Auth";
 import { useNavigate } from "react-router-dom";
+import {
+  Container, Header, StudyTitle, Middle, Left, Right, Chat, VideoContainer, StreamContainerWrapper
+  , StreamContainer, Bottom, BottomBox, Icon, ChatIconBox
+} from "./MeetJoin.style";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
-const MeetJoin = (props: any) => {
-  console.log("Meetjoin : " + props)
+const MeetJoin = ({props}: {props:MeetingProps}) => {
 
   const navigate = useNavigate();
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [mySessionId, setMySessionId] = useState(currentUser.userId);
-  const [myUserName, setMyUserName] = useState(currentUser.userId);
-  const [mainStreamManager, setMainStreamManager] = useState<any>(undefined);
+  const [myUserName, setMyUserName] = useState(currentUser.nickname);
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
 
   useEffect(() => {
-    joinSession();
+    // joinSession();
     (() => {
       window.addEventListener("beforeunload", onbeforeunload);
       window.addEventListener('popstate', popstateHandler);
@@ -33,6 +35,7 @@ const MeetJoin = (props: any) => {
       window.removeEventListener('popstate', popstateHandler);
     };
   }, []);
+
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     alert("onbeforeunload")
@@ -44,29 +47,13 @@ const MeetJoin = (props: any) => {
     leaveSession();
   };
 
-  const handleChangeSessionId = (e: ChangeEvent<HTMLInputElement>) => {
-    setMySessionId(e.target.value);
-  };
-
-  const handleChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
-    setMyUserName(e.target.value);
-  };
-
-  const handleMainVideoStream = (stream: any) => {
-    if (mainStreamManager !== stream) {
-      setMainStreamManager(stream);
-    }
-  };
-
   const deleteSubscriber = (streamManager: any) => {
     setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
   };
-  
-  const goMeetingBoard = () => {navigate("/meeting")}
+
+  const goMeetingBoard = () => { navigate("/meeting") }
 
   const joinSession = async () => {
-    setMyUserName(myUserName);
-    setMySessionId(mySessionId);
 
     // --- 1) Get an OpenVidu object ---
     const OV = new OpenVidu();
@@ -122,17 +109,15 @@ const MeetJoin = (props: any) => {
 
       await mySession.publish(newPublisher);
 
-      setMainStreamManager(newPublisher);
       setPublisher(newPublisher);
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
+      leaveSession();
     }
   };
 
-  const leaveSession = async () => {
-    console.log("leaveSession")
-    console.log("Beforeunload : deleteMeet")
-    await deleteMeet(props);
+  const leaveSession = () => {
+    alert("leaveSession");
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     if (session) {
       session.disconnect();
@@ -143,7 +128,6 @@ const MeetJoin = (props: any) => {
     setSubscribers([]);
     setMySessionId("SessionA");
     setMyUserName("Participant" + Math.floor(Math.random() * 100));
-    setMainStreamManager(undefined);
     setPublisher(undefined);
     goMeetingBoard();
   };
@@ -172,7 +156,6 @@ const MeetJoin = (props: any) => {
           await session.unpublish(publisher);
           await session.publish(newPublisher);
 
-          setMainStreamManager(newPublisher);
           setPublisher(newPublisher);
         }
       }
@@ -188,78 +171,15 @@ const MeetJoin = (props: any) => {
     return token;
   };
 
-  // const createSession = async (sessionId: any) => {
-  //   console.log("createSession(sessionId) : " + sessionId)
-  //   try {
-  //     const data = JSON.stringify({ customSessionId: sessionId });
-  //     alert(data);
-  //     const response = await axios.post(OPENVIDU_SERVER_URL + '/openvidu/api/sessions', data, {
-  //     // const response = await axios.post("https://i9b106.p.ssafy.io/openvidu/api/sessions", data, {
-  //       headers: {
-  //         // Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
-  //         //Authorization: `Basic ${btoa(`OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`)}`,
-  //         "Authorization" : 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
-  //         "Content-Type": "application/json",
-  //         //withCredentials: true,
-  //       },
-  //       // credentials: 'include'
-
-  //     });
-  //     console.log("plzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-  //     console.log(response)
-
-  //     return response.data.id;
-  //   } catch (error: any) {
-  //     if (error?.response?.status === 409) {
-  //       return sessionId;
-  //     } else {
-  //       console.log(error);
-  //       console.warn(
-  //         "No connection to OpenVidu Server. This may be a certificate error at " +
-  //           OPENVIDU_SERVER_URL
-  //       );
-  //       if (
-  //         window.confirm(
-  //           'No connection to OpenVidu Server. This may be a certificate error at "' +
-  //             OPENVIDU_SERVER_URL +
-  //             '"\n\nClick OK to navigate and accept it. ' +
-  //             'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
-  //             OPENVIDU_SERVER_URL +
-  //             '"'
-  //         )
-  //       ) {
-  //         window.location.assign(OPENVIDU_SERVER_URL + "/accept-certificate");
-  //       }
-  //     }
-  //   }
-  // };
-
-  // const createToken = async (sessionId: string) => {
-  //   console.log("createToken(sessionId) : "+sessionId);
-  //   try {
-  //     const data = {};
-  //     const response = await privateApi.post(
-  //       // OPENVIDU_SERVER_URL + "/openvidu/api/sessions/ses_Pf6cicF2xw/connection",
-  //       OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection",
-  //       data,
-  //       {
-  //         headers: {
-  //           "withCredentials": false,
-  //           "Authorization": "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     return response.data.token;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
   return (
-    <div className="container">
+    <Container>
+      <Header>
+        <StudyTitle>{currentUser.nickname}의 방</StudyTitle>
+      </Header>
+      
+      <button onClick={joinSession}></button>
       {session !== undefined ? (
+
         <div id="session">
           <div id="session-header">
             <h1 id="session-title">{mySessionId}</h1>
@@ -272,23 +192,10 @@ const MeetJoin = (props: any) => {
             />
           </div>
 
-          {mainStreamManager !== undefined ? (
-            <div id="main-video" className="col-md-6">
-              <UserVideoComponent streamManager={mainStreamManager} />
-              <input
-                className="btn btn-large btn-success"
-                type="button"
-                id="buttonSwitchCamera"
-                onClick={switchCamera}
-                value="Switch Camera"
-              />
-            </div>
-          ) : null}
-          <div id="video-container" className="col-md-6">
+          <VideoContainer>
             {publisher !== undefined ? (
               <div
                 className="stream-container col-md-6 col-xs-6"
-                onClick={() => handleMainVideoStream(publisher)}
               >
                 <UserVideoComponent streamManager={publisher} />
               </div>
@@ -297,15 +204,14 @@ const MeetJoin = (props: any) => {
               <div
                 key={i}
                 className="stream-container col-md-6 col-xs-6"
-                onClick={() => handleMainVideoStream(sub)}
               >
                 <UserVideoComponent streamManager={sub} />
               </div>
             ))}
-          </div>
+          </VideoContainer>
         </div>
-      ) : (<div>세션없음</div>)}
-    </div>
+      ) : (<div onClick={goMeetingBoard}>이전 화면으로 돌아가기</div>)}
+    </Container>
   );
 };
 
