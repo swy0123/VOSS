@@ -25,13 +25,13 @@ public class AuthController {
 
     @PostMapping("/email")
     public ResponseEntity<SendEmailResponse> sendEmail(@RequestBody SendEmailRequest sendEmailRequest) {
-        //authService.sendEmail(sendEmailRequest);
+        authService.sendEmail(sendEmailRequest);
         return ResponseEntity.ok(new SendEmailResponse(true));
     }
 
     @PostMapping("/email/confirm")
     public ResponseEntity<ConfirmEmailResponse> confirmEmail(@RequestBody ConfirmEmailRequest confirmEmailRequest) {
-        //authService.sendEmail(confirmEmailRequest);
+        authService.confirmEmail(confirmEmailRequest);
         return ResponseEntity.ok(new ConfirmEmailResponse(true));
     }
 

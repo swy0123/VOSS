@@ -10,7 +10,7 @@ import lombok.Setter;
 public class SendEmailRequest {
     private String email;
 
-    public SendEmailRequest(String email, String token) {
+    public SendEmailRequest(String email) {
         this.email = email;
     }
 }

@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/test").permitAll()
                         .requestMatchers("/member").permitAll()
-                        .requestMatchers("/auth/email", "/auth/email/confirm").permitAll()
+                        .requestMatchers("/auth/email").permitAll()
                         .anyRequest().authenticated()
                 );
         http.exceptionHandling(handler -> handler.authenticationEntryPoint(entryPoint));
