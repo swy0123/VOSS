@@ -50,6 +50,24 @@ public class OpenViduClient {
         }
     }
 
+    public List<Long> getSessionBySessionId(String sessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/sessions/" + sessionId;
+        String body = getString(url);
+        List<Long> list = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        long createdAt = jsonNode.get("createdAt").asLong();
+        long cnt = jsonNode.get("connections").get("numberOfElements").asLong();
+        list.add(createdAt);
+        list.add(cnt);
+        return list;
+    }
+
     public HashMap<String, List<Long>> getSession() {
         String url = OPENVIDU_URL + "/openvidu/api/sessions";
         String body = getString(url);

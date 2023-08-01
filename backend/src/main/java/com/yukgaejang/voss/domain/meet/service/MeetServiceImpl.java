@@ -70,8 +70,14 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public JoinMeetRoomResponse joinMeetRoom(JoinMeetRoomRequest joinMeetRoomRequest, String email) {
         Meet meet = getMeetBuJoinMeetRoomRequest(joinMeetRoomRequest);
+        String sessionId = meet.getSessionId();
+
         String token = openViduClient.getJoinMeetToken(meet.getSessionId(), email);
-        return new JoinMeetRoomResponse(token, "입장");
+        JoinMeetRoomResponse response = new JoinMeetRoomResponse(token, "입장", meet);
+        List<Long> sessionBySessionId = openViduClient.getSessionBySessionId(sessionId);
+        response.setCreatedAt(sessionBySessionId.get(0));
+        response.setCurrentCount(sessionBySessionId.get(1));
+        return response;
     }
 
     @Override
