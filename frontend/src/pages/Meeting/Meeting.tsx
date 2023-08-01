@@ -15,22 +15,21 @@ export interface MeetingProps {
 
 function Meeting() {
   const { state } = useLocation(); // 2번 라인
-  const [meetingProps, setMeetingProps] = useState<any>();
+  
 
   useEffect(() => {
     const newMeetingProps = {
       meetRoomId: state.meetRoomId,
       password: state.password,
     };
-    setMeetingProps(newMeetingProps);
   }, []);
-  const meetRoomId = state.id;
+  const meetRoomId = state.meetRoomId;
   const password = state.password;
 
   return (
     <BackGroundImg>
       <Container>
-        <MeetJoin props={meetingProps} />
+        <MeetJoin props={state} />
 
         <LeftSection></LeftSection>
 

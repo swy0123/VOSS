@@ -4,21 +4,23 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import { PostMeetJoinProps, deleteMeet, joinMeet } from "../../../api/meeting";
 
-// import { useRecoilValue } from "recoil";
-// import { CurrentUserAtom } from "../../../recoil/Auth";
+import { useRecoilValue } from "recoil";
+import { CurrentUserAtom } from "../../../recoil/Auth";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = (props: any) => {
+  console.log("Meetjoin : " + props)
 
-  // const currentUser = useRecoilValue(CurrentUserAtom)
-  const [mySessionId, setMySessionId] = useState("SessionA");
-  const [myUserName, setMyUserName] = useState("Participant" + Math.floor(Math.random() * 100));
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const [mySessionId, setMySessionId] = useState(currentUser.userId);
+  const [myUserName, setMyUserName] = useState(currentUser.userId);
   const [mainStreamManager, setMainStreamManager] = useState<any>(undefined);
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
 
   useEffect(() => {
+    joinSession();
     (() => {
       window.addEventListener("beforeunload", onbeforeunload);
       window.addEventListener('popstate', popstateHandler);
@@ -252,46 +254,6 @@ const MeetJoin = (props: any) => {
 
   return (
     <div className="container">
-      {session === undefined ? (
-        <div id="join">
-          <div id="join-dialog" className="jumbotron vertical-center">
-            <h1> Join a video session </h1>
-            <form className="form-group" onSubmit={joinSession}>
-              <p>
-                <label>Participant: </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="userName"
-                  value={myUserName}
-                  onChange={handleChangeUserName}
-                  required
-                />
-              </p>
-              <p>
-                <label> Session: </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="sessionId"
-                  value={mySessionId}
-                  onChange={handleChangeSessionId}
-                  required
-                />
-              </p>
-              <p className="text-center">
-                <input
-                  className="btn btn-lg btn-success"
-                  name="commit"
-                  type="submit"
-                  value="JOIN"
-                />
-              </p>
-            </form>
-          </div>
-        </div>
-      ) : null}
-
       {session !== undefined ? (
         <div id="session">
           <div id="session-header">
@@ -337,7 +299,7 @@ const MeetJoin = (props: any) => {
             ))}
           </div>
         </div>
-      ) : null}
+      ) : (<div>세션없음</div>)}
     </div>
   );
 };
