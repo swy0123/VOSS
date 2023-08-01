@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class SelectCastingRequest {
     private Long memberId;
-    private Long meetRoomId;
     private Long castingId;
 }
