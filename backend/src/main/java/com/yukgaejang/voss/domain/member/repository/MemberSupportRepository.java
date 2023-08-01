@@ -8,4 +8,6 @@ public interface MemberSupportRepository {
 
     List<Member> findByEmailList(List<String> emailList);
 
+    List<Member> findMemberListByNickname(String nickname);
+
 }
