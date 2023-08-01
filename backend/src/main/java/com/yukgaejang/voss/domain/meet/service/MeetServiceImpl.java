@@ -41,7 +41,7 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
-        HashMap<String, Integer> map = openViduClient.getSession();
+        HashMap<String, List<Long>> map = openViduClient.getSession();
         Set<String> sessionIdList = map.keySet();
         List<ViewAllMeetRoomResponse> collect = meetRepository.getMeetListBySessionId(condition, sessionIdList)
                 .stream()
@@ -49,7 +49,9 @@ public class MeetServiceImpl implements MeetService{
                 .collect(Collectors.toList());
         for (ViewAllMeetRoomResponse response: collect) {
             if(map.containsKey(response.getSessionId())){
-                response.setCurrentCount(map.get(response.getSessionId()));
+                List<Long> integers = map.get(response.getSessionId());
+                response.setCurrentCount(integers.get(0));
+                response.setCreatedAt(integers.get(1));
             }
         }
         return collect;
