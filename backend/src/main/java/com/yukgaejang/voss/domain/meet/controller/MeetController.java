@@ -3,8 +3,8 @@ package com.yukgaejang.voss.domain.meet.controller;
 import com.yukgaejang.voss.domain.meet.service.MeetService;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
+import com.yukgaejang.voss.domain.practice.serivce.dto.response.ViewScriptLineResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,12 +18,12 @@ import java.util.List;
 public class MeetController {
     private final MeetService meetService;
     @GetMapping("")
-    public ResponseEntity<Page<ViewAllMeetRoomResponse>> getMeetList(MeetSearchCondition condition) {
+    public ResponseEntity<List<ViewAllMeetRoomResponse>> getMeetList(MeetSearchCondition condition) {
         return ResponseEntity.ok(meetService.getMeetList(condition));
     }
 
     @GetMapping("/{meetRoomId}")
-    public ResponseEntity<GetAllMeetJoinResponse> getMeetJoinList(@PathVariable Long meetRoomId) {
+    public ResponseEntity<List<GetAllMeetJoinResponse>> getMeetJoinList(@PathVariable Long meetRoomId) {
         return ResponseEntity.ok(meetService.getMeetJoinList(meetRoomId));
     }
 
@@ -54,7 +54,7 @@ public class MeetController {
     }
 
     @PostMapping("/select-casting")
-    public ResponseEntity<SelectCastingResponse> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
+    public ResponseEntity<List<ViewScriptLineResponse>> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
         return ResponseEntity.ok(meetService.selectCasting(selectCastingRequestList));
     }
 }
