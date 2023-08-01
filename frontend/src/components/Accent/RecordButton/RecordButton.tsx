@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { useRecoilState } from 'recoil';
-import { analysisRecordState } from '../../../recoil/Training';
+import { accentRecordState } from '../../../recoil/Training';
 import { 
-  CompleteBtn,
+  CompleteBtn, 
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
@@ -15,7 +15,7 @@ function RecordButton () {
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
   const [initialBtn, setInitialBtn] = useState(true)
-  const [analysisRecord, setAnalysisRecord] = useRecoilState(analysisRecordState)
+  const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState)
   const { 
     startRecording, 
     stopRecording, 
@@ -39,12 +39,12 @@ function RecordButton () {
   }
 
   const resetTimer = () => {
-      clearInterval(intervalRef.current);
-      setInitialBtn(true)
-      setIsRunning(false);
-      setTime(0);
+    clearInterval(intervalRef.current);
+    setInitialBtn(true)
+    setIsRunning(false);
+    setTime(0);
   };
-  
+
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -53,7 +53,7 @@ function RecordButton () {
   };
 
   const addRecord = (mediaBlobUrl) => {
-    setAnalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
+    setAccentRecord([mediaBlobUrl,...accentRecord.slice(0,4)])
   }
 
   return(

@@ -1,6 +1,6 @@
-import { useRecoilState } from "recoil";
-import { useEffect } from "react";
-import { analysisRecordState, analysisRecordTimeState } from "../../../recoil/Training";
+import { useRecoilState } from "recoil"
+import { useEffect } from "react"
+import { accentRecordState, accentRecordTimeState } from "../../../recoil/Training"
 import { 
   Container, 
   DownloadImg, 
@@ -9,11 +9,11 @@ import {
   RecordLable, 
   RecordSelect, 
   Title, 
-  Warning} from "./Recording.style";
+  Warning } from "./Recording.style"
 
 function Recording (){
-  const [analysisRecord] = useRecoilState(analysisRecordState)
-  const [timeList, setTimeList] = useRecoilState(analysisRecordTimeState)
+  const [accentRecord] = useRecoilState(accentRecordState)
+  const [timeList, setTimeList] = useRecoilState(accentRecordTimeState)
   
   const currentTime = () => {
     const date = new Date()
@@ -23,16 +23,16 @@ function Recording (){
     const time = `${hours}-${minutes}-${seconds}`
     setTimeList([time,...timeList.slice(0,4)])
   }
-  
+
   useEffect(()=>{
     currentTime()
-  },[analysisRecord])
+  },[accentRecord])
 
   return(
     <Container>
       <Title>녹음 기록</Title>
       <RecordBox>
-        {analysisRecord.map((file,index) => (
+        {accentRecord.map((file,index) => (
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
             <RecordLable>
