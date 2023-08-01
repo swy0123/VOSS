@@ -1,4 +1,5 @@
-import HistoryTemp from "../../../assets/ProfileImages/HistoryTemp.png";
+import DoughnutChart from "./DoughnutChart";
+import DoughnutCount from './DoughnutCount';
 import {
     HistoryBoxDesign,
     HistoryTitleDesign,
@@ -12,7 +13,10 @@ function HistoryBox() {
   return (
     <HistoryBoxDesign>
       <HistoryTitleDesign>연습기록</HistoryTitleDesign>
-      <HistoryContentDesign><img src={HistoryTemp} alt=""/></HistoryContentDesign>
+      <HistoryContentDesign>
+        <DoughnutChart></DoughnutChart>
+        <DoughnutCount></DoughnutCount>
+      </HistoryContentDesign>
     </HistoryBoxDesign>
   );
 };

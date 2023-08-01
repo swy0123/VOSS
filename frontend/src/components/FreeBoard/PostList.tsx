@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
-
 // style
 import {
   PostListDesign,
   PostNumberDesign,
+  PostLikeDesign,
   PostTitleDesign,
   PostUserDesign,
-  PostCreatedatDesign
+  PostCreatedatDesign,
+  PostHitDesign,
 } from "./PostList.style";
 
 
@@ -18,9 +19,13 @@ function PostList({ key, id, title, nickname, userid, createAt,}: { key: number;
   return(
     <PostListDesign>
         <PostNumberDesign onClick={() => goPostDetail(id)}>{id}</PostNumberDesign>
+        <PostLikeDesign>
+          <img src="/src/assets/LikeIt.png" alt="" />
+          </PostLikeDesign>
         <PostTitleDesign onClick={() => goPostDetail(id)}>{title}</PostTitleDesign>
         <PostUserDesign onClick={() => goProfile(userid)}>{nickname}</PostUserDesign>
         <PostCreatedatDesign>{createAt}</PostCreatedatDesign>
+        <PostHitDesign>hit</PostHitDesign>
     </PostListDesign>
   )
 }

@@ -1,13 +1,14 @@
-// import axios from 'axios';
+import axios from 'axios';
+import { publicApi, privateApi } from ".";
 
-// const getPostList = async (page, limit) => {
-//   console.error('getPostList');
-//   try {
-//     const res = await axios.get(`/freeboard?page=${page}&limit=${limit}`);
-//     console.error('getPostList then: ', res);
-//     return res.data; // 요청에 대한 응답 데이터 (게시글 목록)
-//   } catch (err) {
-//     console.error('getPostList catch:', err);
-//     throw err;
-//   }
-// };
+export const getPostList = async (page: number ) => {
+    const res = await privateApi.get(`/freeboard?page=${page}`)
+    .catch(err => {
+        console.log("getPostList catch: ", err)
+    })
+    if (res) {
+        console.log("getPostList then: ", res.data)
+        return(res.data)
+    }
+    return false
+};

@@ -13,14 +13,13 @@ export const ProfileImgDesign = styled.div`
   /* border: solid 2px blue; */
   display: flex;
   justify-content: center;
-  width: 40%;
-  height: 100%;
-`;
+  width: 14vh;
+  aspect-ratio: 1/1;
+  `;
 
 export const ProfileImgDesign2 = styled.div`
-  height: 100%;
+  width: 14vh;
   aspect-ratio: 1/1;
-  z-index: 1;
   border-radius: 50%;
   overflow: hidden;
 
@@ -54,7 +53,7 @@ export const ProfileNameDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.3vw;
+  font-size: 1.4vw;
   font-weight: bold;
   width: 80%;
   height: 100%;
