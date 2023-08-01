@@ -114,6 +114,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberInfoResponse.builder()
                 .email(me.getEmail())
                 .nickname(me.getNickname())
+                .imageUrl(me.getImageUrl())
                 .isFollowing(false)
                 .followerCnt(followRepository.getFollowerCount(me.getId()))
                 .followingCnt(followRepository.getFollowingCount(me.getId()))
@@ -126,7 +127,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoResponse getInfo(Long memberId, String email) {
-        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+        Member me = memberRepository.findById(memberId).orElseThrow(() ->
                 new NoMemberException("없는 사용자입니다.")
         );
 
@@ -137,6 +138,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberInfoResponse.builder()
                 .email(me.getEmail())
                 .nickname(me.getNickname())
+                .imageUrl(me.getImageUrl())
                 .isFollowing(followRepository.isFollowing(memberId, me.getId()))
                 .followerCnt(followRepository.getFollowerCount(memberId))
                 .followingCnt(followRepository.getFollowingCount(memberId))

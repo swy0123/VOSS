@@ -14,6 +14,7 @@ import java.util.List;
 public class MemberInfoResponse {
     String email;
     String nickname;
+    String imageUrl = "";
     Boolean isFollowing;
     Integer followerCnt;
     Integer followingCnt;
@@ -24,9 +25,10 @@ public class MemberInfoResponse {
     Integer totalCnt;
 
     @Builder
-    public MemberInfoResponse(String email, String nickname, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
+    public MemberInfoResponse(String email, String nickname, String imageUrl, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
         this.email = email;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
         this.isFollowing = isFollowing;
         this.followerCnt = followerCnt;
         this.followingCnt = followingCnt;
