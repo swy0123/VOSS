@@ -5,10 +5,13 @@ import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.meet.repository.CastingSelectionRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
+import com.yukgaejang.voss.domain.meet.repository.entity.CastingSelection;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
+import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
 import com.yukgaejang.voss.domain.practice.repository.ScriptRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.Casting;
@@ -38,7 +41,7 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
-        HashMap<String, Integer> map = openViduClient.getSession();
+        HashMap<String, List<Long>> map = openViduClient.getSession();
         Set<String> sessionIdList = map.keySet();
         List<ViewAllMeetRoomResponse> collect = meetRepository.getMeetListBySessionId(condition, sessionIdList)
                 .stream()
@@ -46,7 +49,9 @@ public class MeetServiceImpl implements MeetService{
                 .collect(Collectors.toList());
         for (ViewAllMeetRoomResponse response: collect) {
             if(map.containsKey(response.getSessionId())){
-                response.setCurrentCount(map.get(response.getSessionId()));
+                List<Long> integers = map.get(response.getSessionId());
+                response.setCurrentCount(integers.get(0));
+                response.setCreatedAt(integers.get(1));
             }
         }
         return collect;
@@ -85,8 +90,12 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public List<ViewScriptLineResponse> selectCasting(List<SelectCastingRequest> selectCastingRequestList) {
         for (SelectCastingRequest selectCastingRequest : selectCastingRequestList) {
+            Member member = memberRepository.findById(selectCastingRequest.getMemberId())
+                    .orElseThrow(() -> new NoMemberException("회원이 아닙니다"));
+            castingSelectionRepository.deleteByMemberId(member.getId());
             Casting casting = castingRepository.findCasting(selectCastingRequest.getCastingId());
-            castingSelectionRepository.selectCasting(selectCastingRequest.getMemberId(), casting);
+            CastingSelection castingSelection = new CastingSelection(member, casting);
+            castingSelectionRepository.save(castingSelection);
         }
         em.flush();
         em.clear();

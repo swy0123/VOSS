@@ -6,4 +6,5 @@ public interface CastingSelectionSupportRepository {
 
     void selectCasting(Long memberId, Casting casting);
 
+    void deleteByMemberId(Long memberId);
 }
