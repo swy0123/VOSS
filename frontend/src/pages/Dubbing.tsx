@@ -40,7 +40,6 @@ function Dubbing() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     axiosVideo();
   }, [id]);

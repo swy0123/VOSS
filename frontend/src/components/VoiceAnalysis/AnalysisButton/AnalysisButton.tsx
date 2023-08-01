@@ -1,9 +1,8 @@
-import { styled } from "styled-components";
 import { 
   Container,
   AnalysisBtn,
   AnalysisResult
- } from "./AnalysisButton.style";
+  } from "./AnalysisButton.style";
 
 function AnalysisButton() {
   return(
