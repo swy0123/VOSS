@@ -44,3 +44,38 @@ export const TempUserListAtom = atom({
   key: "TempUserListAtom",
   default: TempUserList,
 });
+
+
+// 프로필 페이지 정보
+export const ProfileState = atom({
+  key: "ProfileState",
+  default: {
+    userid: 0,
+    email: "",
+    nickname: "",
+    isFollowing: false,
+    followerCnt: 0,
+    followingCnt: 0,
+    imageUrl: "",
+    badges: [],
+    actCnt: 0,
+    dubCnt: 0,
+    dictionCnt: 0,
+    totalCnt: 0,
+  },
+  effects_UNSTABLE: [persistAtom],
+})
+
+
+// 팔로워, 팔로잉 목록
+export const FollowerListState = atom({
+  key: "FollowerListState",
+  default: [],
+  effects_UNSTABLE: [persistAtom]
+});
+
+export const FollowingListState = atom({
+  key: "FollowingListState",
+  default: [],
+  effects_UNSTABLE: [persistAtom]
+});

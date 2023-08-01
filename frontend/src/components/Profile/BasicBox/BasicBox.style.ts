@@ -4,7 +4,8 @@ import { styled } from "styled-components";
 export const BasicBoxDesign = styled.div`
   /* border: dotted 1px red; */
   display: flex;
-  width: 25vw;
+  justify-content: space-between;
+  width: 30vw;
   height: 100%;
   color: white;
 `;
@@ -13,12 +14,12 @@ export const ProfileImgDesign = styled.div`
   /* border: solid 2px blue; */
   display: flex;
   justify-content: center;
-  width: 14vh;
+  height: 100%;
   aspect-ratio: 1/1;
   `;
 
 export const ProfileImgDesign2 = styled.div`
-  width: 14vh;
+  /* border: solid 2px yellow; */
   aspect-ratio: 1/1;
   border-radius: 50%;
   overflow: hidden;
@@ -30,13 +31,12 @@ export const ProfileImgDesign2 = styled.div`
   }
 `;
 
-
 export const ProfileInfoDesign = styled.div`
   /* border: solid 3px green; */
   display: flex;
   flex-direction: column;
   align-self: center;
-  width: 60%;
+  width: 18vw;
   height: 80%;
 `;
 
@@ -55,16 +55,16 @@ export const ProfileNameDesign = styled.div`
   align-items: center;
   font-size: 1.4vw;
   font-weight: bold;
-  width: 80%;
+  width: 14vw;
   height: 100%;
 `;
 
 export const ProfileBtnDesign = styled.div`
-/* border: solid 2px yellow;s */
+  /* border: solid 2px yellow; */
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  width: 20%;
+  width: 4vw;
   height: 100%;
   img {
     margin-top: 10%;
@@ -72,6 +72,38 @@ export const ProfileBtnDesign = styled.div`
     aspect-ratio: 1/1;
   }
 `;
+
+export const FollowButton = styled.button`
+  margin-top: 1.5vh;
+  padding: 0.3vw;
+  width: 6.2vw;
+  height: 2.05vw;
+  background-color: #132B31;
+  color: #EFEFEF;
+  text-align: center;
+  line-height: 50%;
+  font-weight: bold;
+  border: solid 1px #EFEFEF;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 1vw;
+  `;
+
+export const FollowingButton = styled.button`
+  margin-top: 1.5vh;
+  padding: 0.3vw;
+  width: 6.2vw;
+  height: 2.05vw;
+  background-color: #EFEFEF;
+  color: #132B31;
+  text-align: center;
+  line-height: 50%;
+  font-weight: bold;
+  border: solid 2px #EFEFEF;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 1vw;
+  `;
 
 export const FollowBoxDesign = styled.div`
   /* border: solid 2px purple; */
@@ -90,7 +122,7 @@ export const ProfileFollowerDesign = styled.div`
   justify-self: end;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 7vw;
   height: 80%;
   p {
     margin: 0vw;
@@ -107,7 +139,7 @@ export const ProfileFollowingDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 7vw;
   height: 80%;
   p {
     margin: 0vw;
@@ -119,6 +151,6 @@ export const ProfileFollowingDesign = styled.div`
 
 export const ProfileFollowingSpaceDesign = styled.div`
   /* border: solid 2px white; */
-  width: 20%;
+  width: 4vw;
   height: 100%;
 `;

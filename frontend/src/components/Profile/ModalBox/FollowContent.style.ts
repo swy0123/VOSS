@@ -30,9 +30,12 @@ export const UserName = styled.span`
 
 export const FollowButton = styled.button`
   padding: 0.3vw;
-  width: 25%;
+  width: 6.2vw;
+  height: 2.05vw;
   background-color: #132B31;
   color: #EFEFEF;
+  text-align: center;
+  line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
   border-radius: 7px;
@@ -42,9 +45,12 @@ export const FollowButton = styled.button`
 
 export const FollowingButton = styled.button`
   padding: 0.3vw;
-  width: 25%;
+  width: 6.2vw;
+  height: 2.05vw;
   background-color: #EFEFEF;
   color: #132B31;
+  text-align: center;
+  line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
   border-radius: 7px;
