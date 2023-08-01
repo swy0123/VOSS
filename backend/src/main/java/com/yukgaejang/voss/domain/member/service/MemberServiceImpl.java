@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.member.repository.entity.Role;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
+import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -150,5 +152,13 @@ public class MemberServiceImpl implements MemberService {
                 .dictionCnt(dictionCnt)
                 .totalCnt(actCnt + dubCnt + dictionCnt)
                 .build();
+    }
+
+    @Override
+    public List<GetMemberList> getMemberList(String nickname) {
+        return memberRepository.findMemberListByNickname(nickname)
+                .stream()
+                .map(o -> new GetMemberList(o))
+                .collect(Collectors.toList());
     }
 }
