@@ -30,10 +30,6 @@ public class Post extends BaseEntity {
     private int isDeleted;
     private LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER , cascade = CascadeType.REMOVE)
-    @OrderBy("createdAt ASC")
-    private List<PostComment> postComments;
-
     public void updateHit() {
         this.hit++;
     }

@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
 import com.yukgaejang.voss.domain.freeboard.service.PostCommentService;
+import com.yukgaejang.voss.domain.freeboard.service.PostLikeService;
 import com.yukgaejang.voss.domain.freeboard.service.PostService;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
@@ -9,6 +10,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostReques
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class FreeboardController {
     private final PostService postService;
     private final PostCommentService postCommentService;
+    private final PostLikeService postLikeService;
 
     @PostMapping
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
@@ -59,16 +62,23 @@ public class FreeboardController {
 
     @GetMapping("/{postId}/comment")
     public ResponseEntity<Page<CommentDetailResponse>> getComments(@PathVariable Long postId, @PageableDefault(size = 100) Pageable pageable) {
-        return ResponseEntity.ok(postCommentService.getComments(postId, pageable));
+        return ResponseEntity.ok(new PageImpl<>(postCommentService.getComments(postId)));
     }
 
     @PutMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
-        return ResponseEntity.ok(postCommentService.updateComment(commentId, updateCommentRequest));
+    public ResponseEntity<UpdateCommentResponse> updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest) {
+        return ResponseEntity.ok(postCommentService.updateComment(postId, commentId, updateCommentRequest));
     }
 
     @DeleteMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long commentId) {
-        return ResponseEntity.ok(postCommentService.deleteComment(commentId));
+    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(postCommentService.deleteComment(postId, commentId));
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<CreatePostLikeResponse> createPostLike(@PathVariable Long postId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(postLikeService.createPostLike(postId, email));
     }
 }
