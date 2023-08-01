@@ -1,69 +1,81 @@
 import { styled } from "styled-components";
 
 
-const PostListDesign = styled.div`
+export const PostListDesign = styled.div`
+  /* border: solid 1px white; */
   display: flex;
   width: 80vw;
   height: 5.3vh;
   font-size: 0.8vw;
-  /* border: solid 1px white; */
   &:hover {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.4);
   }
   `;
 
-const PostNumberDesign = styled.div`
+export const PostNumberDesign = styled.div`
+  /* border: solid 2px red;  */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 8%;
   text-align: center;
-  /* border: solid 2px red; */
   &:hover {
     text-decoration: underline;
   }
   `;
 
-const PostTitleDesign = styled.div`
-  margin-left: 5%;
+export const PostLikeDesign = styled.div`
+  /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5%;
+  img {
+    width: 25%;
+    aspect-ratio: 1/1;
+  }
+  `;
+
+export const PostTitleDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 55%;
+  margin-left: 4vw;
+  // 5% = 4vw 
+  width: 45%;
   font-size: 0.9vw;
   text-align: start;
-  /* border: solid 2px red; */
   &:hover {
     text-decoration: underline;
   }
   `;
 
-const PostUserDesign = styled.div`
+export const PostUserDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 12%;
   text-align: center;
-  /* border: solid 2px red; */
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const PostCreatedatDesign = styled.div`
+export const PostCreatedatDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 20%;
   text-align: center;
-  /* border: solid 2px red; */
 `;
 
-
-export {
-    PostListDesign,
-    PostNumberDesign,
-    PostTitleDesign,
-    PostUserDesign,
-    PostCreatedatDesign
-}
+export const PostHitDesign = styled.div`
+  /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5%;
+`;

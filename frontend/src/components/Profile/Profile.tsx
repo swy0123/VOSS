@@ -8,7 +8,7 @@ import BasicBox from "./BasicBox/BasicBox";
 import BadgeBox from "./BadgeBox/BadgeBox";
 import HistoryBox from "./HistoryBox/HistoryBox";
 import { useRecoilValue } from "recoil";
-import { TempUserListAtom } from "../../recoil/Auth";
+import { CurrentUserAtom, TempUserListAtom } from "../../recoil/Auth";
 import {
   ProfileDesign,
   ProfileSpace1,
@@ -18,8 +18,11 @@ import {
 function Profile() {
   const id = parseInt(useParams().id || "");
   const userList = useRecoilValue(TempUserListAtom);
-  const profile = userList.find(user => user.userid == id);
-  const {email, nickname, userid} = profile || {};
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const profile =
+    id === currentUser.userid
+    ? currentUser
+    : userList.find(user => user.userid === id) || {};
 
   return (
     <BackGroundImg>
@@ -27,18 +30,17 @@ function Profile() {
     <ProfileDesign>
 
     <ProfileSpace1>
-    <BasicBox email={email} nickname={nickname} userid={userid}>
-    </BasicBox>
+    <BasicBox/>
     </ProfileSpace1>
 
     <ProfileSpace2>
-    <BadgeBox></BadgeBox>
-    <HistoryBox></HistoryBox>
+    <BadgeBox/>
+    <HistoryBox/>
     </ProfileSpace2>
     
     </ProfileDesign>
     <Messenger/>
-  </BackGroundImg>
+    </BackGroundImg>
   );
 };
 
