@@ -7,6 +7,7 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.FollowResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
+import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,22 @@ public class MemberController {
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest joinRequest) {
         memberService.join(joinRequest);
         return ResponseEntity.ok(new JoinResponse(true));
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<MemberInfoResponse> myInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        MemberInfoResponse info = memberService.getInfo(authentication.getName());
+        return ResponseEntity.ok(info);
+    }
+
+    @GetMapping("/info/{memberId}")
+    public ResponseEntity<MemberInfoResponse> memberInfo(@PathVariable("memberId") Long memberId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        MemberInfoResponse info = memberService.getInfo(memberId, authentication.getName());
+        return ResponseEntity.ok(info);
     }
 
     @PostMapping("/follow")

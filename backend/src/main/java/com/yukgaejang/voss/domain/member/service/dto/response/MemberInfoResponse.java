@@ -2,24 +2,37 @@ package com.yukgaejang.voss.domain.member.service.dto.response;
 
 
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 public class MemberInfoResponse {
-    /*
-    nickname
-followerCnt
-followingCnt
-badge : [ {badgeId, badgeName. badgeCnt} ]
-practice : { actCnt, dubCnt, dictionCnt, totalCnt }
-     */
+    String email;
     String nickname;
+    Boolean isFollowing;
     Integer followerCnt;
     Integer followingCnt;
-    List<ViewBadgeResponse> badges;
+    List<ViewBadgeResponse> badges = new ArrayList<>();
+    Integer actCnt;
+    Integer dubCnt;
+    Integer dictionCnt;
+    Integer totalCnt;
 
+    @Builder
+    public MemberInfoResponse(String email, String nickname, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
+        this.email = email;
+        this.nickname = nickname;
+        this.isFollowing = isFollowing;
+        this.followerCnt = followerCnt;
+        this.followingCnt = followingCnt;
+        this.actCnt = actCnt;
+        this.dubCnt = dubCnt;
+        this.dictionCnt = dictionCnt;
+        this.totalCnt = totalCnt;
+    }
 }

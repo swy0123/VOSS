@@ -14,13 +14,13 @@ public class Follow {
     private Long id;
 
     @ManyToOne
-    private Member followerId;
+    private Member follower;
 
     @ManyToOne
-    private Member followingId;
+    private Member following;
 
-    public Follow(Member followerId, Member followingId) {
-        this.followerId = followerId;
-        this.followingId = followingId;
+    public Follow(Member follower, Member following) {
+        this.follower = follower;
+        this.following = following;
     }
 }
