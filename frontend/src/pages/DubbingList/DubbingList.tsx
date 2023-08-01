@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header"
 import Messenger from "../../components/Message/Messenger"
 import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
-import { getVideoList } from "../../api/videolist"
+import { getVideoList } from "../../api/video"
 import { videoListState } from "../../recoil/Training"
 import { Video } from "../../type/type"
 import { 

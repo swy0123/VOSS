@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { Script } from "../../../type/type";
 import { Container, Display, Title } from "./Video.style";
-import { PlayChangebState } from "../../../recoil/Training";
+import { PlayChangebState, RoleSelectState, ScriptSelectState } from "../../../recoil/Training";
 
 interface VideoProps {
   script : Script
@@ -9,7 +9,10 @@ interface VideoProps {
 
 function Video ({script}: VideoProps) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
+  const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
 
+  console.log("eerole",isRoleSelect)
   const onYouTubeIframeAPIReady = () => {
     const player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
@@ -18,8 +21,8 @@ function Video ({script}: VideoProps) {
       }
     });
   }
-  
   const onPlayStateChange = (event) => {
+    console.log("role",isRoleSelect)
     if (event.data == YT.PlayerState.PLAYING) {
       setPlayChange([1,Math.floor(event.target.getCurrentTime())])
     }
@@ -37,7 +40,6 @@ function Video ({script}: VideoProps) {
   }
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
-  // if(!roles || !script) { return }  
   return(
     <Container>
       <Title>{script.title}</Title>

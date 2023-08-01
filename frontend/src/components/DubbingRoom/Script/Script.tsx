@@ -38,8 +38,8 @@ function Script ({lines,roles}: VideoProps) {
       const newScriptSelect = await lines.map((line) => line.name===roles[index])
       await setIsScriptSelect(newScriptSelect)
       }
-    console.log(isScriptSelect)
-   }
+  
+  }
 
   const fixTopScript = () => {
     // 1은 PlayingState
@@ -73,7 +73,7 @@ function Script ({lines,roles}: VideoProps) {
           ))}
         <div style={{color:'white'}}>{time}</div>
       </RoleBox>
-      <ScriptBox ref={scrollRef}>
+      <ScriptBox>
         {lines.map((line,index) => (
           <Scripts
             key={index}
