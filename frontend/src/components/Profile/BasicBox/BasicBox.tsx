@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from "recoil";
-import { TempUserListAtom } from "../../../recoil/Auth";
+import { CurrentUserAtom, TempUserListAtom } from "/src/recoil/Auth";
 import FollowModal from '../ModalBox/FollowModal';
 import zammanbo from "../../../assets/ProfileImages/zammanbo.png";
 import UpdateIcon from "../../../assets/ProfileImages/UpdateIcon.png";
@@ -20,11 +20,21 @@ import {
 } from "./BasicBox.style";
 
 
-
-function BasicBox({email, nickname, userid}: {email: string, nickname: string, userid: number,}) {
+function BasicBox() {
   const [modalShow, setModalShow] = useState(false);
   const [activeTab, setActiveTab] = useState('follower');
-  
+
+  const id = parseInt(useParams().id || "");
+  const userList = useRecoilValue(TempUserListAtom);
+  const currentUser = useRecoilValue(CurrentUserAtom);
+  const profile =
+    id === currentUser.userid
+    ? currentUser
+    : userList.find(user => user.userid === id) || {};
+  const email: string = profile.email
+  const nickname: string = profile.nickname
+  const userid: number = profile.userid
+
   return (
     <BasicBoxDesign>
       <ProfileImgDesign>

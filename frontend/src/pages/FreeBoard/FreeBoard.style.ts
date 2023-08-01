@@ -29,50 +29,65 @@ export const OrderSelectDesign = styled.select`
 `;
 
 export const PostCategoryDesign = styled.div`
+  /* border: solid 1px white; */
   display: flex;
-  align-items: center;
   width: 80vw;
   height: 5.3vh;
   font-size: 0.8vw;
-  text-align: center;
   border-bottom: solid 1px white;
 `;
 
 
 export const PostCategoryNumberDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 8%;
   text-align: center;
-  /* border: solid 2px red; */
   `;
 
+export const PostCategoryLikeDesign = styled.div`
+  /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5%;
+`;
+
 export const PostCategoryTitleDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 60%;
+  width: 50%;
   text-align: center;
-  /* border: solid 2px red; */
   `;
 
 export const PostCategoryUserDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 12%;
   text-align: center;
-  /* border: solid 2px red; */
   `;
 
 export const PostCategoryCreatedatDesign = styled.div`
+  /* border: solid 2px red; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 20%;
   text-align: center;
+`;
+
+export const PostCategoryHitDesign = styled.div`
   /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5%;
 `;
 
 export const SearchboxDesign = styled.div`
