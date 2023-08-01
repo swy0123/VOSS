@@ -35,9 +35,6 @@ public class Meet extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Script script;
 
-    @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)
-    private List<MeetJoin> meetJoins = new ArrayList<>();
-
     public Meet(Category category, String title, int maxCount, boolean isPassword, boolean isDeleted, String sessionId) {
         this.category = category;
         this.title = title;

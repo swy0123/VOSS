@@ -1,15 +1,15 @@
 package com.yukgaejang.voss.domain.meet.service.dto.response;
 
-import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class GetAllMeetJoinResponse {
-    private List<MeetJoinDto> meetJoinList;
+    private Long memberId;
+    private String nickname;
 
-    public GetAllMeetJoinResponse(List<MeetJoinDto> meetJoinList) {
-        this.meetJoinList = meetJoinList;
+    public GetAllMeetJoinResponse(Member member) {
+        this.memberId = member.getId();
+        this.nickname = member.getNickname();
     }
 }
