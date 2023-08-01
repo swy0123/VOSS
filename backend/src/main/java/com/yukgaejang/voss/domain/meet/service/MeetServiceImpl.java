@@ -1,18 +1,15 @@
 package com.yukgaejang.voss.domain.meet.service;
 
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
-import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
 import com.yukgaejang.voss.domain.meet.exception.WrongPinException;
 import com.yukgaejang.voss.domain.meet.repository.MeetJoinRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.repository.entity.MeetJoin;
-import com.yukgaejang.voss.domain.meet.service.dto.GetSessionAndConnection;
 import com.yukgaejang.voss.domain.meet.service.dto.MeetJoinDto;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
-import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.practice.repository.CastingRepository;
@@ -24,13 +21,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import com.yukgaejang.voss.infra.openvidu.OpenViduClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,18 +40,19 @@ public class MeetServiceImpl implements MeetService{
     private final OpenViduClient openViduClient;
 
     @Override
-    public Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
-        if(condition.getLimit() == 0 ) {
-            throw new NoLimitRequest("limit 없음");
+    public List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
+        HashMap<String, Integer> map = openViduClient.getSession();
+        Set<String> sessionIdList = map.keySet();
+        List<ViewAllMeetRoomResponse> collect = meetRepository.getMeetListBySessionId(condition, sessionIdList)
+                .stream()
+                .map(o -> new ViewAllMeetRoomResponse(o))
+                .collect(Collectors.toList());
+        for (ViewAllMeetRoomResponse response: collect) {
+            if(map.containsKey(response.getSessionId())){
+                response.setCurrentCount(map.get(response.getSessionId()));
+            }
         }
-        PageRequest pageRequest = PageRequest.of(condition.getPage(), condition.getLimit());
-        List<GetSessionAndConnection> GetSessionAndConnectionList = openViduClient.getSession();
-        List<String> sessionIdList = new ArrayList<>();
-        for (GetSessionAndConnection getSessionAndConnection : GetSessionAndConnectionList) {
-            sessionIdList.add(getSessionAndConnection.getSessionId());
-        }
-        Page<Meet> meetListBySessionId = meetRepository.getMeetListBySessionId(condition, pageRequest, sessionIdList);
-        return meetListBySessionId.map(o -> new ViewAllMeetRoomResponse(o));
+        return collect;
     }
 
     @Override

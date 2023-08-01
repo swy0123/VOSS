@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MeetService {
 
-    Page<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition);
+    List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition);
 
     InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email);
 

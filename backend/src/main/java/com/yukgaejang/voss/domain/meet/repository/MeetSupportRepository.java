@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface MeetSupportRepository {
@@ -21,5 +22,5 @@ public interface MeetSupportRepository {
 
     Page<Meet> getMeetList(MeetSearchCondition condition, Pageable pageable);
 
-    Page<Meet> getMeetListBySessionId(MeetSearchCondition condition, Pageable pageable, List<String> sessionIdList);
+    List<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList);
 }

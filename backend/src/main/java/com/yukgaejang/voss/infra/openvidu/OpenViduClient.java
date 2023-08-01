@@ -50,13 +50,14 @@ public class OpenViduClient {
         }
     }
 
-    public List<GetSessionAndConnection> getSession() {
+    public HashMap<String, Integer> getSession() {
         String url = OPENVIDU_URL + "/openvidu/api/sessions";
         String body = getString(url);
         return getSessionId(body);
     }
 
-    private static List<GetSessionAndConnection> getSessionId(String body) {
+    private static HashMap<String, Integer> getSessionId(String body) {
+        HashMap<String, Integer> map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -69,9 +70,10 @@ public class OpenViduClient {
         for (int i = 0; i < content; i++) {
             String text = jsonNode.get("content").get(i).get("sessionId").asText();
             int connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asInt();
+            map.put(text, connectionCnt);
             list.add(new GetSessionAndConnection(text, connectionCnt));
         }
-        return list;
+        return map;
     }
 
     public String getJoinMeetToken(String sessionId, String email) {

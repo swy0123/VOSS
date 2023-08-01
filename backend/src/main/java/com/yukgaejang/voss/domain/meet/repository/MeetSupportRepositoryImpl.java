@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeetJoin.*;
@@ -84,8 +85,8 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
     }
 
     @Override
-    public Page<Meet> getMeetListBySessionId(MeetSearchCondition condition, Pageable pageable, List<String> sessionIdList) {
-        List<Meet> content = queryFactory
+    public List<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList) {
+        return queryFactory
                 .selectDistinct(meet)
                 .from(meet)
                 .where(
@@ -93,20 +94,7 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
                         titleContains(condition.getTitle()),
                         categoryEq(condition.getCategory())
                 )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(meet.count())
-                .from(meet)
-                .where(
-                        meet.sessionId.in(sessionIdList),
-                        titleContains(condition.getTitle()),
-                        categoryEq(condition.getCategory())
-                );
-
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression titleContains(String title) {
