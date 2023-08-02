@@ -1,15 +1,18 @@
 package com.yukgaejang.voss.domain.messenger.controller;
 
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewChatListResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,15 +29,15 @@ public class MessengerController {
     }
 
     @GetMapping
-    public ResponseEntity<ViewMessengerResponse> viewMessengerList() {
+    public ResponseEntity<List<ViewMessengerListResponse>> viewMessengerList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(messengerService.viewMessenger(email));
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<ViewChatListResponse> viewChatList(@PathVariable Long chatId, int offset, int limit) {
+    public ResponseEntity<Page<DirectChat>> viewChatList(@PathVariable Long chatId, int page, int limit) {
         messengerService.JoinChatSession(chatId);
-        return ResponseEntity.ok(messengerService.viewChatList(chatId, offset, limit));
+        return ResponseEntity.ok(messengerService.viewChatList(chatId, page, limit));
     }
 }

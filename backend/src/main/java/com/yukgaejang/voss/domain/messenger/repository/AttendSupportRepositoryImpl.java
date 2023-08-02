@@ -1,7 +1,7 @@
 package com.yukgaejang.voss.domain.messenger.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yukgaejang.voss.domain.messenger.service.dto.ViewMessengerListDto;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,14 +27,14 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
     }
 
     @Override
-    public List<ViewMessengerListDto> findByChatId(List<Long> chatId, Long memberId) {
+    public List<ViewMessengerListResponse> findByChatId(List<Long> chatId, Long memberId) {
         return queryFactory
                 .select(attend)
                 .from(attend)
                 .where(attend.chat.id.in(chatId), attend.member.id.ne(memberId))
                 .fetch()
                 .stream()
-                .map(o -> new ViewMessengerListDto(o))
+                .map(o -> new ViewMessengerListResponse(o))
                 .collect(Collectors.toList());
     }
 }
