@@ -10,15 +10,15 @@ import org.springframework.data.repository.query.Param;
 public interface FollowRepository extends JpaRepository<Follow, Long>, FollowSupportRepository {
 
     @Query("SELECT COUNT(f) FROM Follow f WHERE f.following.id = :memberId")
-    int getFollowerCount(Long memberId);
+    int getFollowerCount(@Param("memberId") Long memberId);
 
     @Query("SELECT COUNT(f) FROM Follow f WHERE f.follower.id = :memberId")
-    int getFollowingCount(Long memberId);
+    int getFollowingCount(@Param("memberId") Long memberId);
 
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END FROM Follow f WHERE f.follower.id = :myId AND f.following.id = :memberId")
-    boolean isFollowing(Long memberId, Long myId);
+    boolean isFollowing(@Param("memberId") Long memberId, @Param("myId") Long myId);
 
     @Modifying
     @Query("DELETE FROM Follow f WHERE f.follower.id = :followerId AND f.following.id = :followingId")
-    void unfollow(Long followingId, Long followerId);
+    void unfollow(@Param("followingId") Long followingId, @Param("followerId") Long followerId);
 }
