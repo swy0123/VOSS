@@ -23,8 +23,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final MessengerService messengerService;
 
-    private static final String COLLECTION_NAME = "chat";
-
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
@@ -34,10 +32,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatRoom chatRoom = messengerService.findRoomById(chatMessageDto.getSessionId());
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
 
-        FirebaseDto firebaseDto = new FirebaseDto(chatMessageDto.getChatId(), chatMessageDto.getMemberId(),
-                chatMessageDto.getContent(), Timestamp.now());
-        Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<DocumentReference> add = firestore.collection(COLLECTION_NAME).add(firebaseDto);
-        System.out.println(add.get().toString());
+
+
+
     }
 }

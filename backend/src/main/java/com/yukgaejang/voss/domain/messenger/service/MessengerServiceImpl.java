@@ -8,6 +8,7 @@ import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
+import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.dto.FirebaseDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.ViewMessengerListDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
@@ -35,6 +36,7 @@ public class MessengerServiceImpl implements MessengerService{
     private final ChatRepository chatRepository;
     private final MemberRepository memberRepository;
     private final AttendRepository attendRepository;
+    private final MongoChatRepository mongoChatRepository;
 
     @PostConstruct
     private void init() {
