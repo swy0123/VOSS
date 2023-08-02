@@ -3,13 +3,10 @@ import { useState, useEffect, useRef } from 'react'
 import { useRecoilState } from 'recoil';
 import { 
   PlayChangebState, 
-  RoleSelectState, 
   ScriptSelectState } from '../../../recoil/Training';
 import { 
   Container, 
   Role, 
-  RoleBox, 
-  RoleButton,
   ScriptBox,
   Scripts,
   Sentence,
@@ -17,27 +14,15 @@ import {
   formatTime} from './Script.sytle';
 
 interface VideoProps {
-  roles : string[]
   lines : Line[]
 }
 
-function Script ({lines,roles}: VideoProps) {
-  const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
+function Script ({lines}: VideoProps) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
-  
-  const handleRoleBtn = async (index:number) => {
-    const newRoleSelect = await Array(roles.length).fill(false)
-    newRoleSelect[index] = await !isRoleSelect[index]
-    await setIsRoleSelect(newRoleSelect)
 
-    if (newRoleSelect[index] === true){
-      const newScriptSelect = await lines.map((line) => line.name===roles[index])
-      await setIsScriptSelect(newScriptSelect)
-      }
-  }
   const fixTopScript = () => {
     // 1은 PlayingState
     if(playChange[0] === 1) { 
@@ -59,18 +44,7 @@ function Script ({lines,roles}: VideoProps) {
 
   return(
     <Container>
-      <RoleBox>
-          {roles.map((role,index) => (
-            <RoleButton 
-              key={index}
-              $IsClick={isRoleSelect[index]}
-              onClick={()=>handleRoleBtn(index)}
-              > {role}
-            </RoleButton>
-          ))}
-        <div style={{color:'white'}}>{time}</div>
-      </RoleBox>
-
+      <div style={{color:'white'}}>{time}</div>
       <ScriptBox>
         {lines.map((line,index) => (
           <Scripts

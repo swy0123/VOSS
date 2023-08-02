@@ -62,7 +62,6 @@ function DubbingList() {
   // 여기서 부터 iframe player API
   const onYouTubeIframeAPIReady = () => {
     videoList.forEach((video, index) => {
-      console.log("여기 오니?")
       new YT.Player(`player-${index}`, {
         videoId: video.videoUrl.slice(-11),
         events: {
