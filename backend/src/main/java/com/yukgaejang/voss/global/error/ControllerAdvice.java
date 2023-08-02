@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.global.error;
 
+import com.yukgaejang.voss.domain.auth.exception.DuplicateEmailException;
 import com.yukgaejang.voss.domain.auth.exception.NoEmailException;
 import com.yukgaejang.voss.domain.auth.exception.WrongTokenException;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
@@ -63,4 +64,11 @@ public class ControllerAdvice {
         ErrorResponse errorResponse = new ErrorResponse("이메일이 존재하지 않습니다");
         return ResponseEntity.ok(errorResponse);
     }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ErrorResponse> duplicateEmail() {
+        ErrorResponse errorResponse = new ErrorResponse("중복 이메일입니다");
+        return ResponseEntity.ok(errorResponse);
+    }
+
 }
