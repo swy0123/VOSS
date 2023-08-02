@@ -1,7 +1,9 @@
-import { MouseEventHandler } from 'react';
+import { MouseEvent } from 'react';
 import FollowingContent from './FollowingContent';
 import FollowerContent from './FollowerContent';
 import RightArrow from "../../../assets/ProfileImages/RightArrow.png"
+import { useRecoilState } from 'recoil';
+import { ModalOpenState, FollowerTabState } from '/src/recoil/Auth';
 import { 
   ModalContainer, 
   ModalContent, 
@@ -10,21 +12,28 @@ import {
   Tab, 
 } from "./FollowModal.style"
 
-const FollowModal = ({ onClose, activeTab, setActiveTab }: { onClose: MouseEventHandler<HTMLDivElement>, activeTab: string, setActiveTab: Function }) => {
+const FollowModal = () => {
+  const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState)
+  const [followerTabShow, setFollowerTabShow] = useRecoilState(FollowerTabState)
+  const closeModal = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setIsModalOpen(false);
+    }
+  };
 
   return (
-    <ModalContainer onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-      <ModalUser><img onClick={onClose} src={RightArrow} alt='RigthArrow'/><span style={{paddingLeft: "1vw"}}>aadadaa00</span></ModalUser>
+    <ModalContainer onClick={closeModal}>
+      <ModalContent>
+      <ModalUser onClick={()=>setIsModalOpen(false)}><img src={RightArrow} alt='RigthArrow'/><span style={{paddingLeft: "1vw"}}>aadadaa00</span></ModalUser>
         <TabContainer>
-          <Tab active={activeTab === 'follower'} onClick={() => setActiveTab('follower')}>
+          <Tab active={followerTabShow} onClick={() => setFollowerTabShow(true)}>
             팔로워
           </Tab>
-          <Tab active={activeTab === 'following'} onClick={() => setActiveTab('following')}>
+          <Tab active={!followerTabShow} onClick={() => setFollowerTabShow(false)}>
             팔로잉
           </Tab>
         </TabContainer>
-        {activeTab === 'follower' ? <FollowerContent /> : <FollowingContent />}
+        {followerTabShow ? <FollowerContent /> : <FollowingContent />}
       </ModalContent>
     </ModalContainer>
   );

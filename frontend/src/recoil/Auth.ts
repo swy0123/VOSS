@@ -71,11 +71,23 @@ export const ProfileState = atom({
 export const FollowerListState = atom({
   key: "FollowerListState",
   default: [],
-  effects_UNSTABLE: [persistAtom]
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const FollowingListState = atom({
   key: "FollowingListState",
   default: [],
-  effects_UNSTABLE: [persistAtom]
+  effects_UNSTABLE: [persistAtom],
+});
+
+
+// 팔로우 모달, 팔로워 탭 여닫기
+export const ModalOpenState = atom({
+  key: "ModalOpenState",
+  default: false,
+});
+
+export const FollowerTabState = atom({
+  key: "FollowerTabState",
+  default: true,
 });

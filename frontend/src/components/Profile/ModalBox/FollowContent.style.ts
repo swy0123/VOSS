@@ -21,11 +21,12 @@ export const UserImage = styled.img`
   margin-right: 10px;
   `;
 
-export const UserName = styled.span`
-  /* border: 3px solid aquamarine; */
-  width: 58%;
+export const UserName = styled.div`
+  border: 3px solid aquamarine;
+  text-align: start;
+  width: 10vw;
   font-weight: bold;
-  font-size: 1.1vw;
+  font-size: 1vw;
   `;
 
 export const FollowButton = styled.button`
@@ -38,7 +39,7 @@ export const FollowButton = styled.button`
   line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
-  border-radius: 7px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1vw;
   `;
@@ -53,7 +54,22 @@ export const FollowingButton = styled.button`
   line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
-  border-radius: 7px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1vw;
+  `;
+
+export const ItsMeButton  = styled.button`
+  background-color: transparent;
+  border: none;
+  padding: 0.3vw;
+  width: 6.2vw;
+  height: 2.05vw;
+  color: #132B31;
+  text-align: center;
+  line-height: 50%;
+  font-weight: bold;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1vw;
   `;

@@ -24,11 +24,11 @@ export const ModalContent = styled.div`
   overflow-y: auto;
   scrollbar-width: 1vw;
   position: relative;
-
+  
   &::-webkit-scrollbar {
     display: none;
   }
-
+  
   ::-webkit-scrollbar-thumb {
     display: none;
   }
@@ -42,7 +42,7 @@ export const ModalContent = styled.div`
     width: 8px;
     background-color: #f0f0f0;
   }
-
+  
   &::after {
     content: '';
     position: absolute;
@@ -65,11 +65,11 @@ export const ModalUser = styled.div`
   font-size: 1.3vw;
   background-color: white;
   padding: 1vw 0.7vw;
-
+  
   img {
     height: 3vh;
   }
-  `;
+`;
 
 export const TabContainer = styled.div`
   /* border: solid 2px green; */
@@ -79,10 +79,10 @@ export const TabContainer = styled.div`
   margin-bottom: 10px;
   `;
 
+
 interface TabProps {
   active: boolean;
 }
-
 export const Tab = styled.div<TabProps>`
   padding: 10px;
   width: 50%;
@@ -91,4 +91,4 @@ export const Tab = styled.div<TabProps>`
   cursor: pointer;
   border-bottom: ${({ active }) => (active ? '2px solid #132B31' : 'none')};
   font-weight: ${({ active }) => (active ? 'bold' : 'none')};
-`;
+  `;
