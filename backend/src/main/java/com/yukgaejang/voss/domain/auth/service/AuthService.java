@@ -1,7 +1,12 @@
 package com.yukgaejang.voss.domain.auth.service;
 
+import com.yukgaejang.voss.domain.auth.exception.NoEmailException;
+import com.yukgaejang.voss.domain.auth.exception.WrongTokenException;
+import com.yukgaejang.voss.domain.auth.repository.EmailRepository;
+import com.yukgaejang.voss.domain.auth.repository.entity.Email;
 import com.yukgaejang.voss.domain.auth.service.dto.request.ConfirmEmailRequest;
 import com.yukgaejang.voss.domain.auth.service.dto.request.SendEmailRequest;
+import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import jakarta.mail.MessagingException;
@@ -25,6 +30,8 @@ import java.util.Random;
 public class AuthService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
+    private final EmailRepository emailRepository;
+
 
     @Value("${SMTP_EMAIL}")
     private String smtpUserName;
@@ -47,6 +54,8 @@ public class AuthService implements UserDetailsService {
         MimeMessage message = null;
         try {
             message = createMessage(sendEmailRequest.getEmail(), key);
+            emailRepository.deleteByEmail(sendEmailRequest.getEmail());
+            emailRepository.save(new Email(sendEmailRequest.getEmail(), key));
             javaMailSender.send(message);
         } catch (MailException | MessagingException | UnsupportedEncodingException es) {
             es.printStackTrace();
@@ -55,7 +64,15 @@ public class AuthService implements UserDetailsService {
     }
 
     public void confirmEmail(ConfirmEmailRequest confirmEmailRequest) {
+        Email email = emailRepository.findByEmail(confirmEmailRequest.getEmail()).orElseThrow(() ->
+                new NoEmailException("없는 사용자입니다.")
+        );
 
+        if (!confirmEmailRequest.getToken().equals(email.getToken())) {
+            throw new WrongTokenException("잘못된 인증입니다");
+        }
+
+        emailRepository.deleteByEmail(email.getEmail());
     }
 
     private MimeMessage createMessage(String to, String key) throws MessagingException, UnsupportedEncodingException {

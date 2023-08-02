@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.global.error;
 
+import com.yukgaejang.voss.domain.auth.exception.NoEmailException;
+import com.yukgaejang.voss.domain.auth.exception.WrongTokenException;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
 import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
@@ -47,6 +49,18 @@ public class ControllerAdvice {
     @ExceptionHandler(NoLimitRequest.class)
     public ResponseEntity<ErrorResponse> noLimit() {
         ErrorResponse errorResponse = new ErrorResponse("limit가 없습니다.");
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(WrongTokenException.class)
+    public ResponseEntity<ErrorResponse> wrongToken() {
+        ErrorResponse errorResponse = new ErrorResponse("인증번호가 틀립니다");
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(NoEmailException.class)
+    public ResponseEntity<ErrorResponse> noEmail() {
+        ErrorResponse errorResponse = new ErrorResponse("이메일이 존재하지 않습니다");
         return ResponseEntity.ok(errorResponse);
     }
 }
