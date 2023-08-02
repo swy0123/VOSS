@@ -1,8 +1,8 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
-import com.yukgaejang.voss.domain.freeboard.service.PostCommentService;
-import com.yukgaejang.voss.domain.freeboard.service.PostLikeService;
-import com.yukgaejang.voss.domain.freeboard.service.PostService;
+import com.yukgaejang.voss.domain.freeboard.service.*;
+import com.yukgaejang.voss.global.file.service.AwsS3Service;
+import com.yukgaejang.voss.global.file.service.dto.CreatePostFileRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
@@ -17,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,14 @@ public class FreeboardController {
     private final PostService postService;
     private final PostCommentService postCommentService;
     private final PostLikeService postLikeService;
+    private final AwsS3Service awsS3Service;
+
+    private static String dirName = "post-file";
+
+    @PostMapping("/upload")
+    public ResponseEntity<List<CreatePostFileRequest>> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> files) {
+        return ResponseEntity.ok(awsS3Service.uploadMultiFile(files, dirName));
+    }
 
     @PostMapping
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
