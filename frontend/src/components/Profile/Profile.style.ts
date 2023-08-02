@@ -5,11 +5,10 @@ export const ProfileDesign = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-top: 5vh;
-  /* margin-bottom: 10vh; */
+  margin-top: 4vh;
   margin-left: 15vw;
   margin-right: 15vw;
-  height: 70vh;
+  height: 75vh;
   width: 70vw;
 `;
 
@@ -24,6 +23,6 @@ export const ProfileSpace2 = styled.div`
   /* border: dotted 1px white; */
   display: flex;
   justify-content: space-evenly;
-  height: 40vh;
+  height: 42vh;
   width: 100%;
 `

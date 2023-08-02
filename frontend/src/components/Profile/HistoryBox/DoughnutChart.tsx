@@ -1,60 +1,77 @@
-import React from 'react';
-import { styled } from 'styled-components';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
+import { useRecoilValue } from 'recoil';
+import { ProfileState } from '/src/recoil/Auth';
+import { styled } from "styled-components";
+
+const Count = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6.5vw;
+  height: 6.5vw;
+  z-index: 1;
+  color: rgba(293, 293, 293, 0.8) ;
+
+  p{
+    font-size: 1.1vw;
+  }
+`;
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
-  labels: ['성별, 연령', '연기', '발음',],
-  datasets: [
-    {
-      label: 'history',
-      data: [150, 70, 100],
-      backgroundColor: [
-        '#ABF9A9',
-        '#C3DAFF',
-        '#FFF8B7',
-      ],
-      borderColor: [
-        '#FFFFFF',
-        '#FFFFFF',
-        '#FFFFFF',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+function DoughnutChart() {
+  const profile = useRecoilValue(ProfileState);
 
-const options = {
-  plugins: {
-    legend: {
-      labels: {
-        color: '#FFF', // 라벨의 색상을 흰색(#FFF)으로 설정
-        usePointStyle: true, // 라벨 모양을 원으로 설정
+  const data = {
+    labels: ['성별, 연령', '연기', '발음',],
+    datasets: [
+      {
+        label: 'history',
+        data: [profile.dubCnt, profile.actCnt, profile.dictionCnt],
+        // data: [1, 1, 1],
+        backgroundColor: [
+          '#ABF9A9',
+          '#C3DAFF',
+          '#FFF8B7',
+        ],
+        borderColor: [
+          '#FFFFFF',
+          '#FFFFFF',
+          '#FFFFFF',
+        ],
+        borderWidth: 1,
       },
-    },
-    tooltip: {
-      callbacks: {
-        label: function (context) {
-          return context.label + " 연습 " + context.raw + " 회"; // "연령: " + 라벨 텍스트로 수정
+    ],
+  };
+  
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return context.label + " 연습 " + context.raw + " 회"; // "연령: " + 라벨 텍스트로 수정
+          },
         },
       },
     },
-  },
-  elements: {
-    arc: {
-      borderWidth: 2, // 원그래프 부분의 테두리 두께를 조절
-      borderColor: 'white', // 원그래프 부분의 테두리 색상을 설정
-      // innerWidth: '15vw',
-      // innerWidth: '15vw',
-    },
-  },
-};
+    cutout: '40%',
+  };
 
-export default function DoughnutChart() {
   return (
-      <Pie data={data } options={options}/>
+    <div>
+      <Doughnut style={{width: '13vw', height: '13vw', zIndex: "2"}} data={data} options={options}/>
+      <Count><p>{profile.totalCnt} 회</p></Count>
+    </div>
   );
 };
+
+export default DoughnutChart;

@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 export const BadgeBoxDesign = styled.div`
   /* border: solid 1px red; */
-  width: 23vw;
+  width: 24vw;
   height: 100%;
   color: white;
   background-color: rgba(0, 0, 0, 0.3);

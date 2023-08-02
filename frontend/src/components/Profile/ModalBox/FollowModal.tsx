@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { MouseEventHandler } from 'react';
 import FollowingContent from './FollowingContent';
 import FollowerContent from './FollowerContent';
 import RightArrow from "../../../assets/ProfileImages/RightArrow.png"
@@ -10,7 +10,7 @@ import {
   Tab, 
 } from "./FollowModal.style"
 
-const FollowModal = ({ onClose, activeTab, setActiveTab }) => {
+const FollowModal = ({ onClose, activeTab, setActiveTab }: { onClose: MouseEventHandler<HTMLDivElement>, activeTab: string, setActiveTab: Function }) => {
 
   return (
     <ModalContainer onClick={onClose}>
