@@ -30,7 +30,7 @@ const Login = () => {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
-  const MAX_LENGTH = 20;
+  const MAX_LENGTH = 50;
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
