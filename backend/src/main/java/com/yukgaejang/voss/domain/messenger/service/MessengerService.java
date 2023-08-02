@@ -1,10 +1,11 @@
 package com.yukgaejang.voss.domain.messenger.service;
 
+import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewChatListResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
+import org.springframework.data.domain.Page;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public interface MessengerService {
 
     <T> void sendMessage(WebSocketSession session, T message);
 
-    ViewMessengerResponse viewMessenger(String email);
+    List<ViewMessengerListResponse> viewMessenger(String email);
 
-    ViewChatListResponse viewChatList(Long chatId, int offset, int limit);
+    Page<MongoChat> viewChatList(Long chatId, int page, int limit);
 
     void JoinChatSession(Long chatId);
 }

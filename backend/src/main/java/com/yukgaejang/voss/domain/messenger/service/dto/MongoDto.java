@@ -1,21 +1,21 @@
 package com.yukgaejang.voss.domain.messenger.service.dto;
 
-import com.google.cloud.Timestamp;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
-public class FirebaseDto {
+public class MongoDto {
     private Long chatId;
     private Long memberId;
     private String content;
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 
-    public FirebaseDto() {
+    public MongoDto() {
     }
 
-    public FirebaseDto(Long chatId, Long memberId, String content, Timestamp timestamp) {
+    public MongoDto(Long chatId, Long memberId, String content, LocalDateTime timestamp) {
         this.chatId = chatId;
         this.memberId = memberId;
         this.content = content;

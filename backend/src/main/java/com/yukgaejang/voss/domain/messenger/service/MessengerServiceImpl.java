@@ -8,17 +8,18 @@ import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
-import com.yukgaejang.voss.domain.messenger.service.dto.FirebaseDto;
-import com.yukgaejang.voss.domain.messenger.service.dto.ViewMessengerListDto;
+import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewChatListResponse;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -59,7 +60,7 @@ public class MessengerServiceImpl implements MessengerService{
         Member myMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("회원이 없습니다"));
         Long myMemberId = myMember.getId();
-        String myId = myMemberId.toString();
+        String myId = myMemberId.toString()+" to ";
         String yourId = createMessengerRequest.getYourMemberId().toString();
         Member yourMember = memberRepository.findById(createMessengerRequest.getYourMemberId())
                 .orElseThrow(() -> new NoMemberException("회원이 없습니다."));
@@ -75,7 +76,7 @@ public class MessengerServiceImpl implements MessengerService{
         attendRepository.save(new Attend(myMember, findChat));
         attendRepository.save(new Attend(yourMember, findChat));
 
-        return new CreateMessengerResponse("생성 성공", findChat.getId());
+        return new CreateMessengerResponse("생성 성공", findChat.getId(), sessionId);
     }
 
     @Override
@@ -89,17 +90,16 @@ public class MessengerServiceImpl implements MessengerService{
     }
 
     @Override
-    public ViewMessengerResponse viewMessenger(String email) {
+    public List<ViewMessengerListResponse> viewMessenger(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         List<Long> chatIdList = attendRepository.findByMemberId(member.getId());
-        List<ViewMessengerListDto> messengerList = attendRepository.findByChatId(chatIdList, member.getId());
-        return new ViewMessengerResponse(messengerList);
+        return attendRepository.findByChatId(chatIdList, member.getId());
     }
 
     @Override
-    public ViewChatListResponse viewChatList(Long chatId, int offset, int limit) {
-        List<FirebaseDto> firebaseDtos = chatRepository.viewChatList(chatId, offset, limit);
-        return new ViewChatListResponse(firebaseDtos);
+    public Page<MongoChat> viewChatList(Long chatId, int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "time"));
+        return mongoChatRepository.findByChatId(chatId, pageRequest);
     }
 
     @Override
