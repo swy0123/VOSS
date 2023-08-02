@@ -5,12 +5,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class FileDto {
+public class CreatePostFileRequest {
     private String originalFileName;
     private String savedFileName;
     private Long size;
 
-    public FileDto(String originalFileName, String savedFileName, Long size) {
+    public CreatePostFileRequest(String originalFileName, String savedFileName, Long size) {
         this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
         this.size = size;

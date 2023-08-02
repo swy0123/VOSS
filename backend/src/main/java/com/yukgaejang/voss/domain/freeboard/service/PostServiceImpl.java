@@ -9,7 +9,7 @@ import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
-import com.yukgaejang.voss.global.file.service.dto.FileDto;
+import com.yukgaejang.voss.global.file.service.dto.CreatePostFileRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
@@ -39,12 +39,13 @@ public class PostServiceImpl implements PostService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         Post post = new Post(createPostRequest.getTitle(), createPostRequest.getContent(), member);
         postRepository.save(post);
-        List<FileDto> files = createPostRequest.getFiles();
-        if(files != null) {
-            for(FileDto file : files) {
-                PostFile postFile = new PostFile(post, file.getOriginalFileName(), file.getSavedFileName(), file.getSize());
-                postFileRepository.save(postFile);
-            }
+        List<CreatePostFileRequest> files = createPostRequest.getFiles();
+        if(files.isEmpty()) {
+            return new CreatePostResponse(true);
+        }
+        for (CreatePostFileRequest file : files) {
+            PostFile postFile = new PostFile(post, file.getOriginalFileName(), file.getSavedFileName(), file.getSize());
+            postFileRepository.save(postFile);
         }
         return new CreatePostResponse(true);
     }
