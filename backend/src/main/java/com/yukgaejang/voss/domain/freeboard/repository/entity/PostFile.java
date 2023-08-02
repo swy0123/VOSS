@@ -24,7 +24,7 @@ public class PostFile extends BaseEntity {
     private String originalFileName;
     private String savedFileName;
     private String uploadPath;
-    private String type;
+    private String extension;
     private Long size;
 
     private int isDeleted;
@@ -36,12 +36,12 @@ public class PostFile extends BaseEntity {
     }
 
     @Builder
-    public PostFile(Post post, String originalFileName, String savedFileName, String uploadPath, String type, Long size) {
+    public PostFile(Post post, String originalFileName, String savedFileName,Long size) {
         this.post = post;
         this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
-        this.uploadPath = uploadPath;
-        this.type = type;
+//        this.uploadPath = uploadPath;
+//        this.extension = extension;
         this.size = size;
     }
 }

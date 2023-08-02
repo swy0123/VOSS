@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
+import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
+import com.yukgaejang.voss.domain.freeboard.service.AwsS3Service;
 import com.yukgaejang.voss.domain.freeboard.service.PostFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +18,12 @@ import java.util.List;
 public class PostFileController {
 
     private final PostFileService postFileService;
+    private final AwsS3Service awsS3Service;
+    private static String dirName = "post-img";
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> uploadImgs,
-                                                     @RequestPart(required = false) List<MultipartFile> uploadVideos) throws IOException {
-        String a = postFileService.uploadFile(uploadImgs, uploadVideos);
-
-        return ResponseEntity.ok(a);
+    public ResponseEntity<List<PostFile>> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> imageFiles) throws IOException {
+        return ResponseEntity.ok(awsS3Service.uploadFile(imageFiles, dirName));
     }
 
 }
