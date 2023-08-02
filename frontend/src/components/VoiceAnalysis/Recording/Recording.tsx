@@ -23,7 +23,21 @@ function Recording (){
     const time = `${hours}-${minutes}-${seconds}`
     setTimeList([time,...timeList.slice(0,4)])
   }
-  
+
+  const downloadBlob = (file) => {
+    const file1 = new Blob([file], { type: 'audio/wav' });
+    // Blob 객체의 MIME 타입 확인
+    console.log('Blob MIME Type:', file1.type);
+
+    // 다운로드할 파일의 확장자가 "wav"인 경우에 MIME 타입 설정
+    if (file1.type === 'audio/wav') {
+      const anchor = document.createElement('a');
+      anchor.href = URL.createObjectURL(file1);
+      anchor.download = 'my-audio-file.wav';
+      anchor.click();
+    }
+  };
+
   useEffect(()=>{
     currentTime()
   },[analysisRecord])
@@ -36,15 +50,16 @@ function Recording (){
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
             <RecordLable>
-            "voss"{timeList[index]}.mp3
+            "voss"{timeList[index]}.wav
             </RecordLable>
             <audio src={file} controls style={{
               width :'100px',
               height : '28px',
             }}/>
-            <a href={file} download="my-audio-file.mp3">
+            <a href={file} download="my-audio-file.wav">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a>
+            <button onClick={()=>downloadBlob(file)}>type</button>
           </RecordItem>
         ))}
       </RecordBox>

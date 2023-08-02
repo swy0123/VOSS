@@ -1,17 +1,17 @@
-import { BackGroundImg } from '../components/BackGroundImg';
 import { styled } from 'styled-components';
+import { useEffect } from 'react';
+import { ScriptData } from '../type/type';
+import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { getVideo } from '../api/video';
+import { videoState } from '../recoil/Training';
+import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
 import Messenger from '../components/Message/Messenger';
 import RecordButton from '../components/DubbingRoom/RecordButton';
 import Recording from '../components/DubbingRoom/Recording';
 import Script from '../components/DubbingRoom/Script/Script';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getVideo } from '../api/video';
-import { ScriptData } from '../type/type';
 import Video from '../components/DubbingRoom/Video/Video';
-import { useRecoilState } from 'recoil';
-import { videoState } from '../recoil/Training';
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ function Dubbing() {
 
   const axiosVideo = async () => {
     try {
-      const VideoData: ScriptData = await getVideo(id);
+      const VideoData:ScriptData = await getVideo(id);
       setVideo(VideoData);
     } catch (error) {
       console.log(error);
@@ -53,10 +53,11 @@ function Dubbing() {
 
         <LeftSection>
           <Video 
-            script={video.script}></Video>
+            script={video.script}
+            roles={video.roles}
+            lines={video.lines}></Video>
           <Script 
-            lines={video.lines}
-            roles={video.roles}></Script>
+            lines={video.lines}></Script>
         </LeftSection>
         
         <RightSection>

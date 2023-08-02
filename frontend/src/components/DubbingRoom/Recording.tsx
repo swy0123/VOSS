@@ -51,7 +51,6 @@ const Warning = styled.div`
 `
 
 function Recording (){
-  console.log("recording은??")
   const TmpFile = [
     "voss_username_23-07-11-16-12.mp3",
     "voss_username_23-07-11-16-12.mp3",
