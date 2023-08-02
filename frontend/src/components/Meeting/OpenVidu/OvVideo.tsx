@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Video } from './MeetJoin.style';
 
 const OpenViduVideoComponent = (props:any) => {
   const videoRef = useRef(null);
@@ -18,7 +19,7 @@ const OpenViduVideoComponent = (props:any) => {
     };
   }, [props]);
 
-  return <video autoPlay={true} ref={videoRef} />;
+  return <Video autoPlay={true} ref={videoRef} />;
 };
 
 export default OpenViduVideoComponent;

@@ -55,8 +55,8 @@ export const Chat = styled.div`
 `;
 
 export const VideoContainer = styled.div`
-  margin-top: 30px;
-  width: 50%;
+  margin-top: 20px;
+  width: 90%;
   height: auto;
   overflow: hidden;
   display: flex;
@@ -64,6 +64,8 @@ export const VideoContainer = styled.div`
 `;
 
 export const StreamContainerWrapper = styled.div`
+margin: 1%;
+  border-radius: 5%;
   display: grid;
   place-items: center;
   grid-gap: 20px;
@@ -74,10 +76,20 @@ export const StreamContainerWrapper = styled.div`
   }
 `;
 
+export const Video = styled.video`
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+`;
+
 export const StreamContainer = styled.div`
   width: 100%;
+  aspect-ratio: 3 / 2;
+  margin: 1%;
+  border-radius: 5%;
   position: relative;
-  border-radius: 5px;
   min-height: 34vh;
   overflow: hidden;
   box-sizing: border-box;

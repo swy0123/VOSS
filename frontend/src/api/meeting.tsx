@@ -66,10 +66,10 @@ export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
   console.log(res.data);
   if (res.data.status === "입장") {
     console.log("입장함");
-    return res.data.token;
+    return res.data;
   }
   console.log("못함");
-  return "false";
+  return res.data;
 };
 
 export interface MeetRoomData{
