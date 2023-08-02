@@ -1,14 +1,11 @@
-package com.yukgaejang.voss.domain.freeboard.service;
+package com.yukgaejang.voss.global.file.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.yukgaejang.voss.domain.freeboard.repository.PostFileRepository;
-import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
-import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
-import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
+import com.yukgaejang.voss.global.file.service.dto.FileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,34 +27,26 @@ public class AwsS3Service {
     private String bucket;
  
     private final AmazonS3 amazonS3;
-    private final PostFileRepository postFileRepository;
-    private final PostRepository postRepository;
  
-    // 이미지 파일 s3에 저장 후 Dto 리스트에 담아서 반환
-    public List<PostFile> uploadFile(List<MultipartFile> multipartFile, String dirName) {
-        List<PostFile> reponseDto = new ArrayList<>();
- 
-        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 reponseDto에 추가
-        multipartFile.forEach(file -> {
+    public List<FileDto> uploadMultiFile(List<MultipartFile> multipartFile, String dirName) {
+        List<FileDto> fileDtoList = new ArrayList<>();
+
+        for (MultipartFile file : multipartFile) {
             String fileName = createFileName(file.getOriginalFilename(), dirName);
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
             objectMetadata.setContentType(file.getContentType());
- 
-            try(InputStream inputStream = file.getInputStream()) {
+
+            try (InputStream inputStream = file.getInputStream()) {
                 amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
-            } catch(IOException e) {
+            } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
 
-            Post post = postRepository.findByIdAndIsDeletedFalse(1L);
-            // file에 관한 내용을 Dto로 변환 후 list에 담아 return
-            reponseDto.add(new PostFile(post, file.getOriginalFilename(), fileName, file.getSize()));
-
-        });
- 
-        return reponseDto;
+            fileDtoList.add(new FileDto(file.getOriginalFilename(), fileName, file.getSize()));
+        }
+        return fileDtoList;
     }
 
     public void deleteFile(String fileName, String dirName) {
