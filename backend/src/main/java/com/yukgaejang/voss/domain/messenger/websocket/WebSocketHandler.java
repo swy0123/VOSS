@@ -2,7 +2,7 @@ package com.yukgaejang.voss.domain.messenger.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
-import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
+import com.yukgaejang.voss.domain.messenger.repository.mongo.DirectChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.ChatMessageDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final MessengerService messengerService;
-    private final MongoChatRepository mongoChatRepository;
+    private final DirectChatRepository directChatRepository;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -33,7 +33,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         DirectChat directChat = new DirectChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
                 chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
 
-        mongoChatRepository.save(directChat);
+        directChatRepository.save(directChat);
 
     }
 }

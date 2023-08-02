@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface MongoChatRepository extends MongoRepository<DirectChat, Long> {
+public interface DirectChatRepository extends MongoRepository<DirectChat, Long> {
 
     Page<DirectChat> findByChatId(Long chadId, Pageable pageable);
 }

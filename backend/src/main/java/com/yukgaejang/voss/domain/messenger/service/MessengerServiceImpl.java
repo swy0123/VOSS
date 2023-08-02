@@ -9,7 +9,7 @@ import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
 import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
-import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
+import com.yukgaejang.voss.domain.messenger.repository.mongo.DirectChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
@@ -37,7 +37,7 @@ public class MessengerServiceImpl implements MessengerService{
     private final ChatRepository chatRepository;
     private final MemberRepository memberRepository;
     private final AttendRepository attendRepository;
-    private final MongoChatRepository mongoChatRepository;
+    private final DirectChatRepository directChatRepository;
 
     @PostConstruct
     private void init() {
@@ -99,7 +99,7 @@ public class MessengerServiceImpl implements MessengerService{
     @Override
     public Page<DirectChat> viewChatList(Long chatId, int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "time"));
-        return mongoChatRepository.findByChatId(chatId, pageRequest);
+        return directChatRepository.findByChatId(chatId, pageRequest);
     }
 
     @Override
