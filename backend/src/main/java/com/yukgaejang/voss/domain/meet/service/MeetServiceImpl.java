@@ -60,6 +60,9 @@ public class MeetServiceImpl implements MeetService{
     @Override
     public InitMeetRoomResponse initMeetRoom(CreateSessionIdRequest createSessionIdRequest, String email) {
         String sessionId = openViduClient.createSession();
+        if(createSessionIdRequest.getPassword().equals("")) {
+            createSessionIdRequest.setPassword(null);
+        }
         boolean isPassword = createSessionIdRequest.getPassword()==null?false:true;
         Meet meet = new Meet(createSessionIdRequest.getCategory(), createSessionIdRequest.getTitle(),
                 createSessionIdRequest.getMaxCount(), isPassword, false, sessionId, createSessionIdRequest.getPassword());
