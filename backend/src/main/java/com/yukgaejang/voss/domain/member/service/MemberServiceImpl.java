@@ -117,6 +117,7 @@ public class MemberServiceImpl implements MemberService {
         int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
 
         return MemberInfoResponse.builder()
+                .id(me.getId())
                 .email(me.getEmail())
                 .nickname(me.getNickname())
                 .imageUrl(me.getImageUrl())
@@ -141,6 +142,7 @@ public class MemberServiceImpl implements MemberService {
         int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
 
         return MemberInfoResponse.builder()
+                .id(me.getId())
                 .email(me.getEmail())
                 .nickname(me.getNickname())
                 .imageUrl(me.getImageUrl())

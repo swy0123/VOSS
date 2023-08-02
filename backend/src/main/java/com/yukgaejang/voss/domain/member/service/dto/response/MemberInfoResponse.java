@@ -12,20 +12,22 @@ import java.util.List;
 @Getter
 @Setter
 public class MemberInfoResponse {
-    String email;
-    String nickname;
-    String imageUrl = "";
-    Boolean isFollowing;
-    Integer followerCnt;
-    Integer followingCnt;
-    List<ViewBadgeResponse> badges = new ArrayList<>();
-    Integer actCnt;
-    Integer dubCnt;
-    Integer dictionCnt;
-    Integer totalCnt;
+    private Long id;
+    private String email;
+    private String nickname;
+    private String imageUrl = "";
+    private Boolean isFollowing;
+    private Integer followerCnt;
+    private Integer followingCnt;
+    private List<ViewBadgeResponse> badges = new ArrayList<>();
+    private Integer actCnt;
+    private Integer dubCnt;
+    private Integer dictionCnt;
+    private Integer totalCnt;
 
     @Builder
-    public MemberInfoResponse(String email, String nickname, String imageUrl, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
+    public MemberInfoResponse(Long id, String email, String nickname, String imageUrl, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
+        this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.imageUrl = imageUrl;

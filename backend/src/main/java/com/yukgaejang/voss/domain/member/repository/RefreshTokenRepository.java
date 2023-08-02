@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Stri
     @Transactional
     @Modifying
     @Query("UPDATE RefreshToken r SET r.refreshToken = :newRefreshToken WHERE r.refreshToken = :originRefreshToken")
-    void updateRefreshToken(String originRefreshToken, String newRefreshToken);
+    void updateRefreshToken(@Param("originRefreshToken") String originRefreshToken, @Param("newRefreshToken") String newRefreshToken);
 
     Optional<RefreshToken> findByRefreshToken(String refreshToken);
 }
