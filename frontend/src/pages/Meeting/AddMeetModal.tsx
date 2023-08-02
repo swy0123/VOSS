@@ -82,11 +82,6 @@ interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
 
-interface Friend {
-  id: number;
-  name: string;
-  img: string;
-}
 
 const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) => {
   const [title, setTitle] = useState("");
@@ -126,16 +121,17 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     if (limit > 2) setLimit(limit - 1);
   };
 
+  const addRoomData = {
+    title: title,
+    maxCount: limit,
+    password: password,
+    category: selectedCategory
+  }
   const onClickOpenNewMeetRoom = async () => {
     console.log("title : " + title + ", password : " + password + ", limit : " + limit);
     console.log(", isChecked : " + isChecked + ", selectedTag : " + selectedTag);
 
-    const addRoomData = {
-      title: title,
-      maxCount: limit,
-      password: password,
-      category: selectedCategory
-    }
+
     const meetRoomId = await createMeet({ addRoomData });
     console.log("방 생성 후 참가 시도");
     joinMeetingRoom(meetRoomId, password);
@@ -143,7 +139,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
 
   const joinMeetingRoom = (meetRoomId: number, password: string) => {
     console.log("meetRoomId : " + meetRoomId + ", password : " + password + " 이동");
-    navigate(`/meeting/join`, { state: { meetRoomId: meetRoomId, password: password } });
+    navigate(`/meeting/join`, { state: { password: password, meetRoomId: meetRoomId } });
   };
 
   return (

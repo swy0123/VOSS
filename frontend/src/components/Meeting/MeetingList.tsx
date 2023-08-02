@@ -3,12 +3,8 @@ import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { ListBox, MeetingRoom } from "./MeetingList.style";
 import { OpenVidu } from "openvidu-browser";
-import { getMeet } from "../../api/meeting";
+import { MeetRoomData, getMeet } from "../../api/meeting";
 import { MeetingBoardProps } from "../../pages/MeetingBoard";
-
-// 로컬 미디어 서버 주소
-const OPENVIDU_SERVER_URL = "https://i9b106.p.ssafy.io:5173";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
   //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
@@ -37,12 +33,16 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     const newList = [...tttmp];
 
     setDate([...newList]);
-  };
+  };  
 
-  const goPostDetail = (meetRoomId: number, password: string) => {
-    if (confirm(meetRoomId+"방에 입장하시겠습니까?")) {
-      console.log("meetRoomId : " + meetRoomId + ", password : " + password);
-      navigate(`/meeting/join`, { state: { meetRoomId: meetRoomId, password: password } });
+  const goPostDetail = (data:MeetRoomData) => {
+    let password:(string|null) = "";
+    if(data.password){
+      password = prompt("비밀번호를 입력해주세요"+"");
+    }
+    if (confirm(data.meetRoomId+"방에 입장하시겠습니까?")) {
+      alert("meetRoomId : " + data.meetRoomId + ", password : " + password);
+      navigate(`/meeting/join`, { state: { password: password, meetRoomId: data.meetRoomId } });
     }
   };
 
@@ -50,7 +50,7 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     <ListBox>
       {meetingData.map((data, index) => (
         //비번 없다고 가정하고 테스트
-        <MeetingRoom key={index} onClick={() => goPostDetail(data.meetRoomId, data.password)}>
+        <MeetingRoom key={index} onClick={() => goPostDetail(data)}>
           {data.meetRoomId}
           {data.category}
           {data.title}
