@@ -17,15 +17,7 @@ public class ActController {
 
     @PostMapping("/classify")
     public  ResponseEntity<ClassifyResponse> classify(@RequestParam("file") MultipartFile file) {
-        try {
-            String text = new String(file.getBytes(), "UTF-8");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
-
         ClassifyResponse result = actService.analysis(file);
-
         return ResponseEntity.ok(result);
     }
 
