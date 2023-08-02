@@ -1,7 +1,7 @@
 package com.yukgaejang.voss.domain.messenger.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.ChatMessageDto;
@@ -30,10 +30,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatRoom chatRoom = messengerService.findRoomById(chatMessageDto.getSessionId());
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
 
-        MongoChat mongoChat = new MongoChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
+        DirectChat directChat = new DirectChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
                 chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
 
-        mongoChatRepository.save(mongoChat);
+        mongoChatRepository.save(directChat);
 
     }
 }

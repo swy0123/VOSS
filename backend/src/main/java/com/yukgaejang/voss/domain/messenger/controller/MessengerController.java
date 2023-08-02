@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.messenger.controller;
 
-import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
@@ -36,7 +36,7 @@ public class MessengerController {
     }
 
     @GetMapping("/{chatId}")
-    public ResponseEntity<Page<MongoChat>> viewChatList(@PathVariable Long chatId, int page, int limit) {
+    public ResponseEntity<Page<DirectChat>> viewChatList(@PathVariable Long chatId, int page, int limit) {
         messengerService.JoinChatSession(chatId);
         return ResponseEntity.ok(messengerService.viewChatList(chatId, page, limit));
     }

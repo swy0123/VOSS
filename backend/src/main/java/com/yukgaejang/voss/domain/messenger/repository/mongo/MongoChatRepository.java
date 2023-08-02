@@ -1,11 +1,11 @@
 package com.yukgaejang.voss.domain.messenger.repository.mongo;
 
-import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface MongoChatRepository extends MongoRepository<MongoChat, Long> {
+public interface MongoChatRepository extends MongoRepository<DirectChat, Long> {
 
-    Page<MongoChat> findByChatId(Long chadId, Pageable pageable);
+    Page<DirectChat> findByChatId(Long chadId, Pageable pageable);
 }

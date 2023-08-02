@@ -8,7 +8,7 @@ import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.ChatRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
-import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.MongoChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
@@ -97,7 +97,7 @@ public class MessengerServiceImpl implements MessengerService{
     }
 
     @Override
-    public Page<MongoChat> viewChatList(Long chatId, int page, int limit) {
+    public Page<DirectChat> viewChatList(Long chatId, int page, int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "time"));
         return mongoChatRepository.findByChatId(chatId, pageRequest);
     }

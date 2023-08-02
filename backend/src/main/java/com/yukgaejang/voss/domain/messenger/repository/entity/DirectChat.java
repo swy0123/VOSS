@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Document(collection = "chat")
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MongoChat {
+public class DirectChat {
     @Id
     private String id;
     private Long chatId;
@@ -21,7 +21,7 @@ public class MongoChat {
     private String content;
     private LocalDateTime time;
 
-    public MongoChat(Long chatId, String sessionId, Long memberId, String content, LocalDateTime time) {
+    public DirectChat(Long chatId, String sessionId, Long memberId, String content, LocalDateTime time) {
         this.chatId = chatId;
         this.sessionId = sessionId;
         this.memberId = memberId;

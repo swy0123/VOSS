@@ -1,6 +1,6 @@
 package com.yukgaejang.voss.domain.messenger.service;
 
-import com.yukgaejang.voss.domain.messenger.repository.entity.MongoChat;
+import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
@@ -22,7 +22,7 @@ public interface MessengerService {
 
     List<ViewMessengerListResponse> viewMessenger(String email);
 
-    Page<MongoChat> viewChatList(Long chatId, int page, int limit);
+    Page<DirectChat> viewChatList(Long chatId, int page, int limit);
 
     void JoinChatSession(Long chatId);
 }
