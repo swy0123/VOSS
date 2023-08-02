@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.yukgaejang.voss.global.file.service.dto.CreatePostFileRequest;
+import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,8 @@ public class AwsS3Service {
  
     private final AmazonS3 amazonS3;
  
-    public List<CreatePostFileRequest> uploadMultiFile(List<MultipartFile> multipartFile, String dirName) {
-        List<CreatePostFileRequest> files = new ArrayList<>();
+    public List<CreateFileRequest> uploadMultiFile(List<MultipartFile> multipartFile, String dirName) {
+        List<CreateFileRequest> files = new ArrayList<>();
         for (MultipartFile file : multipartFile) {
             String fileName = createFileName(file.getOriginalFilename(), dirName);
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -43,7 +43,7 @@ public class AwsS3Service {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
 
-            files.add(new CreatePostFileRequest(file.getOriginalFilename(), fileName, file.getContentType(), file.getSize()));
+            files.add(new CreateFileRequest(file.getOriginalFilename(), fileName, file.getContentType(), file.getSize()));
         }
         return files;
     }

@@ -2,7 +2,7 @@ package com.yukgaejang.voss.domain.freeboard.controller;
 
 import com.yukgaejang.voss.domain.freeboard.service.*;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
-import com.yukgaejang.voss.global.file.service.dto.CreatePostFileRequest;
+import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
@@ -33,7 +33,7 @@ public class FreeboardController {
     private static String dirName = "post-file";
 
     @PostMapping("/upload")
-    public ResponseEntity<List<CreatePostFileRequest>> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> files) {
+    public ResponseEntity<List<CreateFileRequest>> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> files) {
         return ResponseEntity.ok(awsS3Service.uploadMultiFile(files, dirName));
     }
 
