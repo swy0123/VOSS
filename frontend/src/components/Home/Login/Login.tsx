@@ -26,7 +26,7 @@ const Login = () => {
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
-  const MAX_LENGTH = 20;
+  const MAX_LENGTH = 50;
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {

@@ -1,45 +1,43 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilState } from 'recoil';
-import { FollowingListState } from '/src/recoil/Auth';
+import { FollowingListState, FollowerTabState, CurrentUserAtom } from '/src/recoil/Auth';
 import { FollowListType } from '/src/type/Auth';
+import { postFollow, deleteUnfollow } from '/src/api/profile';
 import zammanboImage from '/src/assets/ProfileImages/zammanbo.png';
-import { getFollowings } from "/src/api/profile";
 import {  
   UserContainer,
   UserImage,
   UserName, 
+  ItsMeButton,
   FollowButton,
   FollowingButton,
 } from "./FollowContent.style";
 
 
 const FollowingContent = () => {
-  const [followingList, setFollowingList] = useRecoilState(FollowingListState )
+  const [followingList, setFollowingList] = useRecoilState(FollowingListState)
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
   const setFollow = (id: number) => {
-    setFollowingList(followingList.map((user: FollowListType) => user.memberid === id ? { ...user, following: !user.following } : user));
+    setFollowingList(followingList.map((user: FollowListType) => user.memberId === id ? { ...user, following: !user.following } : user));
   };
-
-  const id = parseInt(useParams().id || "");
-  useEffect(() => {
-    getFollowings(id).then(followings => {
-      console.log(followings)
-      if (followings) {setFollowingList(followings)};
-    })
-  }, [])
 
   return (
     <div>
       {followingList.map((user: FollowListType) => (
-        <UserContainer key={user.memberid}>
+        <UserContainer key={user.memberId}>
           <UserImage src={zammanboImage} alt={user.nickname}></UserImage>
-          <UserName>{user.nickname}</UserName>
-          {user.following
-          ? <FollowButton onClick={()=>setFollow(user.memberid)}>팔로우</FollowButton>
-          : <FollowingButton onClick={()=>setFollow(user.memberid)}>팔로잉</FollowingButton>
+          <Link to={`/profile/${user.memberId}`}>
+          <UserName >{user.nickname}</UserName>
+          </Link>
+          { currentUser.userid === user.memberId
+          ? <ItsMeButton>나</ItsMeButton>
+          : user.following
+            ? <FollowButton onClick={()=>(setFollow(user.memberId), deleteUnfollow(user.memberId))}>팔로우</FollowButton>
+            : <FollowingButton onClick={()=>(setFollow(user.memberId), postFollow(user.memberId))}>팔로잉</FollowingButton>
           }
         </UserContainer>
-      ))}
+      ))};
     </div>
   );
 };

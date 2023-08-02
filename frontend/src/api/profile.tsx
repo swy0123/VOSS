@@ -38,25 +38,27 @@ export const getFollowings = async (id: number ) => {
 };
 
 export const postFollow = async (id: number ) => {
-    const res = await privateApi.get(`/member/follow/${id}`)
-    .catch(err => {
+    let data = {targetId: id}
+    console.log(data);
+    const res = await privateApi.post("/member/follow", data)
+    .catch((err: Error) => {
         console.log("postFollow catch: ", err)
     })
     if (res) {
         console.log("postFollow then: ", res.data)
         return res.data
-    };
+    }
     return false
 };
 
 export const deleteUnfollow = async (id: number ) => {
-    const res = await privateApi.get(`/member/unfollow/${id}`)
-    .catch(err => {
+    const res = await privateApi.delete(`/member/unfollow/${id}`)
+    .catch((err: Error) => {
         console.log("deleteUnfollow catch: ", err)
     })
     if (res) {
         console.log("deleteUnfollow then: ", res.data)
         return res.data
-    };
+    }
     return false
 };
