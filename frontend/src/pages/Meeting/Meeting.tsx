@@ -13,7 +13,7 @@ function Meeting() {
   const { state } = useLocation(); // 2번 라인
 
   const props: MeetingProps = {
-    password: state.meetingRoom,
+    password: state.password,
     meetRoomId: state.meetRoomId
   }
 

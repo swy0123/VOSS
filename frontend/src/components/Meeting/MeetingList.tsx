@@ -36,9 +36,13 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   };  
 
   const goPostDetail = (data:MeetRoomData) => {
+    let password:(string|null) = "";
+    if(data.password){
+      password = prompt("비밀번호를 입력해주세요"+"");
+    }
     if (confirm(data.meetRoomId+"방에 입장하시겠습니까?")) {
-      console.log("meetRoomId : " + data.meetRoomId + ", password : " + data.password);
-      navigate(`/meeting/join`, { state: { meetRoomId: data.meetRoomId, password: data.password } });
+      alert("meetRoomId : " + data.meetRoomId + ", password : " + password);
+      navigate(`/meeting/join`, { state: { password: password, meetRoomId: data.meetRoomId } });
     }
   };
 

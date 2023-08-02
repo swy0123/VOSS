@@ -166,9 +166,9 @@ const MeetJoin = ({props}: {props:MeetingProps}) => {
 
   const getToken = async () => {
     console.log("getToken call postMeetJoin : ");
-    console.log(props)
-    const token = await joinMeet(props);
-    return token;
+    const res = await joinMeet(props);
+    if(res.message !== undefined) alert(res.message);
+    return res.token;
   };
 
   return (
@@ -194,19 +194,18 @@ const MeetJoin = ({props}: {props:MeetingProps}) => {
 
           <VideoContainer>
             {publisher !== undefined ? (
-              <div
-                className="stream-container col-md-6 col-xs-6"
+              <StreamContainerWrapper
               >
                 <UserVideoComponent streamManager={publisher} />
-              </div>
+              </StreamContainerWrapper>
             ) : null}
             {subscribers.map((sub, i) => (
-              <div
+              <StreamContainer
                 key={i}
                 className="stream-container col-md-6 col-xs-6"
               >
                 <UserVideoComponent streamManager={sub} />
-              </div>
+              </StreamContainer>
             ))}
           </VideoContainer>
         </div>
