@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 public class CreatePostFileRequest {
     private String originalFileName;
     private String savedFileName;
+    private String contentType;
     private Long size;
 
-    public CreatePostFileRequest(String originalFileName, String savedFileName, Long size) {
+    public CreatePostFileRequest(String originalFileName, String savedFileName, String contentType, Long size) {
         this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
+        this.contentType = contentType;
         this.size = size;
     }
 }

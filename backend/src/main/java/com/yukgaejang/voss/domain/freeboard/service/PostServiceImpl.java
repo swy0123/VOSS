@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
             return new CreatePostResponse(true);
         }
         for (CreatePostFileRequest file : files) {
-            PostFile postFile = new PostFile(post, file.getOriginalFileName(), file.getSavedFileName(), file.getSize());
+            PostFile postFile = new PostFile(post, file.getOriginalFileName(), file.getSavedFileName(), file.getContentType(), file.getSize());
             postFileRepository.save(postFile);
         }
         return new CreatePostResponse(true);
@@ -70,7 +70,9 @@ public class PostServiceImpl implements PostService {
         post.updateHit();
         Page<CommentDetailResponse> comments = new PageImpl<>(postCommentRepository.findAllByPostIdAndIsDeletedFalse(id));
         Long likes = postLikeRepository.countByPostId(id);
-        return new PostDetailResponse(postRepository.save(post), comments, likes);
+        List<PostFileDetailResponse> imageFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeStartsWith(id, "image");
+        List<PostFileDetailResponse> otherFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeNotStartsWith(id, "image");
+        return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles);
     }
 
     @Override
