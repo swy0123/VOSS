@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.auth.service;
 
+import com.yukgaejang.voss.domain.auth.exception.DuplicateEmailException;
 import com.yukgaejang.voss.domain.auth.exception.NoEmailException;
 import com.yukgaejang.voss.domain.auth.exception.WrongTokenException;
 import com.yukgaejang.voss.domain.auth.repository.EmailRepository;
@@ -49,6 +50,9 @@ public class AuthService implements UserDetailsService {
     }
 
     public void sendEmail(SendEmailRequest sendEmailRequest) {
+        if (memberRepository.existsByEmail(sendEmailRequest.getEmail())) {
+            throw new DuplicateEmailException("중복 이메일");
+        }
         String key = createKey();
 
         MimeMessage message = null;
