@@ -23,6 +23,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.security:spring-security-messaging'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
