@@ -21,11 +21,6 @@ const RightSection = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const Warning = styled.div`
-  color: #BABABA;
-  font-size: 12px;
-  margin-top: 14px;
-`
 
 function Accent() {
   return (
@@ -36,7 +31,6 @@ function Accent() {
         <LeftSection>
           <Script></Script>
           <AccentResult></AccentResult>
-          <Warning>발음 교정은 한국어만 가능합니다.</Warning>
         </LeftSection>
 
         <RightSection>

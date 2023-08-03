@@ -20,7 +20,7 @@ export const makeAnalysisScript: AsyncFunction = async(genderSelected,ageSelecte
 export const makeAccentScript: AsyncFunction = async(categorySelected) => {
   try{
     const response: AxiosResponse<string> = await privateApi.get<string>(
-      `/practice/diction/script?cmd=${categorySelected}대사 60자 이내로 작성해줘`
+      `/practice/diction/script?cmd=${categorySelected}을 카테고리로 대사 60자 이내로 작성해줘`
     )
     return response.data
   }

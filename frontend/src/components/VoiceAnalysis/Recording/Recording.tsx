@@ -70,7 +70,7 @@ function Recording (){
             <a href={file} download="my-audio-file.wav">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a>
-            <button onClick={()=>startVoiceAnalysis(file)}>type</button>
+            <button onClick={()=>startVoiceAnalysis(file)}>분석</button>
           </RecordItem>
         ))}
       </RecordBox>

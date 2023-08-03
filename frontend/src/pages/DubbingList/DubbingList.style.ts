@@ -8,6 +8,7 @@ export const DubbingBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 950px;
+  margin-left: 10px;
 `
 export const TitleBox = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ export const VideoItem = styled.div`
   border-radius: 10px;
   margin: 15px 20px 0px 0px;
   height: 250px;
-  width: 215px;
+  width: 217px;
 `
 export const Thumbnail = styled.div`
   margin-top: 15px;
