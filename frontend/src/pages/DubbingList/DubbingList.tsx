@@ -49,15 +49,7 @@ function DubbingList() {
     window.location.reload()
   }
   
-  const axiosVideoList = async () => {
-    try {
-      const Videos: Video[] = await getVideoList() || [];
-      setVideoList(Videos);
-    } 
-    catch (error) {
-      console.log(error);
-    }
-  };
+ 
   
   // 여기서 부터 iframe player API
   const onYouTubeIframeAPIReady = () => {
@@ -77,6 +69,15 @@ function DubbingList() {
   }
 
   useEffect(() => {
+    const axiosVideoList = async () => {
+      try {
+        const Videos: Video[] = await getVideoList() || [];
+        setVideoList(Videos);
+      } 
+      catch (error) {
+        console.log(error);
+      }
+    };
     axiosVideoList();
   }, []);
   
@@ -95,7 +96,6 @@ function DubbingList() {
   return(
     <BackGroundImg>
       <Header/>
-
       <Container>
         <DubbingBox>
           <TitleBox>

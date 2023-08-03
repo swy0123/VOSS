@@ -8,6 +8,14 @@ export const ResultBox = styled.div`
   height: 200px;
 `
 
+export const Section = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  cursor: pointer;
+`
+
 export const Text = styled.div`
   font-size: 16px;
   color: white;
@@ -19,4 +27,12 @@ export const Text = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`
+export const Warning = styled.div`
+  color: #BABABA;
+  font-size: 12px;
+`
+
+export const Accuracy = styled.div`
+  color: white;
 `

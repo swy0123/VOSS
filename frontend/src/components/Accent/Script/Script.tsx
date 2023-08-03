@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from "react";
+import { useRecoilState } from "recoil";
 import { makeAccentScript } from "../../../api/script";
+import { accentScriptState } from "/src/recoil/HW_Atom";
 import { 
   CategoryBox, 
   CategoryButton, 
@@ -15,15 +17,15 @@ import {
   Title } from "./Script.style";
 
 function Script() {
-  const [inputScripts, setInputSctipts] = useState("")
+  const [accentScript, setAccentScript] = useRecoilState(accentScriptState)
   const categoryOpt = ["뉴스", "날씨","법률","스포츠","직접 입력"]
   const [isCategorySelect,setIsCategorySelect] = useState<boolean[]>([])
   const [categorySelected,setCategorySelected] = useState<string[]>([])
   
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInputSctipts(e.target.value)
+    setAccentScript(e.target.value)
   }
-  const DelScripts = () => {setInputSctipts("")}
+  const DelScripts = () => {setAccentScript("")}
 
   const handleCategoryBtn = (index:number) => {
     const newCategorySelect = Array(categoryOpt.length).fill(false)
@@ -35,10 +37,10 @@ function Script() {
   }
 
   const axiosMakeScript = async (categorySelected:string) => {
-    setInputSctipts("스크립트를 생성중입니다...")
+    setAccentScript("스크립트를 생성중입니다...")
     try {
       const makeScriptData: string = await makeAccentScript(categorySelected);
-      setInputSctipts(makeScriptData.script)
+      setAccentScript(makeScriptData.script)
     } 
     catch (error) {
       console.log(error);
@@ -69,7 +71,7 @@ function Script() {
       
       <ScriptBox>
         <ScriptInput 
-          value={inputScripts}
+          value={accentScript}
           onChange={ChagneScripts} 
           placeholder="대사를 입력해주세요.">
         </ScriptInput>
