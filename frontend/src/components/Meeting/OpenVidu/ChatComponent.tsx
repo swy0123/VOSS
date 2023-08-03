@@ -14,14 +14,14 @@ export interface ChatProps {
     nicknameProps: string;
     streamManagerProps: any;
     chatDisplayProps: string;
-    close: (property:string|undefined)=>void;
-    messageReceived: ()=>void;
+    close: (property: string | undefined) => void;
+    messageReceived: () => void;
 }
 
-interface messageType{
-    connectionId:string;
-    nickname:string;
-    message:string;
+interface messageType {
+    connectionId: string;
+    nickname: string;
+    message: string;
 }
 
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
@@ -35,11 +35,11 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     const [nickname, setNickname] = useState(chatProps.nicknameProps);
     const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
 
-    const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setMessage(event.target.value);
     };
 
-    const handlePressKey = (event:KeyboardEvent<HTMLInputElement>) => {
+    const handlePressKey = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             sendMessage();
         }
@@ -68,10 +68,8 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         chatProps.close(undefined);
     };
 
-    
-
     useEffect(() => {
-        streamManager.stream.session.on('signal:chat', (event:any) => {
+        streamManager.stream.session.on('signal:chat', (event: any) => {
             const data = JSON.parse(event.data);
             let updatedMessageList = [...messageList];
             updatedMessageList.push({ connectionId: connectionId, nickname: data.nickname, message: data.message });
@@ -85,7 +83,12 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             }, 50);
             setMessageList(updatedMessageList);
             scrollToBottom();
-        });
+            if(updatedMessageList[updatedMessageList.length - 1].message === "hello") alert("hello")
+            // if (messageList[messageList.length-1].message !== undefined) alert(messageList[messageList.length-1].message)
+        }); 
+        // return () => {
+        //     console.log("sss");
+        // }
     }, [messageList, chatProps]);
 
     const styleChat = { display: chatDisplay };
@@ -99,7 +102,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
                         <div color="secondary" />
                     </div>
                 </div>
-                <div className="message-wrap" ref={chatScroll}>
+                <div className="message-wrap">
                     {messageList.map((data, i) => (
                         <div
                             key={i}
