@@ -83,9 +83,9 @@ public class OpenViduClient {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        List<Long> list = new ArrayList<>();
         int content = jsonNode.get("content").size();
         for (int i = 0; i < content; i++) {
+            List<Long> list = new ArrayList<>();
             String text = jsonNode.get("content").get(i).get("sessionId").asText();
             Long connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asLong();
             if(connectionCnt==0) continue;
