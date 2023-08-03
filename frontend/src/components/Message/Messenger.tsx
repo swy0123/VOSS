@@ -1,7 +1,8 @@
-import MessengerIcon from "/src/assets/Messenger/messengerIcon.png"
-import MessagePage from "./MessagePage/MessagePage";
+import React from 'react';
 import { useRecoilState } from "recoil";
 import { ShowMessengerState } from "/src/recoil/Messenger";
+import MessengerIcon from "/src/assets/Messenger/messengerIcon.png"
+import MessagePage from "./MessagePage/MessagePage";
 import { MessegeDiv, MessageIcon } from "./Messenger.style"
 
 

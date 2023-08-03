@@ -75,7 +75,7 @@ export const FriendListDesign = styled.div`
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
     height: 4px;
     border-radius: 6px;
     background: rgba(186, 186, 186, 0.1);

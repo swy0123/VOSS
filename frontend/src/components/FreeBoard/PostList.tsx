@@ -11,7 +11,7 @@ import {
 } from "./PostList.style";
 
 
-function PostList({ key, id, title, nickname, userid, createAt,}: { key: number; id: number, title: string, nickname: string, userid: number, createAt: string, }) {
+function PostList({ id, title, nickname, userid, createAt,}: { id: number, title: string, nickname: string, userid: number, createAt: string, }) {
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const goProfile = (id: number) => navigate(`/profile/${id}`);

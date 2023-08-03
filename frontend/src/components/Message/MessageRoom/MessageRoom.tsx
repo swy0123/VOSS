@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, ChangeEvent } from "react";
 import { useInView } from "react-intersection-observer";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
-import Arrow from "/src/assets/Messenger/SendArrow.png";
+import SendArrow from "/src/assets/Messenger/SendArrow.png";
 import { useRecoilState } from "recoil";
 import { ShowMessageRoomState, MessageLogState, OpenRoomIdState } from "/src/recoil/Messenger";
 import { MessegeListDiv, MessegeTitle, ExitImg, MessegeBodyDiv, InfinityScroll, Chatting, MyChatting, OtherChatting, Date, Input, Send, } from "./MessageRoom.style"
@@ -106,7 +106,7 @@ const MessageRoom = () => {
             <div key={post.chatId}>
               <MyChatting>
                 <Date>{post.time}</Date>
-                <Chatting> {post.content}</Chatting>
+                <Chatting style={{backgroundColor: 'white'}}> {post.content}</Chatting>
               </MyChatting>
             </div>
           ) : (
@@ -125,7 +125,7 @@ const MessageRoom = () => {
         <div>
           <Input className="input" type="text" onChange={handleMessage} value={message}></Input>
 
-          <Send src={Arrow} onClick={onClickSend} />
+          <Send style={{width: "22px"}} src={SendArrow} onClick={onClickSend} />
         </div>
       </MessegeBodyDiv>
     </MessegeListDiv>

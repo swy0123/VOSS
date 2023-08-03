@@ -22,11 +22,11 @@ export const UserImage = styled.img`
   `;
 
 export const UserName = styled.div`
-  border: 3px solid aquamarine;
   text-align: start;
-  width: 10vw;
+  width: 13vw;
   font-weight: bold;
   font-size: 1vw;
+  /* border: 3px solid aquamarine; */
   `;
 
 export const FollowButton = styled.button`
@@ -42,6 +42,7 @@ export const FollowButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   font-size: 1vw;
+  text-decoration: none;
   `;
 
 export const FollowingButton = styled.button`
