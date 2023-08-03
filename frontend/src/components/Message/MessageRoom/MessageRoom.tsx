@@ -28,7 +28,7 @@ const MessageRoom = () => {
   const [message, setMessage] = useState("");
   const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
   const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
-  const [messageLog, setMessageLog] = useRecoilState(MessageLogState);
+  // const [messageLog, setMessageLog] = useRecoilState(MessageLogState);
   
 
   const startRef = useRef<HTMLDivElement>(null);
