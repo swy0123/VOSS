@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const MainImg = styled.div`
-  background: url("/src/assets/MainImg.jpg") no-repeat;
+  background: url("/src/assets/main/MainImg.jpg") no-repeat;
   background-size: cover;
   background-position: center center;
   height: 100vh;
@@ -13,7 +14,6 @@ const AllCategory = styled.div`
   display: flex;
   margin-left: 6.5vw;
   transform: skew(-2.9deg);
-
 `;
 
 const Category = styled.div`
@@ -74,6 +74,7 @@ const SinglePractice = styled.div`
   font-style: normal;
   transform: skew(-7deg);
   transition: skew(-7deg);
+  cursor: pointer;
 
   &:hover {
     background-color: #af000f;
@@ -91,7 +92,6 @@ const MeetingEnter = styled.div<{$isShown:boolean}>`
   visibility: ${props => props.$isShown ? "visible":"hidden"};
 
 `
-
 const MeetingEnterIcon = styled.img`
   height: 30px;
   width: 50px;
@@ -102,40 +102,49 @@ const MeetingEnterIcon = styled.img`
     transition: .5s;
   }
 `
-
 const AllBoard = styled.div<{$isShown:boolean}>`
   height: 200px;
   visibility: ${props => props.$isShown ? "visible":"hidden"};
 `;
 
-const Board = styled(SinglePractice)``;
-
-const Free = styled(Board)``
-const Record = styled(Board)``
+const Free = styled(SinglePractice)``
+const Record = styled(SinglePractice)``
 
 function SelectCategory () {
   const [TrainIsShown, setTrainIsShown] = useState(false)
   const [MeetIsShown, setMeetIsShown] = useState(false)
   const [CommunityIsShown, setCommunityIsShown] = useState(false)
 
+  // Router Link와 동일한 부분
+  const navigate = useNavigate()  
+  const goVoiceAnalysis = () => {navigate("/analysis")}
+  const goDubbingList = () => {
+    navigate("/dubbinglist")
+    window.location.reload()
+  }
+  const goAccent = () => {navigate("/accent")}
+  const goFreeBoard = () => {navigate("/freeboard")}
+  const goMeetingBoard = () => {navigate("/meeting")}
+
   return(
     <div>
       <MainImg>
         <AllCategory>
+
           <Training 
             onMouseEnter={() => setTrainIsShown(true)}
             onMouseLeave={() => setTrainIsShown(false)}
             >
             <Cartegory_units>  
-              <Icon src="/src/assets/Training.png"/>
+              <Icon src="/src/assets/Category/Training.png"/>
               <Title>Training</Title>
               <Description>더빙 연습, 목소리 나이대 및 성별 분석, 발음교정 연습이 가능한 Private 연습공간</Description>
             </Cartegory_units>
             
             <AllSinglePractice $isShown={TrainIsShown}>
-              <VoiceAnalysis>목소리 분석</VoiceAnalysis>
-              <Dubbing>더빙 연습</Dubbing>
-              <Accent>발음 연습</Accent>
+              <VoiceAnalysis onClick={goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
+              <Dubbing onClick={goDubbingList}>더빙 연습</Dubbing>
+              <Accent onClick={goAccent}>발음 연습</Accent>
             </AllSinglePractice>
           </Training>
         
@@ -143,13 +152,13 @@ function SelectCategory () {
             onMouseEnter={() => setMeetIsShown(true)}
             onMouseLeave={() => setMeetIsShown(false)}>
             <Cartegory_units>
-              <Icon src="/src/assets/Meeting.png"/>
+              <Icon src="/src/assets/Category/Meeting.png"/>
               <Title>Meeting</Title>
               <Description>다른 유저들과 함께 연습 할 수 있는 Meeting Room</Description>
             </Cartegory_units>
             
             <MeetingEnter $isShown={MeetIsShown}>
-              <MeetingEnterIcon src="/src/assets/EnterMeeting.png"/>
+              <MeetingEnterIcon src="/src/assets/Category/EnterMeeting.png" onClick={goMeetingBoard}/>
             </MeetingEnter>
           </Meeting>
 
@@ -157,16 +166,17 @@ function SelectCategory () {
             onMouseEnter={() => setCommunityIsShown(true)}
             onMouseLeave={() => setCommunityIsShown(false)}>
             <Cartegory_units>
-              <Icon src="/src/assets/Community.png"/>
+              <Icon src="/src/assets/Category/Community.png"/>
               <Title>Community</Title>
               <Description>나만의 연습 방법을 공유하고, 연습 기록을 공유하는 게시판</Description>
             </Cartegory_units>
 
             <AllBoard $isShown={CommunityIsShown}>
-              <Free>자유 게시판</Free>
+              <Free onClick={goFreeBoard}>자유 게시판</Free>
               <Record>녹음 게시판</Record>
             </AllBoard>
           </Community>
+
         </AllCategory>
       </MainImg>
     </div>
