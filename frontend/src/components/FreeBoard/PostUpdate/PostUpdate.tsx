@@ -1,10 +1,10 @@
 import { useState, ChangeEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { PostListState } from "../../recoil/Community";
-import { BackGroundImg } from "../BackGroundImg";
-import Header from "../Header/Header";
-import Messenger from "../Message/Messenger";
+import { PostListState } from "../../../recoil/Community";
+import { BackGroundImg } from "../../BackGroundImg";
+import Header from "../../Header/Header";
+import Messenger from "../../Message/Messenger";
 import {
     PostUpdateBoxDesign
 } from "./PostUpdate.style";

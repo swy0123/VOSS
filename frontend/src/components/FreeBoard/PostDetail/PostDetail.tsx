@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { BackGroundImg } from "../BackGroundImg";
-import Header from "../Header/Header";
-import Messenger from "../Message/Messenger";
+import { BackGroundImg } from "../../BackGroundImg";
+import Header from "../../Header/Header";
+import Messenger from "../../Message/Messenger";
 // recoil
 import { useRecoilState } from "recoil";
-import { PostListState, PostListNum } from "../../recoil/Community";
+import { PostListState, PostListNum } from "../../../recoil/Community";
 // style
   import {
   PostDetailDesign
