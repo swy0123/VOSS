@@ -11,5 +11,8 @@ public interface PostService {
     UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest);
     PostDetailResponse getPostDetail(Long id);
     Page<PostListResponse> getPostList(Pageable pageable);
+    Page<PostListResponse> getPostListByNickname(Pageable pageable, String nickname);
+    Page<PostListResponse> getPostListByContent(Pageable pageable, String content);
+    Page<PostListResponse> getPostListByTitle(Pageable pageable, String title);
     DeletePostResponse deletePost(Long id);
 }
