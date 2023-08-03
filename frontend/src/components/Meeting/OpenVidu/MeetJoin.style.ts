@@ -128,10 +128,16 @@ export const Icon = styled.div`
 `;
 
 export const ChatIconBox = styled.div`
-  position: absolute;
+  float: right;
   color: white;
-  right: 60px;
+  /* right: 60px;
   top: 50%;
-  bottom: 50%;
-  cursor: pointer;
+  bottom: 50%; */
+  width: 300px;
+  height: 600px;
+  overflow-y: auto;
 `;
+export const Session = styled.div`
+  float: right;
+`;
+
