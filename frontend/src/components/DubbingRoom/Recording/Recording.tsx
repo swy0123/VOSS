@@ -1,8 +1,8 @@
 import { useRecoilState } from "recoil"
 import { useEffect } from "react"
 import { 
-  accentRecordState, 
-  accentRecordTimeState } from "../../../recoil/Training"
+  dubbingRecordState, 
+  dubbingRecordTimeState } from "/src/recoil/HW_Atom"
 import { 
   Container, 
   DownloadImg, 
@@ -11,11 +11,11 @@ import {
   RecordLable, 
   RecordSelect, 
   Title, 
-  Warning } from "./Recording.style"
+  Warning} from "./Recording.style"
 
 function Recording (){
-  const [accentRecord] = useRecoilState(accentRecordState)
-  const [timeList, setTimeList] = useRecoilState(accentRecordTimeState)
+  const [dubbingRecord] = useRecoilState(dubbingRecordState)
+  const [timeList, setTimeList] = useRecoilState(dubbingRecordTimeState)
   
   const currentTime = () => {
     const date = new Date()
@@ -28,13 +28,13 @@ function Recording (){
 
   useEffect(()=>{
     currentTime()
-  },[accentRecord])
+  },[dubbingRecord])
 
   return(
     <Container>
       <Title>녹음 기록</Title>
       <RecordBox>
-        {accentRecord.map((file,index) => (
+        {dubbingRecord.map((file,index) => (
           <RecordItem key={index}>
             <RecordSelect type="radio" name="record"/>
             <RecordLable>
