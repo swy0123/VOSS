@@ -11,10 +11,9 @@ import {
   Container, Header, StudyTitle, Middle, Left, Right, Chat, VideoContainer, StreamContainerWrapper
   , StreamContainer, Bottom, BottomBox, Icon, ChatIconBox
 } from "./MeetJoin.style";
-import ChatComponent, { ChatProps } from "./ChatComponent";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
-const MeetJoin = ({ props }: { props: MeetingProps }) => {
+const MeetJoin = ({props}: {props:MeetingProps}) => {
 
   const navigate = useNavigate();
   const currentUser = useRecoilValue(CurrentUserAtom);
@@ -23,14 +22,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
-
-  const [chatDisplay, setChatDisplay] = useState('display');
-  const [messageReceived, setMessageReceived] = useState(false);
-
-  const [connectionId, setConnectionId] = useState('');
-  const [nickname, setNickname] = useState(currentUser.nickname);
-  const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
-
 
   useEffect(() => {
     // joinSession();
@@ -45,14 +36,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (messageReceived && chatDisplay === 'none') {
-      setMessageReceived(false);
-    }
-  }, [messageReceived, chatDisplay]);
-
-
-
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     alert("onbeforeunload")
@@ -63,25 +46,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     alert("popstateHandler")
     leaveSession();
   };
-
-  const toggleChat = (property: string|undefined) => {
-    let display = property;
-
-    if (display === undefined) {
-      display = chatDisplay === 'none' ? 'block' : 'none';
-    }
-    if (display === 'block') {
-      setChatDisplay(display);
-      setMessageReceived(false);
-    } else {
-      console.log('chat', display);
-      setChatDisplay(display);
-    }
-  }
-
-  const checkNotification = () => {
-    setMessageReceived(chatDisplay === 'none');
-  }
 
   const deleteSubscriber = (streamManager: any) => {
     setSubscribers((prevSubscribers) => prevSubscribers.filter((sub) => sub !== streamManager));
@@ -102,8 +66,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     mySession.on("streamCreated", (event) => {
       const subscriber = mySession.subscribe(event.stream, "");
       setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
-      setConnectionId(event.stream.connection.connectionId);
-      setStreamManagerTmp(subscriber);
       console.log("subscriber");
       console.log(subscriber);
     });
@@ -205,25 +167,16 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const getToken = async () => {
     console.log("getToken call postMeetJoin : ");
     const res = await joinMeet(props);
-    if (res.message !== undefined) alert(res.message);
+    if(res.message !== undefined) alert(res.message);
     return res.token;
   };
-
-  const chatProps: ChatProps = {
-    connectionIdProps: connectionId,
-    nicknameProps: nickname,
-    streamManagerProps: streamManagerTmp,
-    chatDisplayProps: chatDisplay,
-    close: toggleChat,
-    messageReceived: checkNotification,
-  }
 
   return (
     <Container>
       <Header>
         <StudyTitle>{currentUser.nickname}의 방</StudyTitle>
       </Header>
-
+      
       <button onClick={joinSession}></button>
       {session !== undefined ? (
 
@@ -255,12 +208,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
               </StreamContainer>
             ))}
           </VideoContainer>
-          <div>
-          {
-              (streamManagerTmp !== undefined) ? <ChatComponent chatProps={chatProps} /> :
-             <>zzzzzzzzzzzzzzzzzzzzzzzz</>
-            }
-          </div>
         </div>
       ) : (<div onClick={goMeetingBoard}>이전 화면으로 돌아가기</div>)}
     </Container>
