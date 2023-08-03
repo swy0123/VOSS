@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface PostFileSupportRepository {
 
-    public String findSavedFileNameByIdAndPostIdAndIsDeletedFalse(Long id, Long postId);
-
-    public String findSavedFileNamesByPostIdAndIsDeletedFalse(Long postId);
+    public PostFile findByPostFileIdAndIsDeletedFalse(Long postFileId);
 
     public List<PostFileDetailResponse> findAllByPostIdAndIsDeletedFalse(Long postId);
 

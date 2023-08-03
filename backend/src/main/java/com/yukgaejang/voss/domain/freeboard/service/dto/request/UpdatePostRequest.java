@@ -13,13 +13,13 @@ public class UpdatePostRequest {
     private String title;
     private String content;
     private List<Long> deleteFileIds;
-    private List<CreateFileRequest> files;
+    private List<CreateFileRequest> newFiles;
 
     @Builder
-    public UpdatePostRequest(String title, String content, List<Long> deleteFileIds, List<CreateFileRequest> files) {
+    public UpdatePostRequest(String title, String content, List<Long> deleteFileIds, List<CreateFileRequest> newFiles) {
         this.title = title;
         this.content = content;
         this.deleteFileIds = deleteFileIds;
-        this.files = files;
+        this.newFiles = newFiles;
     }
 }

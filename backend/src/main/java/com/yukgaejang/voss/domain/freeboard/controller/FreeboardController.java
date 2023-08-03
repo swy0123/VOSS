@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
 import com.yukgaejang.voss.domain.freeboard.repository.PostFileRepository;
+import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
 import com.yukgaejang.voss.domain.freeboard.service.*;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
@@ -49,14 +50,6 @@ public class FreeboardController {
 
     @PutMapping("/{postId}")
     public  ResponseEntity<UpdatePostResponse> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest updatePostRequest) {
-        List<Long> deleteFileIds = updatePostRequest.getDeleteFileIds();
-        if(deleteFileIds.isEmpty()) {
-            return ResponseEntity.ok(postService.updatePost(postId, updatePostRequest));
-        }
-        for (Long deleteFileId : deleteFileIds) {
-            String filaName = postFileRepository.findSavedFileNameByIdAndPostIdAndIsDeletedFalse(postId, deleteFileId);
-            awsS3Service.deleteFile(filaName, dirName);
-        }
         return ResponseEntity.ok(postService.updatePost(postId, updatePostRequest));
     }
 
