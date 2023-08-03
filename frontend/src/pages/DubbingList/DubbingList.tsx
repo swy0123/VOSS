@@ -62,7 +62,6 @@ function DubbingList() {
   // 여기서 부터 iframe player API
   const onYouTubeIframeAPIReady = () => {
     videoList.forEach((video, index) => {
-      console.log("여기 오니?")
       new YT.Player(`player-${index}`, {
         videoId: video.videoUrl.slice(-11),
         events: {
@@ -77,22 +76,21 @@ function DubbingList() {
     event.target.mute()
   }
 
-  // index.html에 CDN을 동적으로 추가해주는 과정이라 생각하자
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  const firstScriptTag = document.getElementsByTagName('script')[0];
-  if (firstScriptTag && firstScriptTag.parentNode) {
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  }
-  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-
   useEffect(() => {
     axiosVideoList();
   }, []);
   
-  // useEffect(() => {
-  //   onYouTubeIframeAPIReady();
-  // }, [videoList]);
+  useEffect(() => {
+    // index.html에 CDN을 동적으로 추가해주는 과정이라 생각하자
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    if (firstScriptTag && firstScriptTag.parentNode) {
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+
+  }, [videoList]);
   
   return(
     <BackGroundImg>
