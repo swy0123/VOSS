@@ -1,4 +1,4 @@
-import MessengerIcon from "/src/assets/Messenger/messengerIcon.png"
+import MessengerIcon from "/src/assets/Messenger/MessengerIcon.png"
 import MessagePage from "./MessagePage/MessagePage";
 import { useRecoilState } from "recoil";
 import { ShowMessengerState } from "/src/recoil/Messenger";
