@@ -1,10 +1,11 @@
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import AddMessage from "/src/assets/Messenger/AddMessage.png";
+import AddMessageHover from "/src/assets/Messenger/AddMessageHover.png";
 import MessageCard from "../MessageCard/MessageCard";
-import { useCallback, useEffect, useState } from "react";
 import MessageModal from "../MessageModal/MessageModal";
 import MessageRoom from "../MessageRoom/MessageRoom";
 import { useRecoilState } from "recoil";
+import { useState } from "react";
 import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomListState, OpenRoomIdState } from "/src/recoil/Messenger";
 import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageAdd, } from "./MessagePage.style"
 
@@ -20,6 +21,7 @@ const MessagePage = () => {
   const [isOpenModal, setOpenModal] = useRecoilState<boolean>(ShowFindFriendState);
   const [roomList, setRoomList] = useRecoilState(RoomListState);
   const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
+  const [addBtnHover, setAddBtnHover] = useState(false);
 
   //아이디를 어케 쓸지 다시 정해야 함 현재 사람이름, 인덱스 등 뒤죽박죽임
   const onClickSetRoomId = (id: string) => {
@@ -46,7 +48,12 @@ const MessagePage = () => {
         </MessegeList>
       </MessegeBodyDiv>
 
-      <MessageAdd src={AddMessage} onClick={()=>setOpenModal(true)} />
+      <MessageAdd 
+        src={addBtnHover ? AddMessageHover : AddMessage} 
+        onClick={()=>setOpenModal(true)}
+        onMouseEnter={() => setAddBtnHover(true)}
+        onMouseLeave={() => setAddBtnHover(false)}>
+      </MessageAdd>
       { isOpenModal ? <MessageModal /> : null}
       { isOpenRoom ? <MessageRoom/> : null }
 
