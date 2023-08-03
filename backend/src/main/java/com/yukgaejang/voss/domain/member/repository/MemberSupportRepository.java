@@ -11,6 +11,6 @@ public interface MemberSupportRepository {
 
     List<Member> findByEmailList(List<String> emailList);
 
-    Page<GetMemberList> findMemberListByNickname(String nickname, Pageable pageable);
+    Page<GetMemberList> findMemberListByNickname(String keyword, Pageable pageable);
 
 }

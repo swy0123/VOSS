@@ -14,7 +14,7 @@ import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
-import com.yukgaejang.voss.domain.practice.serivce.dto.request.GetMemberListRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -159,9 +159,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Page<GetMemberList> getMemberList(GetMemberListRequest getMemberListRequest) {
-        String nickname = getMemberListRequest.getNickname();
+    public Page<GetMemberList> findMemberListByNickname(GetMemberListRequest getMemberListRequest) {
+        String keyword = getMemberListRequest.getKeyword();
         PageRequest pageRequest = PageRequest.of(getMemberListRequest.getPage(), getMemberListRequest.getLimit());
-        return memberRepository.findMemberListByNickname(nickname, pageRequest);
+        return memberRepository.findMemberListByNickname(keyword, pageRequest);
     }
 }

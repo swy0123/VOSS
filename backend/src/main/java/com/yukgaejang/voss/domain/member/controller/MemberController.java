@@ -5,7 +5,7 @@ import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.*;
-import com.yukgaejang.voss.domain.practice.serivce.dto.request.GetMemberListRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -96,6 +96,6 @@ public class MemberController {
 
     @GetMapping("/find")
     public ResponseEntity<Page<GetMemberList>> getMemberList(GetMemberListRequest getMemberListRequest) {
-        return ResponseEntity.ok(memberService.getMemberList(getMemberListRequest));
+        return ResponseEntity.ok(memberService.findMemberListByNickname(getMemberListRequest));
     }
 }

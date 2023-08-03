@@ -33,10 +33,10 @@ public class MemberSupportRepositoryImpl implements MemberSupportRepository{
     }
 
     @Override
-    public Page<GetMemberList> findMemberListByNickname(String nickname, Pageable pageable) {
+    public Page<GetMemberList> findMemberListByNickname(String keyword, Pageable pageable) {
         List<GetMemberList> content = queryFactory
                 .selectFrom(member)
-                .where(nicknameContains(nickname))
+                .where(nicknameContains(keyword))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(member.nickname.length().asc())
@@ -48,7 +48,7 @@ public class MemberSupportRepositoryImpl implements MemberSupportRepository{
         JPAQuery<Long> countQuery = queryFactory
                 .select(member.count())
                 .from(member)
-                .where(nicknameContains(nickname));
+                .where(nicknameContains(keyword));
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
