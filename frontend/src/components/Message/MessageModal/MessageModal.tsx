@@ -67,7 +67,7 @@ const MessageModal = () => {
           <FriendListItemDesign key={friend.id}>
             <FriendListItem1><img style={{height: '80%'}} src={friend.img} /></FriendListItem1>
             <FriendListItem2><span>{friend.name}</span></FriendListItem2>
-            <FriendListItem3><img src={SendArrow} onClick={()=>onClickOpenNewRoom(friend.name, friend.id)}/></FriendListItem3>
+            <FriendListItem3><img style={{width: "22px"}} src={SendArrow} onClick={()=>onClickOpenNewRoom(friend.name, friend.id)}/></FriendListItem3>
           </FriendListItemDesign>
           ))}
         </FriendListDesign>

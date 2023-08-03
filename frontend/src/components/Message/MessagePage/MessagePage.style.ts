@@ -7,11 +7,11 @@ export const MessegePageDiv = styled.div`
   border-radius: 15px;
   border-style: solid;
   border: 1px;
-  /* border: solid 10px green; */
-  background-color: #efefef;
+  background-color: white;
   position: fixed;
   right: 25px;
   bottom: 25px;
+  /* border: solid 10px green; */
   `;
 
 export const MessegeTitle = styled.div`
