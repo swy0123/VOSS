@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.*;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.PostListResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
@@ -41,14 +42,10 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0)))
                 .where(p.isDeleted.eq(0))
                 .groupBy(p.id)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(p.id.count())
-                .from(p)
-                .where(p.isDeleted.eq(0));
-
-        return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
+        return new PageImpl<>(posts, pageable, posts.size());
     }
 
     @Override
