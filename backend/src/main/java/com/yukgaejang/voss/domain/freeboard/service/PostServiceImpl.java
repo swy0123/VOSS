@@ -59,6 +59,14 @@ public class PostServiceImpl implements PostService {
         }
         post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
         postRepository.save(post);
+        List<CreateFileRequest> files = updatePostRequest.getFiles();
+        if(files.isEmpty()) {
+            return new UpdatePostResponse(true);
+        }
+        for (CreateFileRequest file : files) {
+            PostFile postFile = new PostFile(post, file.getOriginalFileName(), file.getSavedFileName(), file.getContentType(), file.getSize());
+            postFileRepository.save(postFile);
+        }
         return new UpdatePostResponse(true);
     }
 

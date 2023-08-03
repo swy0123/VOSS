@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
+import com.yukgaejang.voss.domain.freeboard.repository.PostFileRepository;
 import com.yukgaejang.voss.domain.freeboard.service.*;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +31,7 @@ public class FreeboardController {
     private final PostCommentService postCommentService;
     private final PostLikeService postLikeService;
     private final AwsS3Service awsS3Service;
+    private final PostFileRepository postFileRepository;
 
     private static String dirName = "post-file";
 
@@ -46,6 +49,14 @@ public class FreeboardController {
 
     @PutMapping("/{postId}")
     public  ResponseEntity<UpdatePostResponse> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest updatePostRequest) {
+        List<Long> deleteFileIds = updatePostRequest.getDeleteFileIds();
+        if(deleteFileIds.isEmpty()) {
+            return ResponseEntity.ok(postService.updatePost(postId, updatePostRequest));
+        }
+        for (Long deleteFileId : deleteFileIds) {
+            String filaName = postFileRepository.findSavedFileNameByIdAndPostIdAndIsDeletedFalse(postId, deleteFileId);
+            awsS3Service.deleteFile(filaName, dirName);
+        }
         return ResponseEntity.ok(postService.updatePost(postId, updatePostRequest));
     }
 
