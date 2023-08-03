@@ -4,6 +4,8 @@ import { useRecoilState } from 'recoil';
 import { analysisRecordState } from '../../../recoil/Training';
 import { 
   CompleteBtn,
+  PracticeEnd,
+  PracticeStart,
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
@@ -11,11 +13,13 @@ import {
   StopWatch } from './RecordButton.style';
 
 function RecordButton () {
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(0);
-  const intervalRef = useRef<number|null>(null);
-  const [initialBtn, setInitialBtn] = useState(true)
   const [analysisRecord, setAnalysisRecord] = useRecoilState(analysisRecordState)
+  const [practiceStart, setPracticeStart] = useState(false)
+  const [practiceEnd, setPracticeEnd] = useState(false)
+  const [initialBtn, setInitialBtn] = useState(true)
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef<number|null>(null);
+  const [time, setTime] = useState(0);
   const { 
     startRecording, 
     stopRecording, 
@@ -62,47 +66,75 @@ function RecordButton () {
     setAnalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
   }
 
+  const changePracticeEnd = () => {
+    setPracticeStart(false)
+    setPracticeEnd(true)
+  }
+
+  const changePracticeStart = () => {
+    setPracticeStart(true)
+    setPracticeEnd(false)
+  }
+
   return(
     <RecordBox>
-      <div id="waveform"></div>
       <StopWatch>{formatTime(time)}</StopWatch>
-          <SectionBtn>
-            { !initialBtn && !isRunning ?
-            <RestartBtn
+      <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
+      <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
+      <SectionBtn>
+        { !initialBtn && !isRunning ?
+        <RestartBtn
+          onClick={() => {
+            resetTimer()
+            stopRecording()
+            clearBlobUrl()}}>취소</RestartBtn> : ""}
+
+        { initialBtn ? 
+          (<RecordBtn
+            onClick={() => {
+              startOrStop()
+              startRecording()
+              changePracticeEnd()}}
+            onMouseEnter={() => 
+              setPracticeStart(true)}
+            onMouseLeave={() => {
+              setPracticeStart(false)
+              setPracticeEnd(false)}}
+            src="/src/assets/Training/startbtn.png"></RecordBtn>) :
+          isRunning ? 
+            (<RecordBtn
               onClick={() => {
-                resetTimer()
+                startOrStop()
                 stopRecording()
-                clearBlobUrl()}}>취소</RestartBtn> : ""}
+                pauseRecording()
+                changePracticeStart()}}
+              onMouseEnter={() => 
+                setPracticeEnd(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
+            (<RecordBtn
+              onClick={() => {
+                startOrStop()
+                resumeRecording()
+                changePracticeEnd()}}
+              onMouseEnter={() => 
+                  setPracticeStart(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/restartbtn.png"></RecordBtn>)
+        }
 
-            { initialBtn ? 
-              (<RecordBtn
-                onClick={() => {
-                  startOrStop()
-                  startRecording()}}
-                src="/src/assets/Training/startbtn.png"></RecordBtn>) :
-              isRunning ? 
-                (<RecordBtn
-                  onClick={() => {
-                    startOrStop()
-                    stopRecording()
-                    pauseRecording()
-                  }}
-                  src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
-                (<RecordBtn
-                  onClick={() => {
-                    startOrStop()
-                    resumeRecording()}}
-                  src="/src/assets/Training/restartbtn.png"></RecordBtn>)
-            }
-
-            { !initialBtn && !isRunning ?
-            <CompleteBtn
-                onClick={() => {
-                    stopRecording()
-                    addRecord(mediaBlobUrl)
-                    resetTimer()
-                  }}>완료</CompleteBtn> : "" }
-          </SectionBtn>
+        { !initialBtn && !isRunning ?
+        <CompleteBtn
+            onClick={() => {
+                stopRecording()
+                addRecord(mediaBlobUrl)
+                resetTimer()
+              }}>완료</CompleteBtn> : "" }
+      </SectionBtn>
     </RecordBox>
   )
 }
