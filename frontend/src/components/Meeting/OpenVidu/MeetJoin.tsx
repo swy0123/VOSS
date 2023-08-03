@@ -12,6 +12,7 @@ import {
   , StreamContainer, Bottom, BottomBox, Icon, ChatIconBox
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
+import ToolbarComponent from "./ToolbarComponent";
 
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = ({ props }: { props: MeetingProps }) => {
@@ -29,6 +30,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   const [connectionId, setConnectionId] = useState('');
   const [nickname, setNickname] = useState(currentUser.nickname);
+  const [videoActive, setVideoActive] = useState(true);
+  const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
 
 
@@ -64,7 +67,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     leaveSession();
   };
 
-  const toggleChat = (property: string|undefined) => {
+  const toggleChat = (property: string | undefined) => {
     let display = property;
 
     if (display === undefined) {
@@ -140,8 +143,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       // --- 5) Get your own camera stream ---
       const newPublisher = OV.initPublisher("", {
         videoSource: videoDevices[1]?.deviceId,
-        publishAudio: true,
-        publishVideo: true,
+        publishAudio: audioActive,
+        publishVideo: videoActive,
         mirror: false,
       });
 
@@ -170,37 +173,68 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     goMeetingBoard();
   };
 
-  const switchCamera = async () => {
-    try {
-      const OV = new OpenVidu();
-      const devices = await OV.getDevices();
-      const videoDevices = devices.filter((device) => device.kind === "videoinput");
+  // const switchCamera = async () => {
+  //   try {
+  //     const OV = new OpenVidu();
+  //     const devices = await OV.getDevices();
+  //     const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
-      if (videoDevices.length > 1) {
-        const newVideoDevice = videoDevices.find(
-          (device) =>
-            device.deviceId !==
-            publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId
-        );
+  //     if (videoDevices.length > 1) {
+  //       const newVideoDevice = videoDevices.find(
+  //         (device) =>
+  //           device.deviceId !==
+  //           publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId
+  //       );
 
-        if (newVideoDevice) {
-          const newPublisher = OV.initPublisher("", {
-            videoSource: newVideoDevice.deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
+  //       if (newVideoDevice) {
+  //         const newPublisher = OV.initPublisher("", {
+  //           videoSource: newVideoDevice.deviceId,
+  //           publishAudio: audioActive,
+  //           publishVideo: videoActive,
+  //           mirror: true,
+  //         });
 
-          await session.unpublish(publisher);
-          await session.publish(newPublisher);
+  //         await session.unpublish(publisher);
+  //         await session.publish(newPublisher);
 
-          setPublisher(newPublisher);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  //         setPublisher(newPublisher);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+  //-----------------------------------
+
+  interface userChanged{
+
+  }
+  const sendSignalUserChanged = (data:any)  =>{
+    const signalOptions = {
+        data: JSON.stringify(data),
+        type: 'userChanged',
+    };
+    session.signal(signalOptions);
+}
+
+  const camStatusChanged = () => {
+    setVideoActive(!videoActive);
+    streamManagerTmp.publishVideo(videoActive);
+    sendSignalUserChanged({ isVideoActive: videoActive });
+  }
+
+  const micStatusChanged = () => {
+    setAudioActive(!audioActive);
+    streamManagerTmp.publishAudio(audioActive);
+    sendSignalUserChanged({ isAudioActive: audioActive });
+  }
+
+  const nicknameChanged = (nickname: string) => {
+    setNickname(nickname);
+    sendSignalUserChanged({ nickname: nickname });
+  }
+
+  //-----------------------------------
 
   const getToken = async () => {
     console.log("getToken call postMeetJoin : ");
@@ -212,7 +246,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const chatProps: ChatProps = {
     connectionIdProps: connectionId,
     nicknameProps: nickname,
-    streamManagerProps: streamManagerTmp,
+    streamManagerProps:  streamManagerTmp,
     chatDisplayProps: chatDisplay,
     close: toggleChat,
     messageReceived: checkNotification,
@@ -256,13 +290,24 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
             ))}
           </VideoContainer>
           <div>
-          {
+            {
               (streamManagerTmp !== undefined) ? <ChatComponent chatProps={chatProps} /> :
-             <>zzzzzzzzzzzzzzzzzzzzzzzz</>
+                <>zzzzzzzzzzzzzzzzzzzzzzzz</>
             }
           </div>
         </div>
       ) : (<div onClick={goMeetingBoard}>이전 화면으로 돌아가기</div>)}
+
+      <ToolbarComponent
+        sessionId={mySessionId}
+        audioActive={audioActive}
+        videoActive={videoActive}
+        showNotification={messageReceived}
+        camStatusChanged={camStatusChanged}
+        micStatusChanged={micStatusChanged}
+        // switchCamera={this.switchCamera}
+        leaveSession={leaveSession}
+      />
     </Container>
   );
 };
