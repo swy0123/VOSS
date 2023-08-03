@@ -27,6 +27,11 @@ public class ActServiceImpl implements ActService {
         try {
             String text = new String(file.getBytes(), "UTF-8");
 
+            File outputWavFile = new File("output.wav");
+            if (outputWavFile.exists()) {
+                outputWavFile.delete();
+            }
+
             String outputPath = "output.wav";
             convertTextToWavFile(text, outputPath);
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
