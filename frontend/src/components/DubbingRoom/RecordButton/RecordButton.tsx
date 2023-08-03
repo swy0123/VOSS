@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { accentRecordState } from '../../../recoil/Training';
-import SoundToText from '../AccentResult/SoundToText';
+import { dubbingRecordState } from '/src/recoil/HW_Atom';
 import { 
-  CompleteBtn, 
+  CompleteBtn,
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
@@ -16,7 +15,8 @@ function RecordButton () {
   const [time, setTime] = useState(0);
   const intervalRef = useRef<number|null>(null);
   const [initialBtn, setInitialBtn] = useState(true)
-  const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState)
+  const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
+
   const { 
     startRecording, 
     stopRecording, 
@@ -45,7 +45,6 @@ function RecordButton () {
     setIsRunning(false);
     setTime(0);
   };
-
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -54,21 +53,14 @@ function RecordButton () {
   };
 
   const addRecord = (mediaBlobUrl) => {
-    setAccentRecord([mediaBlobUrl,...accentRecord.slice(0,4)])
+    setdubbingRecord([mediaBlobUrl,...dubbingRecord.slice(0,4)])
   }
-
-  const {
-    startListening,
-    stopListening,
-    hasRecognitionSupport
-  } = SoundToText()
-
+  
   return(
     <RecordBox>
       <StopWatch>{formatTime(time)}</StopWatch>
-          {hasRecognitionSupport ? (
-          <SectionBtn>
-            { !initialBtn && !isRunning ?
+      <SectionBtn>
+      { !initialBtn && !isRunning ?
             <RestartBtn
               onClick={() => {
                 resetTimer()
@@ -79,23 +71,19 @@ function RecordButton () {
               (<RecordBtn
                 onClick={() => {
                   startOrStop()
-                  startRecording()
-                  startListening()}}
+                  startRecording()}}
                 src="/src/assets/Training/startbtn.png"></RecordBtn>) :
               isRunning ? 
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
                     stopRecording()
-                    pauseRecording()
-                    stopListening()
-                  }}
+                    pauseRecording()}}
                   src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
-                    resumeRecording()
-                    startListening()}}
+                    resumeRecording()}}
                   src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
 
             { !initialBtn && !isRunning ?
@@ -105,10 +93,7 @@ function RecordButton () {
                     addRecord(mediaBlobUrl)
                     resetTimer()
                   }}>완료</CompleteBtn> : "" }
-          </SectionBtn>
-          ) : (
-            <h1> Your browser has no speech recognition support</h1>
-          )}
+      </SectionBtn>
     </RecordBox>
   )
 }
