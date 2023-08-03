@@ -70,11 +70,17 @@ export const VideoItem = styled.div`
   height: 250px;
   width: 217px;
 `
-export const Thumbnail = styled.div`
+export const Thumbnail = styled.iframe`
   margin-top: 15px;
+  border: none;
   height: 120px;
   width: 215px;
 `
+// export const Thumbnail = styled.div`
+//   margin-top: 15px;
+//   height: 120px;
+//   width: 215px;
+// `
 export const Infos = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -115,7 +121,7 @@ export const PracticeBtn = styled.button`
   font-size: 11px;
   width: 70px;
   height: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
   
   &:hover {
