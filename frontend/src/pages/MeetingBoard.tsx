@@ -8,11 +8,10 @@ import SearchInputImg from "../assets/MeetingBoard/SearchInput.png";
 import AddMeetModal from "./Meeting/AddMeetModal";
 
 const Container = styled.div`
-  background-color: #a1a1a1;
-  width: 70%;
+  width: 65%;
   height: 60%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 10px;
 `;
 
 const Title = styled.div`
@@ -32,6 +31,7 @@ const LeftDiv = styled.div`
   float: left;
   width: 18%;
   height: 40%;
+  margin: 3px 7px 0px 0px;
 `;
 
 const TagButton = styled.div<{ $IsClick: boolean }>`
@@ -41,7 +41,7 @@ const TagButton = styled.div<{ $IsClick: boolean }>`
   color: #6c6c6c;
   font-size: 15px;
   font-weight: bold;
-  margin: 10px;
+  margin: 0px 10px 12px 10px;
   padding: 8px;
 
   &:hover {
@@ -55,26 +55,43 @@ const TagButton = styled.div<{ $IsClick: boolean }>`
 const SearchDiv = styled.div`
   position: relative;
   height: 30px;
-  margin: 1%;
+  margin: 20px 14px 10px 10px;
 `;
 
 const CreateRoom = styled.button`
   float: right;
-  margin-left: 20px;
+  height: 25px;
+  width: 100px;
+  background-color: #22505B;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  margin-left: 10px;
   margin-right: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
 `;
 
 const SearchInput = styled.input`
   float: right;
-  background-color: gray;
+  background-color: #444444;
+  border: none;
   border-radius: 5px;
-  height: 20px;
+  height: 23px;
 `;
 
 const SearchInputButton = styled.img`
   position: absolute;
-  height: 20px;
-  right: 110px;
+  height: 14px;
+  width: 14px;
+  right: 128px;
+  top: 5px;
+  cursor: pointer;
   &:hover {
     transform: scale(1.1);
     transition: 0.3s;
@@ -82,7 +99,6 @@ const SearchInputButton = styled.img`
 `;
 
 const RightDiv = styled.div`
-  background-color: blue;
   float: left;
   width: 80%;
   height: 80%;
@@ -143,8 +159,8 @@ function MeetingBoard() {
           <H3>방 목록</H3>
         </Title>
         <SearchDiv>
-          <CreateRoom onClick={onClickToggleModal}>+방만들기</CreateRoom>
-          <SearchInput type="text" onChange={handleSearchForm} value={searchForm} />
+          <CreateRoom onClick={onClickToggleModal}>+ 방 만들기</CreateRoom>
+          <SearchInput type="text" onChange={handleSearchForm} value={searchForm} placeholder="검색"/>
           <SearchInputButton src={SearchInputImg} onClick={onClickSearchButton}></SearchInputButton>
         </SearchDiv>
 

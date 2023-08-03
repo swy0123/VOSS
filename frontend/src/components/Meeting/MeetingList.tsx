@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
-import { ListBox, MeetingRoom } from "./MeetingList.style";
 import { OpenVidu } from "openvidu-browser";
 import { MeetRoomData, getMeet } from "../../api/meeting";
 import { MeetingBoardProps } from "../../pages/MeetingBoard";
+import { 
+  Category, 
+  Count, 
+  CountImg, 
+  CountSection, 
+  ListBox, 
+  MeetingRoom, 
+  Title } from "./MeetingList.style";
 
 function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
   //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
@@ -51,11 +58,13 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
       {meetingData.map((data, index) => (
         //비번 없다고 가정하고 테스트
         <MeetingRoom key={index} onClick={() => goPostDetail(data)}>
-          {data.meetRoomId}
-          {data.category}
-          {data.title}
+          <Category>{data.category}</Category>
+          <Title>{data.title}</Title>
+          <CountSection>
+            <Count>{data.currentCount}/{data.maxCount}</Count>
+            <CountImg src="/src/assets/MeetingBoard/Usercount.png"></CountImg>
+          </CountSection>
           <br></br>
-          {data.currentCount}/{data.maxCount}
         </MeetingRoom>
       ))}
       <div>
