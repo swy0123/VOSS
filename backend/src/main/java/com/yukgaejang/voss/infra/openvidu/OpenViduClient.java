@@ -88,6 +88,7 @@ public class OpenViduClient {
         for (int i = 0; i < content; i++) {
             String text = jsonNode.get("content").get(i).get("sessionId").asText();
             Long connectionCnt = jsonNode.get("content").get(i).get("connections").get("numberOfElements").asLong();
+            if(connectionCnt==0) continue;
             Long createdAt = jsonNode.get("content").get(i).get("createdAt").asLong();
             list.add(connectionCnt);
             list.add(createdAt);
