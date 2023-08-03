@@ -100,6 +100,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Page<PostListResponse> getPostListByNickname(Pageable pageable, String nickname) {
+        return postRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname);
+    }
+
+    @Override
+    public Page<PostListResponse> getPostListByContent(Pageable pageable, String content) {
+        return postRepository.findAllByContentContainingAndIsDeletedFalse(pageable, content);
+    }
+
+    @Override
+    public Page<PostListResponse> getPostListByTitle(Pageable pageable, String title) {
+        return postRepository.findAllByTitleContainingAndIsDeletedFalse(pageable, title);
+    }
+
+
+    @Override
     public DeletePostResponse deletePost(Long id) {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
         if(post == null) {
