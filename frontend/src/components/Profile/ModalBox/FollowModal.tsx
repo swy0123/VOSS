@@ -24,7 +24,7 @@ const FollowModal = () => {
   return (
     <ModalContainer onClick={closeModal}>
       <ModalContent>
-      <ModalUser onClick={()=>setIsModalOpen(false)}><img src={RightArrow} alt='RigthArrow'/><span style={{paddingLeft: "1vw"}}>aadadaa00</span></ModalUser>
+      <ModalUser><img onClick={()=>setIsModalOpen(false)} src={RightArrow} alt='RigthArrow'/><span onClick={()=>setIsModalOpen(false)} style={{paddingLeft: "1vw"}}>aadadaa00</span></ModalUser>
         <TabContainer>
           <Tab active={followerTabShow} onClick={() => setFollowerTabShow(true)}>
             팔로워

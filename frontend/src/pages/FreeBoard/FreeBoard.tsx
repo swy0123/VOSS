@@ -5,7 +5,7 @@ import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { PostListState } from "../../recoil/Community";
 import {
   FreeBoardDesign,
@@ -28,12 +28,14 @@ import {
   PaginationWrapper,
   PaginationItem
 } from "./FreeBoard.style"
+import { CurrentUserAtom } from "/src/recoil/Auth";
 
 
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
   const [posts, setPosts] = useRecoilState(PostListState);
+  const currentUser = useRecoilValue(CurrentUserAtom)
   const [curPosts, setCurPosts] = useState(posts);
   const [showPosts, setShowPosts] = useState(curPosts);
   const [searchCond, setSearchCond] = useState<string>("title");

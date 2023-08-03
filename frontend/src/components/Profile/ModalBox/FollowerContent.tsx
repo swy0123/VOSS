@@ -1,9 +1,8 @@
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecoilState } from 'recoil';
 import { CurrentUserAtom, FollowerListState } from '/src/recoil/Auth';
 import { FollowListType } from '/src/type/Auth';
-import { postFollow, deleteUnfollow, getFollowers } from '/src/api/profile';
+import { postFollow, deleteUnfollow } from '/src/api/profile';
 import zammanboImage from '/src/assets/ProfileImages/zammanbo.png';
 import {  
   UserContainer,
@@ -27,9 +26,8 @@ const FollowerContent = () => {
       {followerList.map((user: FollowListType) => (
         <UserContainer key={user.memberId}>
           <UserImage src={zammanboImage} alt={user.nickname}></UserImage>
-          {/* <UserName onClick={()=>goProfile(user.memberId)}>{user.nickname}</UserName> */}
-          <Link to={`/profile/${user.memberId}`}>
-          <UserName >{user.nickname}</UserName>
+          <Link style={{color: 'black', textDecoration: 'none'}} to={`/profile/${user.memberId}`}>
+          <UserName>{user.nickname}</UserName>
           </Link>
           { currentUser.userid === user.memberId
           ? <ItsMeButton/>
