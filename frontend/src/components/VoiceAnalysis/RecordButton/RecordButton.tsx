@@ -22,7 +22,13 @@ function RecordButton () {
     clearBlobUrl,
     pauseRecording,
     resumeRecording,
-    mediaBlobUrl } = useReactMediaRecorder({ audio: true });
+    mediaBlobUrl } = useReactMediaRecorder({ 
+      audio: true, 
+      video: false,
+      mediaRecorderOptions: {
+        mimeType: 'audio/webm;codecs=opus',
+      }
+    });
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -52,7 +58,7 @@ function RecordButton () {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
-  const addRecord = (mediaBlobUrl) => {
+  const addRecord = (mediaBlobUrl:string) => {
     setAnalysisRecord([mediaBlobUrl,...analysisRecord.slice(0,4)])
   }
 
