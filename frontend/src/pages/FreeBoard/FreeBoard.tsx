@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
-import PostList from "../../components/FreeBoard/PostList";
+import PostList from "../../components/FreeBoard/PostList/PostList";
 import { useRecoilState } from "recoil";
 import { PostListState } from "../../recoil/Community";
 import {
@@ -33,13 +33,15 @@ import {
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
-  const [posts, setPosts] = useRecoilState(PostListState);
-  const [curPosts, setCurPosts] = useState(posts);
-  const [showPosts, setShowPosts] = useState(curPosts);
+  // const [posts, setPosts] = useRecoilState(PostListState);
+  // const [curPosts, setCurPosts] = useState(posts);
+  // const [showPosts, setShowPosts] = useState(curPosts);
   const [searchCond, setSearchCond] = useState<string>("title");
   const [inputs, setInputs] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(Math.ceil(posts.length / 10));
+  const [totalPages, setTotalPages] = useState<number>(31);
+
+  const [posts, setPosts] = useState([]);
 
   const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value);
 
@@ -72,9 +74,14 @@ function FreeBoard () {
   };
 
   useEffect(() => {
-    setTotalPages(Math.ceil(curPosts.length / 10)); // Update totalPages after filtering
-    setShowPosts(curPosts.slice((currentPage-1) * 10, currentPage*10))
-  }, [currentPage, curPosts]);
+
+    getPostList(currentPage-1).then((postData) => {
+      if(postData) {
+        setPosts(postData.content)
+        setTotalPages(postData.totalPages)
+      }
+    })
+  }, [currentPage]);
 
   const pages = [...Array(totalPages).keys()].map((page) => page + 1);
   const maxDisplayedPages = 10;
@@ -118,9 +125,9 @@ function FreeBoard () {
           <PostCategoryHitDesign>조회수</PostCategoryHitDesign>
         </PostCategoryDesign>
 
-        {showPosts.map(post => (
-          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} userid={post.userid} createAt={post.createAt}/>
-          ))}
+        {posts.map(post => (
+          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} createAt={post.createAt}/>
+        ))}
 
         <SearchboxDesign style={{borderTop: "solid 1px white"}}>
           <SearchSelectDesign id="search-select" onChange={(e)=>setSearchCond(e.target.value)}>

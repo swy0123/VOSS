@@ -21,7 +21,7 @@ export const CurrentUserAtom = atom({
 export const LoginState = atom({
   key: "LoginState",
   default: false,
-  effects_UNSTABLE: [persistAtom], // 상태가 변할 때마다 로컬스토리지에 저장
+  effects_UNSTABLE: [persistAtom],
 });
 
 
@@ -63,7 +63,6 @@ export const ProfileState = atom({
     dictionCnt: 0,
     totalCnt: 0,
   },
-  effects_UNSTABLE: [persistAtom],
 })
 
 
@@ -71,13 +70,11 @@ export const ProfileState = atom({
 export const FollowerListState = atom({
   key: "FollowerListState",
   default: [],
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const FollowingListState = atom({
   key: "FollowingListState",
   default: [],
-  effects_UNSTABLE: [persistAtom],
 });
 
 
