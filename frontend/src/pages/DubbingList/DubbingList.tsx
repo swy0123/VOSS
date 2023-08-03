@@ -96,7 +96,6 @@ function DubbingList() {
   return(
     <BackGroundImg>
       <Header/>
-
       <Container>
         <DubbingBox>
           <TitleBox>

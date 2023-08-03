@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   display: flex;
   justify-content: center;
+  height: 610px;
 `
 export const DubbingBox = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ export const GenreBox = styled.div`
   align-items: center;
   font-size: 13px;
   height: 33px;
+  margin-bottom: 12px;
 `
 export const GenreButton = styled(OptionButton)<{$IsClick:boolean}>`
   color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
@@ -52,6 +54,10 @@ export const VideoBox = styled.div`
   display: flex;
   width: 950px;
   flex-wrap: wrap;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 export const VideoItem = styled.div`
   background-color: #131313;
@@ -60,7 +66,7 @@ export const VideoItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  margin: 15px 20px 0px 0px;
+  margin: 0px 20px 15px 0px;
   height: 250px;
   width: 217px;
 `
