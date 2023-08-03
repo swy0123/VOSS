@@ -298,7 +298,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         </div>
       ) : (<div onClick={goMeetingBoard}>이전 화면으로 돌아가기</div>)}
 
-      <ToolbarComponent
+      {/* <ToolbarComponent
         sessionId={mySessionId}
         audioActive={audioActive}
         videoActive={videoActive}
@@ -307,7 +307,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         micStatusChanged={micStatusChanged}
         // switchCamera={this.switchCamera}
         leaveSession={leaveSession}
-      />
+      /> */}
     </Container>
   );
 };
