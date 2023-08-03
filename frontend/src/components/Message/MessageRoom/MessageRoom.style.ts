@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 export const MessegeListDiv = styled.div`
+  z-index: 300;
   width: 300px;
   height: 400px;
   border-color: D2D2D2;

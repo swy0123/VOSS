@@ -65,7 +65,6 @@ const MessageRoom = () => {
 
   useEffect(() => {
     setPosts([...messageLog]);
-    console.log(posts);
   }, []);
 
   useEffect(() => {
