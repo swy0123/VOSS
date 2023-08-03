@@ -1,5 +1,8 @@
 package com.yukgaejang.voss.infra.chatgpt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
+
 public class ChatGptClient {
     @Value("${chatGpt.apiKey}")
     private String apiKey;
@@ -29,7 +33,7 @@ public class ChatGptClient {
                 "    \"messages\": [{\"role\": \"user\", \"content\": \"" + cmd + "\"}]\n" +
                 "}";
 
-        String responseBody = webClient.post()
+        String responseBody = WebClient.create().post()
                 .uri(url)
                 .headers(httpHeaders -> httpHeaders.addAll(headers))
                 .body(BodyInserters.fromValue(requestBody))
@@ -41,18 +45,16 @@ public class ChatGptClient {
     }
 
     private String parseChatGptResponse(String body) {
-
-        String regex = "\"content\"\\s*:\\s*\"([^\"]+)\"";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(body);
-
-        if (matcher.find()) {
-            String content = matcher.group(1);
-            return content;
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = mapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
-        return "";
+        String content = jsonNode.get("choices").get(0).get("message").get("content").asText();
+        return content;
     }
 
 }
