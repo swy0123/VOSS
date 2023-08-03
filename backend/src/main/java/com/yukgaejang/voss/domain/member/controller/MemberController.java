@@ -5,8 +5,10 @@ import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.*;
+import com.yukgaejang.voss.domain.practice.serivce.dto.request.GetMemberListRequest;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,7 +95,7 @@ public class MemberController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<GetMemberList>> getMemberList(String nickname) {
-        return ResponseEntity.ok(memberService.getMemberList(nickname));
+    public ResponseEntity<Page<GetMemberList>> getMemberList(GetMemberListRequest getMemberListRequest) {
+        return ResponseEntity.ok(memberService.getMemberList(getMemberListRequest));
     }
 }
