@@ -26,32 +26,15 @@ export const ModalContent = styled.div`
   position: relative;
   
   &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    display: none;
-  }
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 8px;
-    background-color: #f0f0f0;
   }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 8px;
-    background-color: #132B31;
-    border-radius: 8px;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
   }
   `;
 

@@ -1,14 +1,10 @@
 import React, { PropsWithChildren, useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
-import FriendList from "./FriendList";
+import SendArrow from "/src/assets/Messenger/SendArrow.png";
 import { useRecoilState } from "recoil";
 import { ShowFindFriendState, ShowMessageRoomState, RoomListState, FriendListState, OpenRoomIdState} from "/src/recoil/Messenger";
-import { ModalContainer, DialogBox, Backdrop, ExitImg } from "./MessageModal.style"
+import { ModalContainer, DialogBox, Backdrop, ExitImg, FriendTitleDesign, FriendSearchDesign, FriendListDesign, FriendListItemDesign, FriendListItem1, FriendListItem2, FriendListItem3, } from "./MessageModal.style"
 
-
-interface ModalDefaultType {
-  onClickToggleModal: () => void;
-}
 
 interface Friend {
   id: number;
@@ -22,42 +18,60 @@ interface Room {
 }
 
 const MessageModal = () => {
+  const [roomList, setRoomList] = useRecoilState(RoomListState);
   const [isOpenModal, setOpenModal] = useRecoilState<boolean>(ShowFindFriendState);
-  const [searchForm, setSearch] = useState("");
-  const [curList, setCurList] = useState<Friend[]>([]);
+  const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
+  const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
   const [friendList, setFriendList] = useRecoilState<Friend[]>(FriendListState);
-
-  //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
-  //FriendsList
-  useEffect(() => {
-    setCurList([...friendList]);
-  }, []);
-
-  const handleSearchForm = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const [inputs, setInputs] = useState("");
+  const SearchInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputs(event.target.value);
   };
 
+  const onClickOpenNewRoom = (name: string, id: number) => {
+    if (!roomList.some(room => room.member === name)) {
+      setRoomList((prev: Room[]) => [{member: name, id: id}, ...prev, ])
+    }
+    setOpenModal(false);
+    setOpenRoom(true);
+    setOpenRoomId(name);
+  };
+
+  const filterList = friendList.filter((friend) =>
+    friend.name.toLowerCase().includes(inputs.toLowerCase())
+  );
 
   return (
     <ModalContainer>
       <DialogBox>
-        <div>
-          친구찾기
-          <ExitImg
-            src={ExitBox}
-            onClick={()=>setOpenModal(false)}
-          />
-        </div>
 
-        <form>
-          <input
-            className="input"
-            type="text"
-            onChange={handleSearchForm}
-            value={searchForm}
-          ></input>
-        </form>
-        <FriendList></FriendList>
+        <FriendTitleDesign>
+          친구찾기
+          <ExitImg src={ExitBox} onClick={()=>setOpenModal(false)}/>
+        </FriendTitleDesign>
+        <FriendSearchDesign>
+          <form action="">
+            <input
+              placeholder="Search"
+              style={{ backgroundColor: "transparent", border: "none", width: "100%", fontSize: "15px", outline: "none",}}
+              className="input"
+              type="text"
+              onChange={SearchInput}
+              value={inputs}
+            ></input>
+          </form>
+        </FriendSearchDesign>
+
+        <FriendListDesign>
+          {filterList.map((friend) => (
+          <FriendListItemDesign key={friend.id}>
+            <FriendListItem1><img style={{height: '80%'}} src={friend.img} /></FriendListItem1>
+            <FriendListItem2><span>{friend.name}</span></FriendListItem2>
+            <FriendListItem3><img src={SendArrow} onClick={()=>onClickOpenNewRoom(friend.name, friend.id)}/></FriendListItem3>
+          </FriendListItemDesign>
+          ))}
+        </FriendListDesign>
+
       </DialogBox>
       <Backdrop onClick={()=>setOpenModal(false)}/>
     </ModalContainer>

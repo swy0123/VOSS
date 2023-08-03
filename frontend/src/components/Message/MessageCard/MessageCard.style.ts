@@ -2,12 +2,14 @@ import { styled } from "styled-components";
 
 export const MessageCardDiv = styled.div`
   width: 95%;
-  height: 40px;
-  border: 1px;
-  border-radius: 4px;
-  border-color: #d2d2d2;
-  border-style: solid;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
+  &:hover {
+    background-color: rgba(217, 217, 217, 0.5);
+  }
 `;
 
 export const MessageTitle = styled.div`

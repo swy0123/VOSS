@@ -11,10 +11,9 @@ interface RoomType {
 const MessageCard = ({room}: {room: RoomType}) => {
   return (
     <MessageCardDiv>
-      <MessageTitle>
-        {room.member}
-        {true ? <MessageChecked src={RedDot} /> : null }
-      </MessageTitle>
+      <MessageTitle>{room.member}</MessageTitle>
+      {/* <MessageChecked><img src={RedDot} alt="isRead"/></MessageChecked> */}
+      <MessageChecked src={RedDot}/>
     </MessageCardDiv>
   );
 };
