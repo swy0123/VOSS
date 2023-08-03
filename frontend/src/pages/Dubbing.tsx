@@ -32,15 +32,16 @@ function Dubbing() {
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
   const id = parseInt(useParams().id || "");
 
-  const axiosVideo = async () => {
-    try {
-      const VideoData:ScriptData = await getVideo(id);
-      setVideo(VideoData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
+    const axiosVideo = async () => {
+      try {
+        const VideoData:ScriptData = await getVideo(id);
+        setVideo(VideoData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     axiosVideo();
   }, [id]);
 

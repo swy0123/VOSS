@@ -1,10 +1,5 @@
 import { atom } from "recoil";
 
-export const accentTextState = atom<string>({
-  key: 'accentTextState',
-  default: "",
-})
-
 // 더빙 연습 녹음 기록
 export const dubbingRecordState = atom({
   key: 'dubbingRecordState',
@@ -16,3 +11,16 @@ export const dubbingRecordTimeState = atom({
   key: 'dubbingRecordTimeState',
   default: [],
 })
+
+// 발음 교정 전 스크립트
+export const accentScriptState = atom({
+  key: 'accentScriptState',
+  default: "",
+})
+
+// 발음 교정 후 스크립트
+export const accentSttState = atom({
+  key: 'accentSttState',
+  default: "",
+})
+
