@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
+import com.yukgaejang.voss.domain.freeboard.repository.PostFileRepository;
+import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
 import com.yukgaejang.voss.domain.freeboard.service.*;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,7 @@ public class FreeboardController {
     private final PostCommentService postCommentService;
     private final PostLikeService postLikeService;
     private final AwsS3Service awsS3Service;
+    private final PostFileRepository postFileRepository;
 
     private static String dirName = "post-file";
 

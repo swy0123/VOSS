@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
+import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
@@ -34,6 +35,8 @@ public class PostServiceImpl implements PostService {
     private final PostLikeRepository postLikeRepository;
     private final PostFileRepository postFileRepository;
     private final MemberRepository memberRepository;
+    private final AwsS3Service awsS3Service;
+    private static String dirName = "post-file";
 
     @Override
     public CreatePostResponse createPost(String email, CreatePostRequest createPostRequest) {
@@ -59,6 +62,21 @@ public class PostServiceImpl implements PostService {
         }
         post.updatePost(updatePostRequest.getTitle(), updatePostRequest.getContent());
         postRepository.save(post);
+        List<CreateFileRequest> newFiles = updatePostRequest.getNewFiles();
+        if(!newFiles.isEmpty()) {
+            for (CreateFileRequest newFile : newFiles) {
+                PostFile postFile = new PostFile(post, newFile.getOriginalFileName(), newFile.getSavedFileName(), newFile.getContentType(), newFile.getSize());
+                postFileRepository.save(postFile);
+            }
+        }
+        List<Long> deleteFileIds = updatePostRequest.getDeleteFileIds();
+        if(!deleteFileIds.isEmpty()) {
+            for (Long deleteFileId : updatePostRequest.getDeleteFileIds()) {
+                PostFile postFile = postFileRepository.findByPostFileIdAndIsDeletedFalse(deleteFileId);
+                awsS3Service.deleteFile(postFile.getSavedFileName(), dirName);
+                postFileRepository.delete(postFile);
+            }
+        }
         return new UpdatePostResponse(true);
     }
 
