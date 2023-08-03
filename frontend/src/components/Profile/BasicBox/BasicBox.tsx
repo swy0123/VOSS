@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom, ProfileState, ModalOpenState, FollowerTabState ,FollowerListState, FollowingListState } from "/src/recoil/Auth";
 import { postFollow, deleteUnfollow, getFollowers, getFollowings  } from '/src/api/profile';
-import zammanbo from "../../../assets/ProfileImages/zammanbo.png";
-import UpdateIcon from "../../../assets/ProfileImages/UpdateIcon.png";
+import zammanbo from "/src/assets/Profile/zammanbo.png";
+import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
 import {
     BasicBoxDesign,
     ProfileImgDesign,
@@ -33,6 +33,7 @@ function BasicBox() {
   const setFollow = () => {
     setProfile({...profile, isFollowing: !profile.isFollowing})
   };
+  const [showImgUpdate, setImgUpdate] = useState(false)
 
   useEffect(()=> {
     getFollowings(id).then(followings => {
@@ -46,8 +47,11 @@ function BasicBox() {
   return (
     <BasicBoxDesign>
       <ProfileImgDesign>
-        <ProfileImgDesign2>
-          <img src={zammanbo} alt=""/>
+        <ProfileImgDesign2
+        onMouseEnter={()=>setImgUpdate(true)}
+        onMouseLeave={()=>setImgUpdate(false)}>
+          {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
+          <img src={zammanbo} alt="zammanbo"/>
         </ProfileImgDesign2>
       </ProfileImgDesign>
       

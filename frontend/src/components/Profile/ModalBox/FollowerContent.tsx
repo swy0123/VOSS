@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from 'recoil';
 import { CurrentUserAtom, FollowerListState } from '/src/recoil/Auth';
 import { FollowListType } from '/src/type/Auth';
-import { postFollow, deleteUnfollow, getFollowers } from '/src/api/profile';
-import zammanboImage from '/src/assets/ProfileImages/zammanbo.png';
+import { postFollow, deleteUnfollow } from '/src/api/profile';
+import zammanboImage from '/src/assets/Profile/zammanbo.png';
 import {  
   UserContainer,
   UserImage,
@@ -21,16 +21,15 @@ const FollowerContent = () => {
   const setFollow = (id: number) => {
     setFollowerList(followerList.map((user: FollowListType) => user.memberId === id ? { ...user, following: !user.following } : user));
   };
+  const navigate = useNavigate()  
+  const goToProfile = (id: number) => {navigate(`/profile/${id}`)}
 
   return (
     <div>
       {followerList.map((user: FollowListType) => (
         <UserContainer key={user.memberId}>
-          <UserImage src={zammanboImage} alt={user.nickname}></UserImage>
-          {/* <UserName onClick={()=>goProfile(user.memberId)}>{user.nickname}</UserName> */}
-          <Link to={`/profile/${user.memberId}`}>
-          <UserName >{user.nickname}</UserName>
-          </Link>
+          <UserImage onClick={()=>goToProfile(user.memberId)} src={zammanboImage} alt={user.nickname} />
+          <UserName onClick={()=>goToProfile(user.memberId)}><span>{user.nickname}</span></UserName>
           { currentUser.userid === user.memberId
           ? <ItsMeButton/>
           : user.following

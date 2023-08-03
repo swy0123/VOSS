@@ -40,7 +40,7 @@ export const getMessages = async ( id: number ) => {
 
 
 export const getUsers = async (nickname: string, page: number, limit: number) => {
-    const res = await privateApi.get(`/messsenger/find?nickname=${nickname}&page=${page}&limit=${limit}`)
+    const res = await privateApi.get(`/member/find?keyword=${nickname}&page=${page}&limit=${limit}`)
     .catch(err => {
         console.log("getUsers catch: ", err)
     })

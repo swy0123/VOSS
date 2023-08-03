@@ -1,4 +1,5 @@
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
+import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png"
 import AddMessage from "/src/assets/Messenger/AddMessage.png";
 import AddMessageHover from "/src/assets/Messenger/AddMessageHover.png";
 import MessageCard from "../MessageCard/MessageCard";
@@ -18,6 +19,7 @@ const MessagePage = () => {
   const [rooms, setRooms] = useRecoilState(RoomsState);
   const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
   const [addBtnHover, setAddBtnHover] = useState(false);
+  const [exitBtnHover, setExitBtnHover] = useState(false);
 
   //아이디를 어케 쓸지 다시 정해야 함 현재 사람이름, 인덱스 등 뒤죽박죽임
   const goToRoom = (id: number) => {
@@ -38,7 +40,12 @@ const MessagePage = () => {
     <MessegePageDiv>
 
       <MessegeTitle>채팅목록 ({rooms.length})</MessegeTitle>
-      <ExitImg src={ExitBox} onClick={()=>setOpenMessenger(false)} />
+      <ExitImg 
+        src={exitBtnHover ? ExitBoxHover : ExitBox}
+        onClick={()=>setOpenMessenger(false)}
+        onMouseEnter={() => setExitBtnHover(true)}
+        onMouseLeave={() => setExitBtnHover(false)}
+      />
       <hr />
 
       <MessegeBodyDiv>
@@ -55,8 +62,7 @@ const MessagePage = () => {
         src={addBtnHover ? AddMessageHover : AddMessage} 
         onClick={()=>setOpenModal(true)}
         onMouseEnter={() => setAddBtnHover(true)}
-        onMouseLeave={() => setAddBtnHover(false)}>
-      </MessageAdd>
+        onMouseLeave={() => setAddBtnHover(false)}/>
       { isOpenModal ? <MessageModal /> : null}
       { isOpenRoom ? <MessageRoom/> : null }
 

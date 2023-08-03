@@ -2,19 +2,19 @@ import { styled } from "styled-components";
 
 export const UserContainer = styled.div`
   /* border: 2px solid purple; */
-  height: 4vh;
+  height: 4.6vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75vw 2.75vw;
+  padding: 0.75vw 2.6vw;
   
   &:hover {
-    background-color: rgba(239, 239, 239, 1);
+    background-color: #EFEFEF;
   }
   `;
 
 export const UserImage = styled.img`
-  width: 10%;
+  width: 13%;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 50%;
@@ -22,11 +22,16 @@ export const UserImage = styled.img`
   `;
 
 export const UserName = styled.div`
-  border: 3px solid aquamarine;
+  /* border: 3px solid aquamarine; */
   text-align: start;
-  width: 10vw;
+  width: 12.5vw;
   font-weight: bold;
   font-size: 1vw;
+  span {
+    &:hover {
+      border-bottom: solid 1.5px;
+    }
+  }
   `;
 
 export const FollowButton = styled.button`
