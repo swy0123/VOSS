@@ -28,3 +28,4 @@ export const makeAccentScript: AsyncFunction = async(categorySelected) => {
     console.log(error)
   }
 }
+
