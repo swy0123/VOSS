@@ -8,8 +8,8 @@ import { videoState } from '../recoil/Training';
 import { BackGroundImg } from '../components/BackGroundImg';
 import Header from '../components/Header/Header';
 import Messenger from '../components/Message/Messenger';
-import RecordButton from '../components/DubbingRoom/RecordButton';
-import Recording from '../components/DubbingRoom/Recording';
+import RecordButton from '../components/DubbingRoom/RecordButton/RecordButton';
+import Recording from '../components/DubbingRoom/Recording/Recording';
 import Script from '../components/DubbingRoom/Script/Script';
 import Video from '../components/DubbingRoom/Video/Video';
 
