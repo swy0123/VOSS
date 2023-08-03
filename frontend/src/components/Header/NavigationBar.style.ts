@@ -81,6 +81,7 @@ export const AlarmIcon = styled.img`
 export const Profile = styled.img`
   height: 30px;
   margin-right: 30px;
+  z-index: 1;
 `
 export const ProfileHover =styled.img`
   border: solid 1px white;
@@ -95,12 +96,11 @@ export const ProfileHoverList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: end;
-  
   position: fixed;
-  top: 35px;
-  right: 40px;
-  width: 62px;
-  height: 103px;
+  top: 32px;
+  right: 36px;
+  width: 68px;
+  height: 115px;
   /* border: dotted 1px yellow; */
 `;
 
@@ -110,11 +110,10 @@ export const ProfileHoverListItem = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  color: #495057;
-  width: 62px;
-  height: 22px;
+  width: 68px;
+  height: 25px;
   font-size: 5px;
-  border-bottom: solid 1px gray;
+  border-bottom: solid 1px #d9d9d9;
 
   // 마우스 호버 시에 작동
   &:hover {
@@ -126,9 +125,10 @@ export const ProfileHoverListItem = styled.div`
 
 export const ProfileHoverTriangle = styled.div`
   position: fixed;
-  top: 40px;
-  right: 66px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 7px solid white; 
+  top: 37px;
+  right: 63px;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid white; 
+  z-index: 2;
 `

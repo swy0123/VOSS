@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, ChangeEvent } from "react";
 import { useInView } from "react-intersection-observer";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
+import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import Arrow from "/src/assets/Messenger/SendArrow.png";
 import { useRecoilState } from "recoil";
 import { ShowMessageRoomState, MessageLogState, OpenRoomIdState } from "/src/recoil/Messenger";
@@ -28,6 +29,7 @@ const MessageRoom = () => {
   const [message, setMessage] = useState("");
   const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
   const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
+  const [exitBtnHover, setExitBtnHover] = useState(false);
   // const [messageLog, setMessageLog] = useRecoilState(MessageLogState);
   
 
@@ -97,7 +99,12 @@ const MessageRoom = () => {
     <MessegeListDiv>
       <div>
         <MessegeTitle>{openRoomId}</MessegeTitle>
-        <ExitImg src={ExitBox} onClickCapture={()=>setOpenRoom(false)} />
+        <ExitImg 
+            src={exitBtnHover ? ExitBoxHover : ExitBox}
+            onClickCapture={()=>setOpenRoom(false)}
+            onMouseEnter={() => setExitBtnHover(true)}
+            onMouseLeave={() => setExitBtnHover(false)}
+        />
         <hr />
       </div>
       <InfinityScroll style={{ position: "relative" }}>

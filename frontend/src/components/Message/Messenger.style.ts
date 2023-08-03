@@ -7,8 +7,6 @@ export const MessegeDiv = styled.div`
 `;
 
 export const MessageIcon = styled.img`
-    /* width: 60px;
-    height: 60px; */
-    width: 5.5vw;
-    height: 5.5vw;
+    width: 60px;
+    height: 60px;
 `;

@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useState, ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
-import ExitBox from "../../assets/Messenger/ExitBox.png";
+import ExitBox from "/src/assets/Messenger/ExitBox.png";
+import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import ProfileImg from "../../assets/Messenger/profile.png";
 import SendArrow from "../../assets/Messenger/SendArrow.png";
 import { createMeet } from "../../api/meeting";
@@ -92,6 +93,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const [selectedTag, setTag] = useState<boolean[]>([false, false, false]);
   const [selectedCategory, setCategory] = useState("");
   const Category = ["DUB", "PRACTICE", "FREE"];
+  const [exitBtnHover, setExitBtnHover] = useState(false);
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
@@ -148,13 +150,15 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
         {children}
         <div>
           <ExitImg
-            src={ExitBox}
+            src={exitBtnHover ? ExitBoxHover : ExitBox}
             onClick={(e: React.MouseEvent) => {
               e.preventDefault();
               if (onClickToggleModal) {
                 onClickToggleModal();
               }
             }}
+            onMouseEnter={() => setExitBtnHover(true)}
+            onMouseLeave={() => setExitBtnHover(false)}
           />
         </div>
         <span>카테고리</span>
