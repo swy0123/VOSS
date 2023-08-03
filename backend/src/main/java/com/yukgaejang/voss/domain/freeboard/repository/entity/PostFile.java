@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +24,12 @@ public class PostFile extends BaseEntity {
 
     private String originalFileName;
     private String savedFileName;
+    private String contentType;
     private Long size;
 
     private int isDeleted;
+
+    @Nullable
     private LocalDateTime deletedAt;
 
     public void delete() {
@@ -34,10 +38,12 @@ public class PostFile extends BaseEntity {
     }
 
     @Builder
-    public PostFile(Post post, String originalFileName, String savedFileName, Long size) {
+    public PostFile(Post post, String originalFileName, String savedFileName, String contentType, Long size) {
         this.post = post;
         this.originalFileName = originalFileName;
         this.savedFileName = savedFileName;
+        this.contentType = contentType;
         this.size = size;
+        this.isDeleted = 0;
     }
 }

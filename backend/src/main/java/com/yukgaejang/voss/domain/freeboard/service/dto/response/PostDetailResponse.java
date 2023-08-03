@@ -19,10 +19,12 @@ public class PostDetailResponse {
     private String title;
     private String content;
     private Long likes;
+    private List<PostFileDetailResponse> imageFiles;
+    private List<PostFileDetailResponse> otherFiles;
     private LocalDateTime createdAt;
     private Page<CommentDetailResponse> comments;
 
-    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments, Long likes) {
+    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments, Long likes, List<PostFileDetailResponse> imageFiles, List<PostFileDetailResponse> otherFiles) {
         this.id = post.getId();
         this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
@@ -31,6 +33,8 @@ public class PostDetailResponse {
         this.createdAt = post.getCreatedAt();
         this.comments = comments;
         this.likes = likes;
+        this.imageFiles = imageFiles;
+        this.otherFiles = otherFiles;
     }
 
 }
