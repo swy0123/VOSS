@@ -1,18 +1,53 @@
 import { styled } from "styled-components";
 
 export const ChatContainer = styled.div`
-  position: absolute;
-  z-index: 0;
-  /* width: 100%;
-  height: 100%; */
+  position: relative;
+  width: 100%;
+  height: 100%;
 `;
 
 export const Chat = styled.div`
   background-color: #b8b8b8;
-  position: absolute;
-  position: absolute;
-  z-index: 99999;
+  height: 100%;
+  width: 100%;
+  position: relative;
   border-radius: 10px;
+`;
+
+
+export const ChatScroll = styled.div`
+  height: 95%;
+  width: 95%;
+  margin: 1px auto;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+    display: none;
+} */
+`;
+
+export const Chatting = styled.div`
+  /* border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #d9d9d9; */
+  /* background-color: white; */
+  font-size: 11px;
+  /* height: fit-content;
+  max-width: 70%; */
+  padding: 7px;
+  margin: 3px;
+`;
+
+export const MyChatting = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+export const OtherChatting = styled.div`
+  display: flex;
+  justify-content: start;
 `;
 
 // export constchatToolbar {
