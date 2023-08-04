@@ -4,6 +4,8 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 import { dubbingRecordState } from '/src/recoil/HW_Atom';
 import { 
   CompleteBtn,
+  PracticeEnd,
+  PracticeStart,
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
@@ -11,11 +13,13 @@ import {
   StopWatch } from './RecordButton.style';
 
 function RecordButton () {
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(0);
-  const intervalRef = useRef<number|null>(null);
-  const [initialBtn, setInitialBtn] = useState(true)
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
+  const [practiceStart, setPracticeStart] = useState(false)
+  const [practiceEnd, setPracticeEnd] = useState(false)
+  const [initialBtn, setInitialBtn] = useState(true)
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef<number|null>(null);
+  const [time, setTime] = useState(0);
 
   const { 
     startRecording, 
@@ -55,10 +59,22 @@ function RecordButton () {
   const addRecord = (mediaBlobUrl) => {
     setdubbingRecord([mediaBlobUrl,...dubbingRecord.slice(0,4)])
   }
+
+  const changePracticeEnd = () => {
+    setPracticeStart(false)
+    setPracticeEnd(true)
+  }
+
+  const changePracticeStart = () => {
+    setPracticeStart(true)
+    setPracticeEnd(false)
+  }
   
   return(
     <RecordBox>
       <StopWatch>{formatTime(time)}</StopWatch>
+      <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
+      <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
       <SectionBtn>
       { !initialBtn && !isRunning ?
             <RestartBtn
@@ -71,19 +87,37 @@ function RecordButton () {
               (<RecordBtn
                 onClick={() => {
                   startOrStop()
-                  startRecording()}}
+                  startRecording()
+                  changePracticeEnd()}}
+                onMouseEnter={() => 
+                  setPracticeStart(true)}
+                onMouseLeave={() => {
+                  setPracticeStart(false)
+                  setPracticeEnd(false)}}
                 src="/src/assets/Training/startbtn.png"></RecordBtn>) :
               isRunning ? 
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
                     stopRecording()
-                    pauseRecording()}}
+                    pauseRecording()
+                    changePracticeStart()}}
+                  onMouseEnter={() => 
+                    setPracticeEnd(true)}
+                  onMouseLeave={() => {
+                    setPracticeStart(false)
+                    setPracticeEnd(false)}}
                   src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()
-                    resumeRecording()}}
+                    resumeRecording()
+                    changePracticeEnd()}}
+                  onMouseEnter={() => 
+                    setPracticeStart(true)}
+                  onMouseLeave={() => {
+                    setPracticeStart(false)
+                    setPracticeEnd(false)}}
                   src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
 
             { !initialBtn && !isRunning ?
