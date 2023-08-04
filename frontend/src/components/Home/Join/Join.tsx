@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
@@ -20,20 +20,29 @@ import {
   Img,
   Title,
   UnderText,
+  BlockedButton,
+  // CheckMsg,
 } from "./Join.style";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const [isPwdChecked, setPwdCheck] = useState<boolean>(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
-
-
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
 
+  useEffect(() => {
+    password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
+
+    if (nickName.trim().length && isEmailChecked && isPwdChecked && nickName.length>3) {
+      setButtonActive(true);
+    } else setButtonActive(false);
+  }, [nickName.trim().length, isEmailChecked, repassword, password, nickName]);
 
   const MAX_LENGTH = 50;
 
@@ -41,19 +50,29 @@ const Login = () => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setUsername(e.target.value);
+    setNickName(e.target.value);
   };
+
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
     setEmail(e.target.value);
+    setEmailChecked(false);
   };
+
   const handlePasswordField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
     setPassword(e.target.value);
+  };
+
+  const handleRepasswordField = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > MAX_LENGTH) {
+      e.target.value = e.target.value.slice(0, MAX_LENGTH);
+    }
+    setRepassword(e.target.value);
   };
 
   const ShowPassword = () => {
@@ -64,18 +83,18 @@ const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // username 이 비어있으면 알람
-    if (!username.trim().length) {
+    // nickName 이 비어있으면 알람
+    if (!nickName.trim().length) {
       alert("유저네임이 비어있습니다");
-    }
-    else if (!isEmailChecked) {
+    } else if (!isEmailChecked) {
       alert("이메일을 인증해주세요");
-    }
-    else {
+    } else if (!isPwdChecked) {
+      alert("비밀번호를 확인해주세요");
+    } else {
       const JoinProps = {
         email: email,
         password: password,
-        nickname: username,
+        nickname: nickName,
       };
 
       const joininfo = postJoin(JoinProps);
@@ -97,7 +116,7 @@ const Login = () => {
     const emailCheck = await authEmail(email);
     if (emailCheck) toggleModal();
     else alert("중복된 이메일입니다");
-  }
+  };
 
   const toggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -108,7 +127,6 @@ const Login = () => {
     console.log("setEmailChecked : true");
   };
 
-
   return (
     <Container>
       <Title>
@@ -118,32 +136,44 @@ const Login = () => {
 
       <form onSubmit={handleSubmit}>
         <InputDiv>
-          <InputHeader>Username</InputHeader>
-          <Input type="text" onChange={handleUsernameField} placeholder="Username" />
-        </InputDiv>
-        <InputDiv>
           <InputHeader>Email</InputHeader>
-          <Input type="email" onChange={handleEmailField} placeholder="Email" />
+          <Input type="email" onChange={handleEmailField} placeholder="이메일 인증을 해주세요" />
           <ShowIcon>
             {isEmailChecked ? <Img src={Checked} /> : <Img onClick={onClickModal} src={Email} />}
           </ShowIcon>
         </InputDiv>
-        {isEmailChecked ? <></> : <div>이메일 인증을 해주세요</div>}
         <InputDiv>
           <InputHeader>Password</InputHeader>
           <Input
             type={showPswd ? "text" : "password"}
             onChange={handlePasswordField}
-            placeholder="Password"
+            placeholder="비밀번호를 4글자 이상 입력해주세요"
           />
           <ShowIcon onClick={ShowPassword}>
             <Img src={Eye} />
           </ShowIcon>
         </InputDiv>
-        {
-          isButtonActive ? <Button type="submit">GET STARTED</Button>
-            : <Button type="submit" disabled>GET STARTED</Button>
-        }
+        <InputDiv>
+          <InputHeader>Confirm password</InputHeader>
+          <Input type="password" onChange={handleRepasswordField} placeholder="비밀번호를 확인해주세요" />
+          <ShowIcon>{isPwdChecked ? <Img src={Checked} /> : <></>}</ShowIcon>
+          {/* {password.length < 4 ? (
+            <CheckMsg>비밀번호를 4글자 이상 입력해주세요</CheckMsg>
+          ) : (
+            <>{!isPwdChecked ? <CheckMsg>비밀번호를 확인해주세요</CheckMsg> : <></>}</>
+          )} */}
+        </InputDiv>
+        <InputDiv>
+          <InputHeader>Nickname</InputHeader>
+          <Input type="text" onChange={handleUsernameField} placeholder="닉네임을 4글자 이상 입력해주세요" />
+        </InputDiv>
+        {isButtonActive ? (
+          <Button type="submit">GET STARTED</Button>
+        ) : (
+          <BlockedButton type="submit" disabled>
+            GET STARTED
+          </BlockedButton>
+        )}
       </form>
 
       <UnderText>
@@ -152,7 +182,13 @@ const Login = () => {
         </P>
       </UnderText>
 
-      {isOpenModal && <EmailModal toggleModal={toggleModal} email={email} isEmailCheckd={isEmailCheckd}></EmailModal>}
+      {isOpenModal && (
+        <EmailModal
+          toggleModal={toggleModal}
+          email={email}
+          isEmailCheckd={isEmailCheckd}
+        ></EmailModal>
+      )}
     </Container>
   );
 };
