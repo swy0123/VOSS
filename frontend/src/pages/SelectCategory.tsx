@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { postRractice } from '../api/profile';
 
 const MainImg = styled.div`
   background: url("/src/assets/main/MainImg.jpg") no-repeat;
@@ -117,14 +118,25 @@ function SelectCategory () {
 
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
-  const goVoiceAnalysis = () => {navigate("/analysis")}
-  const goDubbingList = () => {
+  const goVoiceAnalysis = async () => {
+    await postRractice("ACT")
+    navigate("/analysis")
+  }
+  const goDubbingList = async () => {
+    await postRractice("DUB")
     navigate("/dubbinglist")
     window.location.reload()
   }
-  const goAccent = () => {navigate("/accent")}
-  const goFreeBoard = () => {navigate("/freeboard")}
-  const goMeetingBoard = () => {navigate("/meeting")}
+  const goAccent = async () => {
+    await postRractice("DICTION")
+    navigate("/accent")
+  }
+  const goFreeBoard = () => {
+    navigate("/freeboard")
+  }
+  const goMeetingBoard = () => {
+    navigate("/meeting")
+  }
 
   return(
     <div>
@@ -142,9 +154,9 @@ function SelectCategory () {
             </Cartegory_units>
             
             <AllSinglePractice $isShown={TrainIsShown}>
-              <VoiceAnalysis onClick={goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
-              <Dubbing onClick={goDubbingList}>더빙 연습</Dubbing>
-              <Accent onClick={goAccent}>발음 연습</Accent>
+              <VoiceAnalysis onClick={() => goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
+              <Dubbing onClick={() => goDubbingList}>더빙 연습</Dubbing>
+              <Accent onClick={() => goAccent}>발음 연습</Accent>
             </AllSinglePractice>
           </Training>
         
