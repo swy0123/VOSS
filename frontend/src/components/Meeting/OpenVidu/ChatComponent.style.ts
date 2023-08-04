@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 
 export const ChatContainer = styled.div`
   position: relative;
-  z-index: 0;
   width: 100%;
   height: 100%;
 `;
@@ -12,17 +11,17 @@ export const Chat = styled.div`
   height: 100%;
   width: 100%;
   position: relative;
-  z-index: 99999;
   border-radius: 10px;
 `;
 
 
 export const ChatScroll = styled.div`
-  height: 90%;
-  width: 100%;
+  height: 95%;
+  width: 95%;
   margin: 1px auto;
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
   /* -ms-overflow-style: none;
     &::-webkit-scrollbar {
     display: none;

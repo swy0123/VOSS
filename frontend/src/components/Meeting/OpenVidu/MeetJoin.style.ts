@@ -1,13 +1,13 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: #202124;
 `;
 
 export const Header = styled.div`
-  height: 8vh;
+  height: 8%;
   display: flex;
   align-items: center;
   padding: 0 50px;
@@ -148,7 +148,6 @@ export const Session = styled.div`
 export const ToolBar = styled.div`
 position: absolute;
 bottom: 0px;
-z-index: 9999;
   width: 100%;
 `;
 

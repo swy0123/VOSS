@@ -1,23 +1,14 @@
 import { styled } from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{$isClicked?: boolean}>`
   display: flex;
   justify-content: center;
   background-color: gray;
+  height: ${props => props.$isClicked ? '30%': '90%'};
 `;
 
-export const LeftSection = styled.div`
+export const BottomSection = styled.div<{$isClicked?: boolean}>`
   display: flex;
-  flex-direction: column;
-  margin-right: 30px;
-`;
-
-export const RightSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const H1 = styled.h1`
-color: white;
+  height: ${props => props.$isClicked ? '70%': '10%'};
+  background-color: red;
 `;

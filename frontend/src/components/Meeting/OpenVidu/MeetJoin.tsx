@@ -154,6 +154,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         publishAudio: !audioActive,
         publishVideo: !videoActive,
         frameRate: 30,
+        mirror: false
         // insertMode: 'APPEND',
       });
 
@@ -237,9 +238,9 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   return (
     <Container>
-      <Header>
+      {/* <Header>
         <StudyTitle>{currentUser.nickname}의 방</StudyTitle>
-      </Header>
+      </Header> */}
 
       {session !== undefined ? (
         <Session id="session">
@@ -256,9 +257,9 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
           <VideoContainer>
             {publisher !== undefined ? (
-              <StreamContainerWrapper>
+              <StreamContainer>
                 <UserVideoComponent streamManager={publisher} />
-              </StreamContainerWrapper>
+              </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
               <StreamContainer key={i} className="stream-container col-md-6 col-xs-6">
