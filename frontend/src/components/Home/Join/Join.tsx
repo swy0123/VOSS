@@ -30,6 +30,11 @@ const Login = () => {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
+
+
+  const [isButtonActive, setButtonActive] = useState<boolean>(false);
+
+
   const MAX_LENGTH = 50;
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +68,7 @@ const Login = () => {
     if (!username.trim().length) {
       alert("유저네임이 비어있습니다");
     }
-    else if(!isEmailChecked){
+    else if (!isEmailChecked) {
       alert("이메일을 인증해주세요");
     }
     else {
@@ -90,7 +95,7 @@ const Login = () => {
 
   const onClickModal = async () => {
     const emailCheck = await authEmail(email);
-    if(emailCheck) toggleModal();
+    if (emailCheck) toggleModal();
     else alert("중복된 이메일입니다");
   }
 
@@ -102,7 +107,7 @@ const Login = () => {
     setEmailChecked(true);
     console.log("setEmailChecked : true");
   };
-  
+
 
   return (
     <Container>
@@ -123,6 +128,7 @@ const Login = () => {
             {isEmailChecked ? <Img src={Checked} /> : <Img onClick={onClickModal} src={Email} />}
           </ShowIcon>
         </InputDiv>
+        {isEmailChecked ? <></> : <div>이메일 인증을 해주세요</div>}
         <InputDiv>
           <InputHeader>Password</InputHeader>
           <Input
@@ -134,8 +140,10 @@ const Login = () => {
             <Img src={Eye} />
           </ShowIcon>
         </InputDiv>
-
-        <Button type="submit">GET STARTED</Button>
+        {
+          isButtonActive ? <Button type="submit">GET STARTED</Button>
+            : <Button type="submit" disabled>GET STARTED</Button>
+        }
       </form>
 
       <UnderText>
