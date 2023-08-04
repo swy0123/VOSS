@@ -43,6 +43,7 @@ dependencies {
 	implementation 'org.webjars:webjars-locator-core'
 	implementation 'org.webjars:sockjs-client:1.5.1'	//앱은 없어도 됨
 	implementation 'org.webjars:stomp-websocket:2.3.4'
+	implementation 'org.springframework:spring-messaging:6.0.3'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
