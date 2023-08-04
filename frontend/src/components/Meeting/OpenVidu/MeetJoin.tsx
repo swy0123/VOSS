@@ -14,15 +14,16 @@ import {
   Middle,
   Left,
   Right,
-  Chat,
+  // Chat,
   VideoContainer,
   StreamContainerWrapper,
   StreamContainer,
   Bottom,
   BottomBox,
   Icon,
-  ChatIconBox,
+  ChatBox,
   Session,
+  ToolBar,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
@@ -37,8 +38,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
 
-  const [chatDisplay, setChatDisplay] = useState("none");
-  const [chatActive, setChatActive] = useState(false);
+  const [chatDisplay, setChatDisplay] = useState("block");
+  const [chatActive, setChatActive] = useState(true);
   const [messageReceived, setMessageReceived] = useState(false);
 
   const [connectionId, setConnectionId] = useState("");
@@ -270,14 +271,14 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         <button onClick={joinSession}></button>
       )}
       {chatActive ? (
-        <ChatIconBox>
+        <ChatBox>
           {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
-        </ChatIconBox>
+        </ChatBox>
       ) : (
         <></>
       )}
 
-      <div>
+      <ToolBar>
         <ToolbarComponent
           sessionId={mySessionId}
           audioActive={audioActive}
@@ -289,7 +290,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           // switchCamera={this.switchCamera}
           leaveSession={leaveSession}
         />
-      </div>
+      </ToolBar>
     </Container>
   );
 };

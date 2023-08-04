@@ -46,13 +46,13 @@ export const Right = styled.div`
     props.primary ? `right:0; flex:1;` : `right:calc(-100vw/3); flex:0;`}
 `;
 
-export const Chat = styled.div`
-  width: 100%;
-  height: 93%;
-  border-radius: 5px;
-  background-color: white;
-  display: flex;
-`;
+// export const Chat = styled.div`
+//   width: 100%;
+//   height: 93%;
+//   border-radius: 5px;
+//   background-color: white;
+//   display: flex;
+// `;
 
 export const VideoContainer = styled.div`
   margin-top: 20px;
@@ -127,17 +127,28 @@ export const Icon = styled.div`
   }
 `;
 
-export const ChatIconBox = styled.div`
-  float: right;
+export const ChatBox = styled.div`
+  float: left;
   color: white;
   /* right: 60px;
   top: 50%;
   bottom: 50%; */
-  width: 300px;
-  height: 600px;
-  overflow-y: auto;
+  width: 25%;
+  height: 80%;
+  background-color: blue;
+  /* position: relative;
+  overflow-y: auto; */
 `;
+
 export const Session = styled.div`
-  float: right;
+  width: 75%;
+  float: left;
+`;
+
+export const ToolBar = styled.div`
+position: absolute;
+bottom: 0px;
+z-index: 9999;
+  width: 100%;
 `;
 

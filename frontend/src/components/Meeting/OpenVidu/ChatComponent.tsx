@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
-import { ChatContainer, Chat } from "./ChatComponent.style";
+import { ChatContainer, Chat, ChatScroll, MyChatting, OtherChatting, Chatting } from "./ChatComponent.style";
 
 // import './ChatComponent.css';
 
@@ -40,7 +40,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   };
 
   const sendMessage = () => {
-    console.log(message);
+    // console.log(message);
     if (message) {
       let newMessage = message.replace(/ +(?= )/g, "");
       if (newMessage !== "" && newMessage !== " ") {
@@ -75,21 +75,25 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         nickname: data.nickname,
         message: data.message,
       });
+      // if (data.message !== undefined && data.message === "hello" ) console.log(data.message+"in")
       const document = window.document;
       setTimeout(() => {
-        const userImg = document.getElementById("userImg-" + (updatedMessageList.length - 1));
+        // const userImg = document.getElementById("userImg-" + (updatedMessageList.length - 1));
         const video = document.getElementById("video-" + data.streamId);
         // const avatar = userImg.getContext('2d');
         // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-        chatProps.messageReceived();
+        // chatProps.messageReceived();
       }, 50);
       setMessageList(updatedMessageList);
       scrollToBottom();
-      if (updatedMessageList[updatedMessageList.length - 1].message === "hello") alert("hello");
-      // if (messageList[messageList.length-1].message !== undefined) alert(messageList[messageList.length-1].message)
+
     });
+    if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "hello") {
+      alert(messageList[messageList.length - 1].message + "  check");
+    }
+
     // return () => {
-    //     console.log("sss");
+    //   if (messageList.length-1>0 && messageList[messageList.length-1].message === "hello" ) alert(messageList[messageList.length-1].message + "ret2222");
     // }
   }, [messageList, chatProps]);
 
@@ -104,27 +108,34 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             <div color="secondary" />
           </div>
         </div>
-        <div className="message-wrap">
-          {messageList.map((data, i) => (
-            <div
-              key={i}
-              id="remoteUsers"
-              className={"message" + (data.connectionId !== connectionId ? " left" : " right")}
-            >
+        <ChatScroll className="message-wrap">
+          {messageList.map((data, i) => data.connectionId !== connectionId ? (
+            <div key={i}>
               {/* <canvas id={"userImg-" + i}className="user-img" /> */}
-              <div className="msg-detail">
+              <MyChatting className="msg-detail">
                 <div className="msg-info">
-                  <p> {data.nickname}</p>
+                  nickname : {data.nickname}
                 </div>
-                <div className="msg-content">
-                  <span className="triangle" />
-                  <p className="text">{data.message}</p>
-                </div>
-              </div>
+                <Chatting className="msg-content">
+                  {/* <span className="triangle" /> */}
+                  message : {data.message}
+                </Chatting>
+              </MyChatting>
             </div>
-          ))}
+          ) : <div key={i}>
+            <OtherChatting className="msg-detail">
+              <div className="msg-info">
+                nickname : {data.nickname}
+              </div>
+              <Chatting className="msg-content">
+                {/* <span className="triangle" /> */}
+                message : {data.message}
+              </Chatting>
+            </OtherChatting>
+          </div>
+          )}
           <div ref={chatScroll}></div>
-        </div>
+        </ChatScroll>
 
         <div id="messageInput">
           <input
