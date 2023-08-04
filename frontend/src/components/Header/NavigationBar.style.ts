@@ -97,12 +97,13 @@ export const ProfileHoverList = styled.div`
   flex-direction: column;
   justify-content: end;
   position: fixed;
-  top: 32px;
-  right: 36px;
+  top: 26px;
+  right: 32px;
   width: 68px;
-  height: 115px;
+  height: 120px;
+  padding: 0px 5px 10px 5px;
   /* border: dotted 1px yellow; */
-`;
+  `;
 
 export const ProfileHoverListItem = styled.div`
   display: flex;
@@ -114,7 +115,6 @@ export const ProfileHoverListItem = styled.div`
   height: 25px;
   font-size: 5px;
   border-bottom: solid 1px #d9d9d9;
-
   // 마우스 호버 시에 작동
   &:hover {
     text-decoration: underline;
