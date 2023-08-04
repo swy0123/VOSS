@@ -19,12 +19,11 @@ export const Scripts = styled.div<{$IsClick:boolean}>`
   justify-content: space-between;
   margin: 0px 0px 12px 0px;
   font-weight: ${props => props.$IsClick ? '800' : '100'};
-
+  font-size: ${props => props.$IsClick ? '18px' : '15px'};
 `
 export const Script_Unit = styled.p`
-  color: white;
-  font-size: 20px;
   text-align: left;
+  color: white;
   margin: 0px;
 `
 export const Role = styled(Script_Unit)``
