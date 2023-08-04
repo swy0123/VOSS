@@ -24,3 +24,8 @@ export const accentSttState = atom({
   default: "",
 })
 
+// 목소리 분석 결과
+export const analysisResultState = atom({
+  key: 'analysisResultState',
+  default: ""
+})

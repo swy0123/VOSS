@@ -1,6 +1,7 @@
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { analysisRecordState, analysisRecordTimeState } from "../../../recoil/Training";
+import { analysisResultState } from "/src/recoil/HW_Atom";
 import { 
   Container, 
   DownloadImg, 
@@ -15,6 +16,8 @@ import axios from "axios";
 
 function Recording (){
   const [analysisRecord] = useRecoilState(analysisRecordState)
+  const [analysisResult,setAnalysisResult] = useRecoilState(analysisResultState)
+  
   const [timeList, setTimeList] = useRecoilState(analysisRecordTimeState)
   
   const currentTime = () => {
@@ -30,7 +33,7 @@ function Recording (){
   const startVoiceAnalysis = async (blobURL:string) =>{
     const response = await fetch(blobURL);
     const blobData = await response.blob();
-
+    setAnalysisResult("목소리 분석중...")
     try {
       const formData = new FormData();
       const blob = new Blob([blobData], {type: "audio/webm;codecs=opus"});
@@ -42,9 +45,15 @@ function Recording (){
         },
       };
       const response = await axios.post("https://courtney.reverof.p-e.kr:5000/classify", formData, config);
-  
-      console.log('서버 응답:', response);
-    } catch (error) {
+      
+      let gender =""
+      do {
+        if (response.data.gender==="male") {gender = "남성"}
+      else if (response.data.gender==="female") {gender = "여성"}
+      } while (!gender);
+      setAnalysisResult(`${response.data.age}대 ${gender}입니다.`)
+    } 
+    catch (error) {
       console.error('네트워크 오류:', error);
     }
   }

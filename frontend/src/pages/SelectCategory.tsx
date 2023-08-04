@@ -122,8 +122,7 @@ function SelectCategory () {
     await postRractice("ACT")
     navigate("/analysis")
   }
-  const goDubbingList = async () => {
-    await postRractice("DUB")
+  const goDubbingList = () => {
     navigate("/dubbinglist")
     window.location.reload()
   }
