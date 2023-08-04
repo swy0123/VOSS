@@ -39,8 +39,7 @@ export const PostLikeDesign = styled.div`
 export const PostTitleDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   margin-left: 4vw;
   // 5% = 4vw 
   width: 45%;
@@ -50,6 +49,26 @@ export const PostTitleDesign = styled.div`
     text-decoration: underline;
   }
   `;
+
+export const PostFileDesign = styled.img`
+  margin-left: 0.3vw;
+  width: 15px;
+  height: 15px
+`;
+
+export const PostCommentsDesign = styled.div`
+  margin-left: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  width: 1.4vw;
+  aspect-ratio: 1/1;
+  font-size: 0.9vw;
+`;
 
 export const PostUserDesign = styled.div`
   /* border: solid 2px red; */

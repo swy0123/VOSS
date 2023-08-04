@@ -1,8 +1,21 @@
 import { privateApi } from ".";
 
 
-export const getPostList = async ( page: number ) => {
-    const res = await privateApi.get(`/freeboard?page=${page}`)
+export const getPostList = async ( sort: string, cond: string, input: string, page: number) => {
+
+    let sortinput = ""
+    let condinput = ""
+    if (sort !== "1") {
+        if (sort === "2") { sortinput = "sort=hit&" } 
+        else { sortinput = "sort=like&" }         
+    }
+    if (input.length > 0) {
+        if (cond === "1") { condinput = `title=${input}&` }
+        else if (cond === "2") { condinput = `content=${input}&`}
+        else { condinput = `nickname=${input}&` }
+    }
+
+    const res = await privateApi.get(`/freeboard?${sortinput}${condinput}page=${page}`)
     .catch(err => {
         console.log("getPostList catch: ", err)
     })
@@ -64,3 +77,4 @@ export const deletePost = async ( id: number ) => {
     }
     return false
 };
+

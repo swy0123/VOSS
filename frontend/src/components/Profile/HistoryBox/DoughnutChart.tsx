@@ -29,12 +29,11 @@ function DoughnutChart() {
   const profile = useRecoilValue(ProfileState);
 
   const data = {
-    labels: ['성별, 연령', '연기', '발음',],
+    labels: [ '발음', '연기', '성별, 연령'],
     datasets: [
       {
         label: 'history',
-        data: [profile.dubCnt, profile.actCnt, profile.dictionCnt],
-        // data: [1, 1, 1],
+        data: [ profile.dictionCnt, profile.dubCnt, profile.actCnt],
         backgroundColor: [
           '#ABF9A9',
           '#C3DAFF',
