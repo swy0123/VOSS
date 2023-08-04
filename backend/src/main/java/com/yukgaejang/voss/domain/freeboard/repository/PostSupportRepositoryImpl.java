@@ -37,14 +37,19 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
     @Override
     public Page<PostListResponse> findAllByIsDeletedFalse(Pageable pageable) {
         List<PostListResponse> posts = jpaQueryFactory
-                .select(Projections.constructor(PostListResponse.class, p, pc.id.count(), pl.id.count(), pf.contentType.eq("image").count().gt(0), pf.contentType.eq("image").not().count().gt(0)))
+                .selectDistinct(Projections.constructor(PostListResponse.class,
+                        p,
+                        pc.count(),
+                        pl.count(),
+                        pf.contentType.eq("image").count().gt(0),
+                        pf.contentType.ne("image").count().gt(0)))
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0)))
-                .leftJoin(pl).on(p.id.eq(pl.post.id))
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0)))
+                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
+                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
+                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(p.isDeleted.eq(0))
-                .groupBy(p.id)
+                .groupBy(p.id, p, p.member, pl, pf)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -65,13 +70,13 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .select(Projections.constructor(PostListResponse.class, p, pc.id.count(), pl.id.count(), pf.contentType.eq("image").count().gt(0), pf.contentType.eq("image").not().count().gt(0)))
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0)))
-                .leftJoin(pl).on(p.id.eq(pl.post.id))
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0)))
+                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
+                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
+                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(
-                        p.isDeleted.eq(0).and(p.member.nickname.eq(nickname))
+                    p.isDeleted.eq(0).and(p.member.nickname.eq(nickname))
                 )
-                .groupBy(p.id)
+                .groupBy(p.id, p, p.member, pl, pf)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -92,13 +97,13 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .select(Projections.constructor(PostListResponse.class, p, pc.id.count(), pl.id.count(), pf.contentType.eq("image").count().gt(0), pf.contentType.eq("image").not().count().gt(0)))
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0)))
-                .leftJoin(pl).on(p.id.eq(pl.post.id))
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0)))
+                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
+                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
+                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(
                         p.isDeleted.eq(0).and(p.title.contains(title))
                 )
-                .groupBy(p.id)
+                .groupBy(p.id, p, p.member, pl, pf)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -125,7 +130,7 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .where(
                         p.isDeleted.eq(0).and((p.content.contains(content)).or(p.title.contains(content)))
                 )
-                .groupBy(p.id)
+                .groupBy(p.id, p, p.member, pl, pf)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
