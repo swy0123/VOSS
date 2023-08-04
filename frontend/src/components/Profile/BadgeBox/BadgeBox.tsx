@@ -16,7 +16,7 @@ function BadgeBox() {
   return (
     <BadgeBoxDesign
       style={{
-      paddingBottom: "70px"
+      paddingBottom: "10px"
     }}>
       {/* 임시 방편 수정 해주세요!! */}
       <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>      
@@ -27,14 +27,14 @@ function BadgeBox() {
 
       <BadgeContentDesign
         style={{
-          marginLeft:"130px",
-          paddingBottom: "100px"
+          marginLeft:"10px",
+          paddingBottom: "10px"
         }}>
         {tmp.map((badge,index) => (
           <img style={{
-            height : "200px",
-            width:"200px",
-            margin:"30px"}} src={`/src/assets/Profile/badge/B${index+1}.png`} alt=""/>
+            height : "60px",
+            width:"60px",
+            margin:"10px"}} src={`/src/assets/Profile/badge/B${index+1}.png`} alt=""/>
         ))}
       </BadgeContentDesign>
 
