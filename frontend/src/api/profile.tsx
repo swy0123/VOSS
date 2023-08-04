@@ -38,7 +38,7 @@ export const getFollowings = async (id: number ) => {
 };
 
 export const postFollow = async (id: number ) => {
-    let data = {targetId: id}
+    const data = {targetId: id}
     console.log(data);
     const res = await privateApi.post("/member/follow", data)
     .catch((err: Error) => {
@@ -59,6 +59,21 @@ export const deleteUnfollow = async (id: number ) => {
     if (res) {
         console.log("deleteUnfollow then: ", res.data)
         return res.data
+    }
+    return false
+};
+
+export const postRractice = async (type:string): Promise<boolean> => {
+    const data = {
+        type: type
+    }
+    console.log(data);
+    const res = await privateApi.post("/practice/stat", data)
+    .catch((err: Error) => {
+        console.log("postRractice catch: ", err)
+    })
+    if (res) {
+        console.log("postRractice then: ", res.data)
     }
     return false
 };

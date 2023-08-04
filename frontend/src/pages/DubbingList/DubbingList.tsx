@@ -28,14 +28,22 @@ import {
 
 function DubbingList() {
   const [videoList, setVideoList] = useRecoilState<Video[]>(videoListState)
+  const [videoFilter, setVideoFilter] = useState<Video[]>([])
   const [isGenreSelect,setIsGenreSelect] = useState<boolean[]>([])
-  const genreOpt = ["영화", "드라마", "애니메이션", "기타"]
+  const genreOpt = [["영화","MOVIE"], ["드라마","DRAMA"], ["애니메이션","ANIMATION"], ["기타","ETC"]]
   const navigate = useNavigate()
 
   const handleGenreBtn = (index:number) => {
     const newGenderSelect = Array(genreOpt.length).fill(false)
     newGenderSelect[index] = !isGenreSelect[index]
     setIsGenreSelect(newGenderSelect)
+
+    if (newGenderSelect[index]===true) {
+      setVideoFilter(videoList.filter((video) => (video.category===genreOpt[index][1])))
+    }
+    else if(newGenderSelect[index]===false){
+      setVideoFilter(videoList)
+    }
   }
 
   const formatTime = (durationInSec: number) => {
@@ -49,30 +57,12 @@ function DubbingList() {
     window.location.reload()
   }
   
- 
-  
-  // 여기서 부터 iframe player API
-  const onYouTubeIframeAPIReady = () => {
-    videoList.forEach((video, index) => {
-      new YT.Player(`player-${index}`, {
-        videoId: video.videoUrl.slice(-11),
-        events: {
-          'onReady': onPlayerReadyMute,
-        }
-      });
-    })
-  }
-
-  const onPlayerReadyMute = (event) => {
-    event.target.playVideo();
-    event.target.mute()
-  }
-
   useEffect(() => {
     const axiosVideoList = async () => {
       try {
         const Videos: Video[] = await getVideoList() || [];
         setVideoList(Videos);
+        setVideoFilter(Videos)
       } 
       catch (error) {
         console.log(error);
@@ -80,19 +70,7 @@ function DubbingList() {
     };
     axiosVideoList();
   }, []);
-  
-  useEffect(() => {
-    // index.html에 CDN을 동적으로 추가해주는 과정이라 생각하자
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    if (firstScriptTag && firstScriptTag.parentNode) {
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
-  }, [videoList]);
-  
   return(
     <BackGroundImg>
       <Header/>
@@ -109,17 +87,18 @@ function DubbingList() {
                 key={index}
                 $IsClick={isGenreSelect[index]}
                 onClick={()=>handleGenreBtn(index)}
-                >{data}
+                >{data[0]}
               </GenreButton>
             ))}
           </GenreBox>
 
           <VideoBox>
-            {videoList.map((video,index) => (
+            {videoFilter.map((video,index) => (
               <VideoItem key={index}>
-                <Thumbnail 
+                <Thumbnail src={`https://www.youtube.com/embed/${video.videoUrl.slice(-11)}`}></Thumbnail>
+                {/* <Thumbnail 
                   key={`player-${index}`} 
-                  id={`player-${index}`}></Thumbnail>
+                  id={`player-${index}`}></Thumbnail> */}
                 <Infos>
                   <Count>
                     <CountImg src="/src/assets/Dubbing/count.png"/>

@@ -5,6 +5,8 @@ import { accentRecordState } from '../../../recoil/Training';
 import SoundToText from '../AccentResult/SoundToText';
 import { 
   CompleteBtn, 
+  PracticeEnd, 
+  PracticeStart, 
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
@@ -12,11 +14,13 @@ import {
   StopWatch } from './RecordButton.style';
 
 function RecordButton () {
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(0);
-  const intervalRef = useRef<number|null>(null);
-  const [initialBtn, setInitialBtn] = useState(true)
   const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState)
+  const [practiceStart, setPracticeStart] = useState(false)
+  const [practiceEnd, setPracticeEnd] = useState(false)
+  const [initialBtn, setInitialBtn] = useState(true)
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef<number|null>(null);
+  const [time, setTime] = useState(0);
   const { 
     startRecording, 
     stopRecording, 
@@ -57,6 +61,16 @@ function RecordButton () {
     setAccentRecord([mediaBlobUrl,...accentRecord.slice(0,4)])
   }
 
+  const changePracticeEnd = () => {
+    setPracticeStart(false)
+    setPracticeEnd(true)
+  }
+
+  const changePracticeStart = () => {
+    setPracticeStart(true)
+    setPracticeEnd(false)
+  }
+
   const {
     startListening,
     stopListening,
@@ -66,49 +80,69 @@ function RecordButton () {
   return(
     <RecordBox>
       <StopWatch>{formatTime(time)}</StopWatch>
-          {hasRecognitionSupport ? (
-          <SectionBtn>
-            { !initialBtn && !isRunning ?
-            <RestartBtn
+      <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
+      <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
+      {hasRecognitionSupport ? (
+      <SectionBtn>
+        { !initialBtn && !isRunning ?
+        <RestartBtn
+          onClick={() => {
+            resetTimer()
+            stopRecording()
+            clearBlobUrl()}}>취소</RestartBtn> : ""}
+
+        { initialBtn ? 
+          (<RecordBtn
+            onClick={() => {
+              startOrStop()
+              startRecording()
+              startListening()
+              changePracticeEnd()}}
+            onMouseEnter={() => 
+              setPracticeStart(true)}
+            onMouseLeave={() => {
+              setPracticeStart(false)
+              setPracticeEnd(false)}}
+            src="/src/assets/Training/startbtn.png"></RecordBtn>) :
+          isRunning ? 
+            (<RecordBtn
               onClick={() => {
-                resetTimer()
+                startOrStop()
                 stopRecording()
-                clearBlobUrl()}}>취소</RestartBtn> : ""}
+                pauseRecording()
+                stopListening()
+                changePracticeStart()}}
+              onMouseEnter={() => 
+                setPracticeEnd(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
+            (<RecordBtn
+              onClick={() => {
+                startOrStop()
+                startListening()
+                resumeRecording()
+                changePracticeEnd()}}
+              onMouseEnter={() => 
+                setPracticeStart(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
 
-            { initialBtn ? 
-              (<RecordBtn
-                onClick={() => {
-                  startOrStop()
-                  startRecording()
-                  startListening()}}
-                src="/src/assets/Training/startbtn.png"></RecordBtn>) :
-              isRunning ? 
-                (<RecordBtn
-                  onClick={() => {
-                    startOrStop()
-                    stopRecording()
-                    pauseRecording()
-                    stopListening()
-                  }}
-                  src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
-                (<RecordBtn
-                  onClick={() => {
-                    startOrStop()
-                    resumeRecording()
-                    startListening()}}
-                  src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
-
-            { !initialBtn && !isRunning ?
-            <CompleteBtn
-                onClick={() => {
-                    stopRecording()
-                    addRecord(mediaBlobUrl)
-                    resetTimer()
-                  }}>완료</CompleteBtn> : "" }
-          </SectionBtn>
-          ) : (
-            <h1> Your browser has no speech recognition support</h1>
-          )}
+        { !initialBtn && !isRunning ?
+        <CompleteBtn
+            onClick={() => {
+                stopRecording()
+                stopListening()
+                addRecord(mediaBlobUrl)
+                resetTimer()
+              }}>완료</CompleteBtn> : "" }
+      </SectionBtn>
+      ) : (
+        <h1> Your browser has no speech recognition support</h1>
+      )}
     </RecordBox>
   )
 }

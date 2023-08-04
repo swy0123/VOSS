@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { postRractice } from "/src/api/profile";
 import {
   MenuBox,
   Menuitems,
@@ -14,14 +15,25 @@ interface Headertype {
 function MenuListBar({setMenuIsShown}:Headertype) {
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
-  const goVoiceAnalysis = () => {navigate("/analysis")}
-  const goDubbingList = () => {
+  const goVoiceAnalysis = async () => {
+    await postRractice("ACT")
+    navigate("/analysis")
+  }
+  const goDubbingList = async () => {
+    await postRractice("DUB")
     navigate("/dubbinglist")
     window.location.reload()
   }
-  const goAccent = () => {navigate("/accent")}
-  const goFreeBoard = () => {navigate("/freeboard")}
-  const goMeetingBoard = () => {navigate("/meeting")}
+  const goAccent = async () => {
+    await postRractice("DICTION")
+    navigate("/accent")
+  }
+  const goFreeBoard = () => {
+    navigate("/freeboard")
+  }
+  const goMeetingBoard = () => {
+    navigate("/meeting")
+  }
 
 
   return(
