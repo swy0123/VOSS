@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-
+import UpdateIconHover from "/src/assets/profile/UpdateIconHover.png";
 
 export const BasicBoxDesign = styled.div`
   /* border: dotted 1px red; */
@@ -20,14 +20,30 @@ export const ProfileImgDesign = styled.div`
 
 export const ProfileImgDesign2 = styled.div`
   /* border: solid 2px yellow; */
+  position: relative;
   aspect-ratio: 1/1;
   border-radius: 50%;
   overflow: hidden;
-
+  &:hover {
+    img{
+      opacity: 0.5; /* 호버 상태에서 아이콘을 보이게 합니다. */
+    }
+    #updateIcon{
+      opacity: 1; /* 호버 상태에서 아이콘을 보이게 합니다. */
+    }
+  };
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  };
+  #updateIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.6vw;
+    height: 1.6vw;
   }
 `;
 
@@ -70,7 +86,10 @@ export const ProfileBtnDesign = styled.div`
     margin-top: 10%;
     height: 40%;
     aspect-ratio: 1/1;
-  }
+    &:hover{
+      content: url(${UpdateIconHover});
+    };
+  };
 `;
 
 export const FollowButton = styled.button`

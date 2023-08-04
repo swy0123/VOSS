@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useState, ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
-import ExitBox from "../../../assets/Messenger/ExitBox.png";
+import ExitBox from "/src/assets/Messenger/ExitBox.png";
+import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import Checked from "../../../assets/main/Checked.png";
 import Email from "../../../assets/main/Email.png";
 import { useNavigate } from "react-router-dom";
@@ -121,6 +122,7 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
   const [sec, setSec] = useState(59);
 
   const [isActivate, setActivate] = useState(true);
+  const [exitBtnHover, setExitBtnHover] = useState(false);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -164,13 +166,15 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
       <DialogBox>
         <div>
           <ExitImg
-            src={ExitBox}
+            src={exitBtnHover ? ExitBoxHover : ExitBox}
             onClick={(e: React.MouseEvent) => {
               e.preventDefault();
               if (toggleModal) {
                 toggleModal();
               }
             }}
+            onMouseEnter={() => setExitBtnHover(true)}
+            onMouseLeave={() => setExitBtnHover(false)}
           />
         </div>
         <div>

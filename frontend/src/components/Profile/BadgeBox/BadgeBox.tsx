@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { ProfileState } from "/src/recoil/Auth";
-import BadgeTemp from "../../../assets/ProfileImages/BadgeTemp.png";
+import BadgeTemp from "../../../assets/Profile/BadgeTemp.png";
 import {
     BadgeBoxDesign,
     BadgeTitleDesign,

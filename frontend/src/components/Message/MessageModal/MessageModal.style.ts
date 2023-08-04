@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SendArrowHover from "/src/assets/Messenger/SendArrowHover.png";
 
 export const ModalContainer = styled.div`
   position: fixed;
@@ -107,6 +108,11 @@ export const FriendListItem1 = styled.div`
   display: flex;
   align-items: center;
   width: 58%;
+  span{
+    &:hover{
+      text-decoration: underline;
+    }
+  }
   `;
   
   export const FriendListItem3 = styled.div`
@@ -114,4 +120,11 @@ export const FriendListItem1 = styled.div`
   display: flex;
   align-items: center;
   width: 8%;
+  img {
+    width: 30px;
+    height: 38px;
+    &:hover {
+      content: url(${SendArrowHover}); /* 호버 시 이미지 변경 */
+    }
+  }
 `;

@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import FollowingContent from './FollowingContent';
 import FollowerContent from './FollowerContent';
-import RightArrow from "../../../assets/ProfileImages/RightArrow.png"
+import RightArrow from "../../../assets/Profile/RightArrow.png"
 import { useRecoilState } from 'recoil';
 import { ModalOpenState, FollowerTabState } from '/src/recoil/Auth';
 import { 
