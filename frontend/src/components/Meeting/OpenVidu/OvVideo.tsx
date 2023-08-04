@@ -1,0 +1,25 @@
+import React, { useEffect, useRef } from 'react';
+import { Video } from './MeetJoin.style';
+
+const OpenViduVideoComponent = (props:any) => {
+  const videoRef = useRef(null);
+
+  // useEffect(() => {
+  //   console.log("OpenViduVideoComponent props")
+  //   console.log(props)
+  //   return () => {
+  //   };
+  // }, []);
+  useEffect(() => {
+    if (props && !!videoRef.current) {
+      props.streamManager.addVideoElement(videoRef.current);
+    }
+    return () => {
+      // alert("종료")
+    };
+  }, [props]);
+
+  return <Video autoPlay={true} ref={videoRef} />;
+};
+
+export default OpenViduVideoComponent;
