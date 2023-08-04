@@ -94,8 +94,21 @@ export const Button = styled.button`
   margin-top: 20px;
 `;
 
+export const BlockedButton = styled.button`
+  background-color: #666666;
+  border: #666666;
+  font-size: 12px;
+  color: #cccccc;
+  border-style: solid;
+  width: 85%;
+  height: 40px;
+  border-width: 1px;
+  border-radius: 8px;
+  margin-top: 20px;
+`;
+
 export const Timer = styled.h1`
-  font-size: 14px;
+  font-size: 15px;
   color: #212121;
   width: 85%;
   height: 40px;
@@ -104,3 +117,8 @@ export const Timer = styled.h1`
   margin: auto;
   margin-top: 10px;
 `;
+
+// export const CheckMsg = styled.div`
+//   font-size: 12px;
+//   color: #757575;
+// `
