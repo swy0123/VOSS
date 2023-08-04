@@ -24,12 +24,12 @@ function Meeting() {
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    event.returnValue = ''; 
+    event.returnValue = '';
   };
   const [bottomOn, setBottomOn] = useState(false);
 
 
-  const isBottomOn = () =>{
+  const isBottomOn = () => {
     setBottomOn(!bottomOn);
   }
 
@@ -41,10 +41,10 @@ function Meeting() {
   return (
     <BackGroundImg>
       <Container $isClicked={bottomOn}>
-      <MeetJoin props={props} />
+        <MeetJoin props={props} />
       </Container>
       <BottomSection $isClicked={bottomOn} onClick={isBottomOn}>
-sssssssss
+        sssssssss
       </BottomSection>
       <Messenger />
     </BackGroundImg>
