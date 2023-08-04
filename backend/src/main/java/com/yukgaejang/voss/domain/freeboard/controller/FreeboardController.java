@@ -11,9 +11,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,7 +30,6 @@ public class FreeboardController {
     private final PostCommentService postCommentService;
     private final PostLikeService postLikeService;
     private final AwsS3Service awsS3Service;
-    private final PostFileRepository postFileRepository;
 
     private static String dirName = "post-file";
 
@@ -59,7 +56,23 @@ public class FreeboardController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PostListResponse>> getPostList(@PageableDefault Pageable pageable) {
+    public ResponseEntity<Page<PostListResponse>> getPostList(@PageableDefault Pageable pageable, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = false) String nickname, @RequestParam(required = false) String sort) {
+        Sort sortBy = null;
+        if (sort == null) {
+            sortBy = Sort.by("createdAt").descending();
+        } else {
+            sortBy = Sort.by(sort, "createdAt").descending();
+        }
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
+        if(nickname != null) {
+            return ResponseEntity.ok(postService.getPostListByNickname(pageable, nickname));
+        }
+        if(content != null) {
+            return ResponseEntity.ok(postService.getPostListByContent(pageable, content));
+        }
+        if(title != null) {
+            return ResponseEntity.ok(postService.getPostListByTitle(pageable, title));
+        }
         return ResponseEntity.ok(postService.getPostList(pageable));
     }
 
