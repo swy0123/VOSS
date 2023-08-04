@@ -48,18 +48,18 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
 
-  // useEffect(() => {
-  //   // joinSession();
-  //   (() => {
-  //     window.addEventListener("beforeunload", onbeforeunload);
-  //     window.addEventListener("popstate", popstateHandler);
-  //   })();
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", onbeforeunload);
+      window.addEventListener("popstate", popstateHandler);
+    })();
+    joinSession();
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", onbeforeunload);
-  //     window.removeEventListener("popstate", popstateHandler);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("beforeunload", onbeforeunload);
+      window.removeEventListener("popstate", popstateHandler);
+    };
+  }, []);
 
   useEffect(() => {
     if (messageReceived && chatDisplay === "none") {
@@ -67,16 +67,16 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     }
   }, [messageReceived, chatDisplay]);
 
-  // const onbeforeunload = (event: BeforeUnloadEvent) => {
-  //   event.preventDefault();
-  //   alert("onbeforeunload");
-  //   leaveSession();
-  // };
+  const onbeforeunload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    alert("onbeforeunload");
+    leaveSession();
+  };
 
-  // const popstateHandler = () => {
-  //   alert("popstateHandler");
-  //   leaveSession();
-  // };
+  const popstateHandler = () => {
+    alert("popstateHandler");
+    leaveSession();
+  };
 
   const toggleChat = (property: string | undefined) => {
     let display = property;
@@ -271,12 +271,12 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       ) : (
         <button onClick={joinSession}></button>
       )}
-      {chatActive ? (
-        <ChatBox>
-          {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
-        </ChatBox>
-      ) : (
-        <></>
+      {chatActive && session !== undefined ? (
+          <ChatBox>
+            {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
+          </ChatBox>
+        ) : (
+          <></>
       )}
 
       <ToolBar>

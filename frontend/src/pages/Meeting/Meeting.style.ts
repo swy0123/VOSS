@@ -8,7 +8,7 @@ export const Container = styled.div<{$isClicked?: boolean}>`
 `;
 
 export const BottomSection = styled.div<{$isClicked?: boolean}>`
-  display: flex;
+  /* display: flex; */
   height: ${props => props.$isClicked ? '70%': '10%'};
   background-color: red;
 `;

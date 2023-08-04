@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  height: 100%;
+  margin-top: 10%;
+  height: 90%;
   width: 100%;
   background-color: #202124;
 `;
@@ -85,12 +86,12 @@ export const Video = styled.video`
 `;
 
 export const StreamContainer = styled.div`
-  width: 100%;
+  height: 100%;
   aspect-ratio: 3 / 2;
   margin: 1%;
   border-radius: 5%;
   position: relative;
-  min-height: 34vh;
+  min-height: 50%;
   overflow: hidden;
   box-sizing: border-box;
 `;
@@ -141,12 +142,14 @@ export const ChatBox = styled.div`
 `;
 
 export const Session = styled.div`
+position: relative;
   width: 75%;
+  height: auto;
   float: left;
 `;
 
 export const ToolBar = styled.div`
-position: absolute;
+position: relative;
 bottom: 0px;
   width: 100%;
 `;
