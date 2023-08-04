@@ -154,9 +154,9 @@ function SelectCategory () {
             </Cartegory_units>
             
             <AllSinglePractice $isShown={TrainIsShown}>
-              <VoiceAnalysis onClick={() => goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
-              <Dubbing onClick={() => goDubbingList}>더빙 연습</Dubbing>
-              <Accent onClick={() => goAccent}>발음 연습</Accent>
+              <VoiceAnalysis onClick={goVoiceAnalysis}>목소리 분석</VoiceAnalysis>
+              <Dubbing onClick={goDubbingList}>더빙 연습</Dubbing>
+              <Accent onClick={goAccent}>발음 연습</Accent>
             </AllSinglePractice>
           </Training>
         
