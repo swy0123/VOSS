@@ -102,12 +102,12 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   return (
     <ChatContainer>
       <Chat>
-        <div id="chatToolbar">
+        {/* <div id="chatToolbar">
           <span>{streamManager.stream.session.sessionId} - CHAT</span>
           <div id="closeButton" onClick={close}>
             <div color="secondary" />
           </div>
-        </div>
+        </div> */}
         <ChatScroll className="message-wrap">
           {messageList.map((data, i) => data.connectionId !== connectionId ? (
             <div key={i}>
