@@ -195,7 +195,7 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
         <div>
           {isActivate ? (
             <Timer>
-              {min} : {sec}
+              {min.toString().length < 2 ? '0' + min : min} : {sec.toString().length < 2 ? '0' + sec : sec}
             </Timer>
           ) : (
             <></>
