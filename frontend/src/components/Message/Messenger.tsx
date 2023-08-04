@@ -8,6 +8,8 @@ import { MessegeDiv, MessageIcon } from "./Messenger.style"
 const Messenger = () =>{
     const [isOpenMessenger, setOpenMessenger] = useRecoilState<boolean>(ShowMessengerState);
 
+    
+
     return(
         <MessegeDiv>
             {isOpenMessenger

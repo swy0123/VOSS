@@ -5,8 +5,7 @@ import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList/PostList";
-import { useRecoilState } from "recoil";
-import { PostListState } from "../../recoil/Community";
+import { PostListType } from "/src/type/Auth";
 import {
   FreeBoardDesign,
   OrderBoxDesign,
@@ -33,55 +32,38 @@ import {
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
-  // const [posts, setPosts] = useRecoilState(PostListState);
-  // const [curPosts, setCurPosts] = useState(posts);
-  // const [showPosts, setShowPosts] = useState(curPosts);
-  const [searchCond, setSearchCond] = useState<string>("title");
-  const [inputs, setInputs] = useState<string>("");
+
+  const [sort, setSort] = useState<string>("1");
+  const [cond, setCond] = useState<string>("1");
+  const [input, setInput] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(31);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [posts, setPosts] = useState<PostListType[]>([]);
 
-  const [posts, setPosts] = useState([]);
-
-  const inputChange = (event: ChangeEvent<HTMLInputElement>) => setInputs(event.target.value);
-
-  const handlePageChange = (page: number) => {setCurrentPage(page);};
-  
   const clickSearchBtn = (event: FormEvent) => {
     event.preventDefault();
-    searchPostAndUpdate();
+    searchPost();
   };
-  
   const EnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") { // 이걸 안하면 모든 키 입력을 못 받음
       event.preventDefault();
-      searchPostAndUpdate();
+      searchPost();
     }
   };
-  
-  const searchPostAndUpdate = () => {
-    const trimmedInputs = inputs.trim();
-    if (trimmedInputs.length > 0) {
-      if (searchCond === "title") {
-        setCurPosts(posts.filter((post) => post.title.includes(trimmedInputs)));
-      } else if (searchCond === "content") {
-        setCurPosts(posts.filter((post) => post.title.includes(trimmedInputs) || post.content.includes(trimmedInputs)));
-      } else {
-        setCurPosts(posts.filter((post) => post.nickname.includes(trimmedInputs)));
+
+  const searchPost = () => {
+    getPostList(sort, cond, input, currentPage-1).then((postsData) => {
+      if(postsData) {
+        setPosts(postsData.content)
+        // setTotalPages(postsData.totalPages)
+        setTotalPages(postsData.totalPages)
       }
-    } else setCurPosts(posts);
-    setCurrentPage(1)
+    })
   };
 
   useEffect(() => {
-
-    getPostList(currentPage-1).then((postData) => {
-      if(postData) {
-        setPosts(postData.content)
-        setTotalPages(postData.totalPages)
-      }
-    })
-  }, [currentPage]);
+    searchPost();
+  }, [currentPage, sort]);
 
   const pages = [...Array(totalPages).keys()].map((page) => page + 1);
   const maxDisplayedPages = 10;
@@ -109,7 +91,7 @@ function FreeBoard () {
         <h2 style={{ height: "1vh" }}>자유 게시판</h2>
 
         <OrderBoxDesign>
-          <OrderSelectDesign id="order-select">
+          <OrderSelectDesign id="sort-select" onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
             <option value="1">최신순</option>
             <option value="2">조회순</option>
             <option value="3">좋아요순</option>
@@ -118,26 +100,42 @@ function FreeBoard () {
 
         <PostCategoryDesign>
           <PostCategoryNumberDesign>글 번호</PostCategoryNumberDesign>
-          <PostCategoryLikeDesign></PostCategoryLikeDesign>
           <PostCategoryTitleDesign>제목</PostCategoryTitleDesign>
           <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
           <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
           <PostCategoryHitDesign>조회수</PostCategoryHitDesign>
+          <PostCategoryLikeDesign>좋아요</PostCategoryLikeDesign>
         </PostCategoryDesign>
 
         {posts.map(post => (
-          <PostList key={post.id} id={post.id} title={post.title} nickname={post.nickname} createAt={post.createAt}/>
+          <PostList
+            key={post.id} 
+            id={post.id}
+            title={post.title} 
+            nickname={post.nickname} 
+            hasImageFile={post.hasImageFile}
+            hasOtherFile={post.hasOtherFile}
+            comments={post.comments}
+            likes={post.likes}
+            createdAt={post.createdAt}
+            hits={post.hits}
+          />
         ))}
 
         <SearchboxDesign style={{borderTop: "solid 1px white"}}>
-          <SearchSelectDesign id="search-select" onChange={(e)=>setSearchCond(e.target.value)}>
-            <option value="title">제목</option>
-            <option value="content">제목+내용</option>
-            <option value="user">작성자</option>
+          <SearchSelectDesign id="cond-select" onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
+            <option value="1">제목</option>
+            <option value="2">제목+내용</option>
+            <option value="3">작성자</option>
           </SearchSelectDesign>
 
           <InputBoxDesign onSubmit={clickSearchBtn}>
-            <InputBoxIpt value={inputs} onChange={inputChange} onKeyPress={EnterKeyDown} type="text" placeholder="검색" />
+            <InputBoxIpt
+              value={input}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
+              onKeyPress={EnterKeyDown} 
+              type="text" 
+              placeholder="검색"/>
             <InputBoxBtn>
             <img src="/src/assets/MeetingBoard/SearchInput.png" alt="" style={{width: "1vw"}}/>
             </InputBoxBtn>
@@ -149,19 +147,18 @@ function FreeBoard () {
 
       <PaginationWrapper>
       {currentPage > 1 && (
-        <PaginationItem onClick={() => handlePageChange(currentPage - 1)}>이전</PaginationItem>
+        <PaginationItem onClick={() => setCurrentPage(currentPage - 1)}>이전</PaginationItem>
       )}
-
       {pages.slice(startPage - 1, endPage).map((page) => (
-        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => handlePageChange(page)}>
+        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => setCurrentPage(page)}>
           {page}
         </PaginationItem>
       ))}
-
       {currentPage < totalPages && (
-        <PaginationItem onClick={() => handlePageChange(currentPage + 1)}>다음</PaginationItem>
+        <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>다음</PaginationItem>
       )}
       </PaginationWrapper>
+
       <Messenger/>
     </BackGroundImg>
   )
