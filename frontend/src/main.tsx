@@ -8,11 +8,11 @@ import { lightTheme, darkTheme } from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider theme={lightTheme}>
     <RecoilRoot>
       <RouterProvider router={router}/>
     </RecoilRoot>
     </ThemeProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

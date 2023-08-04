@@ -1,13 +1,14 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
+  margin-top: 10%;
+  height: 90%;
   width: 100%;
   background-color: #202124;
 `;
 
 export const Header = styled.div`
-  height: 8vh;
+  height: 8%;
   display: flex;
   align-items: center;
   padding: 0 50px;
@@ -46,13 +47,13 @@ export const Right = styled.div`
     props.primary ? `right:0; flex:1;` : `right:calc(-100vw/3); flex:0;`}
 `;
 
-export const Chat = styled.div`
-  width: 100%;
-  height: 93%;
-  border-radius: 5px;
-  background-color: white;
-  display: flex;
-`;
+// export const Chat = styled.div`
+//   width: 100%;
+//   height: 93%;
+//   border-radius: 5px;
+//   background-color: white;
+//   display: flex;
+// `;
 
 export const VideoContainer = styled.div`
   margin-top: 20px;
@@ -85,12 +86,12 @@ export const Video = styled.video`
 `;
 
 export const StreamContainer = styled.div`
-  width: 100%;
+  height: 100%;
   aspect-ratio: 3 / 2;
   margin: 1%;
   border-radius: 5%;
   position: relative;
-  min-height: 34vh;
+  min-height: 50%;
   overflow: hidden;
   box-sizing: border-box;
 `;
@@ -127,17 +128,29 @@ export const Icon = styled.div`
   }
 `;
 
-export const ChatIconBox = styled.div`
-  float: right;
+export const ChatBox = styled.div`
+  float: left;
   color: white;
   /* right: 60px;
   top: 50%;
   bottom: 50%; */
-  width: 300px;
-  height: 600px;
-  overflow-y: auto;
+  width: 25%;
+  height: 80%;
+  background-color: blue;
+  /* position: relative;
+  overflow-y: auto; */
 `;
+
 export const Session = styled.div`
-  float: right;
+position: relative;
+  width: 75%;
+  height: auto;
+  float: left;
+`;
+
+export const ToolBar = styled.div`
+position: relative;
+bottom: 0px;
+  width: 100%;
 `;
 

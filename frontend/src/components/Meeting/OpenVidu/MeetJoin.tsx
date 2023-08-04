@@ -14,15 +14,16 @@ import {
   Middle,
   Left,
   Right,
-  Chat,
+  // Chat,
   VideoContainer,
   StreamContainerWrapper,
   StreamContainer,
   Bottom,
   BottomBox,
   Icon,
-  ChatIconBox,
+  ChatBox,
   Session,
+  ToolBar,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
@@ -37,8 +38,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
 
-  const [chatDisplay, setChatDisplay] = useState("none");
-  const [chatActive, setChatActive] = useState(false);
+  const [chatDisplay, setChatDisplay] = useState("block");
+  const [chatActive, setChatActive] = useState(true);
   const [messageReceived, setMessageReceived] = useState(false);
 
   const [connectionId, setConnectionId] = useState("");
@@ -47,18 +48,18 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
 
-  // useEffect(() => {
-  //   // joinSession();
-  //   (() => {
-  //     window.addEventListener("beforeunload", onbeforeunload);
-  //     window.addEventListener("popstate", popstateHandler);
-  //   })();
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", onbeforeunload);
+      window.addEventListener("popstate", popstateHandler);
+    })();
+    joinSession();
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", onbeforeunload);
-  //     window.removeEventListener("popstate", popstateHandler);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("beforeunload", onbeforeunload);
+      window.removeEventListener("popstate", popstateHandler);
+    };
+  }, []);
 
   useEffect(() => {
     if (messageReceived && chatDisplay === "none") {
@@ -66,16 +67,16 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     }
   }, [messageReceived, chatDisplay]);
 
-  // const onbeforeunload = (event: BeforeUnloadEvent) => {
-  //   event.preventDefault();
-  //   alert("onbeforeunload");
-  //   leaveSession();
-  // };
+  const onbeforeunload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    alert("onbeforeunload");
+    leaveSession();
+  };
 
-  // const popstateHandler = () => {
-  //   alert("popstateHandler");
-  //   leaveSession();
-  // };
+  const popstateHandler = () => {
+    alert("popstateHandler");
+    leaveSession();
+  };
 
   const toggleChat = (property: string | undefined) => {
     let display = property;
@@ -153,6 +154,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         publishAudio: !audioActive,
         publishVideo: !videoActive,
         frameRate: 30,
+        mirror: false
         // insertMode: 'APPEND',
       });
 
@@ -236,9 +238,9 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   return (
     <Container>
-      <Header>
+      {/* <Header>
         <StudyTitle>{currentUser.nickname}의 방</StudyTitle>
-      </Header>
+      </Header> */}
 
       {session !== undefined ? (
         <Session id="session">
@@ -255,9 +257,9 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
           <VideoContainer>
             {publisher !== undefined ? (
-              <StreamContainerWrapper>
+              <StreamContainer>
                 <UserVideoComponent streamManager={publisher} />
-              </StreamContainerWrapper>
+              </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
               <StreamContainer key={i} className="stream-container col-md-6 col-xs-6">
@@ -269,15 +271,15 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       ) : (
         <button onClick={joinSession}></button>
       )}
-      {chatActive ? (
-        <ChatIconBox>
-          {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
-        </ChatIconBox>
-      ) : (
-        <></>
+      {chatActive && session !== undefined ? (
+          <ChatBox>
+            {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
+          </ChatBox>
+        ) : (
+          <></>
       )}
 
-      <div>
+      <ToolBar>
         <ToolbarComponent
           sessionId={mySessionId}
           audioActive={audioActive}
@@ -289,7 +291,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           // switchCamera={this.switchCamera}
           leaveSession={leaveSession}
         />
-      </div>
+      </ToolBar>
     </Container>
   );
 };
