@@ -15,13 +15,16 @@ export const AnalysisBtn = styled.button`
   margin: 8px;
   cursor: pointer;
 `
-export const AnalysisResult = styled.div`
+export const AnalysisResult = styled.input`
   background-color: #444444;
+  border-radius: 8px;
+  border: none;
   line-height: 37px;
   text-align: center;
-  color: #6C6C6C;
-  height: 37px;
+  height: 40px;
   width: 400px;
-  margin-top: 5px;
-  border-radius: 8px;
+  margin-top: 20px;
+  color: white;
+  font-size: 18px;
+  
 `

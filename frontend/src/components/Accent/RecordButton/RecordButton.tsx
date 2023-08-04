@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { accentRecordState } from '../../../recoil/Training';
+import { accentSttState } from '/src/recoil/HW_Atom';
 import SoundToText from '../AccentResult/SoundToText';
 import { 
   CompleteBtn, 
@@ -15,6 +16,7 @@ import {
 
 function RecordButton () {
   const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState)
+  const [accentText, setAccentText] = useRecoilState(accentSttState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
@@ -44,6 +46,7 @@ function RecordButton () {
   }
 
   const resetTimer = () => {
+    setAccentText("")
     clearInterval(intervalRef.current);
     setInitialBtn(true)
     setIsRunning(false);
@@ -58,6 +61,7 @@ function RecordButton () {
   };
 
   const addRecord = (mediaBlobUrl) => {
+    setAccentText("")
     setAccentRecord([mediaBlobUrl,...accentRecord.slice(0,4)])
   }
 
@@ -135,7 +139,6 @@ function RecordButton () {
         <CompleteBtn
             onClick={() => {
                 stopRecording()
-                stopListening()
                 addRecord(mediaBlobUrl)
                 resetTimer()
               }}>완료</CompleteBtn> : "" }

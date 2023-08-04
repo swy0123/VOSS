@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { getVideoList } from "../../api/video"
 import { videoListState } from "../../recoil/Training"
 import { Video } from "../../type/type"
+import { postRractice } from "/src/api/profile"
 import { 
   Container,
   TitleBox,
@@ -52,8 +53,9 @@ function DubbingList() {
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
 
-  const goDubbing = (id:number) => {
+  const goDubbing = async (id:number) => {
     navigate(`/dubbing/${id}`)
+    await postRractice("DUB")
     window.location.reload()
   }
   

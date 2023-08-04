@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { ProfileState } from "/src/recoil/Auth";
 import BadgeTemp from "../../../assets/Profile/BadgeTemp.png";
@@ -11,13 +12,24 @@ import {
 
 function BadgeBox() {
   const [profile, setProfile] = useRecoilState(ProfileState)
+  const [tmp, setTmp] = useState(["더미","더미","더미","더미","더미","더미","더미","더미","더미"])
   return (
     <BadgeBoxDesign>
-      <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>
-      <BadgeContentDesign><img src={BadgeTemp} alt=""/></BadgeContentDesign>
+      {/* 임시 방편 수정 해주세요!! */}
+      <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>      
+      {/* <BadgeContentDesign><img src={BadgeTemp} alt=""/></BadgeContentDesign>
       {profile.badges.map(badge => (
         <span>{badge}</span>
-      ))}
+      ))} */}
+
+      <BadgeContentDesign>
+        {tmp.map((badge,index) => (
+          <img style={{
+            height : "200px",
+            width:"200px"}} src={`/src/assets/Profile/badge/B${index+1}.png`} alt=""/>
+        ))}
+      </BadgeContentDesign>
+
     </BadgeBoxDesign>
   );
 };
