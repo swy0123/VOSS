@@ -21,7 +21,7 @@ interface messageType {
 
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [messageList, setMessageList] = useState<messageType[]>([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("시작");
   const chatScroll = useRef<HTMLDivElement>(null);
 
   const [chatDisplay, setChatDisplay] = useState(chatProps.chatDisplayProps);
@@ -66,9 +66,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     chatProps.close(undefined);
   };
 
+  useEffect(()=>{
+    sendMessage();
+  },[])
+
+
   useEffect(() => {
     streamManager.stream.session.on("signal:chat", (event: any) => {
       const data = JSON.parse(event.data);
+      // if(data.message=='hello') {
+      //   alert(data.message + "  check");
+      //   return;
+      // }
       let updatedMessageList = [...messageList];
       updatedMessageList.push({
         connectionId: connectionId,
@@ -89,7 +98,10 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
     });
     if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "hello") {
+      
       alert(messageList[messageList.length - 1].message + "  check");
+      messageList.pop();
+
     }
 
     // return () => {
