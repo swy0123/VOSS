@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDetailResponse getPostDetail(Long id) {
+    public PostDetailResponse getPostDetail(String email, Long id) {
         Post post = postRepository.findByIdAndIsDeletedFalse(id);
         if(post == null) {
             throw new NoPostException("존재하지 않는 글입니다.");
@@ -91,7 +91,8 @@ public class PostServiceImpl implements PostService {
         Long likes = postLikeRepository.countByPostId(id);
         List<PostFileDetailResponse> imageFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeStartsWith(id, "image");
         List<PostFileDetailResponse> otherFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeNotStartsWith(id, "image");
-        return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles);
+        boolean isLiked = postLikeRepository.existsByPostIdAndEmail(id, email);
+        return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles, isLiked);
     }
 
     @Override
