@@ -22,9 +22,10 @@ public class PostDetailResponse {
     private List<PostFileDetailResponse> imageFiles;
     private List<PostFileDetailResponse> otherFiles;
     private LocalDateTime createdAt;
+    private boolean isLiked;
     private Page<CommentDetailResponse> comments;
 
-    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments, Long likes, List<PostFileDetailResponse> imageFiles, List<PostFileDetailResponse> otherFiles) {
+    public PostDetailResponse(Post post, Page<CommentDetailResponse> comments, Long likes, List<PostFileDetailResponse> imageFiles, List<PostFileDetailResponse> otherFiles, boolean isLiked) {
         this.id = post.getId();
         this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
@@ -35,6 +36,7 @@ public class PostDetailResponse {
         this.likes = likes;
         this.imageFiles = imageFiles;
         this.otherFiles = otherFiles;
+        this.isLiked = isLiked;
     }
 
 }
