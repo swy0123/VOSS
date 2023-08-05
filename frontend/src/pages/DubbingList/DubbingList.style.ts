@@ -3,19 +3,19 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 610px;
+  height: 657px;
 `
 export const DubbingBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 950px;
-  margin-left: 10px;
+  width: 1300px;
+  margin-left: 20px;
 `
 export const TitleBox = styled.div`
   display: flex;
   color: white;
   align-items: flex-end;
-  margin: 0px 0px 10px 0px;
+  margin: 10px 0px 13px 0px;
 `
 export const MainTitle = styled.h2`
   margin: 0px 20px 0px 0px;
@@ -27,12 +27,12 @@ const OptionButton = styled.button`
   background-color: transparent;
   border: 1px solid #6C6C6C;
   border-radius: 12px;
-  color:#6C6C6C;
+  padding: 0px 7px 0px 7px;
+  margin-right: 10px;
   font-size: 13px;
   line-height: 30px;
   height: 30px;
-  padding: 0px 7px 0px 7px;
-  margin-right: 10px;
+  color:#6C6C6C;
   
   &:hover{
     transform: scale(1.1);
@@ -52,7 +52,7 @@ export const GenreButton = styled(OptionButton)<{$IsClick:boolean}>`
 `
 export const VideoBox = styled.div`
   display: flex;
-  width: 950px;
+  width: 1300px;
   flex-wrap: wrap;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -66,50 +66,58 @@ export const VideoItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  margin: 0px 20px 15px 0px;
-  height: 250px;
-  width: 217px;
+  margin: 0px 30px 25px 0px;
+  height: 240px;
+  width: 295px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #132B31;
+  }
 `
-export const Thumbnail = styled.iframe`
-  margin-top: 15px;
-  border: none;
-  height: 120px;
-  width: 215px;
-`
-// export const Thumbnail = styled.div`
+// export const Thumbnail = styled.iframe`
 //   margin-top: 15px;
+//   border: none;
 //   height: 120px;
 //   width: 215px;
 // `
+
+export const Thumbnail = styled.img`
+  margin: 25px 0px 6px 0px;
+  height: 140px;
+  width: 295px;
+`
+
 export const Infos = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 190px;
+  margin-bottom: 15px;
+  width: 260px;
 `
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
-  font-size: 10px;
+  font-size: 11px;
   margin-left: 15px;
 `
 export const Count = styled(Info)``
 export const Time = styled(Info)``
 
 const Icon = styled.img`
-  height: 12px;
-  width: 12px;
+  height: 11px;
+  width: 11px;
   margin-right: 5px;
 `
 export const CountImg = styled(Icon)``
 export const TimeImg = styled(Icon)``
 
 export const Description = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   text-align: left;
   height: 50px;
-  width: 180px;
+  width: 260px;
   color: white;
 `
 export const PracticeBtn = styled.button`
@@ -124,8 +132,5 @@ export const PracticeBtn = styled.button`
   margin-bottom: 15px;
   cursor: pointer;
   
-  &:hover {
-    transform: scale(1.3);
-    transition: .5s;
-  }
+  
 `
