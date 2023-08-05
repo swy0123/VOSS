@@ -16,7 +16,6 @@ import java.util.List;
 public class FollowSupportRepositoryImpl implements FollowSupportRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-
     @Override
     public List<GetFollowMemberResponse> findFollowings(Long targetId, Long myId) {
         QFollow f = QFollow.follow;
