@@ -27,7 +27,3 @@ export const BottomBarImg = styled.img`
   /* background-color: red; */
 `;
 
-export const MikeIcon = styled.img`
-  height: 25px;
-  width: 25px;
-`;

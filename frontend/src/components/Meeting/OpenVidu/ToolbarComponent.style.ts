@@ -1,13 +1,27 @@
 import { styled } from "styled-components";
 
-
 export const AppBar = styled.div`
   position: fixed;
   width: 100%;
   bottom: 0;
-  background-color: gray;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  height: 5%;
+`;
+
+export const Toolbar = styled.div`
+  position: relative;
+`;
+
+export const ToolBarSetDiv = styled.div`
+  width: fit-content;
   margin: 0 auto;
+`;
+
+export const ToolBarIconDiv = styled.div`
+  float: left;
+  margin: 0 20px;
+`;
+
+export const ToolBarIcon = styled.img`
+  height: 25px;
+  width: 25px;
 `;

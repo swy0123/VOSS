@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 // import './ToolbarComponent.css';
 
-import logo from "../../../assets/main/MainLogo.png";
 import MikeOn from "../../../assets/Meeting/MikeOn.png";
 import MikeOff from "../../../assets/Meeting/MikeOff.png";
+import VideoOff from "../../../assets/Meeting/VideoOff.png";
+import VideoOn from "../../../assets/Meeting/VideoOn.png";
+import Shutdown from "../../../assets/Meeting/Shutdown.png";
 
-import { IconButton, Toolbar } from "@mui/material";
-import {
-  Videocam,
-  VideocamOff,
-  PowerSettingsNew,
-} from "@mui/icons-material";
-import { AppBar } from "./ToolbarComponent.style";
-import { MikeIcon } from "/src/pages/Meeting/Meeting.style";
+import { AppBar, ToolBarIcon, ToolBarIconDiv, ToolBarSetDiv, Toolbar } from "./ToolbarComponent.style";
 
 const ToolbarComponent = (props: any) => {
   //   const [fullscreen, setFullscreen] = useState(false);
@@ -57,34 +52,25 @@ const ToolbarComponent = (props: any) => {
   const mySessionId = props.sessionId;
 
   return (
-    <AppBar className="toolbar" id="header">
-      <Toolbar className="toolbar">
-        <div className="buttonsContent">
-          <IconButton
-            color="inherit"
-            className="navButton"
-            id="navMicButton"
-            onClick={micStatusChanged}
-          >
-            {props.audioActive ? <MikeIcon src={MikeOff} color="secondary" /> : <MikeIcon src={MikeOn} />}
-          </IconButton>
-          <IconButton
-            color="inherit"
-            className="navButton"
-            id="navCamButton"
-            onClick={camStatusChanged}
-          >
-            {props.videoActive ? <VideocamOff color="secondary" /> : <Videocam />}
-          </IconButton>
-          <IconButton
-            color="secondary"
-            className="navButton"
+    <AppBar>
+      <Toolbar>
+        <ToolBarSetDiv>
+          <ToolBarIconDiv onClick={micStatusChanged}>
+            {props.audioActive ? (
+              <ToolBarIcon src={MikeOff} />
+            ) : (
+              <ToolBarIcon src={MikeOn} />
+            )}
+          </ToolBarIconDiv>
+          <ToolBarIconDiv onClick={camStatusChanged}>
+            {props.videoActive ? <ToolBarIcon src={VideoOff} /> : <ToolBarIcon src={VideoOn} />}
+          </ToolBarIconDiv>
+          <ToolBarIconDiv
             onClick={leaveSession}
-            id="navLeaveButton"
           >
-            <PowerSettingsNew />
-          </IconButton>
-        </div>
+            <ToolBarIcon src={Shutdown} />
+          </ToolBarIconDiv>
+        </ToolBarSetDiv>
       </Toolbar>
     </AppBar>
   );

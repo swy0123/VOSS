@@ -16,6 +16,7 @@ import {
   ChatBox,
   Session,
   ToolBar,
+  Header,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
@@ -146,7 +147,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         publishAudio: !audioActive,
         publishVideo: !videoActive,
         frameRate: 30,
-        mirror: false
+        mirror: false,
         // insertMode: 'APPEND',
       });
 
@@ -230,21 +231,20 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   return (
     <Container>
-
+      <Header id="session-header">
+        <span>{subscribers.length}</span>
+        <span>{mySessionId}</span>
+      </Header>
       {session !== undefined ? (
         <Session id="session">
-          <div id="session-header">
-            <h1 id="session-title">{mySessionId}</h1>
-          </div>
-
           <VideoContainer>
             {publisher !== undefined ? (
-              <StreamContainer>
+              <StreamContainer $curCount={subscribers.length}>
                 <UserVideoComponent streamManager={publisher} />
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
-              <StreamContainer key={i} className="stream-container col-md-6 col-xs-6">
+              <StreamContainer key={i} $curCount={subscribers.length}>
                 <UserVideoComponent streamManager={sub} />
               </StreamContainer>
             ))}
@@ -254,11 +254,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         <button onClick={joinSession}></button>
       )}
       {chatActive && session !== undefined ? (
-          <ChatBox>
-            {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
-          </ChatBox>
-        ) : (
-          <></>
+        <ChatBox>
+          {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
+        </ChatBox>
+      ) : (
+        <></>
       )}
 
       <ToolBar>
