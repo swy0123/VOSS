@@ -1,9 +1,8 @@
-import { createBrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
-import SelectCategory from "./pages/SelectCategory";
 import VoiceAnalysis from "./pages/VoiceAnalysis";
 import Dubbing from "./pages/Dubbing";
 import DubbingList from "./pages/DubbingList/DubbingList";
@@ -15,6 +14,7 @@ import PostUpdate from "./components/FreeBoard/PostUpdate/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
 import Profile from "./pages/Profile";
+import SelectCategory from "./pages/SelectCategory/SelectCategory";
 
 const router = createBrowserRouter([
     {

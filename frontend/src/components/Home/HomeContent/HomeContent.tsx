@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import MainLogo from '../../../assets/main/MainLogo.png'
+import MainLogo from '/src/assets/main/MainLogo.png'
 import { Catchphrase, Img, ImgDiv, Logo, Text, TextWhite } from './HomeContent.style';
 
 const HomeContent = () => {
@@ -7,9 +7,8 @@ const HomeContent = () => {
         <Logo>
             <TextWhite>
                 <ImgDiv><Img src={MainLogo} /></ImgDiv>
-                <Catchphrase>메인 캐치프레이즈</Catchphrase>
-                <Text>내가 만들어버린 로렘 입숨 어쩌궁.. 네??</Text>
-                <Text>녹음 게시판이 어쩌구 할말 추?</Text>
+                <Catchphrase>Be Boss of Voice</Catchphrase>
+                <Text>모두가 성우가 될 수 있는 플랫폼, Voss</Text>
             </TextWhite>
         </Logo>
     )

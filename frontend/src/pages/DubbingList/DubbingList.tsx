@@ -53,14 +53,14 @@ function DubbingList() {
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
 
-  const goDubbing = async (id:number) => {
+  const goDubbing = (id:number) => {
     navigate(`/dubbing/${id}`)
-    await postRractice("DUB")
+    void postRractice("DUB")
     window.location.reload()
   }
   
   useEffect(() => {
-    const axiosVideoList = async () => {
+    const axiosVideoList = async ():Promise<void> => {
       try {
         const Videos: Video[] = await getVideoList() || [];
         setVideoList(Videos);
@@ -70,7 +70,7 @@ function DubbingList() {
         console.log(error);
       }
     };
-    axiosVideoList();
+    void axiosVideoList();
   }, []);
 
   return(
@@ -96,8 +96,10 @@ function DubbingList() {
 
           <VideoBox>
             {videoFilter.map((video,index) => (
-              <VideoItem key={index}>
-                <Thumbnail src={`https://www.youtube.com/embed/${video.videoUrl.slice(-11)}`}></Thumbnail>
+              <VideoItem 
+                key={index}
+                onClick={() => goDubbing(video.id)}>
+                <Thumbnail src={`https://img.youtube.com/vi/${video.videoUrl.slice(-11)}/mqdefault.jpg`}></Thumbnail>
                 {/* <Thumbnail 
                   key={`player-${index}`} 
                   id={`player-${index}`}></Thumbnail> */}
@@ -111,9 +113,8 @@ function DubbingList() {
                     {formatTime(video.durationInSec)}
                   </Time>
                 </Infos>
-
+                
                 <Description>{video.title}</Description>
-                <PracticeBtn onClick={() => goDubbing(video.id)}>연습하기</PracticeBtn>
               </VideoItem>
             ))}
           </VideoBox>
