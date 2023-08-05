@@ -3,6 +3,7 @@ import OpenViduVideoComponent from './OvVideo';
 // import './UserVideo.css';
 import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../../recoil/Auth";
+import { VedioInnerDiv, VedioOuterDiv } from './UserVideoComponent.style';
 
 
 const UserVideoComponent = (props:any) => {
@@ -15,12 +16,10 @@ const UserVideoComponent = (props:any) => {
   return (
     <div>
       {props.streamManager !== undefined ? (
-        <div className="streamcomponent">
+        <VedioOuterDiv className="streamcomponent">
+          <VedioInnerDiv>sssssss</VedioInnerDiv>
           <OpenViduVideoComponent streamManager={props.streamManager} />
-          <div>
-            <p>{getNicknameTag()}</p>
-          </div>
-        </div>
+        </VedioOuterDiv>
       ) : null}
     </div>
   );

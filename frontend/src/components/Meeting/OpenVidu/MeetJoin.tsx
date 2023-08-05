@@ -9,18 +9,10 @@ import { CurrentUserAtom } from "../../../recoil/Auth";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
-  Header,
-  StudyTitle,
-  Middle,
-  Left,
-  Right,
   // Chat,
   VideoContainer,
-  StreamContainerWrapper,
+  // StreamContainerWrapper,
   StreamContainer,
-  Bottom,
-  BottomBox,
-  Icon,
   ChatBox,
   Session,
   ToolBar,
@@ -238,21 +230,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   return (
     <Container>
-      {/* <Header>
-        <StudyTitle>{currentUser.nickname}의 방</StudyTitle>
-      </Header> */}
 
       {session !== undefined ? (
         <Session id="session">
           <div id="session-header">
             <h1 id="session-title">{mySessionId}</h1>
-            {/* <input
-              className="btn btn-large btn-danger"
-              type="button"
-              id="buttonLeaveSession"
-              onClick={leaveSession}
-              value="Leave session"
-            /> */}
           </div>
 
           <VideoContainer>
