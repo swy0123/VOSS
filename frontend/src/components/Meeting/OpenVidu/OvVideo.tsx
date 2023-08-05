@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Video } from './MeetJoin.style';
+import React, { useEffect, useRef } from "react";
+import { Video } from "./UserVideoComponent.style";
 
-const OpenViduVideoComponent = (props:any) => {
+const OpenViduVideoComponent = (props: any) => {
   const videoRef = useRef(null);
 
   // useEffect(() => {

@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
-  margin-top: 10%;
-  height: 90%;
+  /* margin-top: 10%; */
+  height: 100%;
   width: 100%;
   background-color: #202124;
 `;
@@ -47,13 +47,6 @@ export const Right = styled.div`
     props.primary ? `right:0; flex:1;` : `right:calc(-100vw/3); flex:0;`}
 `;
 
-// export const Chat = styled.div`
-//   width: 100%;
-//   height: 93%;
-//   border-radius: 5px;
-//   background-color: white;
-//   display: flex;
-// `;
 
 export const VideoContainer = styled.div`
   margin-top: 20px;
@@ -64,34 +57,11 @@ export const VideoContainer = styled.div`
   justify-content: center;
 `;
 
-export const StreamContainerWrapper = styled.div`
-margin: 1%;
-  border-radius: 5%;
-  display: grid;
-  place-items: center;
-  grid-gap: 20px;
-  height: 100%;
-  padding: 10px;
-  @media screen and (max-width: 800px) {
-    background-color: red;
-  }
-`;
-
-export const Video = styled.video`
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`;
 
 export const StreamContainer = styled.div`
   height: 100%;
-  aspect-ratio: 3 / 2;
   margin: 1%;
-  border-radius: 5%;
   position: relative;
-  min-height: 50%;
   overflow: hidden;
   box-sizing: border-box;
 `;

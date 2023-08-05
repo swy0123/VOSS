@@ -11,7 +11,7 @@ import { LoginModeAtom } from "../recoil/Auth";
 const Mainimg = styled.div`
   background-image: url("${MainImg}");
   background-repeat: no-repeat;
-  background-position: 10% 60%;
+  background-position: 10% 80%;
   background-size: cover;
   height: 100vh;
 `;
