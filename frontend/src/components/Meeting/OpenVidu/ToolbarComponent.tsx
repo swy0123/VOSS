@@ -2,15 +2,17 @@ import React, { useState } from "react";
 // import './ToolbarComponent.css';
 
 import logo from "../../../assets/main/MainLogo.png";
-import { AppBar, IconButton, Toolbar, Tooltip } from "@mui/material";
+import MikeOn from "../../../assets/Meeting/MikeOn.png";
+import MikeOff from "../../../assets/Meeting/MikeOff.png";
+
+import { IconButton, Toolbar } from "@mui/material";
 import {
-  Mic,
-  MicOff,
   Videocam,
   VideocamOff,
   PowerSettingsNew,
-  QuestionAnswer,
 } from "@mui/icons-material";
+import { AppBar } from "./ToolbarComponent.style";
+import { MikeIcon } from "/src/pages/Meeting/Meeting.style";
 
 const ToolbarComponent = (props: any) => {
   //   const [fullscreen, setFullscreen] = useState(false);
@@ -57,13 +59,6 @@ const ToolbarComponent = (props: any) => {
   return (
     <AppBar className="toolbar" id="header">
       <Toolbar className="toolbar">
-        <div id="navSessionInfo">
-          {props.sessionId && (
-            <div id="titleContent">
-              <span id="session-title">{mySessionId}</span>
-            </div>
-          )}
-        </div>
         <div className="buttonsContent">
           <IconButton
             color="inherit"
@@ -71,7 +66,7 @@ const ToolbarComponent = (props: any) => {
             id="navMicButton"
             onClick={micStatusChanged}
           >
-            {props.audioActive ? <MicOff color="secondary" /> : <Mic />}
+            {props.audioActive ? <MikeIcon src={MikeOff} color="secondary" /> : <MikeIcon src={MikeOn} />}
           </IconButton>
           <IconButton
             color="inherit"
@@ -89,12 +84,6 @@ const ToolbarComponent = (props: any) => {
           >
             <PowerSettingsNew />
           </IconButton>
-          {/* <IconButton color="inherit" onClick={toggleChat} id="navChatButton">
-            {props.showNotification && <div id="point" className="" />}
-            <Tooltip title="Chat">
-              <QuestionAnswer />
-            </Tooltip>
-          </IconButton> */}
         </div>
       </Toolbar>
     </AppBar>
