@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
 export const MainImg = styled.div`
-  background: url("/src/assets/main/MainImg.jpg") no-repeat;
-  background-size: cover;
+  background: url("/src/assets/main/mainimg.gif") no-repeat;
   background-position: center center;
+  background-size: cover;
+  position: absolute;
   height: 100vh;
-  width: 100vw;
+  width: 116vw;
+  left: -6vw;
 `;
 
 export const AllCategory = styled.div`
   display: flex;
-  margin-left: 6.5vw;
+  margin-left: 11.8vw;
   transform: skew(-2.9deg);
 `;
 

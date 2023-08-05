@@ -26,7 +26,7 @@ export const SubTitle =styled.h4`
 const OptionButton = styled.button`
   background-color: transparent;
   border: 1px solid #6C6C6C;
-  border-radius: 15px;
+  border-radius: 12px;
   color:#6C6C6C;
   font-size: 13px;
   line-height: 30px;
