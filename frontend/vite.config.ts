@@ -1,4 +1,4 @@
-// 로컬 환경
+// 로컬 환경 (로컬에서 개발할 때만 주석해제하고, 푸쉬는 아래 설정으로 !)
 // import { defineConfig } from 'vite'
 // import react from '@vitejs/plugin-react'
 
