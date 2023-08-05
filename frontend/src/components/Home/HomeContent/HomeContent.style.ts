@@ -30,10 +30,12 @@ export const Catchphrase = styled.div`
     margin-top: 0px;
     margin-bottom: 10px;
     font-weight: bold;
+    transform: skew(-9deg);
 `;
 
 export const Text = styled.div`
     text-align: center;
-    font-size: 15px;
     margin-top: 2px;
+    font-size: 15px;
+    font-weight: 800;
 `;
