@@ -1,4 +1,4 @@
-import { useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { ScriptData } from "/src/type/type";
@@ -19,8 +19,8 @@ function Video ({script, roles, lines}: ScriptData) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-  const navigate = useNavigate()
-  
+  const [youtube, setYoutube] = useState()
+
   // 역할 선택
   const handleRoleBtn = (index: number) => {
     const newRoleSelect = Array(roles.length).fill(false)
@@ -43,6 +43,17 @@ function Video ({script, roles, lines}: ScriptData) {
         'onStateChange' : onPlayStateChange,
       }
     });
+    setYoutube(player)
+  }
+
+  // 영상 플레이
+  const SelfPlayVideo = () => {
+    youtube.playVideo()
+  }
+  
+  // 영상 일시정지
+  const SelfPauseVideo = () => {
+    youtube.pauseVideo()
   }
 
   useEffect(() => {
@@ -58,6 +69,10 @@ function Video ({script, roles, lines}: ScriptData) {
 
   return(
     <Container>
+      {/* 영상 플레이 or 일시정지 예시 */}
+      <button onClick={SelfPlayVideo}>Play</button>
+      <button onClick={SelfPauseVideo}>Pause</button>
+
       <Title>{script.title}</Title>
       <Display id="player"></Display>
       <RoleBox>
