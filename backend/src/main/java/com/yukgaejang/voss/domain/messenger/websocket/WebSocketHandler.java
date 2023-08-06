@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.messenger.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.DirectChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
@@ -21,6 +22,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final MessengerService messengerService;
     private final DirectChatRepository directChatRepository;
+    private final AttendRepository attendRepository;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -32,8 +34,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
         DirectChat directChat = new DirectChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
                 chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
-
-        directChatRepository.save(directChat);
-
+        if (!chatMessageDto.getContent().equals("나가기")) {
+            directChatRepository.save(directChat);
+            attendRepository.updateLastMessageTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
+        }
     }
 }

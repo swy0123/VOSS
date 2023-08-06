@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Chat;
 import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.DirectChatRepository;
+import com.yukgaejang.voss.domain.messenger.service.dto.ChatMessageDto;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerRequest;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
@@ -50,8 +51,8 @@ public class MessengerServiceImpl implements MessengerService{
     }
 
     @Override
-    public ChatRoom findRoomById(String chatId) {
-        return chatRooms.get(chatId);
+    public ChatRoom findRoomById(String sessionId) {
+        return chatRooms.get(sessionId);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MessengerServiceImpl implements MessengerService{
                 .orElseThrow(() -> new NoMemberException("회원이 없습니다."));
         String sessionId = myId + yourId;
         ChatRoom chatRoom = ChatRoom.builder()
-                .chatId(sessionId)
+                .sessionId(sessionId)
                 .build();
         chatRooms.put(sessionId, chatRoom);
         Chat chat = new Chat(sessionId);
@@ -82,7 +83,13 @@ public class MessengerServiceImpl implements MessengerService{
     @Override
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
+            if (session.isOpen()) {
+                session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
+            } else {
+                ChatRoom roomById = findRoomById(((ChatMessageDto) message).getSessionId());
+                session.close();
+                chatRooms.remove(roomById);
+            }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
@@ -108,9 +115,14 @@ public class MessengerServiceImpl implements MessengerService{
         ChatRoom findChatRoom = chatRooms.get(chat.getSession());
         if (findChatRoom == null) {
             ChatRoom chatRoom = ChatRoom.builder()
-                .chatId(chat.getSession())
+                .sessionId(chat.getSession())
                 .build();
             chatRooms.put(chat.getSession(), chatRoom);
         }
+    }
+
+    @Override
+    public void updateLeaveTime(Long chatId, Long memberId) {
+        attendRepository.updateLeaveTime(chatId, memberId);
     }
 }
