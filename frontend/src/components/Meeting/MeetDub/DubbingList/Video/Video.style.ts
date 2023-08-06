@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const VideoBox = styled.div`
   display: flex;
-  width: 1300px;
+  width: 1260px;
   flex-wrap: wrap;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -19,7 +19,7 @@ export const VideoItem = styled.div`
   border-radius: 10px;
   margin: 0px 30px 25px 0px;
   height: 240px;
-  width: 295px;
+  width: 285px;
   cursor: pointer;
 
   &:hover {
@@ -36,7 +36,7 @@ export const VideoItem = styled.div`
 export const Thumbnail = styled.img`
   margin: 25px 0px 6px 0px;
   height: 140px;
-  width: 295px;
+  width: 285px;
 `
 
 export const Infos = styled.div`

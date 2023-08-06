@@ -4,14 +4,18 @@ import Messenger from "../../components/Message/Messenger";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
-import { BottomBarImg, BottomSection, ClosedBottomSection, Container } from "./Meeting.style";
+import { BottomBarImg, BottomSection, CloseSectionBtn, ClosedBottomSection, Container } from "./Meeting.style";
 import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
 import { MeetingProps } from "../../api/meeting";
 import BottomBar from "../../assets/Meeting/BottomBar.png";
+import CloseSection from "../../assets/Meeting/CloseSection.png";
+import DubbingRoom from "/src/components/Meeting/MeetDub/DubbingRoom/DubbingRoom";
 
 //리코일 사용
 import { useRecoilState } from "recoil";
 import { sendMsg, recieveMsg } from "/src/recoil/MeetDub";
+import { meetDubSelectState } from "/src/recoil/HW_Atom";
+import DubbingList from "/src/components/Meeting/MeetDub/DubbingList/DubbingList";
 /*
 리코일 기본 값 = "none"
 버튼 클릭 시 send 변경 후 chat에서 등록
@@ -27,6 +31,7 @@ function Meeting() {
   //recieve는 chat으로 받는 이벤트
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
+  const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
 
   useEffect(() => {
     (() => {
@@ -69,7 +74,10 @@ function Meeting() {
         <MeetJoin props={props} />
       </Container>
       {bottomOn ? (
-        <BottomSection onClick={isBottomOn}>sssssssss</BottomSection>
+        <BottomSection>
+          <CloseSectionBtn src={CloseSection} onClick={isBottomOn}/>
+          {meetDubSelect ?  <DubbingRoom/> : <DubbingList/>}
+        </BottomSection>
       ) : (
         <ClosedBottomSection>
           <BottomBarImg src={BottomBar} onClick={isBottomOn} />

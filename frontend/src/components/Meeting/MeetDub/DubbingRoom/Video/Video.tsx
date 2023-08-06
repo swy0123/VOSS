@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { ScriptData } from "/src/type/type";
+import { ScriptData, VideosType } from "/src/type/type";
+import { meetDubSelectState } from "/src/recoil/HW_Atom";
 import { 
   Container, 
   Display, 
@@ -11,10 +12,10 @@ import {
 import { 
   PlayChangebState, 
   RoleSelectState, 
-  ScriptSelectState } from "/src/recoil/Training";
+  ScriptSelectState, 
+  videoListState} from "/src/recoil/Training";
 
 function Video ({script, roles, lines}: ScriptData) {
-  const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const roleSelectRef = useRef<boolean[]>([])
@@ -72,7 +73,6 @@ function Video ({script, roles, lines}: ScriptData) {
       {/* 영상 플레이 or 일시정지 예시 */}
       <button onClick={SelfPlayVideo}>Play</button>
       <button onClick={SelfPauseVideo}>Pause</button>
-
       <Title>{script.title}</Title>
       <Display id="player"></Display>
       <RoleBox>

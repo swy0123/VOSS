@@ -4,14 +4,18 @@ export const Container = styled.div<{$isClicked?: boolean}>`
   display: flex;
   justify-content: center;
   background-color: gray;
-  height: ${props => props.$isClicked ? '30%': '87%'};
+  height: ${props => props.$isClicked ? '27%': '87%'};
   margin: 0;
 `;
 
 export const BottomSection = styled.div<{$isClicked?: boolean}>`
-  height:62%;
-  background-color: red;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #444444;
+  border-radius: 20px;
+  height:65%;
+  margin: 0px 5%;
 `;
 export const ClosedBottomSection = styled.div<{$isClicked?: boolean}>`
   height:6%;
@@ -26,4 +30,10 @@ export const BottomBarImg = styled.img`
   width: 90%;
   /* background-color: red; */
 `;
+
+export const CloseSectionBtn = styled.img`
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+`
 
