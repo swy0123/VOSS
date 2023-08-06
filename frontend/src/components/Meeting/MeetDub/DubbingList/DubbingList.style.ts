@@ -4,9 +4,9 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  top: 40%;
-  height: 70%;
-  width: 100%;
+  height: 90%;
+  width: 90%;
+  margin-left: 27px;
 `
 
 export const DubbingBox = styled.div`
