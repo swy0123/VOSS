@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { ScriptData, Video } from "../type/type";
+import { ScriptData, VideosType} from "../type/type";
 
 // 목소리 분석 녹음 기록
 export const analysisRecordState = atom({
@@ -47,7 +47,13 @@ export const videoState = atom<ScriptData | null>({
 })
 
 // 전체 더빙영상
-export const videoListState = atom<Video[]>({
+export const videoListState = atom<VideosType[]>({
   key: 'videoListState',
+  default: [],
+})
+
+// 전체 더빙영상 필텅링
+export const videoFilterState = atom<VideosType[]>({
+  key: 'videoFilterState',
   default: [],
 })

@@ -7,6 +7,7 @@ import { useLocation } from "react-router";
 import { BottomSection, Container } from "./Meeting.style";
 import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
 import { MeetingProps } from "../../api/meeting";
+import DubbingList from "/src/components/Meeting/MeetDub/DubbingList/DubbingList";
 
 
 
@@ -44,7 +45,7 @@ function Meeting() {
         <MeetJoin props={props} />
       </Container>
       <BottomSection $isClicked={bottomOn} onClick={isBottomOn}>
-        sssssssss
+        <DubbingList/>z
       </BottomSection>
       <Messenger />
     </BackGroundImg>
