@@ -1,7 +1,8 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginState, ProfileState } from "../../recoil/Auth";
+import { CurrentUserAtom, LoginState } from "../../recoil/Auth";
+import ProfileImg from "/src/assets/Header/profile_tmp.png";
 import {
   Navbar,
   LeftSection,
@@ -35,14 +36,14 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
     navigate(`/profile/${id}`);
   }
   const setLogout = () => {
-    setLoginState(false); // 리코일 초기화
+    setLoginState(false);
     setCurrentUser({
       userid: 0,
       email: "",
       nickname: "",
       accessToken: "",
       refreshToken: ""});
-    localStorage.removeItem('access_token'); // 로컬스토리지 초기화
+    localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     navigate("/");
   }
@@ -71,7 +72,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
           <AlarmCount>3</AlarmCount>
         </Alarm>
         <Profile
-        src="/src/assets/Header/profile_tmp.png"
+        src={ProfileImg}
         onClick={() => goProfile(currentUser.userid)}
         onMouseEnter={() => setProfileMenuShown(true)}
         onMouseLeave={() => setProfileMenuShown(false)}>
@@ -88,7 +89,8 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
           </ProfileHoverList>
           <ProfileHoverTriangle
             onMouseEnter={() => setProfileMenuShown(true)}
-            onMouseLeave={() => setProfileMenuShown(false)}/>
+            onMouseLeave={() => setProfileMenuShown(false)}
+          />
         </div>
         : null} 
       </IconList>

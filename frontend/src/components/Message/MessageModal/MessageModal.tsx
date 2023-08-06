@@ -31,7 +31,7 @@ const MessageModal = () => {
   const [inputs, setInputs] = useState("");
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const SearchInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputs(event.target.value.trim());
+    setInputs(event.target.value);
   };
   const goToNewRoom = (name: string, id: number) => {
     if (!rooms.some(room => room.memberId === id)) {
