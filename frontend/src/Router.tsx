@@ -4,7 +4,7 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import VoiceAnalysis from "./pages/VoiceAnalysis";
-import Dubbing from "./pages/Dubbing";
+import DubbingRoom from "./pages/DubbingRoom";
 import DubbingList from "./pages/DubbingList/DubbingList";
 import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard/FreeBoard";
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "dubbing",
-                element: <Dubbing />,
+                element: <DubbingRoom />,
                 errorElement: <ErrorComponent />,
             },
             {
@@ -47,8 +47,8 @@ const router = createBrowserRouter([
                 errorElement: <ErrorComponent />,
             },
             {
-                path: "dubbing/:id",
-                element: <Dubbing />,
+                path: "dubbingroom/:id",
+                element: <DubbingRoom />,
                 errorElement: <ErrorComponent />,
             },
             {

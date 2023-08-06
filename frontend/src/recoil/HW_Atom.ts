@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import { recoilPersist } from 'recoil-persist';
+const { persistAtom } = recoilPersist();
 
 // 더빙 연습 녹음 기록
 export const dubbingRecordState = atom({
@@ -28,4 +30,11 @@ export const accentSttState = atom({
 export const analysisResultState = atom({
   key: 'analysisResultState',
   default: ""
+})
+
+// 화상 더빙 영상 선택
+export const meetDubSelectState = atom<number>({
+  key: 'meetDubSelectState',
+  default: 0,
+  effects_UNSTABLE: [persistAtom]
 })
