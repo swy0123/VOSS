@@ -6,17 +6,22 @@ import { styled } from "styled-components";
 
 export const VedioOuterDiv = styled.div`
   position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 2;
+  
+  width: fit-content;
+  height: fit-content;
   margin: 0 auto;
-  border-radius: 15px;
+  
+  /* width: 100%;
+  aspect-ratio: 3 / 2;
+  border-radius: 15px; */
 `;
 
 export const Video = styled.video`
-  width: 120%;
-  aspect-ratio: 3 / 2;
-  position: relative;
-  left: -10%;
+  width: 100%;
+  height: 100%;
+  /* aspect-ratio: 3 / 2;  */
+  /* position: relative;
+  /* left: -10%; */
 `;
 
 export const VedioInnerDiv = styled.div`

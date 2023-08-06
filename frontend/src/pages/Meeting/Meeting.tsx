@@ -34,6 +34,7 @@ function Meeting() {
   const props: MeetingProps = {
     password: state.password,
     meetRoomId: state.meetRoomId,
+    bottomOn: bottomOn,
   };
 
   return (
