@@ -21,6 +21,10 @@ import {
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
 
+export interface streamContainerProps {
+  curCount: number;
+  bottomOn: boolean;
+}
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const navigate = useNavigate();
@@ -40,6 +44,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [videoActive, setVideoActive] = useState(true);
   const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
+  const [curCount, setCurCount] = useState(0);
 
   useEffect(() => {
     (() => {
@@ -59,6 +64,10 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       setMessageReceived(false);
     }
   }, [messageReceived, chatDisplay]);
+
+  useEffect(() => {
+    setCurCount(subscribers.length+1)
+  }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
@@ -229,22 +238,28 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     messageReceived: checkNotification,
   };
 
+  
+  const streamContainerProps:streamContainerProps = {
+    curCount: curCount,
+    bottomOn: props.bottomOn,
+  }
+
   return (
     <Container>
       <Header id="session-header">
-        <span>{subscribers.length}</span>
+        <span>{curCount} : {props.bottomOn}</span>
         <span>{mySessionId}</span>
       </Header>
       {session !== undefined ? (
         <Session id="session">
           <VideoContainer>
             {publisher !== undefined ? (
-              <StreamContainer $curCount={subscribers.length}>
+              <StreamContainer $streamContainerProps={streamContainerProps}>
                 <UserVideoComponent streamManager={publisher} />
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
-              <StreamContainer key={i} $curCount={subscribers.length}>
+              <StreamContainer key={i} $streamContainerProps={streamContainerProps}>
                 <UserVideoComponent streamManager={sub} />
               </StreamContainer>
             ))}
