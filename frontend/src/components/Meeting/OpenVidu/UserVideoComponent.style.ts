@@ -6,11 +6,22 @@ import { styled } from "styled-components";
 
 export const VedioOuterDiv = styled.div`
   position: relative;
-  height: 100%;
+  
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+  
+  /* width: 100%;
   aspect-ratio: 3 / 2;
-  background-color: blue;
-  overflow: hidden;
-  border-radius: 15px;
+  border-radius: 15px; */
+`;
+
+export const Video = styled.video`
+  width: 100%;
+  height: 100%;
+  /* aspect-ratio: 3 / 2;  */
+  /* position: relative;
+  /* left: -10%; */
 `;
 
 export const VedioInnerDiv = styled.div`
@@ -18,14 +29,7 @@ export const VedioInnerDiv = styled.div`
   height: 20px;
   width: 20px;
   background-color: red;
-  overflow: hidden;
+  /* overflow: hidden; */
   border-radius: 15px;
   z-index: 10;
-`;
-
-export const Video = styled.video`
-  width: 120%;
-  aspect-ratio: 3 / 2;
-  position: relative;
-  left: -10%;
 `;
