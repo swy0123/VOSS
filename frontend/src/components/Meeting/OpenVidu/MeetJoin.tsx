@@ -16,10 +16,15 @@ import {
   ChatBox,
   Session,
   ToolBar,
+  Header,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
 
+export interface streamContainerProps {
+  curCount: number;
+  bottomOn: boolean;
+}
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
 const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const navigate = useNavigate();
@@ -39,6 +44,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [videoActive, setVideoActive] = useState(true);
   const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
+  const [curCount, setCurCount] = useState(0);
 
   useEffect(() => {
     (() => {
@@ -58,6 +64,10 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       setMessageReceived(false);
     }
   }, [messageReceived, chatDisplay]);
+
+  useEffect(() => {
+    setCurCount(subscribers.length+1)
+  }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
@@ -146,7 +156,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         publishAudio: !audioActive,
         publishVideo: !videoActive,
         frameRate: 30,
-        mirror: false
+        mirror: false,
         // insertMode: 'APPEND',
       });
 
@@ -228,23 +238,28 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     messageReceived: checkNotification,
   };
 
+  
+  const streamContainerProps:streamContainerProps = {
+    curCount: curCount,
+    bottomOn: props.bottomOn,
+  }
+
   return (
     <Container>
-
+      <Header id="session-header">
+        <span>{curCount} : {props.bottomOn}</span>
+        <span>{mySessionId}</span>
+      </Header>
       {session !== undefined ? (
         <Session id="session">
-          <div id="session-header">
-            <h1 id="session-title">{mySessionId}</h1>
-          </div>
-
           <VideoContainer>
             {publisher !== undefined ? (
-              <StreamContainer>
+              <StreamContainer $streamContainerProps={streamContainerProps}>
                 <UserVideoComponent streamManager={publisher} />
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
-              <StreamContainer key={i} className="stream-container col-md-6 col-xs-6">
+              <StreamContainer key={i} $streamContainerProps={streamContainerProps}>
                 <UserVideoComponent streamManager={sub} />
               </StreamContainer>
             ))}
@@ -254,11 +269,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         <button onClick={joinSession}></button>
       )}
       {chatActive && session !== undefined ? (
-          <ChatBox>
-            {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
-          </ChatBox>
-        ) : (
-          <></>
+        <ChatBox>
+          {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
+        </ChatBox>
+      ) : (
+        <></>
       )}
 
       <ToolBar>
