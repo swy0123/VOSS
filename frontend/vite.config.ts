@@ -28,9 +28,9 @@ export default defineConfig({
     host: true,
     port: 5173,
     https: {
-       key: 'privkey.pem',
-       cert: 'fullchain.pem',
-     },
+      key: 'privkey.pem',
+      cert: 'fullchain.pem',
+    },
   },
   plugins: [ react() ],
 })

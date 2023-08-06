@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { ScriptData } from "../../../type/type";
 import { 
   Container, 
@@ -11,7 +12,6 @@ import {
   PlayChangebState, 
   RoleSelectState, 
   ScriptSelectState } from "../../../recoil/Training";
-import { useNavigate } from "react-router-dom";
 
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
@@ -19,7 +19,6 @@ function Video ({script, roles, lines}: ScriptData) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-  const [youtube, setYoutube] = useState<any>()
 
   // 역할 선택
   const handleRoleBtn = (index: number) => {
@@ -43,17 +42,8 @@ function Video ({script, roles, lines}: ScriptData) {
         'onStateChange' : onPlayStateChange,
       }
     });
-    setYoutube(player)
   }
 
-  const SelfPlayVideo = () => {
-    youtube.playVideo()
-  }
-  
-  const SelfPauseVideo = () => {
-    youtube.pauseVideo()
-  }
-  
   // 영상 대사별 Mute
   const onPlayStateChange = async (event) => {
     console.log("다시 시작하는거 맞지??")
@@ -130,10 +120,6 @@ function Video ({script, roles, lines}: ScriptData) {
 
   return(
     <Container>
-      <button
-        onClick={SelfPlayVideo}>SELF Play</button>
-      <button
-        onClick={SelfPauseVideo}>SELF Pause</button>
       <Title>{script.title}</Title>
       <Display id="player"></Display>
       <RoleBox>
