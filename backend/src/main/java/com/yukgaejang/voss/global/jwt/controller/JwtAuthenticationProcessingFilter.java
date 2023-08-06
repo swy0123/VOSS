@@ -46,6 +46,7 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
 
+
         if (refreshToken != null) {
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
             return;
@@ -56,7 +57,9 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
 
 
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+        System.out.println("refresh===========" + refreshToken);
         Optional<RefreshToken> token = refreshTokenRepository.findByRefreshToken(refreshToken);
+        System.out.println(token + "=========token 있나?");
         if (token.isEmpty()) {
             throw new TokenNotValidateException("유효하지 않은 리프레시 토큰입니다");
         }

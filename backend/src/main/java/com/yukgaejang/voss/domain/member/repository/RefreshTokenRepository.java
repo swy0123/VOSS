@@ -5,18 +5,36 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {
+//public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {
+//    Optional<RefreshToken> findByEmail(String email);
+//    boolean existsByRefreshToken(String refreshToken);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("UPDATE RefreshToken r SET r.refreshToken = :newRefreshToken WHERE r.refreshToken = :originRefreshToken")
+//    void updateRefreshToken(@Param("originRefreshToken") String originRefreshToken, @Param("newRefreshToken") String newRefreshToken);
+//
+//    Optional<RefreshToken> findByRefreshToken(String refreshToken);
+//}
+
+public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
     Optional<RefreshToken> findByEmail(String email);
     boolean existsByRefreshToken(String refreshToken);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE RefreshToken r SET r.refreshToken = :newRefreshToken WHERE r.refreshToken = :originRefreshToken")
-    void updateRefreshToken(@Param("originRefreshToken") String originRefreshToken, @Param("newRefreshToken") String newRefreshToken);
-
     Optional<RefreshToken> findByRefreshToken(String refreshToken);
+
+    @Transactional
+    default void updateRefreshToken(@Param("originRefreshToken") String originRefreshToken, @Param("newRefreshToken") String newRefreshToken) {
+        findByRefreshToken(originRefreshToken).ifPresent(existingToken -> {
+            deleteByRefreshToken(originRefreshToken);
+            save(new RefreshToken(existingToken.getEmail(), newRefreshToken));
+        });
+    }
+
+    void deleteByRefreshToken(String refreshToken);
 }
