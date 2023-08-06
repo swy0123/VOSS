@@ -1,8 +1,8 @@
 import React, { ChangeEvent, KeyboardEvent, useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
 import { ChatContainer, Chat, ChatScroll, MyChatting, OtherChatting, Chatting } from "./ChatComponent.style";
-
-// import './ChatComponent.css';
+import { useRecoilState } from "recoil";
+import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
 export interface ChatProps {
   connectionIdProps: string;
@@ -28,6 +28,11 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [connectionId, setConnectionId] = useState(chatProps.connectionIdProps);
   const [nickname, setNickname] = useState(chatProps.nicknameProps);
   const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
+  
+  //send는 컴포넌트에서 보내는 이벤트
+  //recieve는 chat으로 받는 이벤트
+  const [send, setSend] = useRecoilState(sendMsg);
+  const [recieve, setRecieve] = useRecoilState(recieveMsg);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -39,10 +44,13 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     }
   };
 
-  const sendMessage = () => {
+  //파라미터로 명령어 넣고 명령어 없으면 기본 메세지 전송
+  const sendMessage = (order?:string) => {
+    let tmp = message;
+    if(order !== undefined) tmp = order;
     // console.log(message);
-    if (message) {
-      let newMessage = message.replace(/ +(?= )/g, "");
+    if (tmp) {
+      let newMessage = tmp.replace(/ +(?= )/g, "");
       if (newMessage !== "" && newMessage !== " ") {
         const data = {
           message: newMessage,
@@ -70,56 +78,51 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     sendMessage();
   },[])
 
+  //명령어 전송
+  useEffect(()=>{
+    if(send=="open") {
+      setSend("none");
+      sendMessage("open");
+    }
+  }, [send])
+
 
   useEffect(() => {
     streamManager.stream.session.on("signal:chat", (event: any) => {
       const data = JSON.parse(event.data);
-      // if(data.message=='hello') {
-      //   alert(data.message + "  check");
-      //   return;
-      // }
       let updatedMessageList = [...messageList];
       updatedMessageList.push({
         connectionId: connectionId,
         nickname: data.nickname,
         message: data.message,
       });
-      // if (data.message !== undefined && data.message === "hello" ) console.log(data.message+"in")
       const document = window.document;
       setTimeout(() => {
-        // const userImg = document.getElementById("userImg-" + (updatedMessageList.length - 1));
         const video = document.getElementById("video-" + data.streamId);
-        // const avatar = userImg.getContext('2d');
-        // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-        // chatProps.messageReceived();
       }, 50);
       setMessageList(updatedMessageList);
       scrollToBottom();
 
     });
-    if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "hello") {
+    //이부분에 조건문으로 명령어 감지하고 리코일 이벤트 추가
+    if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "open") {
       
-      alert(messageList[messageList.length - 1].message + "  check");
+      // alert(messageList[messageList.length - 1].message + "  check");
+      console.log("setRecieve");
+      setRecieve("open");
+
       messageList.pop();
 
     }
 
-    // return () => {
-    //   if (messageList.length-1>0 && messageList[messageList.length-1].message === "hello" ) alert(messageList[messageList.length-1].message + "ret2222");
-    // }
   }, [messageList, chatProps]);
 
   const styleChat = { display: chatDisplay };
 
+  //채팅 부분 css 작업 미완료
   return (
     <ChatContainer>
       <Chat>
-        {/* <div id="chatToolbar">
-          <span>{streamManager.stream.session.sessionId} - CHAT</span>
-          <div id="closeButton" onClick={close}>
-            <div color="secondary" />
-          </div>
-        </div> */}
         <ChatScroll className="message-wrap">
           {messageList.map((data, i) => data.connectionId !== connectionId ? (
             <div key={i}>
@@ -158,7 +161,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             onKeyPress={handlePressKey}
           />
           <div title="Send message">
-            <div id="sendButton" onClick={sendMessage}>
+            <div id="sendButton" onClick={()=>{sendMessage}}>
               <div />
             </div>
           </div>
