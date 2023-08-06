@@ -12,17 +12,12 @@ import BottomBar from "../../assets/Meeting/BottomBar.png";
 //리코일 사용
 import { useRecoilState } from "recoil";
 import { sendMsg, recieveMsg } from "/src/recoil/MeetDub";
-/*
-리코일 기본 값 = "none"
-버튼 클릭 시 send 변경 후 chat에서 등록
-각 값은 보내고 받을 때마다 none으로 초기화
-*/
-
 
 function Meeting() {
   const { state } = useLocation(); // 2번 라인
   const [bottomOn, setBottomOn] = useState(false);
-
+  
+  
   //send는 컴포넌트에서 보내는 이벤트
   //recieve는 chat으로 받는 이벤트
   const [send, setSend] = useRecoilState(sendMsg);
@@ -38,13 +33,13 @@ function Meeting() {
     };
   }, []);
 
-  //이벤트 수신 감지
   useEffect(()=>{
     if(recieve=="open") {
       console.log("bottomOn");
       setBottomOn(!bottomOn);
       setRecieve("none");
     }
+
   }, [recieve])
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -56,7 +51,7 @@ function Meeting() {
     setSend("open");
     console.log("isBottomOn")
   };
-  
+
   const props: MeetingProps = {
     password: state.password,
     meetRoomId: state.meetRoomId,
