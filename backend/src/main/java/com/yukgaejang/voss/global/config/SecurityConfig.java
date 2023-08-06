@@ -45,6 +45,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(
                 authorize -> authorize
+                        .requestMatchers("/ws/messenger").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/test").permitAll()
                         .requestMatchers("/member").permitAll()
