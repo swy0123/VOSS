@@ -1,5 +1,5 @@
 // 더빙영상 전체
-export interface Video {
+export interface VideosType {
   id: number;
   category: string;
   title: string;
