@@ -1,22 +1,24 @@
 import { getPostList } from "/src/api/FreeBoard"
-import { useEffect, useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, ChangeEvent, KeyboardEvent, FormEvent } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList/PostList";
-import { PostListType } from "/src/type/Auth";
+import { PostListType } from "/src/type/FreeBoard";
+import { useRecoilState } from "recoil";
+import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState } from "/src/recoil/Community";
 import {
   FreeBoardDesign,
   OrderBoxDesign,
   OrderSelectDesign,
   PostCategoryDesign,
   PostCategoryNumberDesign,
-  PostCategoryLikeDesign,
   PostCategoryTitleDesign,
   PostCategoryUserDesign,
   PostCategoryCreatedatDesign,
   PostCategoryHitDesign,
+  PostCategoryLikeDesign,
   SearchboxDesign,
   SearchSelectDesign,
   InputBoxDesign,
@@ -33,37 +35,56 @@ function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
 
-  const [sort, setSort] = useState<string>("1");
-  const [cond, setCond] = useState<string>("1");
-  const [input, setInput] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [posts, setPosts] = useState<PostListType[]>([]);
+  const [input, setInput] = useRecoilState<string>(FreeBoardInputState);
+  const [sort, setSort] = useRecoilState<string>(FreeBoardSortState);
+  const [cond, setCond] = useRecoilState<string>(FreeBoardCondState);
+  const [currentPage, setCurrentPage] = useRecoilState<number>(FreeBoardCurrentPageState);
+  const [totalPages, setTotalPages] = useRecoilState<number>(FreeBoardTotalPagesState);
+  const [posts, setPosts] = useRecoilState<PostListType[]>(FreeBoardListState);
 
+  const clickPageChange = (page: number) => {
+    searchPost(sort, cond, input, page);
+  };
   const clickSearchBtn = (event: FormEvent) => {
     event.preventDefault();
-    searchPost();
+    searchPost(sort, cond, input, 1);
   };
-  const EnterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const enterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") { // 이걸 안하면 모든 키 입력을 못 받음
       event.preventDefault();
-      searchPost();
+      searchPost(sort, cond, input, 1);
     }
   };
-
-  const searchPost = () => {
-    getPostList(sort, cond, input, currentPage-1).then((postsData) => {
+  
+  const pageReset = () =>{
+    setInput("");
+    setSort("1");
+    setCond("1");
+    setCurrentPage(1);
+    searchPost("1", "1", "", 1);
+  }
+  
+  const searchPost = (sort: string, cond: string, input:string, page: number) => {
+    setCurrentPage(page)
+    // setCurrentPage 가 완료되기 전에 API 요청을 보내기 때문에 page 값을 보내야 함
+    getPostList(sort, cond, input, page).then((postsData) => {
       if(postsData) {
         setPosts(postsData.content)
-        // setTotalPages(postsData.totalPages)
         setTotalPages(postsData.totalPages)
-      }
-    })
+      };
+    });
   };
 
   useEffect(() => {
-    searchPost();
-  }, [currentPage, sort]);
+    searchPost(sort, cond, input, 1);
+  },[sort]);
+
+  useEffect(() => {
+    const prevPage = localStorage.getItem('prevPage');
+    if (!prevPage?.startsWith('/freeboard') || prevPage === null) {
+      pageReset();
+    }
+  }, []);
 
   const pages = [...Array(totalPages).keys()].map((page) => page + 1);
   const maxDisplayedPages = 10;
@@ -88,10 +109,10 @@ function FreeBoard () {
     <BackGroundImg>
       <Header/>
       <FreeBoardDesign>
-        <h2 style={{ height: "1vh" }}>자유 게시판</h2>
+        <h2 onClick={pageReset} style={{ height: "1vh" }}>자유 게시판</h2>
 
         <OrderBoxDesign>
-          <OrderSelectDesign id="sort-select" onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
+          <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
             <option value="1">최신순</option>
             <option value="2">조회순</option>
             <option value="3">좋아요순</option>
@@ -107,7 +128,7 @@ function FreeBoard () {
           <PostCategoryLikeDesign>좋아요</PostCategoryLikeDesign>
         </PostCategoryDesign>
 
-        {posts.map(post => (
+        {posts?.map(post => (
           <PostList
             key={post.id} 
             id={post.id}
@@ -123,7 +144,7 @@ function FreeBoard () {
         ))}
 
         <SearchboxDesign style={{borderTop: "solid 1px white"}}>
-          <SearchSelectDesign id="cond-select" onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
+          <SearchSelectDesign id="cond-select" value={cond} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
             <option value="1">제목</option>
             <option value="2">제목+내용</option>
             <option value="3">작성자</option>
@@ -133,7 +154,7 @@ function FreeBoard () {
             <InputBoxIpt
               value={input}
               onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
-              onKeyPress={EnterKeyDown} 
+              onKeyPress={enterKeyDown} 
               type="text" 
               placeholder="검색"/>
             <InputBoxBtn>
@@ -147,15 +168,15 @@ function FreeBoard () {
 
       <PaginationWrapper>
       {currentPage > 1 && (
-        <PaginationItem onClick={() => setCurrentPage(currentPage - 1)}>이전</PaginationItem>
+        <PaginationItem onClick={() => clickPageChange(currentPage - 1)}>이전</PaginationItem>
       )}
       {pages.slice(startPage - 1, endPage).map((page) => (
-        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => setCurrentPage(page)}>
+        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
           {page}
         </PaginationItem>
       ))}
       {currentPage < totalPages && (
-        <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>다음</PaginationItem>
+        <PaginationItem onClick={() => clickPageChange(currentPage + 1)}>다음</PaginationItem>
       )}
       </PaginationWrapper>
 

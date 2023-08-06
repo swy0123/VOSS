@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { PostListType } from "/src/type/Auth";
-import HasImageFile from "/src/assets/HasImageFile.png"
-import HasOtherFile from "/src/assets/HasOtherFile.png"
+import { PostListType } from "/src/type/FreeBoard";
+import HasImageFile from "/src/assets/FreeBoard/HasImageFile.png"
+import HasOtherFile from "/src/assets/FreeBoard/HasOtherFile.png"
 import {
   PostListDesign,
   PostNumberDesign,
-  PostLikeDesign,
   PostTitleDesign,
   PostFileDesign,
   PostCommentsDesign,
   PostUserDesign,
   PostCreatedatDesign,
   PostHitDesign,
+  PostLikeDesign,
 } from "./PostList.style";
 
 
@@ -37,11 +37,9 @@ function PostList({ id, title, nickname, hasImageFile, hasOtherFile, comments, l
         <PostUserDesign onClick={() => goProfile(1)}>{nickname}</PostUserDesign>
         <PostCreatedatDesign>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 16)}`}</PostCreatedatDesign>
         <PostHitDesign>{hits}</PostHitDesign>
-        <PostLikeDesign>
-          <img src="/src/assets/LikeIt.png" alt="" />
-          <span style={{marginLeft: '3px'}}>{likes}</span>
-          </PostLikeDesign>
+        <PostLikeDesign>{likes}</PostLikeDesign>
     </PostListDesign>
-  )
-}
+  );
+};
+
 export default PostList;

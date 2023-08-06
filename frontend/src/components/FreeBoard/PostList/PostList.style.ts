@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 export const PostListDesign = styled.div`
   /* border: solid 1px white; */
   display: flex;
-  width: 80vw;
-  height: 5.3vh;
+  width: 70vw;
+  height: 5.6vh;
   font-size: 0.8vw;
   &:hover {
     background-color: rgba(0, 0, 0, 0.4);
@@ -24,27 +24,14 @@ export const PostNumberDesign = styled.div`
   }
   `;
 
-export const PostLikeDesign = styled.div`
-  /* border: solid 2px red; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5%;
-  img {
-    width: 25%;
-    aspect-ratio: 1/1;
-  }
-  `;
-
 export const PostTitleDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
+  justify-content: start;
   align-items: center;
-  margin-left: 4vw;
-  // 5% = 4vw 
-  width: 45%;
+  margin-left: 6%;
+  width: 44%;
   font-size: 0.9vw;
-  text-align: start;
   &:hover {
     text-decoration: underline;
   }
@@ -53,11 +40,11 @@ export const PostTitleDesign = styled.div`
 export const PostFileDesign = styled.img`
   margin-left: 0.3vw;
   width: 15px;
-  height: 15px
+  height: 15px;
 `;
 
 export const PostCommentsDesign = styled.div`
-  margin-left: 1vw;
+  margin-left: 1.8vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,18 +52,17 @@ export const PostCommentsDesign = styled.div`
   border-radius: 50%;
   background-color: white;
   color: black;
-  width: 1.4vw;
-  aspect-ratio: 1/1;
-  font-size: 0.9vw;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
 `;
 
 export const PostUserDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 12%;
-  text-align: center;
+  align-items: center;
+  width: 10%;
   &:hover {
     text-decoration: underline;
   }
@@ -85,10 +71,9 @@ export const PostUserDesign = styled.div`
 export const PostCreatedatDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 20%;
-  text-align: center;
+  align-items : center;
+  width: 16%;
 `;
 
 export const PostHitDesign = styled.div`
@@ -96,5 +81,13 @@ export const PostHitDesign = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5%;
+  width: 8%;
+`;
+
+export const PostLikeDesign = styled.div`
+  /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8%;
 `;

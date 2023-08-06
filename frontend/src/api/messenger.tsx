@@ -13,8 +13,8 @@ export const getMessageRooms = async () => {
     return false
 };
 
-export const createMessageRooms = async ( id: number ) => {
-    const res = await privateApi.get(`/messsenger`)
+export const createMessageRooms = async ( yourMemberId: number ) => {
+    const res = await privateApi.get(`/messsenger`, {yourMemberId})
     .catch(err => {
         console.log("createMessageRooms catch: ", err)
     })
@@ -26,8 +26,8 @@ export const createMessageRooms = async ( id: number ) => {
 };
 
 
-export const getMessages = async ( id: number ) => {
-    const res = await privateApi.get(`/messenger/${id}`)
+export const getMessages = async ( chatId: number, page: number, limit: number ) => {
+    const res = await privateApi.get(`/messenger/${chatId}?page=${page}&limit=${limit}`)
     .catch(err => {
         console.log("getMessages catch: ", err)
     })

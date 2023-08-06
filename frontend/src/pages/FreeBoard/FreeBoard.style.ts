@@ -2,8 +2,8 @@ import { styled } from "styled-components";
 
 
 export const FreeBoardDesign = styled.div`
-  margin-left: 10vw;
-  width: 80vw;
+  margin-left: 15vw;
+  width: 70vw;
   color: white;
   /* border: dotted 1px yellow; */
 `;
@@ -11,10 +11,10 @@ export const FreeBoardDesign = styled.div`
 export const OrderBoxDesign = styled.div`
   display: flex;
   justify-content: end;
-  width: 80vw;
+  width: 70vw;
   height: 3.8vh;
   /* border: dotted 1px red; */
-`;
+  `;
 
 export const OrderSelectDesign = styled.select`
   display: flex;
@@ -29,12 +29,12 @@ export const OrderSelectDesign = styled.select`
 `;
 
 export const PostCategoryDesign = styled.div`
-  /* border: solid 1px white; */
   display: flex;
-  width: 80vw;
+  width: 70vw;
   height: 5.3vh;
   font-size: 0.8vw;
   border-bottom: solid 1px white;
+  /* border: solid 1px white; */
 `;
 
 
@@ -47,39 +47,28 @@ export const PostCategoryNumberDesign = styled.div`
   text-align: center;
   `;
 
-export const PostCategoryLikeDesign = styled.div`
+export const PostCategoryTitleDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5%;
-`;
-
-export const PostCategoryTitleDesign = styled.div`
-  /* border: solid 2px red; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   width: 50%;
-  text-align: center;
   `;
 
 export const PostCategoryUserDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 12%;
-  text-align: center;
+  align-items : center;
+  width: 10%;
   `;
 
 export const PostCategoryCreatedatDesign = styled.div`
   /* border: solid 2px red; */
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 20%;
-  text-align: center;
+  align-items : center;
+  width: 16%;
 `;
 
 export const PostCategoryHitDesign = styled.div`
@@ -87,13 +76,21 @@ export const PostCategoryHitDesign = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5%;
+  width: 8%;
+`;
+
+export const PostCategoryLikeDesign = styled.div`
+  /* border: solid 2px red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8%;
 `;
 
 export const SearchboxDesign = styled.div`
   display: flex;
   justify-content: end;
-  width: 80vw;
+  width: 70vw;
   height: 9vh;
   /* border: solid 1px white; */
   `;
@@ -109,6 +106,7 @@ export const SearchSelectDesign = styled.select`
   background-color: #313131;
   border-radius: 5px;
   border: none;
+  /* border: solid 1px white; */
   `;
 
 export const InputBoxDesign = styled.form`
@@ -122,6 +120,7 @@ export const InputBoxDesign = styled.form`
   background-color: rgba(239, 239, 239, 0.2);
   border-radius: 5px;
   border: none;
+  /* border: solid 1px white; */
   `;
 
 export const InputBoxIpt = styled.input`
@@ -132,6 +131,7 @@ export const InputBoxIpt = styled.input`
   border: none;
   border-radius: 10px;
   outline: none;
+  /* border: solid 1px white; */
   &::placeholder {
     color: rgba(239, 239, 239, 0.8);
   }
@@ -146,12 +146,12 @@ export const InputBoxBtn = styled.button`
   background-color: transparent;
   border: none;
   border-radius: 10px;
-`;
+  `;
 
 export const CreateSpaceDesign = styled.div`
   display: flex;
   align-self: center;
-  width: 23.5vw;
+  width: 18.5vw;
   height: 4vh;
   /* border: dotted 1px yellow; */
 `;

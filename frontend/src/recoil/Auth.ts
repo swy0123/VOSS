@@ -32,20 +32,6 @@ export const LoginModeAtom = atom({
 });
 
 
-// 더미 유저 정보 (서버에 있기는 함)
-const TempUserList = [
-  {email: 'rmsgPtest@naver.com', nickname: '박근혜', userid: 24},
-  {email: 'tmdakstest@naver.com', nickname: '이승만', userid: 25},
-  {email: 'wjdgmltest@naver.com', nickname: '박정희', userid: 26},
-  {email: 'audqkrtest@naver.com', nickname: '이명박', userid: 27},
-  {email: 'wodlstest@naver.com', nickname: '문재인', userid: 28},
-]
-export const TempUserListAtom = atom({
-  key: "TempUserListAtom",
-  default: TempUserList,
-});
-
-
 // 프로필 페이지 정보
 export const ProfileState = atom({
   key: "ProfileState",
@@ -71,7 +57,6 @@ export const FollowerListState = atom({
   key: "FollowerListState",
   default: [],
 });
-
 export const FollowingListState = atom({
   key: "FollowingListState",
   default: [],
@@ -83,7 +68,6 @@ export const ModalOpenState = atom({
   key: "ModalOpenState",
   default: false,
 });
-
 export const FollowerTabState = atom({
   key: "FollowerTabState",
   default: true,
