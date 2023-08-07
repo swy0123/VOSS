@@ -26,7 +26,8 @@ public class MemberInfoResponse {
     private Integer totalCnt;
 
     @Builder
-    public MemberInfoResponse(Long id, String email, String nickname, String imageUrl, Boolean isFollowing, Integer followerCnt, Integer followingCnt, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
+
+    public MemberInfoResponse(Long id, String email, String nickname, String imageUrl, Boolean isFollowing, Integer followerCnt, Integer followingCnt, List<ViewBadgeResponse> badges, Integer actCnt, Integer dubCnt, Integer dictionCnt, Integer totalCnt) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -34,6 +35,7 @@ public class MemberInfoResponse {
         this.isFollowing = isFollowing;
         this.followerCnt = followerCnt;
         this.followingCnt = followingCnt;
+        this.badges = badges;
         this.actCnt = actCnt;
         this.dubCnt = dubCnt;
         this.dictionCnt = dictionCnt;

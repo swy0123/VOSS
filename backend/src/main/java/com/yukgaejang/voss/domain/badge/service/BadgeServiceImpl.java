@@ -5,12 +5,14 @@ import com.yukgaejang.voss.domain.badge.repository.BadgeRepository;
 import com.yukgaejang.voss.domain.badge.repository.entity.Attach;
 import com.yukgaejang.voss.domain.badge.repository.entity.Badge;
 import com.yukgaejang.voss.domain.badge.service.dto.request.GiveBadgeRequest;
+import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,11 @@ public class BadgeServiceImpl implements BadgeService {
         if (gaveSameCertainly(sender, receiver, badge)) return false;
         attachRepository.save(new Attach(badge, sender, receiver));
         return true;
+    }
+
+    @Override
+    public List<ViewBadgeResponse> getBadges(Member me) {
+        return badgeRepository.findAllBadgeByMember(me);
     }
 
     private boolean gaveSameCertainly(Member sender, Member receiver, Badge badge) {
