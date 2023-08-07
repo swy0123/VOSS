@@ -2,10 +2,13 @@ package com.yukgaejang.voss.domain.game.controller;
 
 import com.yukgaejang.voss.domain.game.repository.entity.Type;
 import com.yukgaejang.voss.domain.game.service.GameService;
+import com.yukgaejang.voss.domain.game.service.dto.request.SearchCondition;
 import com.yukgaejang.voss.domain.game.service.dto.response.GameSourceUploadResponse;
+import com.yukgaejang.voss.domain.game.service.dto.response.MafiaGameScoreListResponse;
 import com.yukgaejang.voss.domain.game.service.dto.response.MafiaGameSourceListResponse;
 import com.yukgaejang.voss.domain.game.service.dto.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,5 +40,12 @@ public class GameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(gameService.setMafiaGameScore(email, cnt));
+    }
+
+    @GetMapping("/score")
+    public ResponseEntity<Page<MafiaGameScoreListResponse>> getMafiaGameScoreList(SearchCondition searchCondition) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(gameService.getMafiaGameScoreList(email, searchCondition));
     }
 }
