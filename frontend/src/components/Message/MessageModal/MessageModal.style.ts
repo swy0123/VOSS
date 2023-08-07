@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SendArrowHover from "/src/assets/Messenger/SendArrowHover.png";
+import SendArrowHover from "../../../assets/Messenger/SendArrowHover.png";
 
 export const ModalContainer = styled.div`
   position: fixed;
