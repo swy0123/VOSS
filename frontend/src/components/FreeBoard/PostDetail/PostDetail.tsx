@@ -13,6 +13,7 @@ import PostHitImg from "/src/assets/FreeBoard/PostHit.png";
 import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png"
+import { VscClose } from "react-icons/vsc";
 import { 
   DetailScrollDesign,
   PostDetailDesign,
@@ -27,6 +28,8 @@ import {
   DetailLikeNumDesign,
   DetailLikeDesign,
   DetailFilesDesign,
+  DetailImageFileDesign,
+  DetailOtherFileDesign,
   DetailUpdateDeleteDesign,
   DetailUpdateDesign,
   DetailDeleteDesign,
@@ -40,6 +43,8 @@ function PostDetail() {
   const [post, setPost] = useState<PostType>({});
   const [likes, setLikes] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [otherFiles, setOtherFiles] = useState([]);
   const commentCount = useRecoilValue<number>(FreeBoardCommentCountState);
   
   const goFreeBoard = () => navigate("/freeboard");
@@ -61,6 +66,8 @@ function PostDetail() {
         setPost(dataPost)
         setLikes(dataPost.likes)
         setLiked(dataPost.liked)
+        setImageFiles(dataPost.imageFiles)
+        setOtherFiles(dataPost.otherFiles)
       }
     })
   }, [id])
@@ -97,7 +104,22 @@ function PostDetail() {
         <DetailLikeDesign>{ liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}</DetailLikeDesign>
       </DetailLikeRowDesign>
 
-      <DetailFilesDesign onClick={()=>alert("개발예정입니다")}>첨부파일</DetailFilesDesign>
+      { imageFiles.length || otherFiles.length
+      ? <DetailFilesDesign>
+        첨부파일 : 
+        {imageFiles.map((file: any, index: number) => (
+        <DetailImageFileDesign key={index}>
+          {file.originalFileName}
+        </DetailImageFileDesign>
+        ))}
+        {otherFiles.map((file: any, index: number) => (
+        <DetailOtherFileDesign key={index}>
+          {file.originalFileName}
+        </DetailOtherFileDesign>
+        ))}
+      </DetailFilesDesign>
+      : null
+      }
 
       <DetailUpdateDeleteDesign>
         <DetailUpdateDesign onClick={goUpdate}>글 수정</DetailUpdateDesign>

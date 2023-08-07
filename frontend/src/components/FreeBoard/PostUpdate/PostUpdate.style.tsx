@@ -93,6 +93,7 @@ export const UpdateContentDesign = styled.textarea`
 export const UpdateFilesDesign = styled.div`
   margin: 0 auto;
   display: flex;
+  align-items: center;
   width: 65vw;
   border: solid 1px green;
   flex-wrap: wrap;
