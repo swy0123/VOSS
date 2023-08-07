@@ -31,17 +31,23 @@ export const VideoContainer = styled.div`
   flex-wrap: wrap;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 5px auto;
 `;
 
-export const StreamContainer = styled.div<{ $streamContainerProps: streamContainerProps }>`
+export const StreamContainer = styled.div<{
+  $streamContainerProps: streamContainerProps;
+}>`
   margin: auto 5px;
   position: relative;
-  max-height: ${(props) => (props.$streamContainerProps.bottomOn ? "100%" : "47%")};
+  max-height: ${(props) =>
+    props.$streamContainerProps.bottomOn ? "100%" : "100%"};
   /* min-height: 100%; */
   width: ${(props) =>
     props.$streamContainerProps.bottomOn
-      ? 16 + "%"
+      ? props.$streamContainerProps.curCount < 3
+        ? "30%"
+        : "16%"
       : // ? "auto"
       props.$streamContainerProps.curCount == 4
       ? 47 + "%"
@@ -49,8 +55,11 @@ export const StreamContainer = styled.div<{ $streamContainerProps: streamContain
       ? 31 + "%"
       : 100 / props.$streamContainerProps.curCount - 2 + "%"};
   overflow: hidden;
-  
-  aspect-ratio: 5/3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  aspect-ratio: 3/2;
 `;
 
 export const ChatBox = styled.div`
