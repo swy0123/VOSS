@@ -12,6 +12,7 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
+import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
 import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
@@ -29,6 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private final NotificationService notificationService;
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final StatRepository statRepository;
@@ -60,7 +62,11 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("팔로우하려는 대상 멤버가 존재하지 않습니다.")
         );
 
-        followRepository.save(new Follow(follower, following));
+        Follow follow = new Follow(follower, following);
+        followRepository.save(follow);
+
+        // TODO : event로 처리
+        notificationService.notifyFollow(follow);
     }
 
     @Override
