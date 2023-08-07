@@ -14,7 +14,6 @@ export const Chat = styled.div`
   border-radius: 10px;
 `;
 
-
 export const ChatScroll = styled.div`
   height: 95%;
   width: 95%;
@@ -34,6 +33,12 @@ export const MyChatting = styled.div`
   display: flex;
   justify-content: end;
 `;
+
+export const MessageInput = styled.div`
+  height: 5%;
+  width: 100%;
+`;
+
 export const OtherChatting = styled.div`
   display: flex;
   justify-content: start;

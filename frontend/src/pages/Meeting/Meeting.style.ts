@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 export const Container = styled.div<{$isClicked?: boolean}>`
   display: flex;
   justify-content: center;
-  background-color: gray;
+  /* background-color: gray; */
   height: ${props => props.$isClicked ? '27%': '87%'};
   margin: 0;
 `;

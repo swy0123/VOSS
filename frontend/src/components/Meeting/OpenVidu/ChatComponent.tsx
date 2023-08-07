@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
-import { ChatContainer, Chat, ChatScroll, MyChatting, OtherChatting, Chatting } from "./ChatComponent.style";
+import { ChatContainer, Chat, ChatScroll, MyChatting, OtherChatting, Chatting, MessageInput } from "./ChatComponent.style";
 import { useRecoilState } from "recoil";
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
@@ -8,9 +8,7 @@ export interface ChatProps {
   connectionIdProps: string;
   nicknameProps: string;
   streamManagerProps: any;
-  chatDisplayProps: string;
-  close: (property: string | undefined) => void;
-  messageReceived: () => void;
+  // messageReceived: () => void;
 }
 
 interface messageType {
@@ -22,13 +20,12 @@ interface messageType {
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [messageList, setMessageList] = useState<messageType[]>([]);
   const [message, setMessage] = useState("시작");
-  const chatScroll = useRef<HTMLDivElement>(null);
-
-  const [chatDisplay, setChatDisplay] = useState(chatProps.chatDisplayProps);
   const [connectionId, setConnectionId] = useState(chatProps.connectionIdProps);
   const [nickname, setNickname] = useState(chatProps.nicknameProps);
   const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
   
+  const chatScroll = useRef<HTMLDivElement>(null);
+
   //send는 컴포넌트에서 보내는 이벤트
   //recieve는 chat으로 받는 이벤트
   const [send, setSend] = useRecoilState(sendMsg);
@@ -48,7 +45,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const sendMessage = (order?:string) => {
     let tmp = message;
     if(order !== undefined) tmp = order;
-    // console.log(message);
+    console.log(chatProps);
     if (tmp) {
       let newMessage = tmp.replace(/ +(?= )/g, "");
       if (newMessage !== "" && newMessage !== " ") {
@@ -70,9 +67,9 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     chatScroll.current?.scrollIntoView({ behavior: "instant" });
   };
 
-  const close = () => {
-    chatProps.close(undefined);
-  };
+  // const close = () => {
+  //   chatProps.close(undefined);
+  // };
 
   useEffect(()=>{
     sendMessage();
@@ -80,9 +77,13 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
   //명령어 전송
   useEffect(()=>{
-    if(send=="open") {
-      setSend("none");
-      sendMessage("open");
+    if(send=="/open") {
+      setSend("/none");
+      sendMessage("/open");
+    }
+    else if(send=="/close") {
+      setSend("/none");
+      sendMessage("/close");
     }
   }, [send])
 
@@ -105,19 +106,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
     });
     //이부분에 조건문으로 명령어 감지하고 리코일 이벤트 추가
-    if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "open") {
-      
-      // alert(messageList[messageList.length - 1].message + "  check");
-      console.log("setRecieve");
-      setRecieve("open");
-
-      messageList.pop();
-
-    }
+    if (messageList.length - 1 > 0){
+      if(messageList[messageList.length - 1].message === "/open") {
+        setRecieve("/open");
+        messageList.pop();
+      }
+      else if(messageList[messageList.length - 1].message === "/close") {
+        setRecieve("/close");
+        messageList.pop();
+      }
+    } 
 
   }, [messageList, chatProps]);
-
-  const styleChat = { display: chatDisplay };
 
   //채팅 부분 css 작업 미완료
   return (
@@ -152,7 +152,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
           <div ref={chatScroll}></div>
         </ChatScroll>
 
-        <div id="messageInput">
+        <MessageInput id="messageInput">
           <input
             placeholder="Send a message"
             id="chatInput"
@@ -165,7 +165,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
               <div />
             </div>
           </div>
-        </div>
+        </MessageInput>
       </Chat>
     </ChatContainer>
   );
