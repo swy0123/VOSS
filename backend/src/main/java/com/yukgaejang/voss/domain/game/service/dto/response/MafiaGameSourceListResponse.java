@@ -8,9 +8,11 @@ import lombok.Data;
 public class MafiaGameSourceListResponse {
     private Type type;
     private String fileName;
+    private Long memberId;
 
     public MafiaGameSourceListResponse(MafiaGameSource mafiaGameSource) {
         this.type = mafiaGameSource.getType();
         this.fileName = mafiaGameSource.getFileName();
+        this.memberId = mafiaGameSource.getMember().getId();
     }
 }
