@@ -47,19 +47,19 @@ function Meeting() {
   useEffect(()=>{
     if(recieve=="open") {
       console.log("bottomOn");
-      setBottomOn(!bottomOn);
       setRecieve("none");
     }
   }, [recieve])
-
+  
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     event.returnValue = "";
   };
-
+  
   const isBottomOn = () => {
-    setSend("open");
-    console.log("isBottomOn")
+    setBottomOn(!bottomOn);
+    setMeetDubSelect(0)
+    // setSend("open");
   };
   
   const props: MeetingProps = {

@@ -13,7 +13,6 @@ import Video from "./Video/Video"
 function DubbingRoom () {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
-  
   const goDubbingList = () => {setMeetDubSelect(0)}
 
   const axiosVideo = async (id:number):Promise<void> => {
@@ -28,7 +27,7 @@ function DubbingRoom () {
 
   useEffect(() => {
     void axiosVideo(meetDubSelect);
-  }, [meetDubSelect]);
+  }, []);
 
   // 로딩 페이지가 하나 더 있으면 좋겠다.
   if (!video) {return <div>Loading...</div>;}
