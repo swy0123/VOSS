@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public void notifyFollow(Follow follow) {
