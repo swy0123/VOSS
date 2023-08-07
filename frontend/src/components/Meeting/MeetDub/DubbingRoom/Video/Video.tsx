@@ -1,26 +1,28 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { ScriptData, VideosType } from "/src/type/type";
+import { ScriptData } from "/src/type/type";
 import { meetDubSelectState } from "/src/recoil/HW_Atom";
 import { 
+  Box,
   Container, 
   Display, 
+  ImgSection, 
   RoleBox, 
   RoleButton, 
-  Title } from "./Video.style";
+  Thumbnail, 
+  Title, 
+  YoutubeIcon} from "./Video.style";
 import { 
-  PlayChangebState, 
   RoleSelectState, 
-  ScriptSelectState, 
-  videoListState} from "/src/recoil/Training";
+  ScriptSelectState} from "/src/recoil/Training";
 
 function Video ({script, roles, lines}: ScriptData) {
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-  const [youtube, setYoutube] = useState()
+  const [chagneDisplay, setChangeDisplay] = useState<boolean>(true)
+  const [youtube, setYoutube] = useState("")
 
   // 역할 선택
   const handleRoleBtn = (index: number) => {
@@ -38,13 +40,17 @@ function Video ({script, roles, lines}: ScriptData) {
 
   // 동영상 출력
   const onYouTubeIframeAPIReady = () => {
-    const player = new YT.Player('player', {
+    let player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
       events: {
-        'onStateChange' : onPlayStateChange,
+        'onReady': onPlayerReady,
       }
     });
     setYoutube(player)
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
   }
 
   // 영상 플레이
@@ -56,7 +62,6 @@ function Video ({script, roles, lines}: ScriptData) {
   const SelfPauseVideo = () => {
     youtube.pauseVideo()
   }
-
   useEffect(() => {
     // index.html에 CDN을 동적으로 추가해주는 과정이라 생각하자
     const tag = document.createElement('script');
@@ -65,8 +70,13 @@ function Video ({script, roles, lines}: ScriptData) {
     if (firstScriptTag && firstScriptTag.parentNode) {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
   }, [])
+  
+  const onChagneDisplay = () => {
+    onYouTubeIframeAPIReady()
+    setChangeDisplay(false)
+  }
 
   return(
     <Container>
@@ -74,7 +84,20 @@ function Video ({script, roles, lines}: ScriptData) {
       <button onClick={SelfPlayVideo}>Play</button>
       <button onClick={SelfPauseVideo}>Pause</button>
       <Title>{script.title}</Title>
+      <Box>
       <Display id="player"></Display>
+      {youtube ?( 
+        ""
+        ):(
+        <ImgSection>
+          <Thumbnail
+            src={`https://img.youtube.com/vi/${script.videoUrl.slice(-11)}/mqdefault.jpg`}/>
+          <YoutubeIcon 
+            onClick={onYouTubeIframeAPIReady}
+            src="/src/assets/Meeting/youtube.png"/>
+        </ImgSection>
+        )}
+      </Box>
       <RoleBox>
           {roles.map((role,index) => (
             <RoleButton 
@@ -85,7 +108,6 @@ function Video ({script, roles, lines}: ScriptData) {
             </RoleButton>
           ))}
       </RoleBox>
-
     </Container>
   )
 }

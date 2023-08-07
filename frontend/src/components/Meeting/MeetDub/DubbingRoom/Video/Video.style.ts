@@ -11,12 +11,36 @@ export const Title = styled.h2`
   text-align: left;
   margin-bottom: 30px;
 `
+export const Box = styled.div`
+  height: 255px;
+`
 export const Display = styled.div`
+  position: absolute;
   background-color: black;
   margin-bottom: 10px;
   height: 250px;
   width: 450px;
 `
+export const ImgSection = styled.div`
+  position: absolute;
+  display: flex;
+  height: 250px;
+  width: 450px;
+  align-items: center;
+  justify-content: center;
+`
+export const Thumbnail = styled.img`
+  position: absolute;
+  margin-bottom: 10px;
+  height: 250px;
+  width: 450px;
+`
+export const YoutubeIcon =styled.img`
+  position: absolute;
+  height: 100px;
+  width: 100px;
+`
+
 export const RoleBox = styled.div`
   display: flex;
   align-items: center;
