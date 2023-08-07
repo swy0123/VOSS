@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.auth.service.dto.request.ConfirmEmailRequest;
 import com.yukgaejang.voss.domain.auth.service.dto.request.SendEmailRequest;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
+import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -32,6 +33,7 @@ public class AuthService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
     private final EmailRepository emailRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
 
     @Value("${SMTP_EMAIL}")
@@ -47,6 +49,10 @@ public class AuthService implements UserDetailsService {
                 .password(member.getPassword())
                 .roles(member.getRole().name())
                 .build();
+    }
+
+    public void logout(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
     }
 
     public void sendEmail(SendEmailRequest sendEmailRequest) {

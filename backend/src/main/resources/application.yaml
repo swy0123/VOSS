@@ -19,6 +19,14 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 50MB
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+  main:
+    allow-bean-definition-overriding: true
 jwt:
   secretKey: test210
   access:

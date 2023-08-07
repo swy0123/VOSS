@@ -129,14 +129,6 @@ public class JwtService {
         response.setHeader(refreshHeader, refreshToken);
     }
 
-    public void updateRefreshToken(String originRefreshToken, String newRefreshToken) {
-        if (!refreshTokenRepository.existsByRefreshToken(originRefreshToken)) {
-            System.out.println("없는 토큰입니다");
-            return;
-        }
-        refreshTokenRepository.updateRefreshToken(originRefreshToken, newRefreshToken);
-    }
-
     public boolean isTokenValid(String token) {
         try {
             JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);

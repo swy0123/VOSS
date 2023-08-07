@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.domain.auth.service;
 
+import com.yukgaejang.voss.domain.member.exception.NoMemberException;
+import com.yukgaejang.voss.domain.member.exception.WrongPasswordException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.RefreshToken;
@@ -25,7 +27,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
-        String email = extractUsername(authentication);
+        String email = extractUsername(request, authentication);
         String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
 
@@ -36,8 +38,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         System.out.println("로그인 성공");
     }
 
-    private String extractUsername(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    private String extractUsername(HttpServletRequest request, Authentication authentication) {
+        UserDetails userDetails = null;
+        try {
+            userDetails = (UserDetails) authentication.getPrincipal();
+        } catch (Exception e) {
+            request.setAttribute("exception", "잘못된 로그인 정보입니다");
+        }
         return userDetails.getUsername();
     }
 }

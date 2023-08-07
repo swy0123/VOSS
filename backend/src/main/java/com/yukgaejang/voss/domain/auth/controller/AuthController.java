@@ -5,6 +5,7 @@ import com.yukgaejang.voss.domain.auth.service.dto.request.ConfirmEmailRequest;
 import com.yukgaejang.voss.domain.auth.service.dto.request.SendEmailRequest;
 import com.yukgaejang.voss.domain.auth.service.dto.response.ConfirmEmailResponse;
 import com.yukgaejang.voss.domain.auth.service.dto.response.SendEmailResponse;
+import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
@@ -33,6 +34,13 @@ public class AuthController {
     public ResponseEntity<ConfirmEmailResponse> confirmEmail(@RequestBody ConfirmEmailRequest confirmEmailRequest) {
         authService.confirmEmail(confirmEmailRequest);
         return ResponseEntity.ok(new ConfirmEmailResponse(true));
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<Boolean> logout(@RequestHeader("Authorization-refresh") String refreshToken) {
+        authService.logout(refreshToken.replace("Bearer ", ""));
+
+        return ResponseEntity.ok(true);
     }
 
     @GetMapping("/jwt-test")
