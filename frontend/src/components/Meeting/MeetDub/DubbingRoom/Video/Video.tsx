@@ -73,11 +73,6 @@ function Video ({script, roles, lines}: ScriptData) {
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
   }, [])
   
-  const onChagneDisplay = () => {
-    onYouTubeIframeAPIReady()
-    setChangeDisplay(false)
-  }
-
   return(
     <Container>
       {/* 영상 플레이 or 일시정지 예시 */}
