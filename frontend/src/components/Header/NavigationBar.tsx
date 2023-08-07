@@ -28,7 +28,7 @@ interface Headertype {
 }
 
 function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headertype) {
-  // Router Link와 동일한 부분
+  // Router Link와 동일한 부분!!
   const navigate = useNavigate()  
   const goSelectCategory = () => {navigate("/category")}
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
