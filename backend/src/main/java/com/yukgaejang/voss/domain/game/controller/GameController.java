@@ -4,6 +4,7 @@ import com.yukgaejang.voss.domain.game.repository.entity.Type;
 import com.yukgaejang.voss.domain.game.service.GameService;
 import com.yukgaejang.voss.domain.game.service.dto.response.GameSourceUploadResponse;
 import com.yukgaejang.voss.domain.game.service.dto.response.MafiaGameSourceListResponse;
+import com.yukgaejang.voss.domain.game.service.dto.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,5 +30,12 @@ public class GameController {
     @GetMapping("/{cnt}")
     public ResponseEntity<List<MafiaGameSourceListResponse>> getRandomMafiaSourceListByCnt(@PathVariable int cnt) {
         return ResponseEntity.ok(gameService.getRandomMafiaSourceListLimitCnt(cnt));
+    }
+
+    @PostMapping("/score/{cnt}")
+    public ResponseEntity<StatusResponse> setScoreOfMafiaGame(@PathVariable int cnt) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(gameService.setMafiaGameScore(email, cnt));
     }
 }
