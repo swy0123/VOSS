@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import UpdateIconHover from "/src/assets/profile/UpdateIconHover.png";
+import UpdateIconHover from "/src/assets/Profile/UpdateIconHover.png";
 
 export const BasicBoxDesign = styled.div`
   /* border: dotted 1px red; */
