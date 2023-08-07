@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.yukgaejang.voss.domain.member.repository.entity.QFollow.follow;
+import static com.yukgaejang.voss.domain.member.repository.entity.QMember.member;
+
 @Repository
 @RequiredArgsConstructor
 public class FollowSupportRepositoryImpl implements FollowSupportRepository {
@@ -18,29 +21,26 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
 
     @Override
     public List<GetFollowMemberResponse> findFollowings(Long targetId, Long myId) {
-        QFollow f = QFollow.follow;
-        QMember m = QMember.member;
-
         return jpaQueryFactory
                 .select(Projections.constructor(GetFollowMemberResponse.class,
-                        m.id, m.email, m.nickname, jpaQueryFactory
+                        member.id, member.email, member.nickname, jpaQueryFactory
                                 .selectOne()
-                                .from(f)
-                                .where(f.follower.id.eq(myId).and(f.following.id.eq(m.id)))
+                                .from(follow)
+                                .where(follow.follower.id.eq(myId).and(follow.following.id.eq(member.id)))
                                 .exists()))
-                .from(m)
+                .from(member)
                 .where(jpaQueryFactory
                         .selectOne()
-                        .from(f)
-                        .where(f.follower.id.eq(targetId).and(f.following.id.eq(m.id)))
+                        .from(follow)
+                        .where(follow.follower.id.eq(targetId).and(follow.following.id.eq(member.id)))
                         .exists())
                 .fetch();
     }
 
     @Override
     public List<GetFollowMemberResponse> findFollowers(Long targetId, Long myId) {
-        QFollow f = QFollow.follow;
-        QMember m = QMember.member;
+        QFollow f = follow;
+        QMember m = member;
 
         return jpaQueryFactory
                 .select(Projections.constructor(GetFollowMemberResponse.class,
