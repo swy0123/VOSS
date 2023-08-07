@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.messenger.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
@@ -64,5 +65,18 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
                         attend.member.id.eq(memberId)
                 )
                 .execute();
+    }
+
+    @Override
+    public Boolean hasUnreadMessage(Long memberId) {
+        List<Attend> fetch = queryFactory
+                .select(attend)
+                .from(attend)
+                .orderBy(attend.receiveMessageTime.desc())
+                .where(attend.member.id.eq(memberId))
+                .fetch();
+        LocalDateTime leaveTime = fetch.get(0).getLeaveTime();
+        LocalDateTime receiveMessageTime = fetch.get(0).getReceiveMessageTime();
+        return leaveTime.compareTo(receiveMessageTime) < 0 ? true : false;
     }
 }
