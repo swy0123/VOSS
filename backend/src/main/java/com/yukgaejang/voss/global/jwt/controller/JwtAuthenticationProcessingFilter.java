@@ -37,7 +37,7 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals(NO_CHECK_URL)) {
+        if (request.getRequestURI().equals(NO_CHECK_URL) || request.getRequestURI().equals("/auth/logout")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -45,6 +45,7 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
         String refreshToken = jwtService.extractRefreshToken(request)
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
+
 
         if (refreshToken != null) {
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
@@ -56,7 +57,7 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
 
 
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        Optional<RefreshToken> token = refreshTokenRepository.findByRefreshToken(refreshToken);
+        Optional<RefreshToken> token = refreshTokenRepository.findById(refreshToken);
         if (token.isEmpty()) {
             throw new TokenNotValidateException("유효하지 않은 리프레시 토큰입니다");
         }
@@ -65,9 +66,12 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
     }
 
     private String reIssueRefreshToken(String originRefreshToken) {
-        String reIssuedRefreshToken = jwtService.createRefreshToken();
-        refreshTokenRepository.updateRefreshToken(originRefreshToken, reIssuedRefreshToken);
-        return reIssuedRefreshToken;
+        Optional<RefreshToken> token = refreshTokenRepository.findById(originRefreshToken);
+        refreshTokenRepository.deleteById(originRefreshToken);
+
+        String newRefreshToken = jwtService.createRefreshToken();
+        refreshTokenRepository.save(new RefreshToken(jwtService.createRefreshToken(), token.get().getEmail()));
+        return newRefreshToken;
     }
 
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
