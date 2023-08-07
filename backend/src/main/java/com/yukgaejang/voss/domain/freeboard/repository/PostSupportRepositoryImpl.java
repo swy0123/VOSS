@@ -55,13 +55,12 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        Long count = jpaQueryFactory
-                .select(p.id.count())
+        JPAQuery<Long> countQuery = jpaQueryFactory
+                .select(p.id)
                 .from(p)
-                .where(p.isDeleted.eq(0))
-                .fetchOne();
+                .where(p.isDeleted.eq(0));
 
-        return new PageImpl<>(posts, pageable, posts.size());
+        return new PageImpl<>(posts, pageable, countQuery.fetchCount());
     }
 
     @Override
@@ -92,7 +91,7 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .from(p)
                 .where(p.isDeleted.eq(0).and(p.member.nickname.eq(nickname)));
 
-        return new PageImpl<>(posts, pageable, posts.size());
+        return new PageImpl<>(posts, pageable, countQuery.fetchOne());
     }
 
     @Override
