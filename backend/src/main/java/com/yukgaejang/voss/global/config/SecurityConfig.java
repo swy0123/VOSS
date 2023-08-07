@@ -37,6 +37,7 @@ public class SecurityConfig {
     private final RefreshTokenRepository refreshTokenRepository;
     private final ObjectMapper objectMapper;
     private final AuthenticationEntryPoint entryPoint;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(withDefaults());
@@ -47,6 +48,7 @@ public class SecurityConfig {
                 authorize -> authorize
                         .requestMatchers("/ws/messenger").permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/logout").permitAll()
                         .requestMatchers("/auth/test").permitAll()
                         .requestMatchers("/member").permitAll()
                         .requestMatchers("/auth/email", "/auth/email/confirm").permitAll()

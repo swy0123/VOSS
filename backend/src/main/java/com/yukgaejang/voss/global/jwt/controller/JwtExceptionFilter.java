@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.global.jwt.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yukgaejang.voss.domain.member.exception.WrongPasswordException;
 import com.yukgaejang.voss.global.jwt.exception.TokenNotValidateException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             request.setAttribute("exception", "유효하지 않은 토큰");
 
         } catch (IOException | ServletException e) {
-            request.setAttribute("exception", "에러 종류");
+            request.setAttribute("exception", "잘못된 요청");
 
         }
 
