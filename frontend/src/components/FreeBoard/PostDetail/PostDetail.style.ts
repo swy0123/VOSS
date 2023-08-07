@@ -148,12 +148,18 @@ export const DetailIndexDesign = styled.div`
 export const DetailFilesDesign = styled.div`
   margin: 0 auto;
   display: flex;
+  align-items: center;
   width: 65vw;
   border: solid 1px green;
   flex-wrap: wrap;
 `;
 
-export const DetailFileDesign = styled.div`
+export const DetailImageFileDesign = styled.div`
+  border: solid 1px yellowgreen;
+  margin: 5px;
+`;
+
+export const DetailOtherFileDesign = styled.div`
   border: solid 1px yellowgreen;
   margin: 5px;
 `;

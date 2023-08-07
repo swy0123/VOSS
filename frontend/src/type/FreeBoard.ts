@@ -34,12 +34,21 @@ export interface PostType {
 
 // 게시글 첨부파일 타입
 export interface PostFilesType {
-  originalFileName?: number;
+  originalFileName?: string;
   savedFileName?: string;
   contentType?: string;
   size: number;
 };
 
+
+// 게시글 조회, 수정 때만 반환되는 파일 타입
+export interface PostFirstFilesType {
+  id? : number;
+  originalFileName?: string;
+  savedFileName?: string;
+  contentType?: string;
+  size: number;
+};
 
 // 댓글 타입
 export interface CommentType {

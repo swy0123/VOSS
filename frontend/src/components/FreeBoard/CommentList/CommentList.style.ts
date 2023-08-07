@@ -56,7 +56,7 @@ export const CommentDeleteDesign = styled.div`
 
 export const CommentContentDiv = styled.div`
   width: 70vw;
-  padding: 2vw 0;
+  padding: 2vw 0 3vw;
   border: solid 1px pink;
 `;
 
