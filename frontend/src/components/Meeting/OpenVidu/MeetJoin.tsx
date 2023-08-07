@@ -66,7 +66,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   }, [messageReceived, chatDisplay]);
 
   useEffect(() => {
-    setCurCount(subscribers.length+1)
+    setCurCount(subscribers.length + 1)
   }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -238,8 +238,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     messageReceived: checkNotification,
   };
 
-  
-  const streamContainerProps:streamContainerProps = {
+
+  const streamContainerProps: streamContainerProps = {
     curCount: curCount,
     bottomOn: props.bottomOn,
   }
