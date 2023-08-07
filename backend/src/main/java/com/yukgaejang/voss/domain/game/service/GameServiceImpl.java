@@ -1,11 +1,14 @@
 package com.yukgaejang.voss.domain.game.service;
 
 import com.yukgaejang.voss.domain.game.exception.NoMatchFileException;
+import com.yukgaejang.voss.domain.game.repository.MafiaGameScoreRepository;
 import com.yukgaejang.voss.domain.game.repository.MafiaGameSourceRepository;
+import com.yukgaejang.voss.domain.game.repository.entity.MafiaGameScore;
 import com.yukgaejang.voss.domain.game.repository.entity.MafiaGameSource;
 import com.yukgaejang.voss.domain.game.repository.entity.Type;
 import com.yukgaejang.voss.domain.game.service.dto.response.GameSourceUploadResponse;
 import com.yukgaejang.voss.domain.game.service.dto.response.MafiaGameSourceListResponse;
+import com.yukgaejang.voss.domain.game.service.dto.response.StatusResponse;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class GameServiceImpl implements GameService{
     private final MemberRepository memberRepository;
     private final MafiaGameSourceRepository mafiaGameSourceRepository;
+    private final MafiaGameScoreRepository mafiaGameScoreRepository;
     private final AwsS3Service awsS3Service;
     private static String dirName = "game-file";
 
@@ -43,5 +47,12 @@ public class GameServiceImpl implements GameService{
                 .stream()
                 .map(o -> new MafiaGameSourceListResponse(o))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public StatusResponse setMafiaGameScore(String email, int score) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("사용자가 아닙니다."));
+        mafiaGameScoreRepository.save(new MafiaGameScore(member, score));
+        return new StatusResponse("점수등록을 완료했습니다.");
     }
 }
