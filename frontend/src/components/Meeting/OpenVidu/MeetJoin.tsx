@@ -17,9 +17,11 @@ import {
   Session,
   ToolBar,
   Header,
+  VedioInnerDiv,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
+// import { VedioInnerDiv } from "./UserVideoComponent.style";
 
 export interface streamContainerProps {
   curCount: number;
@@ -34,8 +36,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
-
-  const [chatDisplay, setChatDisplay] = useState("block");
   const [chatActive, setChatActive] = useState(true);
   const [messageReceived, setMessageReceived] = useState(false);
 
@@ -59,11 +59,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (messageReceived && chatDisplay === "none") {
-      setMessageReceived(false);
-    }
-  }, [messageReceived, chatDisplay]);
+  // useEffect(() => {
+  //   if (messageReceived && chatDisplay === "none") {
+  //     setMessageReceived(false);
+  //   }
+  // }, [messageReceived, chatDisplay]);
 
   useEffect(() => {
     setCurCount(subscribers.length + 1)
@@ -80,25 +80,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     leaveSession();
   };
 
-  const toggleChat = (property: string | undefined) => {
-    let display = property;
-
-    if (display === undefined) {
-      display = chatDisplay === "none" ? "block" : "none";
-    }
-    if (display === "block") {
-      setChatDisplay("chat " + display);
-      setMessageReceived(false);
-      setChatActive(true);
-    } else {
-      console.log("chat " + display);
-      setChatDisplay(display);
-      setChatActive(false);
-    }
-  };
-
-  const checkNotification = () => {
-    setMessageReceived(chatDisplay === "none");
+  const toggleChat = () => {
+    setChatActive(!chatActive);
   };
 
   const deleteSubscriber = (streamManager: any) => {
@@ -150,7 +133,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
       // --- 5) Get your own camera stream ---
-      // 카메라 버튼 상태 반대라.. 만약 이상하면 !지워보기
       const newPublisher = OV.initPublisher("", {
         videoSource: videoDevices[1]?.deviceId,
         publishAudio: !audioActive,
@@ -229,14 +211,14 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     return res.token;
   };
 
-  const chatProps: ChatProps = {
-    connectionIdProps: connectionId,
-    nicknameProps: nickname,
-    streamManagerProps: streamManagerTmp,
-    chatDisplayProps: chatDisplay,
-    close: toggleChat,
-    messageReceived: checkNotification,
-  };
+  // const chatProps: ChatProps = {
+  //   connectionIdProps: connectionId,
+  //   nicknameProps: nickname,
+  //   streamManagerProps: streamManagerTmp,
+  //   chatDisplayProps: chatDisplay,
+  //   // close: toggleChat,
+  //   messageReceived: checkNotification,
+  // };
 
 
   const streamContainerProps: streamContainerProps = {
@@ -251,7 +233,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         <span>{mySessionId}</span>
       </Header>
       {session !== undefined ? (
-        <Session id="session">
+        <Session id="session" $chatActive={chatActive}>
           <VideoContainer>
             {publisher !== undefined ? (
               <StreamContainer $streamContainerProps={streamContainerProps}>
@@ -268,9 +250,17 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       ) : (
         <button onClick={joinSession}></button>
       )}
-      {chatActive && session !== undefined ? (
-        <ChatBox>
-          {streamManagerTmp !== undefined ? <ChatComponent chatProps={chatProps} /> : <></>}
+      {session !== undefined ? (
+        <ChatBox $chatActive={chatActive}>
+          {streamManagerTmp !== undefined ? <ChatComponent chatProps={{
+            connectionIdProps: connectionId,
+            nicknameProps: nickname,
+            streamManagerProps: streamManagerTmp,
+          }} /> : publisher !== undefined ? <ChatComponent chatProps={{
+            connectionIdProps: connectionId,
+            nicknameProps: nickname,
+            streamManagerProps: publisher,
+          }} /> : <></>}
         </ChatBox>
       ) : (
         <></>
@@ -281,7 +271,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           sessionId={mySessionId}
           audioActive={audioActive}
           videoActive={videoActive}
-          showNotification={messageReceived}
+          chatActive={chatActive}
+          // showNotification={messageReceived}
           camStatusChanged={camStatusChanged}
           micStatusChanged={micStatusChanged}
           toggleChat={toggleChat}

@@ -6,6 +6,7 @@ import MikeOff from "../../../assets/Meeting/MikeOff.png";
 import VideoOff from "../../../assets/Meeting/VideoOff.png";
 import VideoOn from "../../../assets/Meeting/VideoOn.png";
 import Shutdown from "../../../assets/Meeting/Shutdown.png";
+import ChatImg from "../../../assets/Meeting/ChatImg.png";
 
 import { AppBar, ToolBarIcon, ToolBarIconDiv, ToolBarSetDiv, Toolbar } from "./ToolbarComponent.style";
 
@@ -13,15 +14,11 @@ const ToolbarComponent = (props: any) => {
   //   const [fullscreen, setFullscreen] = useState(false);
 
   const micStatusChanged = () => {
-    console.log(props.audioActive);
     props.micStatusChanged();
-    console.log(props.audioActive);
   };
 
   const camStatusChanged = () => {
-    console.log(props.videoActive);
     props.camStatusChanged();
-    console.log(props.videoActive);
   };
 
   // const screenShare = () => {
@@ -32,10 +29,9 @@ const ToolbarComponent = (props: any) => {
   //     props.stopScreenShare();
   // };
 
-  // const toggleFullscreen = () => {
-  //     setFullscreen(!fullscreen);
-  //     props.toggleFullscreen();
-  // };
+  const chatStatusChanged = () => {
+    props.toggleChat()
+  };
 
   // const switchCamera = () => {
   //     props.switchCamera();
@@ -43,10 +39,6 @@ const ToolbarComponent = (props: any) => {
 
   const leaveSession = () => {
     props.leaveSession();
-  };
-
-  const toggleChat = () => {
-    props.toggleChat();
   };
 
   const mySessionId = props.sessionId;
@@ -64,6 +56,9 @@ const ToolbarComponent = (props: any) => {
           </ToolBarIconDiv>
           <ToolBarIconDiv onClick={camStatusChanged}>
             {props.videoActive ? <ToolBarIcon src={VideoOff} /> : <ToolBarIcon src={VideoOn} />}
+          </ToolBarIconDiv>
+          <ToolBarIconDiv onClick={chatStatusChanged}>
+            <ToolBarIcon src={ChatImg} />
           </ToolBarIconDiv>
           <ToolBarIconDiv
             onClick={leaveSession}
