@@ -25,4 +25,6 @@ public interface MessengerService {
     Page<DirectChat> viewChatList(Long chatId, int page, int limit);
 
     void JoinChatSession(Long chatId);
+
+    void updateLeaveTime(Long chatId, Long memberId);
 }
