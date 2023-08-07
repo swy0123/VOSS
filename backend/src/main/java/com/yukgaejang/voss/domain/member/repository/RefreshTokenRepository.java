@@ -23,18 +23,8 @@ import java.util.Optional;
 //}
 
 public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
-    Optional<RefreshToken> findByEmail(String email);
+    void deleteByEmail(String email);
     boolean existsByRefreshToken(String refreshToken);
 
-    Optional<RefreshToken> findByRefreshToken(String refreshToken);
-
-    @Transactional
-    default void updateRefreshToken(@Param("originRefreshToken") String originRefreshToken, @Param("newRefreshToken") String newRefreshToken) {
-        findByRefreshToken(originRefreshToken).ifPresent(existingToken -> {
-            deleteByRefreshToken(originRefreshToken);
-            save(new RefreshToken(existingToken.getEmail(), newRefreshToken));
-        });
-    }
-
-    void deleteByRefreshToken(String refreshToken);
+    Optional<RefreshToken> findById(String refreshToken);
 }
