@@ -10,4 +10,10 @@ public interface AttendSupportRepository {
 
     List<ViewMessengerListResponse> findByChatId(List<Long> chatId, Long memberId);
 
+    void updateLastMessageTime(Long chatId, Long memberId);
+
+    void updateLeaveTime(Long chatId, Long memberId);
+
+    Boolean hasUnreadMessage(Long memberId);
+
 }

@@ -40,4 +40,11 @@ public class MessengerController {
         messengerService.JoinChatSession(chatId);
         return ResponseEntity.ok(messengerService.viewChatList(chatId, page, limit));
     }
+
+    @GetMapping("/receive")
+    public ResponseEntity<Boolean> hasUnreadMessage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(messengerService.hasUnreadMessage(email));
+    }
 }
