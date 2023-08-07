@@ -12,18 +12,22 @@ export const Header = styled.div`
   position: relative;
   top: 0px;
   width: 100%;
-  z-index: 10;
-  background-color: gray;
-  columns: red;
-  height: 2%;
+  height: 25px;
+  text-align: center;
+  background-color: #222222;
+  color:white;
+`;
+
+export const HeaderText = styled.span`
+  margin-left:20px;
 `;
 
 export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
   ${(props) =>
     props.$chatActive
-      ? "width: 75%; height: 95%;"
-      : "width: 98%; height: 95%;"};
+      ? "width: 75%; height: 90%;"
+      : "width: 98%; height: 90%;"};
   float: left;
 `;
 
@@ -34,7 +38,7 @@ export const VideoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px auto;
+  margin: 0 auto;
   overflow: hidden;
 `;
 
@@ -44,20 +48,21 @@ export const StreamContainer = styled.div<{
   aspect-ratio: 3/2;
   margin: auto 5px;
   position: relative;
-  max-height: 100%;
+  max-height: 95%;
+  mIN-height: 48%;
   max-width: 100%;
   /* min-height: 100%; */
   width: ${(props) =>
     props.$streamContainerProps.bottomOn
       ? props.$streamContainerProps.curCount < 3
-        ? "30%"
+        ? "28%"
         : 100 / props.$streamContainerProps.curCount - 2 + "%"
       : // ? "auto"
       props.$streamContainerProps.curCount == 4
       ? 39 + "%"
       : props.$streamContainerProps.curCount > 4
-      ? 30 + "%"
-      : 100 / props.$streamContainerProps.curCount - 3 + "%"};
+      ? 28 + "%"
+      : 100 / props.$streamContainerProps.curCount - 4 + "%"};
   overflow: hidden;
   display: flex;
   justify-content: center;

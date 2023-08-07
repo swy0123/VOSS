@@ -19,6 +19,7 @@ export const BottomSection = styled.div<{$isClicked?: boolean}>`
 `;
 export const ClosedBottomSection = styled.div<{$isClicked?: boolean}>`
   height:6%;
+  display: flex;
   justify-content: center;
   align-items: center;
   text-align:center;
@@ -29,6 +30,19 @@ export const BottomBarImg = styled.img`
   height:100%;
   width: 90%;
   /* background-color: red; */
+`;
+
+
+export const BottomBar = styled.div`
+  height:100%;
+  width: 90%;
+  border-radius: 15px;
+  background-color: #6C6C6C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
+
 `;
 
 export const CloseSectionBtn = styled.img`

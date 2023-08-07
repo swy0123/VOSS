@@ -22,6 +22,6 @@ export const ToolBarIconDiv = styled.div`
 `;
 
 export const ToolBarIcon = styled.img`
-  height: 25px;
-  width: 25px;
+  height: 40px;
+  width: 40px;
 `;
