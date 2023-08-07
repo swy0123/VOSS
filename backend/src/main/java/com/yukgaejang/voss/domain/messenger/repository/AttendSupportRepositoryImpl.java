@@ -68,7 +68,7 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
     }
 
     @Override
-    public Boolean isReceiveMessage(Long memberId) {
+    public Boolean hasUnreadMessage(Long memberId) {
         List<Attend> fetch = queryFactory
                 .select(attend)
                 .from(attend)

@@ -42,10 +42,9 @@ public class MessengerController {
     }
 
     @GetMapping("/receive")
-    public ResponseEntity<Boolean> isReceiveMessage() {
+    public ResponseEntity<Boolean> hasUnreadMessage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-
-        return ResponseEntity.ok(messengerService.isReceiveMessage(email));
+        return ResponseEntity.ok(messengerService.hasUnreadMessage(email));
     }
 }

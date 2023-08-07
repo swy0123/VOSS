@@ -26,7 +26,7 @@ public interface MessengerService {
 
     void JoinChatSession(Long chatId);
 
-    Boolean isReceiveMessage(String email);
+    Boolean hasUnreadMessage(String email);
 
     void updateLeaveTime(Long chatId, Long memberId);
 }

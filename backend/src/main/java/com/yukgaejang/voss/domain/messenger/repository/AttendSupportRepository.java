@@ -14,6 +14,6 @@ public interface AttendSupportRepository {
 
     void updateLeaveTime(Long chatId, Long memberId);
 
-    Boolean isReceiveMessage(Long memberId);
+    Boolean hasUnreadMessage(Long memberId);
 
 }
