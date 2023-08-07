@@ -25,7 +25,7 @@ public class ChatRoom {
 //            sessions.add(session);
 //            chatMessageDto.setContent(chatMessageDto.getMemberId() + "님이 입장했습니다.");
 //        }
-        if (chatMessageDto.getContent().equals("나가기")) {
+        if (chatMessageDto.getContent().equals("leave")) {
             messengerService.updateLeaveTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
             sessions.remove(session);
         } else {
