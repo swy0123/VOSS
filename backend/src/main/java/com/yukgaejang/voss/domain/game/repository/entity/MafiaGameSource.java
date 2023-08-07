@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Getter
 @RequiredArgsConstructor
-public class VoiceMafia extends BaseEntity {
+public class MafiaGameSource extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,16 +17,14 @@ public class VoiceMafia extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    private String originalFileName;
-    private String savedFileName;
-    private String contentType;
-    private Long size;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
-    public VoiceMafia(Member member, String originalFileName, String savedFileName, String contentType, Long size) {
+    private String fileName;
+
+    public MafiaGameSource(Member member, Type type, String fileName) {
         this.member = member;
-        this.originalFileName = originalFileName;
-        this.savedFileName = savedFileName;
-        this.contentType = contentType;
-        this.size = size;
+        this.type = type;
+        this.fileName = fileName;
     }
 }
