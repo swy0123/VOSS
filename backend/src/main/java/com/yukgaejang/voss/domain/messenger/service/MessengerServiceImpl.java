@@ -127,6 +127,12 @@ public class MessengerServiceImpl implements MessengerService{
     }
 
     @Override
+    public Boolean hasUnreadMessage(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("없는 사용자입니다."));
+        return attendRepository.hasUnreadMessage(member.getId());
+    }
+
+    @Override
     public void updateLeaveTime(Long chatId, Long memberId) {
         attendRepository.updateLeaveTime(chatId, memberId);
     }
