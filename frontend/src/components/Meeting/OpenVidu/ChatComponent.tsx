@@ -77,9 +77,13 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
   //명령어 전송
   useEffect(()=>{
-    if(send=="open") {
-      setSend("none");
-      sendMessage("open");
+    if(send=="/open") {
+      setSend("/none");
+      sendMessage("/open");
+    }
+    else if(send=="/close") {
+      setSend("/none");
+      sendMessage("/close");
     }
   }, [send])
 
@@ -102,15 +106,16 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
     });
     //이부분에 조건문으로 명령어 감지하고 리코일 이벤트 추가
-    if (messageList.length - 1 > 0 && messageList[messageList.length - 1].message === "open") {
-      
-      // alert(messageList[messageList.length - 1].message + "  check");
-      console.log("setRecieve");
-      setRecieve("open");
-
-      messageList.pop();
-
-    }
+    if (messageList.length - 1 > 0){
+      if(messageList[messageList.length - 1].message === "/open") {
+        setRecieve("/open");
+        messageList.pop();
+      }
+      else if(messageList[messageList.length - 1].message === "/close") {
+        setRecieve("/close");
+        messageList.pop();
+      }
+    } 
 
   }, [messageList, chatProps]);
 
