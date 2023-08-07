@@ -45,10 +45,15 @@ function Meeting() {
 
   //이벤트 수신 감지
   useEffect(()=>{
-    if(recieve=="open") {
+    if(recieve=="/open") {
       console.log("bottomOn");
-      setBottomOn(!bottomOn);
-      setRecieve("none");
+      setBottomOn(true);
+      setRecieve("/none");
+    }
+    else if(recieve=="/close") {
+      console.log("bottomOff");
+      setBottomOn(false);
+      setRecieve("/none");
     }
   }, [recieve])
 
@@ -57,9 +62,9 @@ function Meeting() {
     event.returnValue = "";
   };
 
-  const isBottomOn = () => {
-    setSend("open");
-    console.log("isBottomOn")
+  const isBottomOn = (order:string) => {
+    console.log("isBottomOn : " + order)
+    setSend(order);
   };
   
   const props: MeetingProps = {
@@ -75,12 +80,12 @@ function Meeting() {
       </Container>
       {bottomOn ? (
         <BottomSection>
-          <CloseSectionBtn src={CloseSection} onClick={isBottomOn}/>
+          <CloseSectionBtn src={CloseSection} onClick={()=>{isBottomOn("/close")}}/>
           {meetDubSelect ?  <DubbingRoom/> : <DubbingList/>}
         </BottomSection>
       ) : (
         <ClosedBottomSection>
-          <BottomBarImg src={BottomBar} onClick={isBottomOn} />
+          <BottomBarImg src={BottomBar} onClick={()=>{isBottomOn("/open")}} />
         </ClosedBottomSection>
       )}
 

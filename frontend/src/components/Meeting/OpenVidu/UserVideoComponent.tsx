@@ -6,23 +6,23 @@ import { CurrentUserAtom } from "../../../recoil/Auth";
 import { VedioInnerDiv, VedioOuterDiv } from './UserVideoComponent.style';
 
 
-const UserVideoComponent = (props:any) => {
-  const currentUser = useRecoilValue( CurrentUserAtom )
+const UserVideoComponent = (props: any) => {
+  const currentUser = useRecoilValue(CurrentUserAtom)
   const getNicknameTag = () => {
     console.log(currentUser.userid)
     return currentUser.userid;
   };
 
   return (
-    <div>
+    <VedioOuterDiv className="streamcomponent">
+
       {props.streamManager !== undefined ? (
-        <VedioOuterDiv className="streamcomponent">
-          <VedioInnerDiv>sssssss</VedioInnerDiv>
-          <OpenViduVideoComponent streamManager={props.streamManager} />
-        </VedioOuterDiv>
+        <><VedioInnerDiv>{currentUser.nickname}</VedioInnerDiv>
+          <OpenViduVideoComponent streamManager={props.streamManager} /></>
+
       ) : null}
-    </div>
-  );
+    </VedioOuterDiv>
+  )
 };
 
 export default UserVideoComponent;
