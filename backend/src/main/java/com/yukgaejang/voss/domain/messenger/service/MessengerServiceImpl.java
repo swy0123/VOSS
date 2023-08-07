@@ -46,7 +46,7 @@ public class MessengerServiceImpl implements MessengerService{
         ChatRoom chatRoom = ChatRoom.builder()
                 .sessionId("init")
                 .build();
-        chatRooms.put("inti", chatRoom);
+        chatRooms.put("init", chatRoom);
 
     }
 
