@@ -32,9 +32,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatRoom chatRoom = messengerService.findRoomById(chatMessageDto.getSessionId());
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
 
-        DirectChat directChat = new DirectChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
-                chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
-        if (!chatMessageDto.getContent().equals("나가기")) {
+        if (!chatMessageDto.getContent().equals("나가기") && !chatMessageDto.getSessionId().equals("init")) {
+            DirectChat directChat = new DirectChat(chatMessageDto.getChatId(), chatMessageDto.getSessionId(),
+                    chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
             directChatRepository.save(directChat);
             attendRepository.updateLastMessageTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
         }

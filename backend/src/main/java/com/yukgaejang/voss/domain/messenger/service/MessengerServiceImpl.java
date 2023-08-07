@@ -43,6 +43,11 @@ public class MessengerServiceImpl implements MessengerService{
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
+        ChatRoom chatRoom = ChatRoom.builder()
+                .sessionId("init")
+                .build();
+        chatRooms.put("inti", chatRoom);
+
     }
 
     @Override
