@@ -17,7 +17,7 @@ function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const roleSelectRef = useRef<boolean[]>([])
+  const roleSelectRef = useRef<bool ean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
 
   // 역할 선택

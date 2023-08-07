@@ -7,7 +7,6 @@ import Video from "./Video/Video"
 import { 
   videoFilterState, 
   videoListState } from "/src/recoil/Training"
-import { meetDubSelectState } from "/src/recoil/HW_Atom"
 import { 
   Container, 
   DubbingBox } from "./DubbingList.style"

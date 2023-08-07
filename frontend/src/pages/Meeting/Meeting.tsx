@@ -56,7 +56,7 @@ function Meeting() {
       setRecieve("/none");
     }
   }, [recieve])
-
+  
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     event.returnValue = "";
@@ -64,8 +64,10 @@ function Meeting() {
 
   const isBottomOn = (order:string) => {
     console.log("isBottomOn : " + order)
+    setMeetDubSelect(0)
+    // setSend("open");
     setSend(order);
-  };
+  }
   
   const props: MeetingProps = {
     password: state.password,
