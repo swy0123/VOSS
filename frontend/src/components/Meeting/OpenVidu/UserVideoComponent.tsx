@@ -15,11 +15,11 @@ const UserVideoComponent = (props: any) => {
 
   return (
     <VedioOuterDiv className="streamcomponent">
+
       {props.streamManager !== undefined ? (
-        <>
-          <VedioInnerDiv>sssssss</VedioInnerDiv>
-          <OpenViduVideoComponent streamManager={props.streamManager} />
-        </>
+        <><VedioInnerDiv>{currentUser.nickname}</VedioInnerDiv>
+          <OpenViduVideoComponent streamManager={props.streamManager} /></>
+
       ) : null}
     </VedioOuterDiv>
   )

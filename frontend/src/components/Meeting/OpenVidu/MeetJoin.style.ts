@@ -18,10 +18,12 @@ export const Header = styled.div`
   height: 2%;
 `;
 
-export const Session = styled.div`
+export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
-  width: 75%;
-  height: 95%;
+  ${(props) =>
+    props.$chatActive
+      ? "width: 75%; height: 95%;"
+      : "width: 98%; height: 95%;"};
   float: left;
 `;
 
@@ -33,40 +35,43 @@ export const VideoContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin: 5px auto;
+  overflow: hidden;
 `;
 
 export const StreamContainer = styled.div<{
   $streamContainerProps: streamContainerProps;
 }>`
+  aspect-ratio: 3/2;
   margin: auto 5px;
   position: relative;
-  max-height: ${(props) =>
-    props.$streamContainerProps.bottomOn ? "100%" : "100%"};
+  max-height: 100%;
+  max-width: 100%;
   /* min-height: 100%; */
   width: ${(props) =>
     props.$streamContainerProps.bottomOn
       ? props.$streamContainerProps.curCount < 3
         ? "30%"
-        : "16%"
+        : 100 / props.$streamContainerProps.curCount - 2 + "%"
       : // ? "auto"
       props.$streamContainerProps.curCount == 4
-      ? 47 + "%"
+      ? 39 + "%"
       : props.$streamContainerProps.curCount > 4
-      ? 31 + "%"
-      : 100 / props.$streamContainerProps.curCount - 2 + "%"};
+      ? 30 + "%"
+      : 100 / props.$streamContainerProps.curCount - 3 + "%"};
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
-  aspect-ratio: 3/2;
+  border-radius: 12px;
 `;
 
-export const ChatBox = styled.div`
+export const ChatBox = styled.div<{ $chatActive: boolean }>`
   float: left;
   color: white;
-  width: 25%;
-  height: auto;
+  ${(props) =>
+    props.$chatActive
+      ? "width: 25%; height: 95%;"
+      : "width: 0%; height: 0%; overflow:hidden;"};
   background-color: blue;
 `;
 
@@ -74,4 +79,16 @@ export const ToolBar = styled.div`
   position: relative;
   bottom: 0px;
   width: 100%;
+`;
+
+export const VedioInnerDiv = styled.div`
+  position: absolute;
+  height: 2%;
+  width: 2%;
+  top: 20px;
+  left: 20px;
+  background-color: red;
+  /* overflow: hidden; */
+  border-radius: 12px;
+  z-index: 10;
 `;
