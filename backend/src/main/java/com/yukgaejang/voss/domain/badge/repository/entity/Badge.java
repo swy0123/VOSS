@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class Badge extends BaseEntity {
 
     @Id
