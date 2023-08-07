@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.domain.member.service;
 
+import com.yukgaejang.voss.domain.badge.service.BadgeService;
+import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.FollowRepository;
@@ -31,6 +33,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     private final NotificationService notificationService;
+    private final BadgeService badgeService;
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final StatRepository statRepository;
@@ -120,6 +123,7 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("없는 사용자입니다.")
         );
 
+        List<ViewBadgeResponse> badges = badgeService.getBadges(me);
         int actCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.ACT);
         int dubCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DUB);
         int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
@@ -132,6 +136,7 @@ public class MemberServiceImpl implements MemberService {
                 .isFollowing(false)
                 .followerCnt(followRepository.getFollowerCount(me.getId()))
                 .followingCnt(followRepository.getFollowingCount(me.getId()))
+                .badges(badges)
                 .actCnt(actCnt)
                 .dubCnt(dubCnt)
                 .dictionCnt(dictionCnt)
@@ -145,6 +150,7 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("없는 사용자입니다.")
         );
 
+        List<ViewBadgeResponse> badges = badgeService.getBadges(me);
         int actCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.ACT);
         int dubCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DUB);
         int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
@@ -157,6 +163,7 @@ public class MemberServiceImpl implements MemberService {
                 .isFollowing(followRepository.isFollowing(memberId, me.getId()))
                 .followerCnt(followRepository.getFollowerCount(memberId))
                 .followingCnt(followRepository.getFollowingCount(memberId))
+                .badges(badges)
                 .actCnt(actCnt)
                 .dubCnt(dubCnt)
                 .dictionCnt(dictionCnt)
