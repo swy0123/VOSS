@@ -4,8 +4,8 @@ import { useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { VscClose } from 'react-icons/vsc';
 import { BackGroundImg } from "../../BackGroundImg";
-import { getPost, updatePost, deletePost } from "/src/api/FreeBoard";
-import { PostType } from "/src/type/FreeBoard";
+import { getPost, updatePost, deletePost, uploadFile } from "/src/api/FreeBoard";
+import { PostType, PostFilesType, PostFirstFilesType } from "/src/type/FreeBoard";
 import Header from "../../Header/Header";
 import Messenger from "../../Message/Messenger";
 import ProfileImg from "/src/assets/Header/profile_tmp.png";
@@ -42,6 +42,7 @@ function PostUpdate() {
   const [commentNum, setCommentNum] = useState<number>(0);
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [files, setFiles] = useState<any>([]);
+  const [firstFiles, setFirstFiles] = useState<any>([]);
 
   const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = 'auto';
@@ -51,15 +52,27 @@ function PostUpdate() {
   const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const newFiles = Array.from(e.target.files);
-    setFiles((prevFiles: any) => [...prevFiles, ...newFiles]);
+    uploadFile(newFiles).then((dataFiles) => {
+      if (dataFiles) {
+        setFiles((prev: any) => [...prev, ...dataFiles]);
+      };
+    });
     e.target.value = '';
   };
-  const removeFile = (index: number) => {
-    setFiles((prevFiles: any) => prevFiles.filter((_: any, i: number) => i !== index));
+  const removeFile = (id: number) => {
+    setFiles((prevFiles: any) => prevFiles.filter((file: any) => file.id !== id));
   };
 
+
   const goFreeBoard = () => navigate("/freeboard");
-  const UpdatePost = () => ((updatePost(id, title, content, [], [])), navigate(`/freeboard/${id}`));
+  const UpdatePost = () => {
+    const deleteFileIds = firstFiles.filter(((file: PostFirstFilesType) => !files.includes(file))).map((file: PostFirstFilesType) => file.id);
+    const newFiles = files.filter((file: PostFilesType) => !('id' in file));
+    console.log("deleteFileIds: ", deleteFileIds)
+    console.log("newFiles: ", newFiles)
+    updatePost(id, title, content, deleteFileIds, newFiles)
+    .then(()=>navigate(`/freeboard/${id}`));
+  }
   const DeletePost = () => (deletePost(id), navigate("/freeboard"))
 
   useEffect(() => {
@@ -69,6 +82,8 @@ function PostUpdate() {
         setTitle(dataPost.title)
         setContent(dataPost.content)
         setCommentNum(dataPost.comments.size);
+        setFiles([...dataPost.imageFiles,  ...dataPost.otherFiles])
+        setFirstFiles([...dataPost.imageFiles, ...dataPost.otherFiles])
       }
     })
   }, [id])
@@ -112,17 +127,18 @@ function PostUpdate() {
         autoFocus
       />
       
-      <UpdateFilesDesign>첨부파일
-      {files 
-        ? files.map((file: any, index: any) => (
-          <UpdateFileDesign key={index}>
-            {file.name}
-            <button onClick={() => removeFile(index)}>
+
+      <UpdateFilesDesign>
+      {files.length
+        ? files.map((file: any) => (
+          <UpdateFileDesign key={file.id}>
+            {file.originalFileName}
+            <button onClick={() => removeFile(file.id)}>
               <VscClose size='10'/>
             </button>
           </UpdateFileDesign>
           ))
-        : <div>파일이 없습니다</div>
+        : null
       }
       </UpdateFilesDesign>
 

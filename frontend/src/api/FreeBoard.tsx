@@ -1,5 +1,8 @@
+import axios from "axios";
 import { privateApi } from ".";
 import { PostFilesType } from "../type/FreeBoard";
+const BASE_URL = "https://i9b106.p.ssafy.io:8080";
+axios.defaults.withCredentials = true;
 
 
 export const getPostList = async ( sort: string, cond: string, input: string, page: number) => {
@@ -41,6 +44,7 @@ export const getPost = async ( id: number ) => {
 
 
 export const createPost = async ( title: string, content: string, files: PostFilesType[] ) => {
+    console.log("postFiles: ", files)
     const res = await privateApi.post(`/freeboard`, {title, content, files})
     .catch(err => {
         console.log("createPost catch: ", err)
@@ -54,6 +58,7 @@ export const createPost = async ( title: string, content: string, files: PostFil
 
 
 export const updatePost = async ( id: number, title: string, content: string, deleteFileIds: number[], newFiles: PostFilesType[] ) => {
+    console.log(id, title, content, deleteFileIds, newFiles)
     const res = await privateApi.put(`/freeboard/${id}`, {title, content, deleteFileIds, newFiles})
     .catch(err => {
         console.log("updatePost catch: ", err)
@@ -79,17 +84,35 @@ export const deletePost = async ( id: number ) => {
 };
 
 
-export const uploadFile = async ( data: any ) => {
-    const res = await privateApi.post(`/freeboard/upload`, data)
-    .catch(err => {
-        console.log("uploadFile catch: ", err)
-    })
+export const uploadFile = async (files: any) => {
+    let data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        data.append('files', files[i]);
+      }
+    let config = {
+        method: 'post',
+        url: `${BASE_URL}/freeboard/upload`,
+        headers: { 
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        data: data,
+    }
+
+    const res = await axios.request(config)
+    .catch (err => {
+        console.log("uploadFile catch: ", err);
+        return false
+    });
     if (res) {
         console.log("uploadFile then: ", res.data)
-        return(res.data)
+        return res.data
     }
     return false
-};
+}
+
+
 
 
 export const postLike = async ( id: number ) => {
