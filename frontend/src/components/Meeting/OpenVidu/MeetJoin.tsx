@@ -18,6 +18,7 @@ import {
   ToolBar,
   Header,
   VedioInnerDiv,
+  HeaderText,
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
@@ -37,7 +38,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [chatActive, setChatActive] = useState(true);
-  const [messageReceived, setMessageReceived] = useState(false);
 
   const [connectionId, setConnectionId] = useState("");
   const [nickname, setNickname] = useState(currentUser.nickname);
@@ -45,6 +45,13 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [audioActive, setAudioActive] = useState(true);
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
   const [curCount, setCurCount] = useState(0);
+
+  const [roomData, setRoomData] = useState<any>();
+
+  const [time, setTime] = useState(0);
+  const [hour, setHour] = useState(0);
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
 
   useEffect(() => {
     (() => {
@@ -59,6 +66,18 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTime(() => time + 1);
+      setHour(Math.floor((time % 21600) / 3600));
+      setMin(Math.floor((time % 3600) / 60));
+      setSec(time % 60);
+    }, 1000);
+    return () => {
+      clearInterval(id);
+    };
+  }, [time]);
+
   // useEffect(() => {
   //   if (messageReceived && chatDisplay === "none") {
   //     setMessageReceived(false);
@@ -66,7 +85,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   // }, [messageReceived, chatDisplay]);
 
   useEffect(() => {
-    setCurCount(subscribers.length + 1)
+    setCurCount(subscribers.length + 1);
   }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -102,12 +121,12 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
     // --- 3) Specify the actions when events take place in the session ---
     mySession.on("streamCreated", (event) => {
-      const subscriber = mySession.subscribe(event.stream, "");
+      const subscriber = mySession.subscribe(event.stream, nickname);
       setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
       setConnectionId(event.stream.connection.connectionId);
-      setStreamManagerTmp(subscriber);
-      console.log("subscriber");
-      console.log(subscriber);
+      console.log("subscriber.stream.connection.datasubscriber.stream.connection.datasubscriber.stream.connection.data");
+      console.log(subscriber.stream.connection.data);
+      console.log(JSON.parse(subscriber.stream.connection.data));
     });
 
     mySession.on("streamDestroyed", (event) => {
@@ -151,7 +170,9 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       //   }
       // });
 
-      setPublisher(newPublisher);
+      await setPublisher(newPublisher);
+      console.log("publisherpublisherpublisherpublisherpublisherpublisherpublisherpublisherpublisherpublisher");
+      console.log(newPublisher.stream.connection.data);
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
@@ -205,43 +226,62 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   //-----------------------------------
 
   const getToken = async () => {
-    console.log("getToken call postMeetJoin : ");
     const res = await joinMeet(props);
     if (res.message !== undefined) alert(res.message);
+    else setRoomData(res);
+    console.log(res);
     return res.token;
   };
 
-  // const chatProps: ChatProps = {
-  //   connectionIdProps: connectionId,
-  //   nicknameProps: nickname,
-  //   streamManagerProps: streamManagerTmp,
-  //   chatDisplayProps: chatDisplay,
-  //   // close: toggleChat,
-  //   messageReceived: checkNotification,
-  // };
-
+  //   {
+  //     "token": "wss://i9b106.p.ssafy.io?sessionId=bda526ac-d9a4-4d0b-9261-36559e48a7b5&token=tok_OldmH9XaXA5ZUpm2",
+  //     "status": "입장",
+  //     "meetRoomId": 107,
+  //     "category": "DUB",
+  //     "title": "111111",
+  //     "maxCount": 2,
+  //     "currentCount": 0,
+  //     "createdAt": 1690876928365
+  //   }
 
   const streamContainerProps: streamContainerProps = {
     curCount: curCount,
     bottomOn: props.bottomOn,
-  }
+  };
 
   return (
     <Container>
       <Header id="session-header">
-        <span>{curCount} : {props.bottomOn}</span>
-        <span>{mySessionId}</span>
+        {roomData !== undefined ? (
+          <>
+            <HeaderText>{roomData.title} </HeaderText>{" "}
+            <span style={{fontSize:"10px", color:"gray"}}>
+            &#40;{curCount}/{roomData.maxCount}&#41;
+            </span>
+          </>
+        ) : (
+          <></>
+        )}
+        <HeaderText>
+          {hour.toString().length < 2 ? "0" + min : min}:
+          {min.toString().length < 2 ? "0" + min : min}:
+          {sec.toString().length < 2 ? "0" + sec : sec}
+        </HeaderText>
       </Header>
       {session !== undefined ? (
         <Session id="session" $chatActive={chatActive}>
           <VideoContainer>
             {publisher !== undefined ? (
               <StreamContainer $streamContainerProps={streamContainerProps}>
+                {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
+                {/* <>{publisher.connection}</> */}
                 <UserVideoComponent streamManager={publisher} />
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
               <StreamContainer key={i} $streamContainerProps={streamContainerProps}>
+              {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
+              {/* <>{sub.connection}</> */}
                 <UserVideoComponent streamManager={sub} />
               </StreamContainer>
             ))}
@@ -252,15 +292,25 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       )}
       {session !== undefined ? (
         <ChatBox $chatActive={chatActive}>
-          {streamManagerTmp !== undefined ? <ChatComponent chatProps={{
-            connectionIdProps: connectionId,
-            nicknameProps: nickname,
-            streamManagerProps: streamManagerTmp,
-          }} /> : publisher !== undefined ? <ChatComponent chatProps={{
-            connectionIdProps: connectionId,
-            nicknameProps: nickname,
-            streamManagerProps: publisher,
-          }} /> : <></>}
+          {streamManagerTmp !== undefined ? (
+            <ChatComponent
+              chatProps={{
+                connectionIdProps: connectionId,
+                nicknameProps: nickname,
+                streamManagerProps: streamManagerTmp,
+              }}
+            />
+          ) : publisher !== undefined ? (
+            <ChatComponent
+              chatProps={{
+                connectionIdProps: connectionId,
+                nicknameProps: nickname,
+                streamManagerProps: publisher,
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </ChatBox>
       ) : (
         <></>
