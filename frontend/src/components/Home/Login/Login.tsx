@@ -98,6 +98,7 @@ const Login = () => {
               type={showPswd ? "text" : "password"}
               onChange={handlePasswordField}
               placeholder="Password"
+              autoComplete="off"
             />
             <ShowPswd onClick={ShowPassword}>
               <img src={Eye} />

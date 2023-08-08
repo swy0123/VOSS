@@ -123,8 +123,5 @@ export const FriendListItem1 = styled.div`
   img {
     width: 30px;
     height: 38px;
-    &:hover {
-      content: url(${SendArrowHover}); /* 호버 시 이미지 변경 */
-    }
   }
 `;

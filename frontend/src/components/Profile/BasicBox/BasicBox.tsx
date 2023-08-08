@@ -29,8 +29,12 @@ function BasicBox() {
   const [followerTabShow, setFollowerTabShow] = useRecoilState(FollowerTabState)
   const [followers, setFollowers] = useRecoilState(FollowerListState)
   const [followings, setFollowings] = useRecoilState(FollowingListState)
+  const [followerCount, setFollowerCount] = useState(0);
   const [profile, setProfile] = useRecoilState(ProfileState)
   const setFollow = () => {
+    profile.isFollowing
+    ? setFollowerCount(followerCount - 1)
+    : setFollowerCount(followerCount + 1);
     setProfile({...profile, isFollowing: !profile.isFollowing})
   };
   const [showImgUpdate, setImgUpdate] = useState(false)
@@ -40,7 +44,7 @@ function BasicBox() {
       if (followings) {setFollowings(followings)};
     })
     getFollowers(id).then(followers => {
-      if (followers) {setFollowers(followers)};
+      if (followers) {setFollowers(followers); setFollowerCount(followers.length)};
     })
   }, [isModalOpen])
 
@@ -70,7 +74,7 @@ function BasicBox() {
         <FollowBoxDesign>
           <ProfileFollowerDesign onClick={() => (setIsModalOpen(true), setFollowerTabShow(true))}>
             <p>팔로워</p>
-            <p>{followers.length} 명</p>
+            <p>{followerCount} 명</p>
           </ProfileFollowerDesign>
           <ProfileFollowingDesign onClick={() => (setIsModalOpen(true), setFollowerTabShow(false))}>
             <p>팔로잉</p>

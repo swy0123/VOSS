@@ -49,7 +49,11 @@ function PostDetail() {
   
   const goFreeBoard = () => navigate("/freeboard");
   const goUpdate = () => (navigate(`/freeboard/update/${id}`));
-  const DeletePost = () => (deletePost(id), navigate("/freeboard"))
+  const DeletePost = () => {
+    deletePost(id).then((res) => {
+      if (res) {navigate("/freeboard")}
+    })
+  };
   const LikePost = () => {
     postLike(id).then((dataLikes)=> {
       if (dataLikes) {
@@ -58,7 +62,7 @@ function PostDetail() {
         setLiked(!liked)
       }
     })
-  }
+  };
 
   useEffect(() => {
     getPost(id).then((dataPost) => {

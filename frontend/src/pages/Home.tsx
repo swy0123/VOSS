@@ -31,7 +31,6 @@ function Home() {
         {loginMode 
         ? <Login /> 
         : <Join />}
-        <Messenger></Messenger>
       </div>
     </Mainimg>
   );

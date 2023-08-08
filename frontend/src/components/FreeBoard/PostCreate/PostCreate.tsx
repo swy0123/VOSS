@@ -97,7 +97,7 @@ function PostCreate() {
             </button>
           </CreateFileDesign>
           ))
-        : <div>파일이 없습니다</div>
+        : null
       }
       </CreateFilesDesign>
 

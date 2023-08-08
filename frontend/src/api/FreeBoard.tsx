@@ -2,7 +2,6 @@ import axios from "axios";
 import { privateApi } from ".";
 import { PostFilesType } from "../type/FreeBoard";
 const BASE_URL = "https://i9b106.p.ssafy.io:8080";
-axios.defaults.withCredentials = true;
 
 
 export const getPostList = async ( sort: string, cond: string, input: string, page: number) => {
