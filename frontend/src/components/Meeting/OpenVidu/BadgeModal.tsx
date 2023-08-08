@@ -7,8 +7,11 @@ import SendArrow from "../../../assets/Messenger/SendArrow.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { selectedMember } from "/src/recoil/Meeting";
+import { BadgeContentDesign } from "../../Profile/BadgeBox/BadgeBox.style";
+import { getBadgeList } from "/src/api/meeting";
 
 const ModalContainer = styled.div`
+  pointer-events: none;
   position: fixed;
   left: 0;
   top: 0;
@@ -38,6 +41,7 @@ const DialogBox = styled.dialog`
 `;
 
 const Backdrop = styled.div`
+  pointer-events:auto;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -47,6 +51,7 @@ const Backdrop = styled.div`
 `;
 
 const ExitImg = styled.img`
+  pointer-events:auto;
   position: absolute;
   right: 10px;
   top: 9px;
@@ -54,52 +59,36 @@ const ExitImg = styled.img`
   height: 20px;
 `;
 
-const TagButton = styled.div<{ $IsClick: boolean }>`
-  position: relative;
-  background-color: transparent;
-  border: 1px solid #6c6c6c;
-  border-radius: 5px;
-  color: #6c6c6c;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 8px;
-  padding: 5px;
-
-  &:hover {
-    transform: scale(1.1);
-    transition: 0.3s;
-  }
-  color: ${(props) => (props.$IsClick ? "white" : "#6C6C6C")};
-  border: solid ${(props) => (props.$IsClick ? "2px white" : "1px #6C6C6C")};
-`;
-
-const TmpBorder = styled.span`
-  margin: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 2px;
-  border-color: red;
-`;
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
 
+interface BadgeData{
+  id:number;
+  name:string;
+}
 
 const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
   const [exitBtnHover, setExitBtnHover] = useState(false);
+  const [badgeList, setBadgeList] = useState<BadgeData[]>();
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
   useEffect(() => {
     console.log(selected)
+    getBadge();
   }, []);
 
-
-
-  const getBadgeList = () => {
-    //axios api
+  const getBadge = async () => {
+    const response = await getBadgeList();
+    setBadgeList([...response]);
+  }
+  const giveBadge = async (id:number) => {
+    console.log(id)
+    // const response = await getBadgeList();
+    // setBadgeList([...response]);
   }
 
   const handleMouseOver = (event: MouseEvent<HTMLDivElement>) => {
@@ -112,7 +101,7 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
   }
 
   return (
-    <ModalContainer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+    <ModalContainer>
       <DialogBox>
         <div>
           <ExitImg
@@ -131,6 +120,24 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
         {selected.email} +
         {selected.nickname} +
         {selected.userImgURL}
+        <BadgeContentDesign
+          style={{
+            marginLeft: "10px",
+            paddingBottom: "10px",
+            overflow: "hidden"
+          }}>
+          {badgeList!==undefined ? badgeList.map((badge, id) => (
+            <img style={{
+              height: "60px",
+              width: "60px",
+              margin: "10px",
+              pointerEvents: "auto"
+            }} 
+            src={`/src/assets/Profile/badge/B${badge.id + 1}.png`} alt="" 
+            onClick={()=>{giveBadge(badge.id+1)}}/>
+          )):<></>
+          }
+        </BadgeContentDesign>
 
 
       </DialogBox>
