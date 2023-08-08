@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.recordboard.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -20,6 +21,7 @@ public class Record extends BaseEntity {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Member member;
 
     private String description;
