@@ -5,15 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateMemberRequest {
-    private String email;
-    private String password;
+public class ModifyMemberRequest {
     private String nickname;
     private String imageUrl;
 
-    public UpdateMemberRequest(String email, String password, String nickname, String imageUrl) {
-        this.email = email;
-        this.password = password;
+    public ModifyMemberRequest(String nickname, String imageUrl) {
         this.nickname = nickname;
         this.imageUrl = imageUrl;
     }

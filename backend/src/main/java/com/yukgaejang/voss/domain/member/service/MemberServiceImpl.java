@@ -11,6 +11,7 @@ import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.member.repository.entity.Role;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
@@ -39,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
     private final StatRepository statRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public void join(JoinRequest joinRequest) {
         if (memberRepository.findByEmail(joinRequest.getEmail()).isPresent()) {
             throw new MemberEmailDuplicateException("이미 존재하는 이메일입니다.");
@@ -54,6 +56,23 @@ public class MemberServiceImpl implements MemberService {
 
         member.passwordEncode(passwordEncoder);
         memberRepository.save(member);
+    }
+
+    @Override
+    public void modifyMember(ModifyMemberRequest modifyMemberRequest, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        Member newMem = Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .password(member.getPassword())
+                .nickname(modifyMemberRequest.getNickname())
+                .imageUrl(modifyMemberRequest.getImageUrl())
+                .role(member.getRole())
+                .build();
+
+        memberRepository.save(newMem);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.yukgaejang.voss.domain.member.service;
 
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
@@ -12,6 +13,8 @@ import java.util.List;
 
 public interface MemberService {
     void join(JoinRequest joinRequest);
+
+    void modifyMember(ModifyMemberRequest modifyMemberRequest, String email);
 
     void follow(FollowRequest followRequest, String email);
     void unfollow(Long targetId, String email);
