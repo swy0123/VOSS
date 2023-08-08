@@ -1,8 +1,12 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom } from "../recoil/Auth";
+import { CurrentUserAtom, LoginState } from "../recoil/Auth";
+import { useNavigate } from "react-router-dom";
 //수정
 const BASE_URL = "https://i9b106.p.ssafy.io:8080";
+// const navigate = useNavigate();
+// const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
+// const [isLogin, setLoginState] = useRecoilState(LoginState)
 axios.defaults.withCredentials = true;
 
 export const publicApi: AxiosInstance = axios.create({
@@ -52,32 +56,30 @@ privateApi.interceptors.response.use(
     } = error;
 
     if (error.response.status === 403) {
-      console.log("인터셉터 시작 =============");
       if (error.response.data.message === '유효하지 않은 토큰') {
         const originRequest = config;
-        const response = await postRefreshToken();
-
-        if (response.status === 200) {
-          console.log("인터셉터 중간 시작 =============" + originRequest.headers.Authorization);
+        try {
+          const response = await postRefreshToken();
           const newAccessToken = response.headers["authorization"];
           localStorage.setItem('access_token', response.headers["authorization"]);
           localStorage.setItem('refresh_token', response.headers["authorization-refresh"]);
-          // const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
-          // setCurrentUser((prev: any) => ({
-          //   ...prev,
-          //   accessToken: response.headers["authorization"],
-          //   refreshToken: response.headers["authorization-refresh"],
-          // }));
           axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-          console.log("인터셉터 끝 =============" + originRequest.headers.Authorization);
           return axios(originRequest);
 
-        } else {
+        } catch {
           alert("다시 로그인하세요");
-          window.location.replace('/');
-          
+          // setLoginState(false);
+          // setCurrentUser({
+          //   userid: 0,
+          //   email: "",
+          //   nickname: "",
+          //   accessToken: "",
+          //   refreshToken: ""});
+          // localStorage.removeItem('access_token');
+          // localStorage.removeItem('refresh_token');
+          // navigate("/");
+
         }
       }
     }
