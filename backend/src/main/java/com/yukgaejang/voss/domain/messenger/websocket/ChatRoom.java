@@ -28,7 +28,10 @@ public class ChatRoom {
         if (chatMessageDto.getContent().equals("leave")) {
             messengerService.updateLeaveTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
             sessions.remove(session);
-        } else {
+        } else if (chatMessageDto.getContent().equals("enter")) {
+            sessions.add(session);
+        }
+        else {
             sessions.add(session);
             sendMessage(chatMessageDto, messengerService);
         }
