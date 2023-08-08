@@ -54,7 +54,6 @@ function Script ({lines}: VideoProps) {
 
   return(
     <Container>
-      <div style={{color:'white'}}>{time}</div>
       <ScriptBox 
         id="ScriptBox"
         ref={ScrollRef}>

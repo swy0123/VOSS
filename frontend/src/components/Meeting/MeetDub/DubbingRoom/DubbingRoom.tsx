@@ -7,8 +7,11 @@ import { ScriptData } from "/src/type/type"
 import Script from "./Script/Script"
 import { 
   Container, 
-  GoDubbingListBtn } from "./DubbingRoom.style"
+  GoDubbingListBtn, 
+  LeftSection,
+  RightSection} from "./DubbingRoom.style"
 import Video from "./Video/Video"
+import RecordButton from "/src/components/DubbingRoom/RecordButton/RecordButton"
 
 function DubbingRoom () {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
@@ -34,14 +37,20 @@ function DubbingRoom () {
 
   return (
     <Container>
-      <Video 
-        script={video.script}
-        roles={video.roles}
-        lines={video.lines}></Video>
-      <Script 
-        lines={video.lines}></Script>
-      <GoDubbingListBtn 
-        onClick={goDubbingList}>목록으로</GoDubbingListBtn>
+      <LeftSection>
+        <Video 
+          script={video.script}
+          roles={video.roles}
+          lines={video.lines}></Video>
+      </LeftSection>
+
+      <RightSection>
+        <GoDubbingListBtn 
+          onClick={goDubbingList}>목록으로</GoDubbingListBtn>
+        <Script 
+          lines={video.lines}></Script>
+        <RecordButton/>
+      </RightSection>  
     </Container>
   ) 
 }
