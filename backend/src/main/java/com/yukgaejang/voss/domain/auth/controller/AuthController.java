@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.JoinResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,11 +26,18 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthService authService;
 
+    @PostMapping("/refresh")
+    public ResponseEntity<Boolean> refresh(HttpServletRequest request) {
+        HttpHeaders header = authService.refresh(request);
+        return ResponseEntity.ok().headers(header).body(true);
+    }
+
     @PostMapping("/email")
     public ResponseEntity<SendEmailResponse> sendEmail(@RequestBody SendEmailRequest sendEmailRequest) {
         authService.sendEmail(sendEmailRequest);
         return ResponseEntity.ok(new SendEmailResponse(true));
     }
+
 
     @PostMapping("/email/confirm")
     public ResponseEntity<ConfirmEmailResponse> confirmEmail(@RequestBody ConfirmEmailRequest confirmEmailRequest) {

@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/ws/messenger").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/logout").permitAll()
-                        .requestMatchers("/auth/test").permitAll()
+                        .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/member").permitAll()
                         .requestMatchers("/auth/email", "/auth/email/confirm").permitAll()
                         .anyRequest().authenticated()

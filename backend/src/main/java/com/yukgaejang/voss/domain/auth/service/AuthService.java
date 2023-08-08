@@ -11,11 +11,15 @@ import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.member.repository.entity.RefreshToken;
+import com.yukgaejang.voss.global.jwt.service.JwtService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -30,6 +34,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
+    private final JwtService jwtService;
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
     private final EmailRepository emailRepository;
@@ -133,5 +138,19 @@ public class AuthService implements UserDetailsService {
         }
 
         return key.toString();
+    }
+
+    public HttpHeaders refresh(HttpServletRequest request) {
+        String refreshToken = jwtService.extractRefreshToken(request).get();
+        String email = refreshTokenRepository.findById(refreshToken).get().getEmail();
+        String newRefreshToken = jwtService.createRefreshToken();
+        refreshTokenRepository.deleteById(newRefreshToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", jwtService.createAccessToken(email));
+        headers.add("Authorization-refresh", newRefreshToken);
+        refreshTokenRepository.save(new RefreshToken(newRefreshToken, email));
+
+        return headers;
     }
 }
