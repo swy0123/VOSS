@@ -107,7 +107,15 @@ export const getMember = async (email: string) => {
   console.log(email);
   const URL = "/member/" + email;
   const res = await privateApi.get(URL);
-  console.log("getMember;;");
+  console.log("getMember;");
   console.log(res);
   return res;
 };
+
+export const getBadgeList = async () => {
+  console.log("-----getBadgeList-----");
+  const res = await privateApi.get("/badge");
+  console.log("getBadgeList;");
+  return res.data;
+};
+
