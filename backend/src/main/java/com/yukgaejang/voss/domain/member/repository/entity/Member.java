@@ -31,10 +31,12 @@ public class Member extends BaseEntity {
     public Member() {}
 
     @Builder
-    public Member(String email, String password, String nickname, Role role) {
+    public Member(Long id, String email, String password, String nickname, String imageUrl, Role role) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
         this.role = role;
     }
 }

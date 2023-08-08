@@ -4,6 +4,7 @@ import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
@@ -28,6 +29,13 @@ public class MemberController {
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest joinRequest) {
         memberService.join(joinRequest);
         return ResponseEntity.ok(new JoinResponse(true));
+    }
+
+    @PutMapping
+    public ResponseEntity<Boolean> modify(@RequestBody ModifyMemberRequest modifyMemberRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return ResponseEntity.ok(memberService.modifyMember(modifyMemberRequest, authentication.getName()));
     }
 
     @GetMapping("/info")
