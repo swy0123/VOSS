@@ -38,7 +38,17 @@ public class ChatRoom {
     }
 
     private <T> void sendMessage(T message, MessengerService messengerService) {
-        sessions.parallelStream()
-                .forEach(session -> messengerService.sendMessage(session, message));
+        for (WebSocketSession session : sessions) {
+            if (!session.isOpen()) {
+                ChatMessageDto chatMessageDto = (ChatMessageDto) message;
+                messengerService.updateLeaveTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
+                sessions.remove(session);
+            }
+            else {
+                messengerService.sendMessage(session, message);
+            }
+        }
+//        sessions.parallelStream()
+//                .forEach(session -> messengerService.sendMessage(session, message));
     }
 }
