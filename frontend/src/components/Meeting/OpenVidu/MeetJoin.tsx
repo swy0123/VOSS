@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import { MeetRoomData, MeetingProps, joinMeet } from "../../../api/meeting";
 
@@ -22,6 +22,7 @@ import {
 } from "./MeetJoin.style";
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
+import BadgeModal from "./BadgeModal";
 // import { VedioInnerDiv } from "./UserVideoComponent.style";
 
 export interface streamContainerProps {
@@ -34,6 +35,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [mySessionId, setMySessionId] = useState(currentUser.userId);
   const [myUserName, setMyUserName] = useState(currentUser.nickname);
+  const [userEmail, setUserEmail] = useState("");
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
@@ -47,6 +49,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [curCount, setCurCount] = useState(0);
 
   const [roomData, setRoomData] = useState<any>();
+
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   const [time, setTime] = useState(0);
   const [hour, setHour] = useState(0);
@@ -119,14 +123,15 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     const mySession = OV.initSession();
     setSession(mySession);
 
+
     // --- 3) Specify the actions when events take place in the session ---
     mySession.on("streamCreated", (event) => {
-      const subscriber = mySession.subscribe(event.stream, nickname);
-      setSubscribers((prevSubscribers) => [...prevSubscribers, subscriber]);
+      // event.stream.streamId = currentUser.email;
+      const subscriber = mySession.subscribe(event.stream, "");
+      setSubscribers((subscribers) => [...subscribers, subscriber]);
       setConnectionId(event.stream.connection.connectionId);
-      console.log("subscriber.stream.connection.datasubscriber.stream.connection.datasubscriber.stream.connection.data");
-      console.log(subscriber.stream.connection.data);
-      console.log(JSON.parse(subscriber.stream.connection.data));
+      console.log(subscriber);
+      
     });
 
     mySession.on("streamDestroyed", (event) => {
@@ -139,12 +144,13 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     });
 
     console.log(mySession);
+
     // --- 4) Connect to the session with a valid user token ---
     try {
       const token = await getToken();
       console.log(token);
 
-      await mySession.connect(token, { clientData: myUserName });
+      await mySession.connect(token, { clientData: currentUser.email });
 
       const devices = await OV.getDevices();
       console.log("devices");
@@ -160,19 +166,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         mirror: false,
         // insertMode: 'APPEND',
       });
-
+      newPublisher.id = currentUser.email;
       await mySession.publish(newPublisher);
-      // await mySession.publish(newPublisher).then(() => {
-      //   updateSubscribers();
-      //   localUserAccessAllowed = true;
-      //   if (this.props.joinSession) {
-      //     this.props.joinSession();
-      //   }
-      // });
-
-      await setPublisher(newPublisher);
-      console.log("publisherpublisherpublisherpublisherpublisherpublisherpublisherpublisherpublisherpublisher");
-      console.log(newPublisher.stream.connection.data);
+      setPublisher(newPublisher);
+      console.log(newPublisher);
+      // console.log(publisher);
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
@@ -244,10 +242,17 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   //     "createdAt": 1690876928365
   //   }
 
+
+  
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   const streamContainerProps: streamContainerProps = {
     curCount: curCount,
     bottomOn: props.bottomOn,
   };
+  
 
   return (
     <Container>
@@ -255,8 +260,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
         {roomData !== undefined ? (
           <>
             <HeaderText>{roomData.title} </HeaderText>{" "}
-            <span style={{fontSize:"10px", color:"gray"}}>
-            &#40;{curCount}/{roomData.maxCount}&#41;
+            <span style={{ fontSize: "10px", color: "gray" }}>
+              &#40;{curCount}/{roomData.maxCount}&#41;
             </span>
           </>
         ) : (
@@ -275,14 +280,14 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
               <StreamContainer $streamContainerProps={streamContainerProps}>
                 {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
                 {/* <>{publisher.connection}</> */}
-                <UserVideoComponent streamManager={publisher} />
+                <UserVideoComponent streamManager={publisher}/>
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
-              <StreamContainer key={i} $streamContainerProps={streamContainerProps}>
-              {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
-              {/* <>{sub.connection}</> */}
-                <UserVideoComponent streamManager={sub} />
+              <StreamContainer key={i} $streamContainerProps={streamContainerProps} >
+                {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
+                {/* <>{sub.connection}</> */}
+                <UserVideoComponent streamManager={sub} onClickToggleModal={onClickToggleModal} isOpenModal={isOpenModal}/>
               </StreamContainer>
             ))}
           </VideoContainer>
@@ -330,6 +335,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           leaveSession={leaveSession}
         />
       </ToolBar>
+      
+      {isOpenModal && (
+        <BadgeModal onClickToggleModal={onClickToggleModal}>방 만들기</BadgeModal>
+      )}
+
     </Container>
   );
 };

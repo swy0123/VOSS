@@ -73,7 +73,7 @@ export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
   return res.data;
 };
 
-export interface MeetRoomData{
+export interface MeetRoomData {
   category: string,
   createdAt: number,
   currentCount: number,
@@ -87,7 +87,7 @@ export interface MeetRoomData{
 
 export interface addRoomData {
   title: string,
-  maxCount:number,
+  maxCount: number,
   password: string,
   category: string
 }
@@ -100,3 +100,14 @@ export const createMeet = async ({ addRoomData }: { addRoomData: addRoomData }) 
   return res.data.meetRoomId;
 };
 
+
+
+export const getMember = async (email: string) => {
+  console.log("-----getMember-----");
+  console.log(email);
+  const URL = "/member/" + email;
+  const res = await privateApi.get(URL);
+  console.log("getMember;;");
+  console.log(res);
+  return res;
+};
