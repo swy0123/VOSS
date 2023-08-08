@@ -13,15 +13,16 @@ import {
   Title, 
   YoutubeIcon} from "./Video.style";
 import { 
+  PlayChangebState,
   RoleSelectState, 
   ScriptSelectState} from "/src/recoil/Training";
 
 function Video ({script, roles, lines}: ScriptData) {
+  const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-  const [chagneDisplay, setChangeDisplay] = useState<boolean>(true)
   const [youtube, setYoutube] = useState("")
 
   // 역할 선택
@@ -50,6 +51,8 @@ function Video ({script, roles, lines}: ScriptData) {
   }
 
   function onPlayerReady(event) {
+    let nowTime = event.target.getCurrentTime()
+    setPlayChange([1, Math.floor(nowTime)])
     event.target.playVideo();
   }
 
@@ -93,6 +96,7 @@ function Video ({script, roles, lines}: ScriptData) {
         </ImgSection>
         )}
       </Box>
+
       <RoleBox>
           {roles.map((role,index) => (
             <RoleButton 
