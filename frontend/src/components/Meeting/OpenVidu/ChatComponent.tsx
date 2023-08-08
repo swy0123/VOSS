@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
-import { ChatContainer, Chat, ChatScroll, MyChatting, OtherChatting, Chatting, MessageInput } from "./ChatComponent.style";
+import { ChatContainer, Chat, ChatScroll, ChattingDetail, ChattingLabel, Chatting, MessageInput, StyledInput } from "./ChatComponent.style";
 import { useRecoilState } from "recoil";
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
@@ -15,6 +15,7 @@ interface messageType {
   connectionId: string;
   nickname: string;
   message: string;
+  datetime: string;
 }
 
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
@@ -23,7 +24,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [connectionId, setConnectionId] = useState(chatProps.connectionIdProps);
   const [nickname, setNickname] = useState(chatProps.nicknameProps);
   const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
-  
+
   const chatScroll = useRef<HTMLDivElement>(null);
 
   //send는 컴포넌트에서 보내는 이벤트
@@ -42,9 +43,9 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   };
 
   //파라미터로 명령어 넣고 명령어 없으면 기본 메세지 전송
-  const sendMessage = (order?:string) => {
+  const sendMessage = (order?: string) => {
     let tmp = message;
-    if(order !== undefined) tmp = order;
+    if (order !== undefined) tmp = order;
     console.log(chatProps);
     if (tmp) {
       let newMessage = tmp.replace(/ +(?= )/g, "");
@@ -53,6 +54,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
           message: newMessage,
           nickname: nickname,
           streamId: streamManager.stream.streamId,
+          datetime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).slice(3)
         };
         streamManager.stream.session.signal({
           data: JSON.stringify(data),
@@ -71,17 +73,17 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   //   chatProps.close(undefined);
   // };
 
-  useEffect(()=>{
+  useEffect(() => {
     sendMessage();
-  },[])
+  }, [])
 
   //명령어 전송
-  useEffect(()=>{
-    if(send=="/open") {
+  useEffect(() => {
+    if (send == "/open") {
       setSend("/none");
       sendMessage("/open");
     }
-    else if(send=="/close") {
+    else if (send == "/close") {
       setSend("/none");
       sendMessage("/close");
     }
@@ -96,6 +98,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         connectionId: connectionId,
         nickname: data.nickname,
         message: data.message,
+        datetime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).slice(3)
       });
       const document = window.document;
       setTimeout(() => {
@@ -106,16 +109,16 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
     });
     //이부분에 조건문으로 명령어 감지하고 리코일 이벤트 추가
-    if (messageList.length - 1 > 0){
-      if(messageList[messageList.length - 1].message === "/open") {
+    if (messageList.length - 1 > 0) {
+      if (messageList[messageList.length - 1].message === "/open") {
         setRecieve("/open");
         messageList.pop();
       }
-      else if(messageList[messageList.length - 1].message === "/close") {
+      else if (messageList[messageList.length - 1].message === "/close") {
         setRecieve("/close");
         messageList.pop();
       }
-    } 
+    }
 
   }, [messageList, chatProps]);
 
@@ -124,36 +127,30 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     <ChatContainer>
       <Chat>
         <ChatScroll className="message-wrap">
-          {messageList.map((data, i) => data.connectionId !== connectionId ? (
+          {messageList.map((data, i) => (
             <div key={i}>
-              {/* <canvas id={"userImg-" + i}className="user-img" /> */}
-              <MyChatting className="msg-detail">
-                <div className="msg-info">
-                  nickname : {data.nickname}
-                </div>
+              <ChattingDetail className="msg-detail">
+                <ChattingLabel>
+                  <div className="msg-sender">
+                    {data.nickname}
+                  </div>
+                  <div className="msg-datetime">
+                    {data.datetime}
+                  </div>
+                </ChattingLabel>
                 <Chatting className="msg-content">
-                  {/* <span className="triangle" /> */}
-                  message : {data.message}
+                  {data.message}
                 </Chatting>
-              </MyChatting>
+              </ChattingDetail>
             </div>
-          ) : <div key={i}>
-            <OtherChatting className="msg-detail">
-              <div className="msg-info">
-                nickname : {data.nickname}
-              </div>
-              <Chatting className="msg-content">
-                {/* <span className="triangle" /> */}
-                message : {data.message}
-              </Chatting>
-            </OtherChatting>
-          </div>
-          )}
+          ))}
           <div ref={chatScroll}></div>
         </ChatScroll>
 
         <MessageInput id="messageInput">
-          <input
+          <StyledInput
+            className="msg-input"
+            type="text"
             placeholder="Send a message"
             id="chatInput"
             value={message}
@@ -161,7 +158,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             onKeyPress={handlePressKey}
           />
           <div title="Send message">
-            <div id="sendButton" onClick={()=>{sendMessage}}>
+            <div id="sendButton" onClick={() => { sendMessage }}>
               <div />
             </div>
           </div>

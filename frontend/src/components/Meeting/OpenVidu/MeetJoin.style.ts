@@ -77,7 +77,6 @@ export const ChatBox = styled.div<{ $chatActive: boolean }>`
     props.$chatActive
       ? "width: 25%; height: 95%;"
       : "width: 0%; height: 0%; overflow:hidden;"};
-  background-color: blue;
 `;
 
 export const ToolBar = styled.div`

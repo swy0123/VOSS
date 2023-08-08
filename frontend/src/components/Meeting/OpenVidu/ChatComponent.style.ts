@@ -7,15 +7,16 @@ export const ChatContainer = styled.div`
 `;
 
 export const Chat = styled.div`
-  background-color: #b8b8b8;
+  background-color: #3F3F3F;
   height: 100%;
   width: 100%;
   position: relative;
   border-radius: 10px;
+  padding-top: 15px;
 `;
 
 export const ChatScroll = styled.div`
-  height: 95%;
+  height: 80%;
   width: 95%;
   margin: 1px auto;
   position: relative;
@@ -24,22 +25,56 @@ export const ChatScroll = styled.div`
 `;
 
 export const Chatting = styled.div`
-  font-size: 11px;
-  padding: 7px;
-  margin: 3px;
+  font-size: 12px;
+  margin-top: 5px;
 `;
 
-export const MyChatting = styled.div`
+// export const MyChatting = styled.div`
+//   display: flex;
+//   justify-content: end;
+// `;
+
+
+export const ChattingDetail = styled.div`
+  justify-content: start;
+  margin-bottom: 25px;
+  margin-left: 15px;
+`;
+
+export const ChattingLabel = styled.div`
   display: flex;
-  justify-content: end;
+  padding-top: 5px;
+  align-items: flex-start;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  .msg-sender {
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF; 
+  }
+
+  .msg-datetime {
+    font-size: 14px;
+    color: #9C9C9C;
+  }
 `;
 
 export const MessageInput = styled.div`
-  height: 5%;
+  height: 80px;
   width: 100%;
+  // background-color: red;
+  position: absolute;
+  bottom: 0;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
 `;
 
-export const OtherChatting = styled.div`
-  display: flex;
-  justify-content: start;
+export const StyledInput = styled.input`
+  all: unset;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 16px;
 `;
