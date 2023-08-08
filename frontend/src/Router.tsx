@@ -4,10 +4,10 @@ import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
 import SelectCategory from "./pages/SelectCategory/SelectCategory";
-import VoiceAnalysis from "./pages/VoiceAnalysis";
+import VoiceAnalysis from "./pages/VoiceAnalysis/VoiceAnalysis";
 import DubbingList from "./pages/DubbingList/DubbingList";
 import DubbingRoom from "./pages/DubbingRoom/DubbingRoom";
-import Accent from "./pages/Accent";
+import Accent from "./pages/Accent/Accent";
 import FreeBoard from "./pages/FreeBoard/FreeBoard";
 import PostDetail from "./components/FreeBoard/PostDetail/PostDetail";
 import PostCreate from "./components/FreeBoard/PostCreate/PostCreate";
@@ -15,6 +15,7 @@ import PostUpdate from "./components/FreeBoard/PostUpdate/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
 import Profile from "./pages/Profile";
+import Avatar from "./pages/Avatar/Avatar";
 
 const router = createBrowserRouter([
     {
@@ -84,6 +85,11 @@ const router = createBrowserRouter([
             {
                 path: "profile/:id",
                 element: <Profile />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "avatar",
+                element: <Avatar />,
                 errorElement: <ErrorComponent />,
             },
         ],
