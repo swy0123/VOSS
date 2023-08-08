@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilState } from 'recoil';
 import { Line } from '/src/type/type';
+import { MeetDubPlayChangebState } from '/src/recoil/HW_Atom';
 import { 
   PlayChangebState, 
   ScriptSelectState } from '/src/recoil/Training';
@@ -19,30 +20,32 @@ interface VideoProps {
 
 function Script ({lines}: VideoProps) {
   const [isScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const [playChange] = useRecoilState<number[]>(PlayChangebState)
+  // const [playChange] = useRecoilState<number[]>(PlayChangebState)
+  const [meetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
   const intervalRef = useRef<number|undefined>(undefined);
   const [time, setTime] = useState(0);
   const ScrollRef = useRef<number>(0)
 
-
   const fixTopScript = () => {
     // 1은 PlayingState
-    if(playChange[0] === 1) { 
-      setTime(playChange[1] * 1);
+    if(meetDubPlayChange[0] === 1) { 
+      setTime(meetDubPlayChange[1] * 1);
       intervalRef.current = setInterval(() => {
         setTime((prevTime) => prevTime + 1);
-      }, 2000);
+      }, 1000);
     }
 
     // 2은 PausedState
-    else if(playChange[0] === 2){ 
+    else if(meetDubPlayChange[0] === 2){ 
       clearInterval(intervalRef.current)
     }
   }
+
   useEffect(() => {
     const ScrollStartValue = document.getElementById(`ScriptBox`)?.getBoundingClientRect().y
     const ScriptPosition = document.getElementById(`${String(time)}`)?.getBoundingClientRect().y
-    console.log(time,ScriptPosition)
+    // console.log(time,ScriptPosition)
+
     if (ScriptPosition) {
       ScrollRef.current.scrollTop += ScriptPosition-ScrollStartValue-12;
     }
@@ -50,10 +53,11 @@ function Script ({lines}: VideoProps) {
 
   useEffect(()=> {
     fixTopScript()
-  },[playChange])
+  },[meetDubPlayChange])
 
   return(
     <Container>
+      <div style={{color:'white'}}>{time}</div>
       <ScriptBox 
         id="ScriptBox"
         ref={ScrollRef}>

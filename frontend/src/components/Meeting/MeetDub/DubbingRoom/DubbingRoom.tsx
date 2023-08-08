@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { meetDubSelectState } from "/src/recoil/HW_Atom"
+import { RoleModalState, meetDubSelectState, userSelectRoleState } from "/src/recoil/HW_Atom"
 import { videoState } from "/src/recoil/Training"
 import { getVideo } from "/src/api/video"
 import { ScriptData } from "/src/type/type"
@@ -12,11 +12,18 @@ import {
   RightSection} from "./DubbingRoom.style"
 import Video from "./Video/Video"
 import RecordButton from "/src/components/DubbingRoom/RecordButton/RecordButton"
+import Role from "./Role/Role"
+import RoleSelectModal from "./RoleSelectModal/RoleSelectModal"
 
 function DubbingRoom () {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
+  const [userSelectRole, setUserSelectRole] = useRecoilState<string[]>(userSelectRoleState)
+  const [roleModal, setRoleModal] = useRecoilState(RoleModalState)
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
-  const goDubbingList = () => {setMeetDubSelect(0)}
+  const goDubbingList = () => {
+    setMeetDubSelect(0)
+    setUserSelectRole(["","","","","",""])
+  }
 
   const axiosVideo = async (id:number):Promise<void> => {
     try {
@@ -42,6 +49,8 @@ function DubbingRoom () {
           script={video.script}
           roles={video.roles}
           lines={video.lines}></Video>
+        <Role
+          roles={video.roles}></Role>
       </LeftSection>
 
       <RightSection>
@@ -50,7 +59,8 @@ function DubbingRoom () {
         <Script 
           lines={video.lines}></Script>
         <RecordButton/>
-      </RightSection>  
+      </RightSection>
+      {roleModal && <RoleSelectModal roles={video.roles}/>}
     </Container>
   ) 
 }

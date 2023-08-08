@@ -35,6 +35,7 @@ export const ScriptSelectState = atom<boolean[]>({
   default: [],
 })
 
+// 더비영상 Play and Stop
 export const PlayChangebState = atom<number[]>({
   key: 'PlayChangebState',
   default: [],
