@@ -16,6 +16,7 @@ public class PostDetailResponse {
     private Long id;
     private Long hits;
     private String nickname;
+    private Long memberId;
     private String title;
     private String content;
     private Long likes;
@@ -29,6 +30,7 @@ public class PostDetailResponse {
         this.id = post.getId();
         this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
+        this.memberId = post.getMember().getId();
         this.title = post.getTitle();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
