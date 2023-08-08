@@ -4,11 +4,11 @@ import Messenger from "../../components/Message/Messenger";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
-import { BottomBarImg, BottomSection, CloseSectionBtn, ClosedBottomSection, Container } from "./Meeting.style";
+import { BottomBar, BottomSection, CloseSectionBtn, ClosedBottomSection, Container } from "./Meeting.style";
 import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
 import { MeetingProps } from "../../api/meeting";
-import BottomBar from "../../assets/Meeting/BottomBar.png";
 import CloseSection from "../../assets/Meeting/CloseSection.png";
+import Vector from "../../assets/Meeting/Vector.png";
 import DubbingRoom from "/src/components/Meeting/MeetDub/DubbingRoom/DubbingRoom";
 
 //리코일 사용
@@ -87,7 +87,7 @@ function Meeting() {
         </BottomSection>
       ) : (
         <ClosedBottomSection>
-          <BottomBarImg src={BottomBar} onClick={()=>{isBottomOn("/open")}} />
+          <BottomBar onClick={()=>{isBottomOn("/open")}}><img src={Vector}/>더빙연습</BottomBar>
         </ClosedBottomSection>
       )}
 
