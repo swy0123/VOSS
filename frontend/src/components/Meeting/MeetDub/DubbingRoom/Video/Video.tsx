@@ -59,8 +59,8 @@ function Video ({script, roles, lines}: ScriptData) {
   const SelfPlayVideo = () => {
     const nowTime = youtube.getCurrentTime() % script.durationInSec
     setMeetDubPlayChange([1, Math.floor(nowTime)])
-    setSend("/playvideo")
     youtube.playVideo()
+    setSend("/playvideo")
   }
   
   // 영상 일시정지
