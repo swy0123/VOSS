@@ -87,6 +87,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/close");
     }
+    else if (send == "/startvideo") {
+      setSend("/none");
+      sendMessage("/startvideo");
+    }
+    else if (send == "/playvideo") {
+      setSend("/none");
+      sendMessage("/playvideo");
+    }
+    else if (send == "/pausevideo") {
+      setSend("/none");
+      sendMessage("/pausevideo");
+    }
   }, [send])
 
 
@@ -116,6 +128,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       }
       else if (messageList[messageList.length - 1].message === "/close") {
         setRecieve("/close");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/startvideo") {
+        setRecieve("/startvideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/playvideo") {
+        setRecieve("/playvideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/pausevideo") {
+        setRecieve("/pausevideo");
         messageList.pop();
       }
     }
