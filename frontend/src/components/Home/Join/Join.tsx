@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
+import Avatar, { genConfig } from 'react-nice-avatar'
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
@@ -8,6 +9,7 @@ import { authEmail, postJoin, postTest } from "../../../api/join";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
 import EmailModal from "./EmailModal";
+import ImageModifyModal from "./ImageModifyModal";
 import {
   Button,
   Container,
@@ -21,6 +23,7 @@ import {
   Title,
   UnderText,
   BlockedButton,
+  ModifyButton
   // CheckMsg,
 } from "./Join.style";
 
@@ -35,6 +38,8 @@ const Login = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [config, setConfig] = useState({ glassesStyle: "none", hatStyle: "none" });
 
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
@@ -45,6 +50,19 @@ const Login = () => {
   }, [nickName.trim().length, isEmailChecked, repassword, password, nickName]);
 
   const MAX_LENGTH = 50;
+
+  const handleModifyClick = () => {
+    setIsImageModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsImageModalOpen(false);
+  };
+
+  const handleImageConfig = (updatedConfig: any) => {
+    setConfig(updatedConfig);
+    closeModal();
+  };
 
   const handleUsernameField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
@@ -134,6 +152,13 @@ const Login = () => {
         <H2>Create an Account</H2>
       </Title>
 
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
+        <div style={{ position: 'relative' }}>
+          <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
+          <ModifyButton onClick={handleModifyClick}>수정</ModifyButton>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <InputDiv>
           <InputHeader>Email</InputHeader>
@@ -188,6 +213,10 @@ const Login = () => {
           email={email}
           isEmailCheckd={isEmailCheckd}
         ></EmailModal>
+      )}
+
+      {isImageModalOpen && (
+        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig}/>
       )}
     </Container>
   );

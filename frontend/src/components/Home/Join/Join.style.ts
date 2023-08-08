@@ -10,10 +10,14 @@ export const Container = styled.div`
   border-style: solid;
   border-width: 1px;
   border-radius: 24px 24px 0px 0px;
-  text-align: center;
   position: fixed;
   bottom: 0px;
   right: 15%;
+  text-align: center;
+
+  .avatar-bar {
+    text-align: left;
+  }
 `;
 
 export const P = styled.p`
@@ -32,8 +36,19 @@ position: relative;
   width: 80%;
   height: auto;
   margin: 10% auto;
-  margin-bottom: 20%;
+  margin-bottom: 6%;
   text-align: left;
+`;
+
+export const ModifyButton = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 4rem; 
+  background: grey;
+  border: none;
+  border-radius: 5px;
+  font-size: 10px;
+  zIndex: 1;
 `;
 
 export const UnderText = styled.div`
