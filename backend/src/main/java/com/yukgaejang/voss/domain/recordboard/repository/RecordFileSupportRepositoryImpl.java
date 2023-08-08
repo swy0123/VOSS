@@ -13,6 +13,15 @@ public class RecordFileSupportRepositoryImpl implements RecordFileSupportReposit
     }
 
     @Override
+    public RecordFile findByRecordIdAndIsDeletedFalse(Long recordId) {
+        QRecordFile rf = QRecordFile.recordFile;
+        return jpaQueryFactory.selectFrom(rf)
+                .where(rf.record.id.eq(recordId)
+                        .and(rf.isDeleted.eq(0)))
+                .fetchOne();
+    }
+
+    @Override
     public RecordFile findByIdAndIsDeletedFalse(Long id) {
         QRecordFile rf = QRecordFile.recordFile;
         return jpaQueryFactory.selectFrom(rf)

@@ -75,4 +75,10 @@ public class RecordboardController {
         String email = authentication.getName();
         return ResponseEntity.ok(recordLikeService.createRecordLike(email, recordId));
     }
+
+    @DeleteMapping("{recordId}")
+    public ResponseEntity<DeleteRecordResponse> deleteRecord(@PathVariable Long recordId) {
+        return ResponseEntity.ok(recordService.deleteRecord(recordId));
+    }
+
 }

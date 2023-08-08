@@ -13,5 +13,6 @@ public interface RecordService {
     Page<RecordDetailResponse> getRecordList(String email, Pageable pageable);
     Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description);
     Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname);
+    DeleteRecordResponse deleteRecord(Long id);
 
 }
