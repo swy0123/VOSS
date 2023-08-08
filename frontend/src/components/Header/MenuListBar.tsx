@@ -1,6 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { postRractice } from "/src/api/profile";
+import { useRecoilState } from "recoil";
+import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState } from "/src/recoil/Community";
+import { getPostList } from "/src/api/FreeBoard";
+import { PostListType } from "/src/type/FreeBoard";
 import {
   MenuBox,
   Menuitems,
@@ -13,6 +17,24 @@ interface Headertype {
 }
 
 function MenuListBar({setMenuIsShown}:Headertype) {
+  const [, setInput] = useRecoilState<string>(FreeBoardInputState);
+  const [, setSort] = useRecoilState<string>(FreeBoardSortState);
+  const [, setCond] = useRecoilState<string>(FreeBoardCondState);
+  const [, setCurrentPage] = useRecoilState<number>(FreeBoardCurrentPageState);
+  const [, setTotalPages] = useRecoilState<number>(FreeBoardTotalPagesState);
+  const [, setPosts] = useRecoilState<PostListType[]>(FreeBoardListState);
+  const searchPost = (sort: string, cond: string, input:string, page: number) => {
+    setCurrentPage(page)
+    getPostList(sort, cond, input, page)
+    .then((postsData) => {
+      if(postsData) {
+        setPosts(postsData.content)
+        setTotalPages(postsData.totalPages)
+        navigate("/freeboard")
+      }
+    return true
+  })};
+
   // Router Link와 동일한 부분
   const navigate = useNavigate()  
   const goVoiceAnalysis = async () => {
@@ -21,14 +43,16 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   }
   const goDubbingList = () => {
     navigate("/dubbinglist")
-    window.location.reload()
   }
   const goAccent = async () => {
     await postRractice("DICTION")
     navigate("/accent")
   }
   const goFreeBoard = () => {
-    navigate("/freeboard")
+    setInput("");
+    setSort("1");
+    setCond("1");
+    searchPost("1", "1", "", 1);
   }
   const goMeetingBoard = () => {
     navigate("/meeting")

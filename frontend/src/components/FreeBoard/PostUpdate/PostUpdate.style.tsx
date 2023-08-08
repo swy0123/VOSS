@@ -5,7 +5,7 @@ export const UpdateScrollDesign = styled.div`
   margin-top: -15px;
   width: 100vw;
   height: 90vh;
-  border: solid 2px red;
+  /* border: solid 2px red; */
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -13,11 +13,11 @@ export const UpdateScrollDesign = styled.div`
   `;
 
 export const UpdatePostDesign = styled.div`
-  /* margin-top: 10vh; */
+  margin-top: 10vh;
   margin-left: 15vw;
   width: 70vw;
   color: #efefef;
-  border: solid 1px white;
+  /* border: solid 1px white; */
   `;
 
 export const UpdateTitleUserDesign = styled.div`
@@ -25,31 +25,35 @@ export const UpdateTitleUserDesign = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 70vw;
-  height: 7vh;
-  border: solid 2px red;
+  height: 5vh;
+  /* border: solid 2px red; */
   `;
 
 export const UpdateTitleDesign = styled.input`
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 50vw;
-  height: 7vh;
-  color: #efefef;
-  background-color: transparent;
+  width: 55vw;
+  height: 5vh;
   // <h3> 태그 속성
   font-size: 19px;
   font-weight: bold;
-  border: solid 2px red;
+  color: #efefef;
+  background-color: transparent;
+  border: none;
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
   `;
 
 export const UpdateUserDesign = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   width: 15vw;
-  height: 7vh;
-  border: solid 2px red;
+  height: 5vh;
+  color: #a4a4a4;
+  /* border: solid 2px red; */
+  text-decoration: underline;
   `;
 
 export const UpdateInfoDateDesign = styled.div`
@@ -58,24 +62,25 @@ export const UpdateInfoDateDesign = styled.div`
   align-items: center;
   width: 70vw;
   height: 7vh;
-  border: solid 1px red;
+  border-bottom: solid 1px #dedede;
   `;
 
 export const UpdateInfoDesign = styled.div`
   display: flex;
   align-items: center;
   width: 55vw;
-  height: 7vh;
-  border: solid 1px red;
+  height: 5vh;
+  /* border: solid 1px red; */
   `;
 
 export const UpdateDateDesign = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   width: 15vw;
-  height: 7vh;
-  border: solid 1px red;
+  height: 5vh;
+  color: #a4a4a4;
+  /* border: solid 1px red; */
   `;
 
 export const UpdateContentDesign = styled.textarea`
@@ -87,7 +92,11 @@ export const UpdateContentDesign = styled.textarea`
   padding: 50px 30px 50px;
   width: calc(70vw - 60px);
   height: 130px;
-  border: solid 1px yellow;
+  /* border: solid 1px yellow; */
+  border: none;
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
   `;
 
 export const UpdateFilesDesign = styled.div`
@@ -95,42 +104,42 @@ export const UpdateFilesDesign = styled.div`
   display: flex;
   align-items: center;
   width: 65vw;
-  border: solid 1px green;
   flex-wrap: wrap;
+  /* border: solid 1px white; */
 `;
 
 export const UpdateFileDesign = styled.div`
-  border: solid 1px yellowgreen;
+  background-color: rgba(255, 255, 255, 0.21); 
+  padding: 5px 10px;
   margin: 5px;
 `;
 
 export const UpdateUploadDesign = styled.div`
-  border: solid 1px green;
-  width: 7vw;
-  height: 5vh;
-  margin-left: 2.5vw;
+  /* width: 5vw;
+  height: 4vh; */
+  padding: 0 0.4vw;
+  margin-right: auto;
+  margin-left: 3vw;
   text-align: center;
-  line-height: 5vh;
+  line-height: 4vh;
+  font-size: 0.9vw;
+  border: solid 1px white;
   label {
     width: 100%;
     height: 100%;
   }
 `;
 
-export const UpdateIndexRowDesign = styled.div`
-  width: 70vw;
-  height: 10vh;
-  border: solid 1px orange;
-`;
-
 export const UpdateIndexDesign = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-right: 1vw;
+  text-align: center;
+  line-height: 4vh;
   margin-left: auto;
-  width: 7vw;
-  height: 5vh;
-  border: solid 1px orange;
+  width: 5.5vw;
+  height: 4vh;
+  background-color: rgba(34, 80, 91, 0.7);
+  border-radius: 15px;
+  font-size: 0.8vw;
 `;
 
 export const UpdateUpdateDeleteDesign = styled.div`
@@ -139,23 +148,33 @@ export const UpdateUpdateDeleteDesign = styled.div`
   align-items: center;
   width: 70vw;
   height: 9vh;
-  border: solid 1px yellow;
+  border-bottom: solid 1px #dedede;
 `;
 
 export const UpdateUpdateDesign = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 7vw;
-  height: 5vh;
-  border: solid 1px yellow;
+  margin-right: 1vw;
+  text-align: center;
+  line-height: 3.5vh;
+  width: 4vw;
+  height: 3.5vh;
+  font-size: 0.75vw;
+  font-weight: bold;
+  border-radius: 50px;
+  color: black;
+  background-color: white;
+  border: solid 1px white;
   `;
 
 export const UpdateDeleteDesign = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 7vw;
-  height: 5vh; 
-  border: solid 1px yellow;
+  margin-right: 1vw;
+  text-align: center;
+  line-height: 3.5vh;
+  width: 4vw;
+  height: 3.5vh;
+  font-size: 0.75vw;
+  font-weight: bold;
+  border-radius: 50px;
+  color: white;
+  background-color: transparent;
+  border: solid 1px white;
 `;
