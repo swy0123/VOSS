@@ -4,135 +4,122 @@ import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import ProfileImg from "../../../assets/Messenger/profile.png";
 import SendArrow from "../../../assets/Messenger/SendArrow.png";
+import { GiveBadgeProps, postBadge } from "../../../api/meeting";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { selectedMember } from "/src/recoil/Meeting";
-
-const ModalContainer = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  z-index: 10000;
-`;
-
-const DialogBox = styled.dialog`
-  width: 360px;
-  height: 400px;
-  padding: 7px;
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-  /* align-items: center; */
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
-  box-sizing: border-box;
-  background-color: #8a8a8a;
-  z-index: 10000;
-`;
-
-const Backdrop = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-
-const ExitImg = styled.img`
-  position: absolute;
-  right: 10px;
-  top: 9px;
-  width: 20px;
-  height: 20px;
-`;
-
-const TagButton = styled.div<{ $IsClick: boolean }>`
-  position: relative;
-  background-color: transparent;
-  border: 1px solid #6c6c6c;
-  border-radius: 5px;
-  color: #6c6c6c;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 8px;
-  padding: 5px;
-
-  &:hover {
-    transform: scale(1.1);
-    transition: 0.3s;
-  }
-  color: ${(props) => (props.$IsClick ? "white" : "#6C6C6C")};
-  border: solid ${(props) => (props.$IsClick ? "2px white" : "1px #6C6C6C")};
-`;
-
-const TmpBorder = styled.span`
-  margin: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 2px;
-  border-color: red;
-`;
+import { BadgeContentDesign } from "../../Profile/BadgeBox/BadgeBox.style";
+import { getBadgeList } from "/src/api/meeting";
+import {
+  Backdrop,
+  DialogBox,
+  ExitImg,
+  MeetBadgeDiv,
+  MeetBadgeHovor,
+  MeetBadgeImg,
+  ModalContainer,
+  ModalHeader,
+} from "./MeetJoin.style";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
 
+interface BadgeData {
+  id: number;
+  name: string;
+}
 
 const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
   const [exitBtnHover, setExitBtnHover] = useState(false);
+  const [hover, setHover] = useState<number>(0);
+  const [badgeList, setBadgeList] = useState<BadgeData[]>();
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
   useEffect(() => {
-    console.log(selected)
+    console.log(selected);
+    getBadge();
   }, []);
 
-
-
-  const getBadgeList = () => {
-    //axios api
-  }
-
-  const handleMouseOver = (event: MouseEvent<HTMLDivElement>) => {
-    console.log("handleMouseOver over")
-    event.stopPropagation();
-  }
-  const handleMouseOut = (event: MouseEvent<HTMLDivElement>) => {
-    console.log("handleMouseOut out")
-    event.stopPropagation();
-  }
+  const getBadge = async () => {
+    const response = await getBadgeList();
+    setBadgeList([...response]);
+  };
+  const giveBadge = async (id: number) => {
+    const giveBadgeProps: GiveBadgeProps = {
+      receiverId: selected.userId,
+      badgeId: id,
+    };
+    const response = await postBadge(giveBadgeProps);
+    console.log(response);
+    if (response.success == true) alert("뱃지 부여 성공!");
+    else alert("뱃지 부여 실패! 같은 사람이 24시간 안에 같은 사람에게 같은 배지 못 줌!");
+  };
 
   return (
-    <ModalContainer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+    <ModalContainer>
       <DialogBox>
-        <div>
-          <ExitImg
-            src={exitBtnHover ? ExitBoxHover : ExitBox}
-            onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              if (onClickToggleModal) {
-                onClickToggleModal();
-              }
-            }}
-            onMouseEnter={() => setExitBtnHover(true)}
-            onMouseLeave={() => setExitBtnHover(false)}
-          />
+        <ModalHeader>
+          <h1>배지 주기</h1>
+          <h3>마우스를 올리면 배지의 설명이 나타납니다.</h3>
+        </ModalHeader>
+        <div
+          style={{
+            // width:"300px",
+            // height:"400px",
+            marginLeft: "10px",
+            paddingBottom: "10px",
+            overflow: "hidden",
+            display:"flex",
+            flexWrap:"wrap",
+          }}
+        >
+          {badgeList !== undefined ? (
+            badgeList.map((badge, id) => (
+              <MeetBadgeDiv>
+                <MeetBadgeImg
+                  // style={{
+                  //   height: "60px",
+                  //   width: "60px",
+                  //   margin: "10px",
+                  //   pointerEvents: "auto",
+                  // }}
+                  key={id}
+                  onMouseEnter={() => setHover(badge.id)}
+                  onMouseLeave={() => setHover(0)}
+                  src={`/src/assets/Profile/badge/B${badge.id + 1}.png`}
+                  alt=""
+                  onClick={() => {
+                    giveBadge(badge.id + 1);
+                  }}
+                />
+                {hover !== 0 && hover === badge.id ? (
+                  <MeetBadgeHovor key={id} $hoverActive={hover}>
+                    <div className="hover-text"> {badge.name}</div>
+                  </MeetBadgeHovor>
+                ) : (
+                  <></>
+                )}
+              </MeetBadgeDiv>
+            ))
+          ) : (
+            <></>
+          )}
         </div>
-        {selected.userId} +
-        {selected.email} +
-        {selected.nickname} +
-        {selected.userImgURL}
 
-
+        <ExitImg
+          src={exitBtnHover ? ExitBoxHover : ExitBox}
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            if (onClickToggleModal) {
+              onClickToggleModal();
+            }
+          }}
+          onMouseEnter={() => setExitBtnHover(true)}
+          onMouseLeave={() => setExitBtnHover(false)}
+        />
       </DialogBox>
       <Backdrop
         onClick={(e: React.MouseEvent) => {

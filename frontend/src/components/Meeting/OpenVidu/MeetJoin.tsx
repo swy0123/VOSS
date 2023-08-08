@@ -268,7 +268,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           <></>
         )}
         <HeaderText>
-          {hour.toString().length < 2 ? "0" + min : min}:
+          {hour.toString().length < 2 ? "0" + hour : hour}:
           {min.toString().length < 2 ? "0" + min : min}:
           {sec.toString().length < 2 ? "0" + sec : sec}
         </HeaderText>
