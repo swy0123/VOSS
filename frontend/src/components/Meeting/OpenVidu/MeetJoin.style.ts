@@ -120,6 +120,8 @@ export const DialogBox = styled.dialog`
   flex-direction: column;
   font-weight: bold;
   /* align-items: center; */
+  /* display: "flex", */
+  flex-wrap: "wrap";
   border: none;
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
@@ -146,12 +148,35 @@ export const ExitImg = styled.img`
   width: 20px;
   height: 20px;
 `;
+
+export const MeetBadgeDiv = styled.div`
+  height: "60px";
+  width: "60px";
+  margin: "10px";
+  pointer-events: "auto";
+`;
+
 export const MeetBadgeImg = styled.img`
   height: "60px";
   width: "60px";
   margin: "10px";
   pointer-events: "auto";
-  &:hover {
-    filter: drop-shadow(10px 6px 6px #c3c3c3);
+`;
+
+export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
+  position: absolute;
+  top: 20px;
+  transition: top 1s ease-in;
+  background-color: gray;
+
+  ${(props) => (props.$hoverActive > 0 ? "animation-duration: 1s; animation-name: fadeout;" : "")}
+
+  @keyframes fadeout {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 `;
