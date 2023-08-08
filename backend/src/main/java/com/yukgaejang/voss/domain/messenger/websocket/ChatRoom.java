@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,15 +40,23 @@ public class ChatRoom {
     }
 
     private <T> void sendMessage(T message, MessengerService messengerService) {
+        List<WebSocketSession> deleteSessionList = new ArrayList<>();
         for (WebSocketSession session : sessions) {
+            if (session == null) {
+                continue;
+            }
             if (!session.isOpen()) {
                 ChatMessageDto chatMessageDto = (ChatMessageDto) message;
                 messengerService.updateLeaveTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
-                sessions.remove(session);
+                deleteSessionList.add(session);
             }
             else {
                 messengerService.sendMessage(session, message);
             }
+        }
+        for (WebSocketSession deleteSession :
+                deleteSessionList) {
+            sessions.remove(deleteSession);
         }
 //        sessions.parallelStream()
 //                .forEach(session -> messengerService.sendMessage(session, message));
