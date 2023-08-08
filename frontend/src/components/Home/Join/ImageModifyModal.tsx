@@ -3,7 +3,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import domtoimage from "dom-to-image";
 import { saveAs } from 'file-saver';
 import { HexColorPicker } from "react-colorful";
-import { ModalOverlay, ModalContent, CompleteButton} from "./ImageModifyModal.style"
+import { ModalOverlay, ModalContent, CompleteButton } from "./ImageModifyModal.style"
 
 
 interface ImageModalDefaultType {
