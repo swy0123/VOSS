@@ -36,10 +36,10 @@ public class GameController {
     }
 
     @PostMapping("/score/{cnt}")
-    public ResponseEntity<StatusResponse> setScoreOfMafiaGame(@PathVariable int cnt) {
+    public ResponseEntity<StatusResponse> addScoreOfMafiaGame(@PathVariable int cnt) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return ResponseEntity.ok(gameService.setMafiaGameScore(email, cnt));
+        return ResponseEntity.ok(gameService.addMafiaGameScore(email, cnt));
     }
 
     @GetMapping("/score")

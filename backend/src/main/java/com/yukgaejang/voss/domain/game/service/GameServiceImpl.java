@@ -54,7 +54,7 @@ public class GameServiceImpl implements GameService{
     }
 
     @Override
-    public StatusResponse setMafiaGameScore(String email, int score) {
+    public StatusResponse addMafiaGameScore(String email, int score) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("사용자가 아닙니다."));
         mafiaGameScoreRepository.save(new MafiaGameScore(member, score));
         return new StatusResponse("점수등록을 완료했습니다.");

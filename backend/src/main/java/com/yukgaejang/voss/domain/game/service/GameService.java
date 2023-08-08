@@ -16,7 +16,7 @@ public interface GameService {
 
     List<MafiaGameSourceListResponse> getRandomMafiaSourceListLimitCnt(int cnt);
 
-    StatusResponse setMafiaGameScore(String email, int score);
+    StatusResponse addMafiaGameScore(String email, int score);
 
     Page<MafiaGameScoreListResponse> getMafiaGameScoreList(String email, SearchCondition searchCondition);
 }
