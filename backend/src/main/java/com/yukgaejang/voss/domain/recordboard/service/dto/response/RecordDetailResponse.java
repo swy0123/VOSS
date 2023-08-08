@@ -15,20 +15,22 @@ public class RecordDetailResponse {
     private String nickname;
     private Long memberId;
     private Long hits;
-    private RecordFile audioFile;
+    private String originalFileName;
+    private String savedFileName;
     private LocalDateTime createdAt;
     private Long likes;
     private boolean isLiked;
 
-    public RecordDetailResponse(Record record, RecordFile audioFile, Long likes, boolean isLiked) {
+    public RecordDetailResponse(Record record, String originalFileName, String savedFileName, Long likes, Integer isLiked) {
         this.postId = record.getId();
         this.description = record.getDescription();
         this.nickname = record.getMember().getNickname();
         this.memberId = record.getMember().getId();
         this.hits = record.getHit();
-        this.audioFile = audioFile;
         this.createdAt = record.getCreatedAt();
+        this.originalFileName = originalFileName;
+        this.savedFileName = savedFileName;
         this.likes = likes;
-        this.isLiked = isLiked;
+        this.isLiked = isLiked != null;
     }
 }

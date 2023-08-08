@@ -49,25 +49,25 @@ public class RecordboardController {
         return ResponseEntity.ok(recordService.updateRecord(recordId, updateRecordRequest));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<RecordDetailResponse>> getRecordList(@PageableDefault(size = 20) Pageable pageable, @RequestParam(required = false) String description, @RequestParam(required = false) String nickname, @RequestParam(required = false) String sort) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String email = authentication.getName();
-//        Sort sortBy = null;
-//        if (sort == null) {
-//            sortBy = Sort.by("createdAt").descending();
-//        } else {
-//            sortBy = Sort.by(sort, "createdAt").descending();
-//        }
-//        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
-//        if(nickname != null) {
-//            return ResponseEntity.ok(recordService.getRecordListByNickname(email, pageable, description));
-//        }
-//        if(description != null) {
-//            return ResponseEntity.ok(recordService.getRecordListByDescription(email, pageable, nickname));
-//        }
-//        return ResponseEntity.ok(recordService.getRecordList(email, pageable));
-//    }
+    @GetMapping
+    public ResponseEntity<Page<RecordDetailResponse>> getRecordList(@PageableDefault(size = 20) Pageable pageable, @RequestParam(required = false) String description, @RequestParam(required = false) String nickname, @RequestParam(required = false) String sort) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Sort sortBy = null;
+        if (sort == null) {
+            sortBy = Sort.by("createdAt").descending();
+        } else {
+            sortBy = Sort.by(sort, "createdAt").descending();
+        }
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
+        if(nickname != null) {
+            return ResponseEntity.ok(recordService.getRecordListByNickname(email, pageable, nickname));
+        }
+        if(description != null) {
+            return ResponseEntity.ok(recordService.getRecordListByDescription(email, pageable, description));
+        }
+        return ResponseEntity.ok(recordService.getRecordList(email, pageable));
+    }
 
     @PostMapping("{recordId}/like")
     public ResponseEntity<CreateRecordLikeResponse> createRecordLike(@PathVariable Long recordId) {

@@ -72,16 +72,15 @@ public class RecordServiceImpl implements RecordService {
         return recordRepository.findAllByIsDeletedFalse(pageable, member.getId());
     }
 
-//    @Override
-//    public Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname) {
-//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-//        return recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
-//    }
-//
-//    @Override
-//    public Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description) {
-//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-//        return recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
-//    }
+    @Override
+    public Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
+    }
 
+    @Override
+    public Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
+    }
 }

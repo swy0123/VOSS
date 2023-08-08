@@ -9,6 +9,7 @@ public interface RecordSupportRepository {
 
     Record findByIdAndIsDeletedFalse(Long id);
     Page<RecordDetailResponse> findAllByIsDeletedFalse(Pageable pageable, Long memberId);
-//    Page<RecordDetailResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname, Long memberId);
-//    Page<RecordDetailResponse> findAllByDescriptionContainingAndIsDeletedFalse(Pageable pageable, String description, Long memberId);
+    Page<RecordDetailResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname, Long memberId);
+    Page<RecordDetailResponse> findAllByDescriptionContainingAndIsDeletedFalse(Pageable pageable, String description, Long memberId);
+
 }
