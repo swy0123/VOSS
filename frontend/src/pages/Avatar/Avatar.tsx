@@ -39,7 +39,7 @@ function AvatarBoard() {
 
   return (
     <div>
-      <Avatar id="myAvatar" style={{ width: '8rem', height: '8rem' }} {...config} />
+      <Avatar id="myAvatar" style={{ width: '4rem', height: '4rem' }} {...config} />
       <button onClick={download}>Download Avatar</button>
       <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
       <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
