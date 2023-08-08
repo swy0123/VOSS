@@ -1,17 +1,12 @@
 import RedDot from "/src/assets/Messenger/RedDot.png";
-import { MessageChecked, MessageTitle, MessageCardDiv } from "./MessageCard.style"
+import { MessageChecked, MessageTitle, MessageCardDiv } from "./MessageCard.style";
+import { RoomType } from "/src/type/Auth";
 
-
-interface RoomType {
-    // key: string;
-    member: string;
-    id: number;  
-}
 
 const MessageCard = ({room}: {room: RoomType}) => {
   return (
     <MessageCardDiv>
-      <MessageTitle>{room.member}</MessageTitle>
+      <MessageTitle>{room.name}</MessageTitle>
       {/* <MessageChecked><img src={RedDot} alt="isRead"/></MessageChecked> */}
       <MessageChecked src={RedDot}/>
     </MessageCardDiv>

@@ -33,7 +33,8 @@
     "react-scroll": "^1.8.9",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "styled-components": "^6.0.4"
+    "styled-components": "^6.0.4",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@types/dom-to-image": "^2.6.4",
