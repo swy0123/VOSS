@@ -4,6 +4,7 @@ import com.yukgaejang.voss.domain.auth.exception.DuplicateEmailException;
 import com.yukgaejang.voss.domain.auth.exception.NoEmailException;
 import com.yukgaejang.voss.domain.auth.exception.WrongTokenException;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
+import com.yukgaejang.voss.domain.game.exception.NoMatchFileException;
 import com.yukgaejang.voss.domain.meet.exception.ExceedMaxNumberException;
 import com.yukgaejang.voss.domain.meet.exception.NoLimitRequest;
 import com.yukgaejang.voss.domain.meet.exception.NoMeetRoomException;
@@ -68,6 +69,12 @@ public class ControllerAdvice {
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<ErrorResponse> duplicateEmail() {
         ErrorResponse errorResponse = new ErrorResponse("중복 이메일입니다");
+        return ResponseEntity.ok(errorResponse);
+    }
+
+    @ExceptionHandler(NoMatchFileException.class)
+    public ResponseEntity<ErrorResponse> noMatchFile() {
+        ErrorResponse errorResponse = new ErrorResponse(".mp3, .wav 파일을 사용해 주세요");
         return ResponseEntity.ok(errorResponse);
     }
 
