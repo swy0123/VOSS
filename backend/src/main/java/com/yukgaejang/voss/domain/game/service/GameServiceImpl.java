@@ -35,7 +35,7 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public GameSourceUploadResponse uploadMafiaGameSource(MultipartFile file, String email, Type type) {
-        if(file.getOriginalFilename().endsWith(".mp3") || file.getOriginalFilename().endsWith(".wav")) {
+        if (file.getContentType().startsWith("audio")) {
             String fileName = awsS3Service.uploadOnlyOneMultiFile(file, dirName);
             Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("사용자가 아닙니다."));
             mafiaGameSourceRepository.save(new MafiaGameSource(member, type, fileName));
