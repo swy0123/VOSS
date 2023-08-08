@@ -48,6 +48,7 @@ public class MemberServiceImpl implements MemberService {
                 .email(joinRequest.getEmail())
                 .password(joinRequest.getPassword())
                 .nickname(joinRequest.getNickname())
+                .imageUrl(joinRequest.getImageUrl())
                 .role(Role.MEMBER)
                 .build();
 
