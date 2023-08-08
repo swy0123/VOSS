@@ -38,11 +38,9 @@ public class MemberController {
         return ResponseEntity.ok(memberService.modifyMember(modifyMemberRequest, authentication.getName()));
     }
 
-    @GetMapping
-    public ResponseEntity<MemberDetailResponse> details() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return ResponseEntity.ok(memberService.getDetails(authentication.getName()));
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberDetailResponse> details(@PathVariable String email) {
+        return ResponseEntity.ok(memberService.getDetails(email));
     }
 
     @GetMapping("/info")
