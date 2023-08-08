@@ -13,6 +13,7 @@ import {
   Thumbnail, 
   Title, 
   YoutubeIcon} from "./Video.style";
+import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
 interface YTPlayer {
   new (id: string, options: object): any; // YT.Player 생성자의 타입
@@ -29,6 +30,8 @@ declare global {
 
 function Video ({script, roles, lines}: ScriptData) {
   const [meetDubPlayChange, setMeetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
+  const [send, setSend] = useRecoilState(sendMsg);
+  const [recieve, setRecieve] = useRecoilState(recieveMsg);
   const [youtube, setYoutube] = useState<object|undefined>()
 
   // 동영상 출력
@@ -49,12 +52,14 @@ function Video ({script, roles, lines}: ScriptData) {
   const onPlayerReady = () => {
     onYouTubeIframeAPIReady()
     setMeetDubPlayChange([1, 0])
+    setSend("/startvideo")
   }
 
   // 영상 플레이
   const SelfPlayVideo = () => {
     const nowTime = youtube.getCurrentTime() % script.durationInSec
     setMeetDubPlayChange([1, Math.floor(nowTime)])
+    setSend("/playvideo")
     youtube.playVideo()
   }
   
@@ -62,8 +67,25 @@ function Video ({script, roles, lines}: ScriptData) {
   const SelfPauseVideo = () => {
     const nowTime = youtube.getCurrentTime() % script.durationInSec
     setMeetDubPlayChange([2, Math.floor(nowTime)])
+    setSend("/pausevideo")
     youtube.pauseVideo()
   }
+
+  //이벤트 수신 감지
+  useEffect(()=>{
+    if(recieve=="/startvideo") {
+      onPlayerReady()
+      setRecieve("/none");
+    }
+    else if(recieve=="/playvideo") {
+      SelfPlayVideo()
+      setRecieve("/none");
+    }
+    else if(recieve=="/pausevideo") {
+      SelfPauseVideo()
+      setRecieve("/none");
+    }
+  }, [recieve])
 
   // index.html에 CDN을 동적으로 추가해주는 과정
   useEffect(() => {
@@ -79,8 +101,8 @@ function Video ({script, roles, lines}: ScriptData) {
   return(
     <Container>
       {/* 영상 플레이 or 일시정지 예시 */}
-      {/* <button onClick={SelfPlayVideo}>Play</button>
-      <button onClick={SelfPauseVideo}>Pause</button> */}
+      <button onClick={SelfPlayVideo}>Play</button>
+      <button onClick={SelfPauseVideo}>Pause</button>
 
       <Title>{script.title}</Title>
       <Box>
