@@ -1,5 +1,7 @@
 package com.yukgaejang.voss.domain.recordboard.service.dto.response;
 
+import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
+import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordFile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,23 +10,25 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class RecordDetailResponse {
-    private Long id;
+    private Long postId;
     private String description;
     private String nickname;
-    private String email;
+    private Long memberId;
     private Long hits;
-    private RecordFileDetailResponse audioFile;
+    private RecordFile audioFile;
     private LocalDateTime createdAt;
+    private Long likes;
     private boolean isLiked;
 
-    public RecordDetailResponse(Long id, String description, String nickname, String email, Long hits, RecordFileDetailResponse audioFile, LocalDateTime createdAt, boolean isLiked) {
-        this.id = id;
-        this.description = description;
-        this.nickname = nickname;
-        this.email = email;
-        this.hits = hits;
+    public RecordDetailResponse(Record record, RecordFile audioFile, Long likes, boolean isLiked) {
+        this.postId = record.getId();
+        this.description = record.getDescription();
+        this.nickname = record.getMember().getNickname();
+        this.memberId = record.getMember().getId();
+        this.hits = record.getHit();
         this.audioFile = audioFile;
-        this.createdAt = createdAt;
+        this.createdAt = record.getCreatedAt();
+        this.likes = likes;
         this.isLiked = isLiked;
     }
 }

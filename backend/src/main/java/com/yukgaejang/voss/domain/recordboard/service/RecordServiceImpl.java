@@ -14,6 +14,8 @@ import com.yukgaejang.voss.domain.recordboard.service.dto.response.*;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -63,5 +65,23 @@ public class RecordServiceImpl implements RecordService {
         }
         return new UpdateRecordResponse(true);
     }
+
+    @Override
+    public Page<RecordDetailResponse> getRecordList(String email, Pageable pageable) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return recordRepository.findAllByIsDeletedFalse(pageable, member.getId());
+    }
+
+//    @Override
+//    public Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname) {
+//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+//        return recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
+//    }
+//
+//    @Override
+//    public Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description) {
+//        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+//        return recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
+//    }
 
 }

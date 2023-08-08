@@ -1,6 +1,7 @@
 package com.yukgaejang.voss.domain.recordboard.repository.entity;
 
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RecordLike {
+public class RecordLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
