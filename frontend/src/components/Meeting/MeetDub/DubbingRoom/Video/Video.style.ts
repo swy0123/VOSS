@@ -29,6 +29,9 @@ export const ImgSection = styled.div`
   align-items: center;
   justify-content: center;
 `
+export const ProtectSection = styled(ImgSection)`
+  background-color: transparent;
+`
 export const Thumbnail = styled.img`
   position: absolute;
   margin-bottom: 10px;

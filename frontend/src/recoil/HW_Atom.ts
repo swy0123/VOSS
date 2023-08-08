@@ -38,3 +38,27 @@ export const meetDubSelectState = atom<number>({
   default: 0,
   effects_UNSTABLE: [persistAtom]
 })
+
+// 더빙영상 Play and Stop
+export const MeetDubPlayChangebState = atom<number[]>({
+  key: 'MeetDubPlayChangebState',
+  default: [],
+})
+
+// 역할 선택 모달창 ture-false
+export const RoleModalState = atom<boolean>({
+  key: 'RoleModalState',
+  default: false
+})
+
+// User가 선택한 Role
+export const userSelectRoleState = atom<string[]>({
+  key: "userSelectRoleState",
+  default:["","","","","",""]
+})
+
+// // User가 선택한 Role
+// export const userSelectRoleState = atom<string[]>({
+//   key: "userSelectRoleState",
+//   default:Array(userInfo.length).fill("")
+// })
