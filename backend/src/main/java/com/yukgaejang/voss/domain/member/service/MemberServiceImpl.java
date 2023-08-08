@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void modifyMember(ModifyMemberRequest modifyMemberRequest, String email) {
+    public boolean modifyMember(ModifyMemberRequest modifyMemberRequest, String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
 
@@ -73,6 +73,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
         memberRepository.save(newMem);
+        return true;
     }
 
     @Override

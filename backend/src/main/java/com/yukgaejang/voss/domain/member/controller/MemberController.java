@@ -35,8 +35,7 @@ public class MemberController {
     public ResponseEntity<Boolean> modify(@RequestBody ModifyMemberRequest modifyMemberRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        memberService.modifyMember(modifyMemberRequest, authentication.getName());
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(memberService.modifyMember(modifyMemberRequest, authentication.getName()));
     }
 
     @GetMapping("/info")

@@ -14,7 +14,7 @@ import java.util.List;
 public interface MemberService {
     void join(JoinRequest joinRequest);
 
-    void modifyMember(ModifyMemberRequest modifyMemberRequest, String email);
+    boolean modifyMember(ModifyMemberRequest modifyMemberRequest, String email);
 
     void follow(FollowRequest followRequest, String email);
     void unfollow(Long targetId, String email);
