@@ -3,13 +3,13 @@ import { styled } from "styled-components";
 import Login from "../components/Home/Login/Login";
 import Join from "../components/Home/Join/Join";
 // import mainimg from "/src/assets/main/mainimg.gif";
-import mainimg from "/src/assets/main/mainimg.gif"
 import HomeContent from "../components/Home/HomeContent/HomeContent"
 import Messenger from "../components/Message/Messenger";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../recoil/Auth";
+import mainimg from "/src/assets/main/mainimg.gif"
 
-const Mainimg = styled.div`
+export const Mainimg = styled.div`
   background-image: url("${mainimg}");
   background-repeat: no-repeat;
   background-position: 10% 50%;
@@ -22,7 +22,6 @@ const Mainimg = styled.div`
 
 function Home() {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
-
 
   return (
     <Mainimg>

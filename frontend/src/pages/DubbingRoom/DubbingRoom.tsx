@@ -1,35 +1,21 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { videoState } from '../recoil/Training';
-import { BackGroundImg } from '../components/BackGroundImg';
+import { videoState } from '../../recoil/Training';
 import { getVideo } from "/src/api/video"
 import { ScriptData } from "/src/type/type"
-import { styled } from 'styled-components';
-import Header from '../components/Header/Header';
-import Messenger from '../components/Message/Messenger';
-import RecordButton from '../components/DubbingRoom/RecordButton/RecordButton';
-import Recording from '../components/DubbingRoom/Recording/Recording';
-import Script from '../components/DubbingRoom/Script/Script';
-import Video from '../components/DubbingRoom/Video/Video';
-import Loading from '../components/Loading';
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-`
-
-const LeftSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-right: 30px;
-`
-
-const RightSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
+import { BackGroundImg } from '../../components/BackGroundImg';
+import Header from '/src/components/Header/Header';
+import Messenger from '/src/components/Message/Messenger';
+import RecordButton from '/src/components/DubbingRoom/RecordButton/RecordButton';
+import Loading from '/src/components/Loading';
+import Video from '/src/components/DubbingRoom/Video/Video';
+import Script from '/src/components/DubbingRoom/Script/Script';
+import Recording from '/src/components/DubbingRoom/Recording/Recording';
+import { 
+  Container, 
+  LeftSection, 
+  RightSection } from './DubbingRoom.style';
 
 function Dubbing() {
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
