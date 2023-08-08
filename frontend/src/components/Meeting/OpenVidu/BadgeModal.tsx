@@ -14,6 +14,8 @@ import {
   Backdrop,
   DialogBox,
   ExitImg,
+  MeetBadgeDiv,
+  MeetBadgeHovor,
   MeetBadgeImg,
   ModalContainer,
   ModalHeader,
@@ -72,17 +74,11 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
         >
           {badgeList !== undefined ? (
             badgeList.map((badge, id) => (
-              <>
+              <MeetBadgeDiv>
                 <img
                   key={id}
                   onMouseEnter={() => setHover(badge.id)}
                   onMouseLeave={() => setHover(0)}
-                  style={{
-                    height: "60px",
-                    width: "60px",
-                    margin: "10px",
-                    pointerEvents: "auto",
-                  }}
                   src={`/src/assets/Profile/badge/B${badge.id + 1}.png`}
                   alt=""
                   onClick={() => {
@@ -90,17 +86,16 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
                   }}
                 />
                 {hover !== 0 && hover === badge.id ? (
-                  <div>
+                  <MeetBadgeHovor key={id} $hoverActive={hover}>
                     <div className="hover-text">
                       {" "}
-                      // 호버메시지를 보여주자
                       {badge.name}
                     </div>
-                  </div>
+                  </MeetBadgeHovor>
                 ) : (
                   <></>
                 )}
-              </>
+              </MeetBadgeDiv>
             ))
           ) : (
             <></>
