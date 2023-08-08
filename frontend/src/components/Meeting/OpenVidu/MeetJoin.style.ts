@@ -105,6 +105,7 @@ export const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -120,8 +121,6 @@ export const DialogBox = styled.dialog`
   flex-direction: column;
   font-weight: bold;
   /* align-items: center; */
-  /* display: "flex", */
-  flex-wrap: "wrap";
   border: none;
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
@@ -150,22 +149,24 @@ export const ExitImg = styled.img`
 `;
 
 export const MeetBadgeDiv = styled.div`
-  height: "60px";
-  width: "60px";
-  margin: "10px";
-  pointer-events: "auto";
+  /* float: left; */
+  height: 70px;
+  width: 70px;
+  margin: 10px;
+  pointer-events: auto;
+  /* display: flex; */
 `;
 
 export const MeetBadgeImg = styled.img`
-  height: "60px";
-  width: "60px";
-  margin: "10px";
-  pointer-events: "auto";
+  height: 60px;
+  width: 60px;
+  margin: 10px;
+  pointer-events: auto;
 `;
 
 export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   position: absolute;
-  top: 20px;
+  /* top: 20px; */
   transition: top 1s ease-in;
   background-color: gray;
 
