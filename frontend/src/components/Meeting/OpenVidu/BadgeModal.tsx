@@ -67,15 +67,25 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
         </ModalHeader>
         <div
           style={{
+            // width:"300px",
+            // height:"400px",
             marginLeft: "10px",
             paddingBottom: "10px",
             overflow: "hidden",
+            display:"flex",
+            flexWrap:"wrap",
           }}
         >
           {badgeList !== undefined ? (
             badgeList.map((badge, id) => (
               <MeetBadgeDiv>
-                <img
+                <MeetBadgeImg
+                  // style={{
+                  //   height: "60px",
+                  //   width: "60px",
+                  //   margin: "10px",
+                  //   pointerEvents: "auto",
+                  // }}
                   key={id}
                   onMouseEnter={() => setHover(badge.id)}
                   onMouseLeave={() => setHover(0)}
@@ -87,10 +97,7 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
                 />
                 {hover !== 0 && hover === badge.id ? (
                   <MeetBadgeHovor key={id} $hoverActive={hover}>
-                    <div className="hover-text">
-                      {" "}
-                      {badge.name}
-                    </div>
+                    <div className="hover-text"> {badge.name}</div>
                   </MeetBadgeHovor>
                 ) : (
                   <></>
