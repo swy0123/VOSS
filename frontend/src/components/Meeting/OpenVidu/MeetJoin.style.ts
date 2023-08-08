@@ -15,19 +15,16 @@ export const Header = styled.div`
   height: 25px;
   text-align: center;
   background-color: #222222;
-  color:white;
+  color: white;
 `;
 
 export const HeaderText = styled.span`
-  margin-left:20px;
+  margin-left: 20px;
 `;
 
 export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
-  ${(props) =>
-    props.$chatActive
-      ? "width: 75%; height: 90%;"
-      : "width: 98%; height: 90%;"};
+  ${(props) => (props.$chatActive ? "width: 75%; height: 90%;" : "width: 98%; height: 90%;")};
   float: left;
 `;
 
@@ -49,7 +46,7 @@ export const StreamContainer = styled.div<{
   margin: auto 5px;
   position: relative;
   max-height: 95%;
-  mIN-height: 48%;
+  min-height: 48%;
   max-width: 100%;
   /* min-height: 100%; */
   width: ${(props) =>
@@ -74,9 +71,7 @@ export const ChatBox = styled.div<{ $chatActive: boolean }>`
   float: left;
   color: white;
   ${(props) =>
-    props.$chatActive
-      ? "width: 25%; height: 95%;"
-      : "width: 0%; height: 0%; overflow:hidden;"};
+    props.$chatActive ? "width: 25%; height: 95%;" : "width: 0%; height: 0%; overflow:hidden;"};
 `;
 
 export const ToolBar = styled.div`
@@ -95,4 +90,68 @@ export const VedioInnerDiv = styled.div`
   /* overflow: hidden; */
   border-radius: 12px;
   z-index: 10;
+`;
+
+//---------------배지 모달------------------
+export const ModalHeader = styled.div`
+  color: white;
+  text-align: center;
+`;
+export const ModalContainer = styled.div`
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.4);
+`;
+
+export const DialogBox = styled.dialog`
+  width: 450px;
+  height: 600px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  /* align-items: center; */
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+  box-sizing: border-box;
+  background-color: #000000;
+  z-index: 10000;
+`;
+
+export const Backdrop = styled.div`
+  pointer-events: auto;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
+export const ExitImg = styled.img`
+  pointer-events: auto;
+  position: absolute;
+  right: 10px;
+  top: 9px;
+  width: 20px;
+  height: 20px;
+`;
+export const MeetBadgeImg = styled.img`
+  height: "60px";
+  width: "60px";
+  margin: "10px";
+  pointer-events: "auto";
+  &:hover {
+    filter: drop-shadow(10px 6px 6px #c3c3c3);
+  }
 `;

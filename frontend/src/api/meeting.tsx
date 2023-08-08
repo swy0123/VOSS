@@ -30,7 +30,7 @@ export const getMeet = async (getMeetProps: GetMeetProps) => {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   };
-  let ttmp: any = []
+  let ttmp: any = [];
   await privateApi
     .request(config)
     .then((response) => {
@@ -53,13 +53,16 @@ export interface MeetingProps {
 export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
   console.log("-----postMeetJoin-----");
   console.log(postMeetJoinProps);
-  const data = (postMeetJoinProps.password !== undefined) ? {
-    password: postMeetJoinProps.password,
-    meetRoomId: postMeetJoinProps.meetRoomId
-  } : {
-    password: "",
-    meetRoomId: postMeetJoinProps.meetRoomId
-  }
+  const data =
+    postMeetJoinProps.password !== undefined
+      ? {
+          password: postMeetJoinProps.password,
+          meetRoomId: postMeetJoinProps.meetRoomId,
+        }
+      : {
+          password: "",
+          meetRoomId: postMeetJoinProps.meetRoomId,
+        };
   console.log(data);
 
   console.log("joinMeet되라");
@@ -74,22 +77,21 @@ export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
 };
 
 export interface MeetRoomData {
-  category: string,
-  createdAt: number,
-  currentCount: number,
-  maxCount: number,
-  meetRoomId: number,
-  password: string
-  sessionId: string,
-  title: string,
+  category: string;
+  createdAt: number;
+  currentCount: number;
+  maxCount: number;
+  meetRoomId: number;
+  password: string;
+  sessionId: string;
+  title: string;
 }
 
-
 export interface addRoomData {
-  title: string,
-  maxCount: number,
-  password: string,
-  category: string
+  title: string;
+  maxCount: number;
+  password: string;
+  category: string;
 }
 
 export const createMeet = async ({ addRoomData }: { addRoomData: addRoomData }) => {
@@ -100,14 +102,11 @@ export const createMeet = async ({ addRoomData }: { addRoomData: addRoomData }) 
   return res.data.meetRoomId;
 };
 
-
-
 export const getMember = async (email: string) => {
   console.log("-----getMember-----");
   console.log(email);
   const URL = "/member/" + email;
   const res = await privateApi.get(URL);
-  console.log("getMember;");
   console.log(res);
   return res;
 };
@@ -115,7 +114,16 @@ export const getMember = async (email: string) => {
 export const getBadgeList = async () => {
   console.log("-----getBadgeList-----");
   const res = await privateApi.get("/badge");
-  console.log("getBadgeList;");
   return res.data;
 };
 
+export interface GiveBadgeProps {
+  receiverId: number;
+  badgeId: number;
+}
+
+export const postBadge = async (giveBadgeProps: GiveBadgeProps) => {
+  console.log("-----giveBadge-----");
+  const res = await privateApi.post("/badge", giveBadgeProps);
+  return res.data;
+};
