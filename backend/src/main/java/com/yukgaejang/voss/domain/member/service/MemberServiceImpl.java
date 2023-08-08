@@ -14,6 +14,7 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
+import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
@@ -74,6 +75,17 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.save(newMem);
         return true;
+    }
+
+    @Override
+    public MemberDetailResponse getDetails(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+        return MemberDetailResponse.builder()
+                .id(member.getId())
+                .nickname(member.getNickname())
+                .imageUrl(member.getImageUrl())
+                .build();
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
+import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
 import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import org.springframework.data.domain.Page;
@@ -30,4 +31,6 @@ public interface MemberService {
     MemberInfoResponse getInfo(String email);
     MemberInfoResponse getInfo(Long memberId, String email);
     Page<GetMemberList> findMemberListByNickname(GetMemberListRequest getMemberListRequest);
+
+    MemberDetailResponse getDetails(String email);
 }
