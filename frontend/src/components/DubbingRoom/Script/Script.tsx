@@ -1,6 +1,7 @@
 import { Line } from '../../../type/type';
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilState } from 'recoil';
+import { Link } from 'react-scroll';
 import { 
   PlayChangebState, 
   ScriptSelectState } from '../../../recoil/Training';
@@ -20,16 +21,17 @@ interface VideoProps {
 function Script ({lines}: VideoProps) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const intervalRef = useRef<number|undefined>(null);
   const [time, setTime] = useState(0);
-  const intervalRef = useRef<number|null>(null);
+  const ScrollRef = useRef<number>(0)
 
   const fixTopScript = () => {
     // 1은 PlayingState
     if(playChange[0] === 1) { 
-      setTime(playChange[1] * 1000);
+      setTime(playChange[1] * 1);
       intervalRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
     }
 
     // 2은 PausedState
@@ -38,17 +40,28 @@ function Script ({lines}: VideoProps) {
     }
   }
 
+  useEffect(() => {
+    const ScrollStartValue = document.getElementById(`ScriptBox`)?.getBoundingClientRect().y
+    const ScriptPosition = document.getElementById(`${String(time)}`)?.getBoundingClientRect().y
+    console.log(time,ScriptPosition)
+    if (ScriptPosition) {
+      ScrollRef.current.scrollTop += ScriptPosition-ScrollStartValue-12;
+    }
+  }, [time]);
+
   useEffect(()=> {
     fixTopScript()
   },[playChange])
 
   return(
     <Container>
-      {/* <div style={{color:'white'}}>{time}</div> */}
-      <ScriptBox>
+      <ScriptBox
+        id="ScriptBox"
+        ref={ScrollRef}>
         {lines.map((line,index) => (
           <Scripts
             key={index}
+            id={String(line.startSec)}
             $IsClick={isScriptSelect[index]}>
             <Role>{line.name}</Role>
             <Sentence>{line.content}</Sentence>

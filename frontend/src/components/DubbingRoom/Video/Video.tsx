@@ -46,12 +46,9 @@ function Video ({script, roles, lines}: ScriptData) {
 
   // 영상 대사별 Mute
   const onPlayStateChange = async (event) => {
-    console.log("다시 시작하는거 맞지??")
-
     if (event.data == YT.PlayerState.PLAYING) {
       let nowTime = event.target.getCurrentTime();
       setPlayChange([1, Math.floor(nowTime)]);
-      console.log(nowTime)
       for (const [index, line] of lines.entries()) {
         if (scriptSelectRef.current[index] === true) {
           if (nowTime <= line.endSec) {
@@ -62,7 +59,6 @@ function Video ({script, roles, lines}: ScriptData) {
                 setTimeout(() => {
                   event.target.unMute();
                   resolve();
-                  console.log("중간중간")
                 }, 1000 * (line.endSec - line.startSec + 1));
               });
     
