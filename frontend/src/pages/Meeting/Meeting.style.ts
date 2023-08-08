@@ -12,7 +12,7 @@ export const BottomSection = styled.div<{$isClicked?: boolean}>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #444444;
+  background-color: rgb(68, 68, 68,0.5);
   border-radius: 20px;
   height:65%;
   margin: 0px 5%;
