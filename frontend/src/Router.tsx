@@ -3,9 +3,10 @@ import Root from "./Root";
 import ErrorComponent from "./components/ErrorComponent";
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home";
+import SelectCategory from "./pages/SelectCategory/SelectCategory";
 import VoiceAnalysis from "./pages/VoiceAnalysis";
-import DubbingRoom from "./pages/DubbingRoom";
 import DubbingList from "./pages/DubbingList/DubbingList";
+import DubbingRoom from "./pages/DubbingRoom/DubbingRoom";
 import Accent from "./pages/Accent";
 import FreeBoard from "./pages/FreeBoard/FreeBoard";
 import PostDetail from "./components/FreeBoard/PostDetail/PostDetail";
@@ -14,7 +15,6 @@ import PostUpdate from "./components/FreeBoard/PostUpdate/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
 import Profile from "./pages/Profile";
-import SelectCategory from "./pages/SelectCategory/SelectCategory";
 
 const router = createBrowserRouter([
     {
@@ -34,11 +34,6 @@ const router = createBrowserRouter([
             {
                 path: "analysis",
                 element: <VoiceAnalysis />,
-                errorElement: <ErrorComponent />,
-            },
-            {
-                path: "dubbing",
-                element: <DubbingRoom />,
                 errorElement: <ErrorComponent />,
             },
             {
