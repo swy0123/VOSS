@@ -13,14 +13,16 @@ export const getMessageRooms = async () => {
     return false
 };
 
-export const createMessageRooms = async ( yourMemberId: number ) => {
-    const res = await privateApi.get(`/messsenger`, {yourMemberId})
+
+export const createMessageRoom = async ( yourMemberId: number ) => {
+    console.log("yourMemberId: ", {yourMemberId})
+    const res = await privateApi.post(`/messenger`, {yourMemberId})
     .catch(err => {
-        console.log("createMessageRooms catch: ", err)
+        console.log("createMessageRoom catch: ", err)
     })
     if (res) {
-        console.log("createMessageRooms then: ", res.data)
-        return(res.data)
+        console.log("createMessageRoom then: ", res.data)
+        return res.data
     }
     return false
 };

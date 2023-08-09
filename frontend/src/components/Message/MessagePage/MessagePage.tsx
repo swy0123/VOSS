@@ -7,8 +7,9 @@ import MessageModal from "../MessageModal/MessageModal";
 import MessageRoom from "../MessageRoom/MessageRoom";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import { getMessageRooms } from "/src/api/messenger";
-import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, OpenRoomIdState } from "/src/recoil/Messenger";
+import { getMessageRooms, getMessages } from "/src/api/messenger";
+import { RoomType,CurrentRoomType, MessageType } from "/src/type/Auth";
+import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
 import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageAdd, } from "./MessagePage.style"
 
 
@@ -17,14 +18,21 @@ const MessagePage = () => {
   const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
   const [isOpenModal, setOpenModal] = useRecoilState<boolean>(ShowFindFriendState);
   const [rooms, setRooms] = useRecoilState(RoomsState);
-  const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
+  const [messages, setMessages] = useRecoilState<MessageType[]>(MessagesState);
+  const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
   const [addBtnHover, setAddBtnHover] = useState(false);
   const [exitBtnHover, setExitBtnHover] = useState(false);
 
-  //아이디를 어케 쓸지 다시 정해야 함 현재 사람이름, 인덱스 등 뒤죽박죽임
-  const goToRoom = (id: number) => {
-    setOpenRoomId(id);
-    setOpenRoom(true);
+  const goToRoom = (room: RoomType) => {
+    getMessages(room.chatId, 0, 20).then((dataMessages) => {
+      if (dataMessages) {
+        const reverse = dataMessages.content.reverse();
+        setMessages(reverse);
+        setCurrentRoom(room);
+        setOpenModal(false);
+        setOpenRoom(true);
+      }
+    })
   };
 
   useEffect(() => {
@@ -33,7 +41,7 @@ const MessagePage = () => {
         setRooms(dataRooms)
       }
     })
-  }, []);
+  }, [rooms.length]);
   // [isOpenMessenger, isOpenModal]
   
   return (
@@ -50,8 +58,8 @@ const MessagePage = () => {
 
       <MessegeBodyDiv>
         <MessegeList>
-          {rooms.map((room) => (
-            <div key={room.chatId} onClick={() => goToRoom(room.chatId)}>
+          {rooms.map((room: RoomType, index: number) => (
+            <div key={index} onClick={() => goToRoom(room)}>
               <MessageCard room={room} />
             </div>
           ))}
@@ -63,6 +71,7 @@ const MessagePage = () => {
         onClick={()=>setOpenModal(true)}
         onMouseEnter={() => setAddBtnHover(true)}
         onMouseLeave={() => setAddBtnHover(false)}/>
+
       { isOpenModal ? <MessageModal /> : null}
       { isOpenRoom ? <MessageRoom/> : null }
 
