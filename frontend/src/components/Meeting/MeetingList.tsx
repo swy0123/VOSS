@@ -48,7 +48,6 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
       password = prompt("비밀번호를 입력해주세요"+"");
     }
     if (confirm(data.meetRoomId+"방에 입장하시겠습니까?")) {
-      alert("meetRoomId : " + data.meetRoomId + ", password : " + password);
       navigate(`/meeting/join`, { state: { password: password, meetRoomId: data.meetRoomId } });
     }
   };

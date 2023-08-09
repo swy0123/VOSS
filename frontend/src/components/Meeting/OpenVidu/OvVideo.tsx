@@ -14,9 +14,6 @@ const OpenViduVideoComponent = (props: any) => {
     if (props && !!videoRef.current) {
       props.streamManager.addVideoElement(videoRef.current);
     }
-    return () => {
-      // alert("종료")
-    };
   }, [props]);
 
   return <Video autoPlay={true} ref={videoRef} muted={props.isMuted}/>
