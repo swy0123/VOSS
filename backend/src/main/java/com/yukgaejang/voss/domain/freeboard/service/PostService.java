@@ -15,4 +15,5 @@ public interface PostService {
     Page<PostListResponse> getPostListByContent(Pageable pageable, String content);
     Page<PostListResponse> getPostListByTitle(Pageable pageable, String title);
     DeletePostResponse deletePost(Long id);
+    Page<MyPostListResponse> getMyPostList(Pageable pageable, String email);
 }

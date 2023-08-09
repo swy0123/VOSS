@@ -111,4 +111,11 @@ public class FreeboardController {
         String email = authentication.getName();
         return ResponseEntity.ok(postLikeService.createPostLike(postId, email));
     }
+
+    @GetMapping("/my-post")
+    public ResponseEntity<Page<MyPostListResponse>> getMyPostList(@PageableDefault Pageable pageable) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(postService.getMyPostList(pageable, email));
+    }
 }

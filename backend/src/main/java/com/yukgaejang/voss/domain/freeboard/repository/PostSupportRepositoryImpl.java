@@ -6,6 +6,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.*;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyPostListResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.PostListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -163,6 +164,37 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .selectFrom(post)
                 .where(post.id.eq(id).and(post.isDeleted.eq(0)))
                 .fetchOne();
+    }
+
+    @Override
+    public Page<MyPostListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
+        List<MyPostListResponse> posts = jpaQueryFactory
+                .selectDistinct(Projections.constructor(MyPostListResponse.class,
+                        p,
+                        pc.count(),
+                        pl.count(),
+                        pf.contentType.like("image%"),
+                        pf.contentType.notLike("image%")))
+                .from(p)
+                .leftJoin(p.member).fetchJoin()
+                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
+                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
+                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
+                .where(
+                        p.isDeleted.eq(0).and(p.member.email.eq(email))
+                )
+                .groupBy(p.id, p, p.member, pl, pf)
+                .orderBy(createOrderSpecifier(pageable))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = jpaQueryFactory
+                .select(p.id.count())
+                .from(p)
+                .where(p.isDeleted.eq(0).and(p.member.email.eq(email)));
+
+        return new PageImpl<>(posts, pageable, countQuery.fetchOne());
     }
 
     private OrderSpecifier[] createOrderSpecifier(Pageable pageable) {

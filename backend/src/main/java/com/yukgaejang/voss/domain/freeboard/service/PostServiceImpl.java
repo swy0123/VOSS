@@ -139,4 +139,9 @@ public class PostServiceImpl implements PostService {
         return new DeletePostResponse(true);
     }
 
+    @Override
+    public Page<MyPostListResponse> getMyPostList(Pageable pageable, String email) {
+        return postRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
+    }
+
 }
