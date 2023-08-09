@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 
 export const RecordBox = styled.div`
   display: flex;
@@ -38,6 +38,7 @@ export const SectionBtn = styled.div`
   display: flex;
   align-items: center;
   height: 60px;
+  
 `
 export const Button = styled.button`
   background-color: #3a3a3a;
@@ -52,7 +53,38 @@ export const Button = styled.button`
 export const RestartBtn = styled(Button)``
 export const CompleteBtn = styled(Button)``
 
+const waveAnimation = keyframes`
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+`;
+
 export const RecordBtn = styled.img`
   width: 100px;
   cursor: pointer;
+  position: relative;
+
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+    background: white;
+    margin-left: -12px;
+    margin-top: -12px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    -webkit-animation: wave 3s infinite linear;
+            animation: wave 3s infinite linear;
+  }
+
+  &:after {
+    opacity: 0;
+    animation: ${waveAnimation} 3s 1.5s infinite linear;
+  }
 `
