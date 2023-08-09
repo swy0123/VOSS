@@ -8,4 +8,7 @@ export const BackGroundImg = styled.div`
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
