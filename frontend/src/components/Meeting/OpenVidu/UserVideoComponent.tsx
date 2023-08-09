@@ -8,11 +8,13 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { selectedMember } from "/src/recoil/Meeting";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { getMember } from "/src/api/meeting";
+import { postFollow } from "/src/api/profile";
 
 const UserVideoComponent = (props: any) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [isOver, setOver] = useState<boolean>(false);
+  const [isMuted, toggleMuted] = useState<boolean>(false);
   const [userNickname, setUserNickname] = useState(currentUser.nickname);
   const [userEmail, setUserEmail] = useState("");
   const [userImgURL, setuserImgURL] = useState("");
@@ -20,7 +22,6 @@ const UserVideoComponent = (props: any) => {
 
 
   useEffect(() => {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     if (props.streamManager !== undefined) {
       const data = props.streamManager.stream.connection.data
       const validJsonData = data.split('%/%')[0];
@@ -62,21 +63,23 @@ const UserVideoComponent = (props: any) => {
     if (!props.isOpenModal) setOver(false);
   }
 
-  const onClickMute = () => {
+  const onClickMute = useCallback(() => {
     console.log("대상 음소거")
-    alert("대상 음소거")
-  }
+    toggleMuted(!isMuted);
+  }, [isMuted])
 
-  const onClickFollow = () => {
+  const onClickFollow = async () => {
+    const response = await postFollow(userId);
+    console.log(response)
+    if(response.isFollowSuccess) alert("팔로우 성공");
+    else alert("이미 팔로우한 사용자입니다.");
     console.log("팔로우 하기")
-    alert("팔로우 하기")
   }
 
   const onClickGiveBadge = () => {
     setUserData(userEmail);
     props.onClickToggleModal();
     console.log("뱃지 주기")
-    alert("뱃지 주기")
   }
 
 
@@ -88,12 +91,12 @@ const UserVideoComponent = (props: any) => {
           {isOver && props.isOpenModal !== undefined && !props.isOpenModal ? <>
             <VedioHoverMenu style={{ top: "25%" }} onClick={onClickGiveBadge}> 뱃지주기</VedioHoverMenu>
             <VedioHoverMenu style={{ top: "50%" }} onClick={onClickFollow}> + 팔로우</VedioHoverMenu>
-            <VedioHoverMenu style={{ top: "75%" }} onClick={onClickMute}> 음소거</VedioHoverMenu>
+            <VedioHoverMenu style={{ top: "75%" }} onClick={onClickMute}>  {!isMuted ? "음소거" : "음소거 해제"}</VedioHoverMenu>
           </> : <></>}
 
           <VedioInnerDiv>{userNickname} </VedioInnerDiv>
 
-          <OpenViduVideoComponent streamManager={props.streamManager} />
+          <OpenViduVideoComponent streamManager={props.streamManager} isMuted={isMuted} />
         </>
       ) : null}
 

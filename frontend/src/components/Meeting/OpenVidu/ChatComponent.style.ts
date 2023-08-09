@@ -8,20 +8,29 @@ export const ChatContainer = styled.div`
 
 export const Chat = styled.div`
   background-color: #3F3F3F;
-  height: 100%;
+  height: 98%;
   width: 100%;
   position: relative;
   border-radius: 10px;
-  padding-top: 15px;
+  padding-top: 2%;
 `;
 
-export const ChatScroll = styled.div`
-  height: 80%;
+export const ChatScroll = styled.div<{$bottomOn:boolean}>`
+  height: ${(props) =>
+    props.$bottomOn ? "80%"
+      : "90%"};
   width: 95%;
   margin: 1px auto;
   position: relative;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
+  }
 `;
 
 export const Chatting = styled.div`
@@ -62,11 +71,14 @@ export const ChattingLabel = styled.div`
   }
 `;
 
-export const MessageInput = styled.div`
-  height: 80px;
+export const MessageInput = styled.div<{$bottomOn:boolean}>`
+
+  height: ${(props) =>
+    props.$bottomOn ? "20%"
+      : "40px"};
   width: 100%;
   // background-color: red;
-  position: absolute;
+  position: relative;
   bottom: 0;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
 `;
@@ -75,6 +87,7 @@ export const StyledInput = styled.input`
   all: unset;
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: auto;
+  padding-left: 20px;
   font-size: 16px;
 `;
