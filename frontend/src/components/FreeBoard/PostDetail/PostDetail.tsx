@@ -8,12 +8,11 @@ import Messenger from "/src/components/Message/Messenger";
 import { getPost, deletePost, postLike } from "/src/api/FreeBoard";
 import { PostType } from "/src/type/FreeBoard";
 import CommentList from "/src/components/FreeBoard/CommentList/CommentList";
-import ProfileImg from "/src/assets/Header/profile_tmp.png";
 import PostHitImg from "/src/assets/FreeBoard/PostHit.png";
 import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
-import LikeItImg from "/src/assets/FreeBoard/LikeIt.png"
-import { VscClose } from "react-icons/vsc";
+import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
+import downloadImg from "/src/assets/Training/download.png";
 import { 
   DetailScrollDesign,
   PostDetailDesign,
@@ -81,16 +80,15 @@ function PostDetail() {
       <DetailTitleUserDesign>
         <DetailTitleDesign>{post.title}</DetailTitleDesign>
         <DetailUserDesign>
-          <img style={{marginRight: '1vw', height: '5vh'}} src={ProfileImg} alt="profileImg"/>
           {post.nickname}
         </DetailUserDesign>
       </DetailTitleUserDesign>
 
       <DetailInfoDateDesign>
         <DetailInfoDesign>
-          <img style={{height: '2.5vh', marginLeft: '1vw'}} src={PostHitImg} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
-          <img style={{height: '2.5vh', marginLeft: '2vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentCount} 
-          <img style={{height: '2.5vh', marginLeft: '2vw'}} src={PostLikeImg} alt="PostLikeimg" /><span style={{marginLeft: '0.5vw'}}/>{likes}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHitImg} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentCount} 
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeimg" /><span style={{marginLeft: '0.5vw'}}/>{likes}
         </DetailInfoDesign>
         <DetailDateDesign>
           {post.createdAt?.slice(0, 10)} {post.createdAt?.slice(11, 16)}
@@ -104,28 +102,33 @@ function PostDetail() {
         <DetailLikeDesign>{ liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}</DetailLikeDesign>
       </DetailLikeRowDesign>
 
-      { imageFiles.length || otherFiles.length
-      ? <DetailFilesDesign>
-        첨부파일 : 
-        {imageFiles.map((file: any, index: number) => (
-        <DetailImageFileDesign key={index}>
-          {file.originalFileName}
-        </DetailImageFileDesign>
-        ))}
-        {otherFiles.map((file: any, index: number) => (
-        <DetailOtherFileDesign key={index}>
-          {file.originalFileName}
-        </DetailOtherFileDesign>
-        ))}
-      </DetailFilesDesign>
-      : null
-      }
+      <br/><br/><br/>
 
       <DetailUpdateDeleteDesign>
+        { imageFiles.length || otherFiles.length
+        ? <DetailFilesDesign>
+          첨부파일 : 
+          {imageFiles.map((file: any, index: number) => (
+          <DetailImageFileDesign key={index}>
+            {file.originalFileName}
+            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
+          </DetailImageFileDesign>
+          ))}
+          {otherFiles.map((file: any, index: number) => (
+            <DetailOtherFileDesign key={index}>
+            {file.originalFileName}
+            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
+          </DetailOtherFileDesign>
+          ))}
+        </DetailFilesDesign>
+        : null
+        }
         <DetailUpdateDesign onClick={goUpdate}>글 수정</DetailUpdateDesign>
         <DetailDeleteDesign onClick={DeletePost}>삭제</DetailDeleteDesign>
       </DetailUpdateDeleteDesign>
-
+      
+      <br/>
+      
       <DetailIndexDesign onClick={goFreeBoard}>목록으로</DetailIndexDesign>
 
       <CommentList/>
