@@ -1,3 +1,4 @@
+import { StyledEngineProvider } from '@mui/material';
 import { styled } from 'styled-components';
 
 export const Container = styled.div`
@@ -32,6 +33,24 @@ export const ImgSection = styled.div`
 export const ProtectSection = styled(ImgSection)`
   background-color: transparent;
 `
+
+export const VideoControl = styled.img`
+  cursor: pointer;
+  opacity: 0;
+  
+  ${ImgSection}:hover & {
+    opacity: 1;
+    transform: scale(1);
+  }
+  &:hover{
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.1);
+  }
+`
+
+export const VideoPlay = styled(VideoControl)``
+export const VideoPause = styled(VideoControl)``
+
 export const Thumbnail = styled.img`
   position: absolute;
   margin-bottom: 10px;
