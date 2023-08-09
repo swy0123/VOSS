@@ -38,6 +38,7 @@ function calculateStringAccuracy(actual: string, sttResult: string) {
   const distance = levenshteinDistance(actual, sttResult);
   const maxLength = Math.max(actual.length, sttResult.length);
   const accuracy = 1 - distance / maxLength;
+  if (!accuracy) {return}
   setAccuracyRate(accuracy.toFixed(2) * 100)
 }
 

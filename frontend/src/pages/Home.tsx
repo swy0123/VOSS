@@ -15,8 +15,7 @@ export const Mainimg = styled.div`
   background-position: 10% 50%;
   background-size: cover;
   position: absolute;
-  width: 118vw;
-  left: -6vw;
+  width: 100vw;
   height: 100vh;
 `;
 
