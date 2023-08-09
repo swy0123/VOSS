@@ -21,18 +21,18 @@ export const Container = styled.div`
 `;
 
 export const P = styled.p`
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
 `;
 
 export const H2 = styled.h2`
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-top: 5%;
 `;
 
 export const Title = styled.div`
-position: relative;
+  position: relative;
   width: 80%;
   height: auto;
   margin: 10% auto;
@@ -43,12 +43,12 @@ position: relative;
 export const ModifyButton = styled.div`
   position: absolute;
   bottom: 0;
-  left: 4rem; 
+  left: 4rem;
   background: grey;
   border: none;
   border-radius: 5px;
-  font-size: 10px;
-  zIndex: 1;
+  font-size: 12px;
+  zindex: 1;
 `;
 
 export const UnderText = styled.div`
@@ -64,7 +64,7 @@ export const InputDiv = styled.div`
 
 export const InputHeader = styled.div`
   width: fit-content;
-  font-size: 12px;
+  font-size: 14px;
   color: #757575;
   padding: 8px;
   height: 12px;
@@ -76,13 +76,32 @@ export const InputHeader = styled.div`
 
 export const Img = styled.img`
   width: 16px;
-`
+`;
 
 export const ShowIcon = styled.div`
   position: absolute;
   top: 50%;
-  right: 12%;
-`
+  transform: translate(-50%, 0%);
+  right: 10%;
+`;
+export const CheckDiv = styled.div<{ $isEmailChecked: boolean }>`
+  transform: translate(50%, -10%);
+  width: 30px;
+  height: 20px;
+  border-radius: 8px;
+  border-style: solid;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  color: white;
+  border-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
+  font-size: 12px;
+  background-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
+  &:hover{
+    opacity: 0.7;
+    border-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
+  }
+`;
 
 export const Input = styled.input`
   border: #bdbdbd;
@@ -99,7 +118,7 @@ export const Input = styled.input`
 export const Button = styled.button`
   background-color: #212121;
   border: #212121;
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
   border-style: solid;
   width: 85%;
@@ -112,7 +131,7 @@ export const Button = styled.button`
 export const BlockedButton = styled.button`
   background-color: #666666;
   border: #666666;
-  font-size: 12px;
+  font-size: 14px;
   color: #cccccc;
   border-style: solid;
   width: 85%;
@@ -123,7 +142,7 @@ export const BlockedButton = styled.button`
 `;
 
 export const Timer = styled.h1`
-  font-size: 15px;
+  font-size: 17px;
   color: #212121;
   width: 85%;
   height: 40px;

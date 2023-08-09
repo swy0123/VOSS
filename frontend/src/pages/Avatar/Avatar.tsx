@@ -13,7 +13,7 @@ function AvatarBoard() {
     glassesStyle: "none", 
     hatStyle: "none", 
     hairColor: hairColor, 
-    faceColor }); // Use hairColor state
+    faceColor: faceColor }); // Use hairColor state
 
   useEffect(() => {
     setHairColor(hairColor);
