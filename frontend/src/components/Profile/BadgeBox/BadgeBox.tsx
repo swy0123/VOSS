@@ -1,40 +1,47 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ProfileState } from "/src/recoil/Auth";
-import BadgeTemp from "../../../assets/Profile/BadgeTemp.png";
+import { BadgeType } from "/src/type/Auth";
 import {
     BadgeBoxDesign,
     BadgeTitleDesign,
     BadgeContentDesign,
+    BadgeItemDesign,
 } from "./BadgeBox.style";
 
 
 
 function BadgeBox() {
-  const [profile, setProfile] = useRecoilState(ProfileState)
-  const [tmp, setTmp] = useState(["더미","더미","더미","더미","더미","더미","더미","더미","더미"])
-  return (
-    <BadgeBoxDesign
-      style={{
-      paddingBottom: "10px"
-    }}>
-      {/* 임시 방편 수정 해주세요!! */}
-      <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>      
-      {/* <BadgeContentDesign><img src={BadgeTemp} alt=""/></BadgeContentDesign>
-      {profile.badges.map(badge => (
-        <span>{badge}</span>
-      ))} */}
+  const badges = useRecoilValue(ProfileState).badges
+  // const badges = [
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 5, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 2, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 4, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 6, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  //   {id: 1, cnt: 3, name: "asdasdas"},
+  // ]
 
-      <BadgeContentDesign
-        style={{
-          marginLeft:"10px",
-          paddingBottom: "10px"
-        }}>
-        {tmp.map((badge,index) => (
-          <img style={{
-            height : "60px",
-            width:"60px",
-            margin:"10px"}} src={`/src/assets/Profile/badge/B${index+1}.png`} alt=""/>
+  return (
+    <BadgeBoxDesign>
+      <BadgeTitleDesign>활동 뱃지</BadgeTitleDesign>      
+
+      <BadgeContentDesign>
+        {badges.map((badge: BadgeType) => (
+          <BadgeItemDesign>
+          <img src={`/src/assets/Profile/badge/B${badge.id}.png`} alt=""/>
+          <span>{badge.cnt}</span>
+          </BadgeItemDesign>
         ))}
       </BadgeContentDesign>
 

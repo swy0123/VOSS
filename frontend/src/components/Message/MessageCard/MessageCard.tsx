@@ -7,8 +7,10 @@ const MessageCard = ({room}: {room: RoomType}) => {
   return (
     <MessageCardDiv>
       <MessageTitle>{room.name}</MessageTitle>
-      {/* <MessageChecked><img src={RedDot} alt="isRead"/></MessageChecked> */}
-      <MessageChecked src={RedDot}/>
+      { room.lastReceiveMessageTime > room.lastLeaveTime
+      ? <MessageChecked src={RedDot}/>
+      : null
+      }
     </MessageCardDiv>
   );
 };

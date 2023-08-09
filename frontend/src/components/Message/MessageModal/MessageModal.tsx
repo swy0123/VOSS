@@ -45,10 +45,10 @@ const MessageModal = () => {
             if (dataRooms) {
               setRooms(dataRooms)
               setCurrentRoom(dataRooms[0])
-              getMessages(dataRoom.chatId, 0, 5).then(() => {
-                setOpenModal(false);
-                setOpenRoom(true);
-  })}})}})}};
+              setMessages([]);
+              setOpenModal(false);
+              setOpenRoom(true);
+  }})}})}};
 
   const goProfile = (id: number) => {
     navigate(`/profile/${id}`);
