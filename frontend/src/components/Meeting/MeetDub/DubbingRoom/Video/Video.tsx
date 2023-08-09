@@ -32,7 +32,7 @@ function Video ({script, roles, lines}: ScriptData) {
   const [meetDubPlayChange, setMeetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
-  const [youtube, setYoutube] = useState<object|undefined>()
+  const [youtube, setYoutube] = useState<object|undefined>("")
 
   // 동영상 출력
   const onYouTubeIframeAPIReady = () => {
@@ -45,44 +45,40 @@ function Video ({script, roles, lines}: ScriptData) {
       },
     });
     setYoutube(player)
-    console.log(player)
   }
 
   // 처음 영상 시작
   const onPlayerReady = () => {
-    onYouTubeIframeAPIReady()
-    setMeetDubPlayChange([1, 0])
     setSend("/startvideo")
   }
 
   // 영상 플레이
   const SelfPlayVideo = () => {
-    const nowTime = youtube.getCurrentTime() % script.durationInSec
-    setMeetDubPlayChange([1, Math.floor(nowTime)])
-    youtube.playVideo()
     setSend("/playvideo")
   }
   
   // 영상 일시정지
   const SelfPauseVideo = () => {
-    const nowTime = youtube.getCurrentTime() % script.durationInSec
-    setMeetDubPlayChange([2, Math.floor(nowTime)])
     setSend("/pausevideo")
-    youtube.pauseVideo()
   }
 
   //이벤트 수신 감지
   useEffect(()=>{
     if(recieve=="/startvideo") {
-      onPlayerReady()
+      onYouTubeIframeAPIReady()
+      setMeetDubPlayChange([1, 0]) // 로딩떄문에 0 부적절, 개선 필요
       setRecieve("/none");
     }
     else if(recieve=="/playvideo") {
-      SelfPlayVideo()
+      const nowTime = youtube.getCurrentTime() % script.durationInSec
+      setMeetDubPlayChange([1, Math.floor(nowTime)])
+      youtube.playVideo()
       setRecieve("/none");
     }
     else if(recieve=="/pausevideo") {
-      SelfPauseVideo()
+      const nowTime = youtube.getCurrentTime() % script.durationInSec
+      setMeetDubPlayChange([2, Math.floor(nowTime)])
+      youtube.pauseVideo()
       setRecieve("/none");
     }
   }, [recieve])
@@ -95,7 +91,7 @@ function Video ({script, roles, lines}: ScriptData) {
     if (firstScriptTag && firstScriptTag.parentNode) {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
+    // window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
   }, [])
   
   return(

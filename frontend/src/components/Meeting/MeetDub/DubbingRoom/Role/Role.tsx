@@ -1,41 +1,74 @@
-import { Line } from "/src/type/type"
 import { useRecoilState } from "recoil"
-import { RoleModalState, userSelectRoleState } from "/src/recoil/HW_Atom"
 import { 
   Container, 
-  ModalBtn, 
   RoleItem, 
   RoleAndUser, 
   RolesSection, 
   UserName} from "./Role.style"
+import { CurrentUserAtom } from "/src/recoil/Auth"
+import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
+import { useEffect } from "react";
 
 interface VideoProps {
   roles : string[]
+  userSelectRole: string[]; // 해당 부분 추가
+  setUserSelectRole: (updatedRoles: string[]) => void;
 }
 
-function Role ({roles}: VideoProps) {
-  const [roleModal, setRoleModal] = useRecoilState(RoleModalState)
-  const [userSelectRole, setUserSelectRole] = useRecoilState<string[]>(userSelectRoleState)
+function Role ({ roles, userSelectRole, setUserSelectRole }: VideoProps) {
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
+  const [send, setSend] = useRecoilState(sendMsg);
+  const [recieve, setRecieve] = useRecoilState(recieveMsg);
 
-  // rocoil로 유저 데이터 받아오기 
-  const openModal = () => {
-    setRoleModal(true)
+  // 역할 선택
+  const RoleSelecting = (role_Idx: number) => {
+    setSend(`/selectrole${role_Idx}/${currentUser.nickname}`)
   }
+
+  //이벤트 수신 감지
+  useEffect(()=>{
+    if(recieve.slice(0,11)=="/selectrole") {
+      const role_Idx = recieve.slice(11,12)
+      const nickname = recievt.slice(12)
+      const changeSelect = userSelectRole.map((selected,index)=>{
+        // 선택 안된 역할
+        if (index === role_Idx && !selected){
+          return nickname
+        }
+        else if (index === role_Idx && selected === nickname){
+          return ""
+        }
+        else { return selected }
+      })
+      setUserSelectRole(changeSelect)
+      setRecieve("/none");
+    }
+  }, [recieve])
 
   return(
     <Container>
       <RolesSection>
-        {roles.map((role,index) => (
-          <RoleAndUser key={index}>
-            <RoleItem>{role}</RoleItem>
-            <UserName>{userSelectRole[index]}</UserName>
+        {roles.map((role,role_Idx) => (
+          <RoleAndUser key={role_Idx}>
+            <RoleItem onClick={() => RoleSelecting(role_Idx)}>{role}</RoleItem>
+            <UserName>{userSelectRole[role_Idx]}</UserName>
           </RoleAndUser>
         ))}
       </RolesSection>
-      <ModalBtn onClick={openModal}>
-        배역 바꾸기
-      </ModalBtn>
     </Container>
   )
 }
 export default Role
+      
+      
+
+// const [roleModal, setRoleModal] = useRecoilState(RoleModalState)
+
+// <ModalBtn onClick={openModal}>
+//   배역 바꾸기
+// </ModalBtn>
+
+// // rocoil로 유저 데이터 받아오기 
+// const openModal = () => {
+//   setRoleModal(true)
+// }

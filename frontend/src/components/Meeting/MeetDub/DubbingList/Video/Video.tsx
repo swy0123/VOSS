@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
 import { videoFilterState } from "/src/recoil/Training"
-import { meetDubSelectState } from "/src/recoil/HW_Atom"
+import { MeetDubPlayChangebState, meetDubSelectState } from "/src/recoil/HW_Atom"
 import { postRractice } from "/src/api/profile"
 import { VideosType } from "/src/type/type"
 import { 
@@ -20,6 +20,7 @@ import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
 function Video () {
   const [videoFilter] = useRecoilState<VideosType[]>(videoFilterState)
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
+  const [meetDubPlayChange, setMeetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   
@@ -39,6 +40,7 @@ function Video () {
   useEffect(() => {
     if(recieve.slice(0,8)==`/govideo`) {
       setMeetDubSelect(parseInt(recieve.slice(8,10)))
+      setMeetDubPlayChange([2, 0])
       setRecieve("/none");
     }
   }, [recieve])
