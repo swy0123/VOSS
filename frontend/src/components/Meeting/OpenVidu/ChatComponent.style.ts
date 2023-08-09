@@ -8,15 +8,17 @@ export const ChatContainer = styled.div`
 
 export const Chat = styled.div`
   background-color: #3F3F3F;
-  height: 100%;
+  height: 98%;
   width: 100%;
   position: relative;
   border-radius: 10px;
-  padding-top: 15px;
+  padding-top: 2%;
 `;
 
-export const ChatScroll = styled.div`
-  height: 80%;
+export const ChatScroll = styled.div<{$bottomOn:boolean}>`
+  height: ${(props) =>
+    props.$bottomOn ? "80%"
+      : "90%"};
   width: 95%;
   margin: 1px auto;
   position: relative;
@@ -69,9 +71,11 @@ export const ChattingLabel = styled.div`
   }
 `;
 
-export const MessageInput = styled.div`
-  max-height: 20%;
-  height: 50px;
+export const MessageInput = styled.div<{$bottomOn:boolean}>`
+
+  height: ${(props) =>
+    props.$bottomOn ? "20%"
+      : "40px"};
   width: 100%;
   // background-color: red;
   position: relative;
