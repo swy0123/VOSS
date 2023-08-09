@@ -32,7 +32,7 @@ export const PostCategoryDesign = styled.div`
   display: flex;
   width: 70vw;
   height: 5.3vh;
-  font-size: 0.8vw;
+  font-size: 0.8vh;
   border-bottom: solid 1px white;
   /* border: solid 1px white; */
 `;
@@ -162,11 +162,15 @@ export const CreateBtnDesign = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5vw;
+  width: 6vw;
   height: 4vh;
-  border: solid 1px white;
-  border-radius: 5px;
+  background-color: rgba(34, 80, 91, 0.7);
+  border-radius: 10px;
   font-size: 0.8vw;
+  img {
+    margin-right: 0.5vw;
+    height: 50%;
+  }
 `;
 
 export const PaginationWrapper = styled.ul`

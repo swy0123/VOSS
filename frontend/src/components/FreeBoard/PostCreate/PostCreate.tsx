@@ -8,7 +8,7 @@ import { VscClose } from 'react-icons/vsc';
 import { BackGroundImg } from "../../BackGroundImg";
 import Header from "../../Header/Header";
 import Messenger from "../../Message/Messenger";
-import ProfileImg from "/src/assets/Header/profile_tmp.png";
+import downloadImg from "/src/assets/Training/download.png";
 import { uploadFile } from "/src/api/FreeBoard";
 import {
   CreateScrollDesign,
@@ -66,23 +66,22 @@ function PostCreate() {
     <CreateScrollDesign >
     <CreatePostDesign>
       
-      <h2 style={{ height: "1vh" }}>글 작성하기</h2><br/>
+      {/* <h2 style={{ height: "1vh" }}>글 작성하기</h2><br/> */}
 
       <CreateTitleUserDesign>
         <CreateTitleDesign
-          placeholder="제목을 입력해주세요 (40자 이내)"
+          placeholder="제목"
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}
-          autoFocus
         />
         <CreateUserDesign>
-          <img style={{marginRight: '1vw', height: '5vh'}} src={ProfileImg} alt="profileImg"/>
           {currentUser.nickname}
         </CreateUserDesign>
       </CreateTitleUserDesign>
 
       <CreateContentDesign
         className="textarea"
+        placeholder="내용을 입력하세요"
         onChange={(changeContent)}
         value={content}
       />
@@ -91,17 +90,19 @@ function PostCreate() {
       {files.length
         ? files.map((file: any, index: number) => (
           <CreateFileDesign key={index}>
+            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
             {file.originalFileName}
-            <button onClick={() => removeFile(index)}>
+            <button style={{marginLeft: '1vw'}} onClick={() => removeFile(index)}>
               <VscClose size='10'/>
             </button>
           </CreateFileDesign>
           ))
-        : <div>파일이 없습니다</div>
+        : null
       }
       </CreateFilesDesign>
 
-      <CreateUploadDesign>
+      <CreateCreateRowDesign>
+       <CreateUploadDesign>
         <label htmlFor="uploadFile">파일찾기</label>
         <input
           type='file'
@@ -111,11 +112,12 @@ function PostCreate() {
           multiple={true}
           style={{ display: 'none' }}
         />
-      </CreateUploadDesign>
+        </CreateUploadDesign>
 
-      <CreateCreateRowDesign>
         <CreateCreateDesign onClick={CreatePost}>작성완료</CreateCreateDesign>
       </CreateCreateRowDesign>
+
+      <br/>
 
       <CreateIndexRowDesign>
         <CreateIndexDesign onClick={goFreeBoard}>목록으로</CreateIndexDesign>

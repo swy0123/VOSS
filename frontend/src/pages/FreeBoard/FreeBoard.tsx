@@ -1,6 +1,6 @@
 import { getPostList } from "/src/api/FreeBoard"
 import { useEffect, ChangeEvent, KeyboardEvent, FormEvent } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
@@ -8,6 +8,7 @@ import PostList from "../../components/FreeBoard/PostList/PostList";
 import { PostListType } from "/src/type/FreeBoard";
 import { useRecoilState } from "recoil";
 import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState } from "/src/recoil/Community";
+import UpdateIcon from "/src/assets/Profile/UpdateIcon.png"
 import {
   FreeBoardDesign,
   OrderBoxDesign,
@@ -162,7 +163,10 @@ function FreeBoard () {
             </InputBoxBtn>
           </InputBoxDesign>
           <CreateSpaceDesign/>
-          <CreateBtnDesign onClick={() => goPostCreate()}>작성하기</CreateBtnDesign>
+          <CreateBtnDesign onClick={() => goPostCreate()}>
+            <img src={UpdateIcon} alt="UpdateIcon" />
+            글 작성
+          </CreateBtnDesign>
         </SearchboxDesign>
       </FreeBoardDesign>
 

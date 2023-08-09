@@ -8,10 +8,10 @@ import { getPost, updatePost, deletePost, uploadFile } from "/src/api/FreeBoard"
 import { PostType, PostFilesType, PostFirstFilesType } from "/src/type/FreeBoard";
 import Header from "../../Header/Header";
 import Messenger from "../../Message/Messenger";
-import ProfileImg from "/src/assets/Header/profile_tmp.png";
 import PostHit from "/src/assets/FreeBoard/PostHit.png";
 import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
+import downloadImg from "/src/assets/Training/download.png";
 import {
   UpdateScrollDesign,
   UpdatePostDesign,
@@ -25,7 +25,6 @@ import {
   UpdateFilesDesign,
   UpdateFileDesign,
   UpdateUploadDesign,
-  UpdateIndexRowDesign,
   UpdateIndexDesign,
   UpdateUpdateDeleteDesign,
   UpdateUpdateDesign,
@@ -95,25 +94,24 @@ function PostUpdate() {
     <UpdateScrollDesign >
     <UpdatePostDesign>
       
-      <h2 style={{ height: "1vh" }}>글 수정하기</h2><br/>
+      {/* <h2 style={{ height: "1vh" }}></h2><br/> */}
 
       <UpdateTitleUserDesign>
         <UpdateTitleDesign
-          placeholder="제목을 입력해주세요 (40자 이내)"
+          placeholder="제목"
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}>
         </UpdateTitleDesign>
         <UpdateUserDesign>
-          <img style={{marginRight: '1vw', height: '5vh'}} src={ProfileImg} alt="profileImg"/>
           {currentUser.nickname}
         </UpdateUserDesign>
       </UpdateTitleUserDesign>
 
       <UpdateInfoDateDesign>
         <UpdateInfoDesign>
-          <img style={{height: '2.5vh', marginLeft: '1vw'}} src={PostHit} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
-          <img style={{height: '2.5vh', marginLeft: '2vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentNum} 
-          <img style={{height: '2.5vh', marginLeft: '2vw'}} src={PostLikeImg} alt="PostLikeImg" /><span style={{marginLeft: '0.5vw'}}/>{post.likes}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHit} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentNum} 
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeImg" /><span style={{marginLeft: '0.5vw'}}/>{post.likes}
         </UpdateInfoDesign>
         <UpdateDateDesign>
           {post.createdAt?.slice(0, 10)} {post.createdAt?.slice(11, 16)}
@@ -122,6 +120,7 @@ function PostUpdate() {
 
       <UpdateContentDesign
         className="textarea"
+        placeholder="내용을 입력하세요"
         onChange={changeContent}
         value={content}
         autoFocus
@@ -133,7 +132,8 @@ function PostUpdate() {
         ? files.map((file: any) => (
           <UpdateFileDesign key={file.id}>
             {file.originalFileName}
-            <button onClick={() => removeFile(file.id)}>
+            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
+            <button style={{marginLeft: '1vw'}} onClick={() => removeFile(file.id)}>
               <VscClose size='10'/>
             </button>
           </UpdateFileDesign>
@@ -142,6 +142,7 @@ function PostUpdate() {
       }
       </UpdateFilesDesign>
 
+      <UpdateUpdateDeleteDesign>
       <UpdateUploadDesign>
         <label htmlFor="uploadFile">파일찾기</label>
         <input
@@ -154,14 +155,14 @@ function PostUpdate() {
         />
       </UpdateUploadDesign>
 
-      <UpdateUpdateDeleteDesign>
+
         <UpdateUpdateDesign onClick={UpdatePost}>수정완료</UpdateUpdateDesign>
         <UpdateDeleteDesign onClick={DeletePost}>삭제</UpdateDeleteDesign>
       </UpdateUpdateDeleteDesign>
 
-      <UpdateIndexRowDesign>
-        <UpdateIndexDesign onClick={goFreeBoard}>목록으로</UpdateIndexDesign>
-      </UpdateIndexRowDesign>
+      <br/>
+
+      <UpdateIndexDesign onClick={goFreeBoard}>목록으로</UpdateIndexDesign>
 
 
       <br/><br/><br/>

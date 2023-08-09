@@ -80,16 +80,15 @@ function CommentList() {
         placeholder="댓글을 입력하세요"
         onChange={contentChange}
         value={content}
-        autoFocus
       />
 
-      <CommentCreateDesign onClick={commentCreate}>등록</CommentCreateDesign><br/>
+      <CommentCreateDesign onClick={commentCreate}>등록</CommentCreateDesign><br/><br/>
       
       {comments?.map(comment => (
         <CommentDesign key={comment.id}>
 
           <CommentInfoDesign>
-          <img style={{marginRight: '1vw', height: '100%'}} src={ProfileImg} alt="profileImg"/>
+          <img style={{marginRight: '1vw', height: '60%'}} src={ProfileImg} alt="profileImg"/>
           {`${comment.nickname} | `} 
           {comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
 
