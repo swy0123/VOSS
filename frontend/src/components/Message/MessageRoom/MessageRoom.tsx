@@ -1,141 +1,143 @@
 import { useState, useEffect, useCallback, useRef, ChangeEvent } from "react";
 import { useInView } from "react-intersection-observer";
+import { getMessages } from "/src/api/messenger";
+import { RoomType, MessageType, CurrentRoomType } from "/src/type/Auth";
+import { useRecoilState } from "recoil";
+import { ShowMessageRoomState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
+import { CurrentUserAtom } from "/src/recoil/Auth";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import Arrow from "/src/assets/Messenger/SendArrow.png";
-import { useRecoilState } from "recoil";
-import { ShowMessageRoomState, MessageLogState, OpenRoomIdState } from "/src/recoil/Messenger";
-import { MessegeListDiv, MessegeTitle, ExitImg, MessegeBodyDiv, InfinityScroll, Chatting, MyChatting, OtherChatting, Date, Input, Send, } from "./MessageRoom.style"
-
-
-type Props = {
-  openRoomId: string;
-  onClickSetRoom: () => void;
-};
-
-interface Post {
-  chatId: number;
-  id: number;
-  member: string;
-  content: string;
-  time: string;
-  date: string;
-}
+import ArrowHover from "/src/assets/Messenger/SendArrowHover.png";
+import { 
+  MessegeListDiv, 
+  MessegeTitle, 
+  ExitImg, 
+  MessegeBodyDiv, 
+  InfinityScroll, 
+  Chatting, 
+  MyChatting, 
+  OtherChatting, 
+  ChattingDate, 
+  Input, 
+  Send, } from "./MessageRoom.style"
 
 const MessageRoom = () => {
-  //통신을 통해 id 가져오기
-  const roomId = 1;
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [message, setMessage] = useState("");
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
-  const [openRoomId, setOpenRoomId] = useRecoilState(OpenRoomIdState);
+  const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
+  const [messages, setMessages] = useRecoilState<MessageType[]>(MessagesState);
+  const [message, setMessage] = useState<string>("");
+  const [socket, setSocket] = useState<WebSocket | null>(null);
   const [exitBtnHover, setExitBtnHover] = useState(false);
-  // const [messageLog, setMessageLog] = useRecoilState(MessageLogState);
-  
-
-  const startRef = useRef<HTMLDivElement>(null);
-  const instantMove = () => {
-    startRef.current?.scrollIntoView({ behavior: "instant" });
-  };
-
-  const handleMessage = (e: ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-  };
-
-  const onClickSend = () => {
-    if (message === "") return;
-    console.log(posts);
-    let curChatId = 0;
-    if (posts.length > 0) {
-      console.log(posts[posts.length - 1]);
-      curChatId = posts[posts.length - 1].chatId + 1;
-    }
-    //채팅 객체 생성
-    const cur: Post = {
-      chatId: curChatId,
-      id: roomId,
-      member: "me",
-      content: message,
-      time: "현재시간",
-      date: "현재날짜",
-    };
-    const newPosts: Post[] = [...posts];
-    newPosts.push(cur);
-    setPosts(newPosts);
-    setMessage("");
-  };
+  const [sendHover, setSendHover] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotlaPages] = useState(0);
 
   useEffect(() => {
-    setPosts([...messageLog]);
+  // 웹소캣 연결을 수행합니다.
+  const ws = new WebSocket(`wss:/i9b106.p.ssafy.io:8080/ws/messenger`);
+
+  ws.onopen = () => { 
+    setSocket(ws);
+  }
+    // console.log("websocket open")
+
+    // 서버로부터 메시지를 수신할 때의 처리를 등록합니다.
+  ws.onmessage = (event) => {
+    
+    console.log("event.data: ", event.data);
+    const newMessage = JSON.parse(event.data)
+    if (newMessage.memberId !== currentUser.userid) {
+      setMessages((prevMessages) => [...prevMessages, JSON.parse(event.data)]);
+    }
+  };
+
+  // return () => {
+  //   if (socket) {
+  //     socket.close();
+  //     // console.log("websocket close")
+  //   }
+  // };
   }, []);
 
-  useEffect(() => {
-    instantMove();
-  }, [posts]);
+  const sendMessage = () => {
+    if (message.trim() !== "") {
 
-  // const fetch = useCallback(async () => {
-  //     try {
-  //         const { data } = await axios.get<Post[]>(
-  //             `http://localhost:5000/posts?_limit=10&_page=${page.current}`
-  //         );
-  //         setPosts((prevPosts) => [...prevPosts, ...data]);
-  //         setHasNextPage(data.length === 10);
-  //         if (data.length) {
-  //             page.current += 1;
-  //         }
-  //     } catch (err) {
-  //         console.error(err);
-  //     }
-  // }, []);
+      const sentMessage = {
+        chatId: currentRoom.chatId,
+        sessionId: currentRoom.sessionId,
+        memberId: currentUser.userid,
+        content: message,
+      };
 
-  // useEffect(() => {
-  //     console.log(inView, hasNextPage);
-  //     if (inView && hasNextPage) {
-  //         fetch();
-  //     }
-  // }, [fetch, hasNextPage, inView]);
+  // const sentAlarm = {
+  //   chatId: 1,
+  //   sessionId: "init",
+  //   memberId: currentRoom.memberId,
+  //   content: "Alarm",
+  // };
+  
+  socket.send(JSON.stringify(sentMessage));
+  setMessages((prevMessages) => [...prevMessages, sentMessage]);
+  // socket.send(JSON.stringify(sentAlarm));
+  setMessage("");
+}
+  };
 
   return (
     <MessegeListDiv>
-      <div>
-        <MessegeTitle>{openRoomId}</MessegeTitle>
-        <ExitImg 
-            src={exitBtnHover ? ExitBoxHover : ExitBox}
-            onClickCapture={()=>setOpenRoom(false)}
-            onMouseEnter={() => setExitBtnHover(true)}
-            onMouseLeave={() => setExitBtnHover(false)}
-        />
-        <hr />
-      </div>
-      <InfinityScroll style={{ position: "relative" }}>
-        {posts?.map((post) =>
-          post.member === "me" ? (
-            <div key={post.chatId}>
-              <MyChatting>
-                <Date>{post.time}</Date>
-                <Chatting> {post.content}</Chatting>
-              </MyChatting>
-            </div>
-          ) : (
-            <div key={post.chatId}>
-              <OtherChatting>
-                <Chatting> {post.content}</Chatting>
-                <Date>{post.time}</Date>
-              </OtherChatting>
-            </div>
-          )
-        )}
 
-        <div ref={startRef}></div>
-      </InfinityScroll>
-      <MessegeBodyDiv>
-        <div>
-          <Input className="input" type="text" onChange={handleMessage} value={message}></Input>
+  <div>
+    <MessegeTitle>{currentRoom.name}</MessegeTitle>
+    <ExitImg
+        src={exitBtnHover ? ExitBoxHover : ExitBox}
+        onClickCapture={()=>setOpenRoom(false)}
+        onMouseEnter={() => setExitBtnHover(true)}
+        onMouseLeave={() => setExitBtnHover(false)}
+    /><hr />
+  </div>
 
-          <Send src={Arrow} onClick={onClickSend} />
+  <InfinityScroll style={{ position: "relative" }}>
+    {messages.map((message: MessageType, index: number) =>
+      message.memberId === currentUser.userid
+      ? (
+        <div key={index}>
+          <MyChatting>
+            <ChattingDate>{message.time}</ChattingDate>
+            <Chatting> {message.content}</Chatting>
+          </MyChatting>
         </div>
-      </MessegeBodyDiv>
-    </MessegeListDiv>
+      ) : (
+        <div key={index}>
+          <OtherChatting>
+            <Chatting> {message.content}</Chatting>
+            <ChattingDate>{message.time}</ChattingDate>
+          </OtherChatting>
+        </div>
+      )
+    )}
+
+    {/* <div ref={startRef}></div> */}
+  </InfinityScroll>
+
+  <MessegeBodyDiv>
+    <div>
+      <Input 
+      className="input"
+      type="text" 
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
+      value={message}/>
+      <Send
+      style={{ width: '30px', height: '30px' }}
+      src={ sendHover ? ArrowHover :Arrow}
+      onMouseEnter={() => setSendHover(true)}
+      onMouseLeave={() => setSendHover(false)}
+      onClick={sendMessage}/>
+    </div>
+  </MessegeBodyDiv>
+
+</MessegeListDiv>
   );
 };
 

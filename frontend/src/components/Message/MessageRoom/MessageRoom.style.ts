@@ -68,7 +68,7 @@ export const OtherChatting = styled.div`
   justify-content: start;
 `;
 
-export const Date = styled.div`
+export const ChattingDate = styled.div`
   font-size: 5px;
   position: relative;
   margin-top: auto;
