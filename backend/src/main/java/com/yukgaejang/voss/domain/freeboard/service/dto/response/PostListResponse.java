@@ -13,6 +13,7 @@ public class PostListResponse {
     private String title;
     private Long hits;
     private String nickname;
+    private Long memberId;
     private Long comments;
     private Long likes;
     private boolean hasImageFile;
@@ -24,6 +25,7 @@ public class PostListResponse {
         this.title = post.getTitle();
         this.hits = post.getHit();
         this.nickname = post.getMember().getNickname();
+        this.memberId = post.getMember().getId();
         this.createdAt = post.getCreatedAt();
         this.comments = comments;
         this.likes = likes;
