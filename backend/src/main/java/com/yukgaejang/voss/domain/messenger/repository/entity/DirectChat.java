@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.messenger.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DirectChat {
     @Id
+    @JsonIgnore
     private String id;
     private Long chatId;
     private String sessionId;

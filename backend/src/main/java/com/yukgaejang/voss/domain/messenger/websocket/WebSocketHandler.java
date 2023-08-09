@@ -28,6 +28,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class);
+        chatMessageDto.setTime(LocalDateTime.now());
 
         ChatRoom chatRoom = messengerService.findRoomById(chatMessageDto.getSessionId());
         chatRoom.handlerAction(session, chatMessageDto, messengerService);
