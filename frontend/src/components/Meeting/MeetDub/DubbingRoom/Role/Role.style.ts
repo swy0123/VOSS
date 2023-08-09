@@ -19,7 +19,7 @@ export const RoleAndUser = styled.div`
   align-items: center;
 `
 
-export const RoleItem = styled.div`
+export const RoleItem = styled.button`
   background-color: transparent;
   border-radius: 15px;
   border: 1px solid white;
@@ -30,6 +30,7 @@ export const RoleItem = styled.div`
   text-align: center;
   line-height: 34px;
   margin: 0px 10px 9px 10px;
+  cursor: pointer;
 `
 
 export const UserName = styled.div`
