@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
-import Avatar, { genConfig } from 'react-nice-avatar'
+import Avatar, { genConfig } from "react-nice-avatar";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
@@ -23,7 +23,8 @@ import {
   Title,
   UnderText,
   BlockedButton,
-  ModifyButton
+  ModifyButton,
+  CheckDiv,
   // CheckMsg,
 } from "./Join.style";
 
@@ -44,7 +45,7 @@ const Login = () => {
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
 
-    if (nickName.trim().length && isEmailChecked && isPwdChecked && nickName.length>3) {
+    if (nickName.trim().length && isEmailChecked && isPwdChecked && nickName.length > 3) {
       setButtonActive(true);
     } else setButtonActive(false);
   }, [nickName.trim().length, isEmailChecked, repassword, password, nickName]);
@@ -98,6 +99,11 @@ const Login = () => {
     else setShowPswd(true);
   };
 
+  // const CheckEmailForm = () => {
+  //   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+  //   if (!regex.test(password)) 
+  // };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -148,27 +154,38 @@ const Login = () => {
   return (
     <Container>
       <Title>
-        <P>LET'S GET YOU STARTED</P>
-        <H2>Create an Account</H2>
+        <P>회원 가입</P>
+        <H2>VOSS에 오신 것을 환영합니다!</H2>
       </Title>
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
-        <div style={{ position: 'relative' }}>
-          <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "3%" }}>
+        <div style={{ position: "relative" }}>
+          <Avatar
+            className="avatar-bar"
+            id="myAvatar"
+            style={{ width: "5rem", height: "5rem" }}
+            {...config}
+          />
           <ModifyButton onClick={handleModifyClick}>수정</ModifyButton>
         </div>
       </div>
 
       <form onSubmit={handleSubmit}>
         <InputDiv>
-          <InputHeader>Email</InputHeader>
+          <InputHeader>이메일</InputHeader>
           <Input type="email" onChange={handleEmailField} placeholder="이메일 인증을 해주세요" />
           <ShowIcon>
-            {isEmailChecked ? <Img src={Checked} /> : <Img onClick={onClickModal} src={Email} />}
+            {isEmailChecked ? (
+              <CheckDiv $isEmailChecked={isEmailChecked}>완료</CheckDiv>
+            ) : (
+              <CheckDiv onClick={onClickModal} $isEmailChecked={isEmailChecked}>
+                인증
+              </CheckDiv>
+            )}
           </ShowIcon>
         </InputDiv>
         <InputDiv>
-          <InputHeader>Password</InputHeader>
+          <InputHeader>비밀번호</InputHeader>
           <Input
             type={showPswd ? "text" : "password"}
             onChange={handlePasswordField}
@@ -179,8 +196,12 @@ const Login = () => {
           </ShowIcon>
         </InputDiv>
         <InputDiv>
-          <InputHeader>Confirm password</InputHeader>
-          <Input type="password" onChange={handleRepasswordField} placeholder="비밀번호를 확인해주세요" />
+          <InputHeader>비밀번호 확인</InputHeader>
+          <Input
+            type="password"
+            onChange={handleRepasswordField}
+            placeholder="비밀번호를 확인해주세요"
+          />
           <ShowIcon>{isPwdChecked ? <Img src={Checked} /> : <></>}</ShowIcon>
           {/* {password.length < 4 ? (
             <CheckMsg>비밀번호를 4글자 이상 입력해주세요</CheckMsg>
@@ -189,21 +210,25 @@ const Login = () => {
           )} */}
         </InputDiv>
         <InputDiv>
-          <InputHeader>Nickname</InputHeader>
-          <Input type="text" onChange={handleUsernameField} placeholder="닉네임을 4글자 이상 입력해주세요" />
+          <InputHeader>닉네임</InputHeader>
+          <Input
+            type="text"
+            onChange={handleUsernameField}
+            placeholder="닉네임을 4글자 이상 입력해주세요"
+          />
         </InputDiv>
         {isButtonActive ? (
-          <Button type="submit">GET STARTED</Button>
+          <Button type="submit">회원가입</Button>
         ) : (
           <BlockedButton type="submit" disabled>
-            GET STARTED
+            회원가입
           </BlockedButton>
         )}
       </form>
 
       <UnderText>
         <P onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>
-          Already have an account? LOGIN HERE
+          이미 회원이신가요? 로그인 하기
         </P>
       </UnderText>
 
@@ -216,7 +241,7 @@ const Login = () => {
       )}
 
       {isImageModalOpen && (
-        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig}/>
+        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig} />
       )}
     </Container>
   );

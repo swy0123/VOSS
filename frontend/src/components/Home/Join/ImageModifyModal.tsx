@@ -8,6 +8,7 @@ import { ModalOverlay, ModalContent, CompleteButton } from "./ImageModifyModal.s
 
 interface ImageModalDefaultType {
   handleConfigUpdate: (config: any) => void;
+  closeModal: () => void;
 }
 
 const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDefaultType>) => {
