@@ -7,7 +7,7 @@ export const Navbar = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 0.25px solid grey;
-  height: 46px;
+  height: 65px;
   width: 100vw;
 `
 export const LeftSection = styled.div`
@@ -16,8 +16,8 @@ export const LeftSection = styled.div`
 `
 export const Logo = styled.img`
   cursor: pointer;
-  height: 28px;
-  width: 48px;
+  height: 35px;
+  width: 63px;
   margin: 0px 30px 0px 40px;
 `
 export const MenuList = styled.ul`
@@ -25,15 +25,15 @@ export const MenuList = styled.ul`
   list-style: none;
   line-height: 46px;
   height: 46px;
-  width: 270px;
+  width: 400px;
   `
 export const Menu = styled.li`
   text-align: center;
-  width: 90px;
+  width: 120px;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
-  font-size: 12px;
+  font-size: 16px;
   height: 44px;
   line-height: 44px;
   cursor: pointer;
@@ -76,10 +76,10 @@ export const AlarmCount = styled.div`
   line-height: 11px;
 `
 export const AlarmIcon = styled.img`
-  height: 20px;
+  height: 30px;
 `
 export const Profile = styled.img`
-  height: 30px;
+  height: 46px;
   margin-right: 30px;
   z-index: 1;
 `
