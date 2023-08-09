@@ -24,7 +24,10 @@ export const HeaderText = styled.span`
 
 export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
-  ${(props) => (props.$chatActive ? "width: 75%; height: 90%;" : "width: 98%; height: 90%;")};
+  ${(props) =>
+    props.$chatActive
+      ? "width: 75%; height: 90%;"
+      : "width: 98%; height: 90%;"};
   float: left;
 `;
 
@@ -71,7 +74,9 @@ export const ChatBox = styled.div<{ $chatActive: boolean }>`
   float: left;
   color: white;
   ${(props) =>
-    props.$chatActive ? "width: 25%; height: 95%;" : "width: 0%; height: 0%; overflow:hidden;"};
+    props.$chatActive
+      ? "width: 25%; height: 95%;"
+      : "width: 0%; height: 0%; overflow:hidden;"};
 `;
 
 export const ToolBar = styled.div`
@@ -125,7 +130,7 @@ export const DialogBox = styled.dialog`
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 10000;
 `;
 
@@ -149,35 +154,48 @@ export const ExitImg = styled.img`
 `;
 
 export const MeetBadgeDiv = styled.div`
-  /* float: left; */
-  height: 70px;
-  width: 70px;
-  margin: 10px;
+  position: relative;
+  display: flex;
+  height: 80px;
+  width: 80px;
   pointer-events: auto;
-  /* display: flex; */
 `;
 
 export const MeetBadgeImg = styled.img`
   height: 60px;
   width: 60px;
-  margin: 10px;
+  margin: 0 10px;
   pointer-events: auto;
 `;
 
 export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   position: absolute;
-  /* top: 20px; */
-  transition: top 1s ease-in;
-  background-color: gray;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 100%;
+  width: max-content;
+  height: auto;
+  text-align: center;
+  transition: top 2s ease-in;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 20001;
+  font-size: 14px;
+  color: white;
 
-  ${(props) => (props.$hoverActive > 0 ? "animation-duration: 1s; animation-name: fadeout;" : "")}
+
+  ${(props) =>
+    props.$hoverActive > 0
+      ? "animation-duration: 2s; animation-name: fadeout;"
+      : ""}
 
   @keyframes fadeout {
     0% {
+      top: 120%;
       opacity: 0;
     }
     100% {
       opacity: 1;
+      top: 100%;
     }
   }
 `;
