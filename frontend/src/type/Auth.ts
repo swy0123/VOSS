@@ -28,12 +28,10 @@ export interface CurrentRoomType {
 
 // 채팅방 메시지
 export interface MessageType {
-  id?: string | null;
   chatId?: number;
   sessionId?: string;
   memberId?: number;
   content?: string;
-  time?: string;
 }
 
 // 유저페이지 유저

@@ -26,6 +26,7 @@ const MessageModal = () => {
   };
 
   const goToRoom = (id: number) => {
+    
     const exist = rooms.find((room: RoomType) => room.memberId === id)
     if (exist) {
       setCurrentRoom(exist);

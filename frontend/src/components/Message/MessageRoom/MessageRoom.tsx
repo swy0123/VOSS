@@ -32,28 +32,18 @@ const MessageRoom = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const [sendHover, setSendHover] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotlaPages] = useState(0);
 
   useEffect(() => {
-    // getMessages(currentRoom.chatId, 0, 20).then((dataMessages) => {
-    //   if (dataMessages) {setMessages(dataMessages.content)}
-    // })
-
-    console.log("qqqqqqqqqqqqqqqqqqqqqqqqq")
     // 웹소캣 연결을 수행합니다.
-    const ws = new WebSocket(`wss:/i9b106.p.ssafy.io:8080/ws/messenger`);
+    const ws = new WebSocket('wss:/i9b106.p.ssafy.io:8080/ws/messenger');
 
     ws.onopen = () => {
       setSocket(ws);
     }
-      // console.log("websocket open")
 
-      // 서버로부터 메시지를 수신할 때의 처리를 등록합니다.
     ws.onmessage = (event) => {
-      
       console.log("event.data: ", event.data);
-      console.log(12312321232);
+      setMessages((prevMessages) => [...prevMessages, event.data]);
     };
 
     // return () => {
@@ -74,6 +64,8 @@ const MessageRoom = () => {
         content: message,
       };
 
+      console.log(sentMessage);
+
       // const sentAlarm = {
       //   chatId: 1,
       //   sessionId: "init",
@@ -81,7 +73,7 @@ const MessageRoom = () => {
       //   content: "Alarm",
       // };
       
-      socket.send(JSON.stringify(sentMessage));
+      socket.send(sentMessage);
       // socket.send(JSON.stringify(sentAlarm));
       setMessages((prevMessages) => [...prevMessages, sentMessage]);
       setMessage("");
