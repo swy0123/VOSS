@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecord;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecordFile;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecordLike;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
+import com.yukgaejang.voss.domain.recordboard.service.dto.response.MyRecordListResponse;
 import com.yukgaejang.voss.domain.recordboard.service.dto.response.RecordDetailResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -138,6 +139,40 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .where(r.isDeleted.eq(0)
                         .and(r.description.contains(description)));
+        return new PageImpl<>(records, pageable, countQuery.fetchCount());
+    }
+
+    @Override
+    public Page<MyRecordListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
+        List<MyRecordListResponse> records = jpaQueryFactory
+                .selectDistinct(Projections.constructor(MyRecordListResponse.class,
+                        r,
+                        rf.originalFileName,
+                        rf.savedFileName,
+                        rl.count(),
+                        JPAExpressions
+                                .selectOne()
+                                .from(rl)
+                                .where(rl.record.id.eq(r.id)
+                                        .and(rl.member.email.eq(email)))
+                ))
+                .from(r)
+                .leftJoin(r.member).fetchJoin()
+                .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
+                .leftJoin(rl).on(r.id.eq(rl.record.id))
+                .where(r.isDeleted.eq(0)
+                        .and(r.member.email.eq(email)))
+                .groupBy(r.id, r, r.member, rf, rl)
+                .orderBy(r.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = jpaQueryFactory
+                .select(r.id)
+                .from(r)
+                .where(r.isDeleted.eq(0)
+                        .and(r.member.email.eq(email)));
         return new PageImpl<>(records, pageable, countQuery.fetchCount());
     }
 
