@@ -32,6 +32,7 @@ export interface MessageType {
   sessionId?: string;
   memberId?: number;
   content?: string;
+  time?: string;
 }
 
 // 유저페이지 유저
