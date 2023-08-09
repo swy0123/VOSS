@@ -107,7 +107,11 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/golist");
     }
-    else if (send.length > 7 && send.substr(0, 8) == "/govideo") {
+    else if (send.length > 8 && send.substr(0, 8) == "/govideo") {
+      setSend("/none");
+      sendMessage(send);
+    }
+    else if (send.length > 11 && send.substr(0, 11) == "/selectrole") {
       setSend("/none");
       sendMessage(send);
     }
@@ -158,6 +162,11 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
         setRecieve(messageList[messageList.length - 1].message);
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 11) === "/selectrole") {
+        setRecieve(messageList[messageList.length - 1].message);
+        console.log("setRecieve selectrole")
         messageList.pop();
       }
     }
