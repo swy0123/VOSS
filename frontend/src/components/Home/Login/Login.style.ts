@@ -15,12 +15,12 @@ export const Container = styled.div`
 `;
 
 export const P = styled.p`
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
 `;
 
 export const H2 = styled.h2`
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-top: 5%;
 `;
@@ -47,7 +47,7 @@ export const InputDiv = styled.div`
 
 export const InputHeader = styled.div`
   width: fit-content;
-  font-size: 12px;
+  font-size: 14px;
   color: #757575;
   padding: 8px;
   height: 12px;
@@ -80,7 +80,7 @@ export const CheckBoxDiv = styled.div`
   position: relative;
   width: 85%;
   height: 40px; 
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const CheckBox = styled.div`
@@ -97,7 +97,7 @@ export const Forgot = styled.div`
 export const Button = styled.button`
   background-color: #212121;
   border: #212121;
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
   border-style: solid;
   width: 85%;
@@ -116,7 +116,7 @@ export const OAuthDiv = styled.div`
 
 export const LineText = styled.div`
   width: max-content;
-  font-size: 12px;
+  font-size: 14px;
   color: #757575;
   height: 12px;
   background-color: #ffffff;

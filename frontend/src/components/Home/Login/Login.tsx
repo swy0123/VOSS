@@ -83,21 +83,21 @@ const Login = () => {
   return (
     <Container>
       <Title>
-        <P>WELCOME BACK</P>
-        <H2>Log In to your Account</H2>
+        <P>로그인</P>
+        <H2>다시 오신 것을 환영해요!</H2>
       </Title>
       <div>
         <form onSubmit={handleSubmit}>
           <InputDiv>
-            <InputHeader>Email</InputHeader>
-            <Input type="email" onChange={handleEmailField} placeholder="Email" />
+            <InputHeader>이메일</InputHeader>
+            <Input type="email" onChange={handleEmailField} placeholder="이메일을 입력해주세요" />
           </InputDiv>
           <InputDiv>
-            <InputHeader>Password</InputHeader>
+            <InputHeader>비밀번호</InputHeader>
             <Input
               type={showPswd ? "text" : "password"}
               onChange={handlePasswordField}
-              placeholder="Password"
+              placeholder="비밀번호"
               autoComplete="off"
             />
             <ShowPswd onClick={ShowPassword}>
@@ -107,7 +107,7 @@ const Login = () => {
           <CheckBoxDiv>
             <CheckBox>
               <input type="checkbox" checked={checkbox} onChange={handleCheckboxField} />
-              Remember me
+              아이디 저장
             </CheckBox>
             <Forgot
               onClick={() => {
@@ -115,10 +115,10 @@ const Login = () => {
               }}
               style={{ textDecoration: "none" }}
             >
-              Forgot Password?
+              비밀번호 찾기
             </Forgot>
           </CheckBoxDiv>
-          <Button type="submit">CONTINUE</Button>
+          <Button type="submit">로그인</Button>
         </form>
       </div>
 
@@ -150,7 +150,7 @@ const Login = () => {
 
       <UnderText>
         <P onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
-          New User? SIGN UP HERE
+          처음 오셨나요? 회원가입
         </P>
       </UnderText>
     </Container>
