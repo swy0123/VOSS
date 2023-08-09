@@ -13,7 +13,6 @@ export const Section = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 25px;
-  cursor: pointer;
 `
 
 export const Text = styled.div`

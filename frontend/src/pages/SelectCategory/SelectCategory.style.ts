@@ -4,15 +4,15 @@ export const MainImg = styled.div`
   background: url("/src/assets/main/mainimg.gif") no-repeat;
   background-position: center center;
   background-size: cover;
-  position: absolute;
+  position: fixed;
   height: 100vh;
-  width: 116vw;
-  left: -6vw;
+  width: 100vw;
 `;
 
 export const AllCategory = styled.div`
   display: flex;
-  margin-left: 11.8vw;
+  position: absolute;
+  margin-left: 6.5vw;
   transform: skew(-2.9deg);
 `;
 
@@ -76,8 +76,8 @@ export const SinglePractice = styled.div`
   transform: skew(-2deg);
   cursor: pointer;
 
-  &:hover {
-    background-color: #af000f;
+  &:hover{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   }
 `
 
