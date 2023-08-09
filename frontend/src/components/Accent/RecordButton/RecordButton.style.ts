@@ -53,38 +53,46 @@ export const Button = styled.button`
 export const RestartBtn = styled(Button)``
 export const CompleteBtn = styled(Button)``
 
-const waveAnimation = keyframes`
+export const RecordBtn = styled.img`
+  width: 100px;
+  cursor: pointer;
+`
+
+export const NowRecording = styled.div`
+  height: 100px;
+  width: 100px;
+`
+
+const wave = keyframes`
   0% {
-    transform: scale(0);
+    transform: scale(1);
     opacity: 1;
   }
   100% {
     transform: scale(3.5);
     opacity: 0;
   }
-`;
+`
 
-export const RecordBtn = styled.img`
-  width: 100px;
-  cursor: pointer;
-  position: relative;
-
-  &:after,
-  &:before {
+export const Waves = styled.div`
+  position: absolute;
+  z-index: -1;
+  &::before,
+  &::after {
     content: "";
     position: absolute;
     background: white;
-    margin-left: -12px;
-    margin-top: -12px;
+    margin: -79.2px 0px 0px 24.2px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    -webkit-animation: wave 3s infinite linear;
-            animation: wave 3s infinite linear;
+    animation: ${wave} 3s infinite linear;
+
   }
 
-  &:after {
+  &::after{
     opacity: 0;
-    animation: ${waveAnimation} 3s 1.5s infinite linear;
+    -webkit-animation: ${wave} 3s 1.5s infinite linear;
+            animation: ${wave} 3s 1.5s infinite linear;
   }
 `
