@@ -36,14 +36,15 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
   const handleShowHairPicker = () => {
     const colorPicker = document.getElementById("hairColorPicker");
     if (colorPicker) {
-      colorPicker.style.display = colorPicker.style.display === "" ? "none" : "";
+      colorPicker.style.visibility = colorPicker.style.visibility === "hidden" ? "visible" : "hidden";
     }
   };
 
   const handleShowFacePicker = () => {
     const colorPicker = document.getElementById("faceColorPicker");
     if (colorPicker) {
-      colorPicker.style.display = colorPicker.style.display === "" ? "none" : "";
+      console.log();
+      colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
     }
   };
 
@@ -67,21 +68,21 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
   return (
     <ModalOverlay>
       <ModalContent>
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
-            <div style={{ position: 'relative' }}>
-              <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
-            </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
+          <div style={{ position: 'relative' }}>
+            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
           </div>
-          <button onClick={handleGenderChange}>
-            {gender === "man" ? "남성" : "여성"}
-          </button>
+        </div>
+        <button onClick={handleGenderChange}>
+          {gender === "man" ? "남성" : "여성"}
+        </button>
+        <div className='image-options'>
           <div>
-            <button onClick={handleShowHairPicker}>머리 색</button> {/* Hair color picker trigger button */}
+            <button onClick={handleShowHairPicker}>머리 색</button>
             <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
           </div>
           <div>
-            <button onClick={handleShowFacePicker}>얼굴 색</button> {/* Face color picker trigger button */}
+            <button onClick={handleShowFacePicker}>얼굴 색</button>
             <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
           </div>
         </div>
