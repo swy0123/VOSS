@@ -56,6 +56,9 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
     console.log(response);
     if (response.success == true) alert("뱃지 부여 성공!");
     else alert("뱃지 부여 실패! 같은 사람이 24시간 안에 같은 사람에게 같은 배지 못 줌!");
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
   };
 
   return (
@@ -67,26 +70,20 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
         </ModalHeader>
         <div
           style={{
-            // width:"300px",
-            // height:"400px",
-            marginLeft: "10px",
+            width: "100%",
+            height: "100%",
             paddingBottom: "10px",
-            overflow: "hidden",
-            display:"flex",
-            flexWrap:"wrap",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "visible",
+            flexWrap: "wrap",
           }}
         >
           {badgeList !== undefined ? (
             badgeList.map((badge, id) => (
-              <MeetBadgeDiv>
+              <MeetBadgeDiv key={id}>
                 <MeetBadgeImg
-                  // style={{
-                  //   height: "60px",
-                  //   width: "60px",
-                  //   margin: "10px",
-                  //   pointerEvents: "auto",
-                  // }}
-                  key={id}
                   onMouseEnter={() => setHover(badge.id)}
                   onMouseLeave={() => setHover(0)}
                   src={`/src/assets/Profile/badge/B${badge.id + 1}.png`}
@@ -96,7 +93,7 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
                   }}
                 />
                 {hover !== 0 && hover === badge.id ? (
-                  <MeetBadgeHovor key={id} $hoverActive={hover}>
+                  <MeetBadgeHovor $hoverActive={hover} >
                     <div className="hover-text"> {badge.name}</div>
                   </MeetBadgeHovor>
                 ) : (

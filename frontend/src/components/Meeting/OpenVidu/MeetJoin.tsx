@@ -306,6 +306,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
                 connectionIdProps: connectionId,
                 nicknameProps: nickname,
                 streamManagerProps: streamManagerTmp,
+                bottomOn: props.bottomOn,
               }}
             />
           ) : publisher !== undefined ? (
@@ -314,6 +315,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
                 connectionIdProps: connectionId,
                 nicknameProps: nickname,
                 streamManagerProps: publisher,
+                bottomOn: props.bottomOn,
               }}
             />
           ) : (
