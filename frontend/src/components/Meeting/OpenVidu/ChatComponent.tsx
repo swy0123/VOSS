@@ -79,7 +79,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   }, [])
   useEffect(() => {
     scrollToBottom();
-  }, [messageList])
+  }, [messageList, chatProps.bottomOn])
 
   //명령어 전송
   useEffect(() => {
