@@ -102,4 +102,9 @@ public class RecordServiceImpl implements RecordService {
         awsS3Service.deleteFile(recordFile.getSavedFileName(), dirName);
         return new DeleteRecordResponse(true);
     }
+
+    @Override
+    public Page<MyRecordListResponse> getMyRecordList(Pageable pageable, String email) {
+        return recordRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
+    }
 }

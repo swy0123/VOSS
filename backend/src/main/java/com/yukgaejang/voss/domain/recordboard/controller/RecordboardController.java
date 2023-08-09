@@ -81,4 +81,10 @@ public class RecordboardController {
         return ResponseEntity.ok(recordService.deleteRecord(recordId));
     }
 
+    @GetMapping("my-record")
+    public ResponseEntity<Page<MyRecordListResponse>> getMyRecordList(@PageableDefault(size = 20) Pageable pageable) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(recordService.getMyRecordList(pageable, email));
+    }
 }
