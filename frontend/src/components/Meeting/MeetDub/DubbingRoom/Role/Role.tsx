@@ -29,7 +29,7 @@ function Role ({ roles, userSelectRole, setUserSelectRole }: VideoProps) {
   useEffect(()=>{
     if(recieve.slice(0,11)=="/selectrole") {
       const role_Idx = recieve.slice(11,12)
-      const nickname = recievt.slice(12)
+      const nickname = recieve.slice(12)
       const changeSelect = userSelectRole.map((selected,index)=>{
         // 선택 안된 역할
         if (index === role_Idx && !selected){
