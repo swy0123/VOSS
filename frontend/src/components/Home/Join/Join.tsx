@@ -1,7 +1,7 @@
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import Avatar, { genConfig } from 'react-nice-avatar'
-import { Link } from "react-router-dom";
-import { styled } from "styled-components";
+import domtoimage from "dom-to-image";
+import { saveAs } from 'file-saver';
 import Eye from "../../../assets/main/eye.png";
 import Checked from "../../../assets/main/Checked.png";
 import Email from "../../../assets/main/Email.png";
@@ -24,7 +24,6 @@ import {
   UnderText,
   BlockedButton,
   ModifyButton
-  // CheckMsg,
 } from "./Join.style";
 
 const Login = () => {
@@ -39,7 +38,8 @@ const Login = () => {
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [config, setConfig] = useState({ glassesStyle: "none", hatStyle: "none" });
+  const [config, setConfig] = useState({});
+
 
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
@@ -98,6 +98,23 @@ const Login = () => {
     else setShowPswd(true);
   };
 
+  async function download() {
+    const scale = 2;
+    const node = document.getElementById("myAvatar");
+    if (node) {
+      const blob = await domtoimage.toBlob(node, {
+        height: node.offsetHeight * scale,
+        style: {
+          transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale}px)`,
+          "border-radius": 0
+        },
+        width: node.offsetWidth * scale
+      });
+
+      // saveAs(blob, "avatar.png");
+    }
+  }
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -109,6 +126,10 @@ const Login = () => {
     } else if (!isPwdChecked) {
       alert("비밀번호를 확인해주세요");
     } else {
+      
+      // TODO 이미지 요청 반환
+
+
       const JoinProps = {
         email: email,
         password: password,
@@ -182,11 +203,6 @@ const Login = () => {
           <InputHeader>Confirm password</InputHeader>
           <Input type="password" onChange={handleRepasswordField} placeholder="비밀번호를 확인해주세요" />
           <ShowIcon>{isPwdChecked ? <Img src={Checked} /> : <></>}</ShowIcon>
-          {/* {password.length < 4 ? (
-            <CheckMsg>비밀번호를 4글자 이상 입력해주세요</CheckMsg>
-          ) : (
-            <>{!isPwdChecked ? <CheckMsg>비밀번호를 확인해주세요</CheckMsg> : <></>}</>
-          )} */}
         </InputDiv>
         <InputDiv>
           <InputHeader>Nickname</InputHeader>
