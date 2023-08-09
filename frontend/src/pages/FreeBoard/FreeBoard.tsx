@@ -80,12 +80,12 @@ function FreeBoard () {
     searchPost(sort, cond, input, 1);
   },[sort]);
 
-  useEffect(() => {
-    const prevPage = localStorage.getItem('prevPage');
-    if (!prevPage?.startsWith('/freeboard') || prevPage === null) {
-      pageReset();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const prevPage = localStorage.getItem('prevPage');
+  //   if (!prevPage?.startsWith('/freeboard') || prevPage === null) {
+  //     pageReset();
+  //   }
+  // }, []);
 
   const pages = [...Array(totalPages).keys()].map((page) => page + 1);
   const maxDisplayedPages = 10;
@@ -134,6 +134,7 @@ function FreeBoard () {
             key={post.id} 
             id={post.id}
             title={post.title} 
+            memberId={post.memberId}
             nickname={post.nickname} 
             hasImageFile={post.hasImageFile}
             hasOtherFile={post.hasOtherFile}

@@ -15,7 +15,7 @@ import {
 } from "./PostList.style";
 
 
-function PostList({ id, title, nickname, hasImageFile, hasOtherFile, comments, likes, createdAt, hits}: PostListType) {
+function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, comments, likes, createdAt, hits}: PostListType) {
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const goProfile = (id: number) => navigate(`/profile/${id}`);
@@ -34,7 +34,7 @@ function PostList({ id, title, nickname, hasImageFile, hasOtherFile, comments, l
         ? <PostCommentsDesign>{comments}</PostCommentsDesign>
         : null}
         </PostTitleDesign>
-        <PostUserDesign onClick={() => goProfile(1)}>{nickname}</PostUserDesign>
+        <PostUserDesign onClick={() => goProfile(memberId ||0)}>{nickname}</PostUserDesign>
         <PostCreatedatDesign>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 16)}`}</PostCreatedatDesign>
         <PostHitDesign>{hits}</PostHitDesign>
         <PostLikeDesign>{likes}</PostLikeDesign>
