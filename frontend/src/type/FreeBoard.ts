@@ -3,7 +3,7 @@ export interface PostListType {
   id?: number;
   title?: string;
   nickname?: string;
-  userid?: number;
+  memberId?: number;
   createdAt?: string;
   hasImageFile?: boolean;
   hasOtherFile?: boolean;
@@ -19,9 +19,9 @@ export interface PostType {
   title?: string;
   content?: string;
   nickname?: string;
-  userid?: number;
+  memberId?: number;
   createdAt?: string;
-  hits: number;
+  hits?: number;
   likes?: number;
   liked?: boolean;
   imageFiles?: Array<any>;
@@ -53,7 +53,7 @@ export interface PostFirstFilesType {
 // 댓글 타입
 export interface CommentType {
   id?: number;
-  userid?: number;
+  memberId?: number;
   nickname?: string;
   content?: string;
   createdAt?: string;

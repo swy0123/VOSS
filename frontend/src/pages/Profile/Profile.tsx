@@ -3,7 +3,7 @@ import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import BasicBox from "/src/components/Profile/BasicBox/BasicBox";
-import FollowModal from "../components/Profile/ModalBox/FollowModal";
+import FollowModal from "../../components/Profile/ModalBox/FollowModal";
 import BadgeBox from "/src/components/Profile/BadgeBox/BadgeBox";
 import HistoryBox from "/src/components/Profile/HistoryBox/HistoryBox";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -13,7 +13,7 @@ import {
   ProfileDesign,
   ProfileSpace1,
   ProfileSpace2,
-} from "/src/pages/Profile.style";
+} from "./Profile.style";
 import { useEffect } from "react";
 
 function Profile() {

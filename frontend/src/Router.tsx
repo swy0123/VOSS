@@ -14,7 +14,7 @@ import PostCreate from "./components/FreeBoard/PostCreate/PostCreate";
 import PostUpdate from "./components/FreeBoard/PostUpdate/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 import Avatar from "./pages/Avatar/Avatar";
 
 const router = createBrowserRouter([
