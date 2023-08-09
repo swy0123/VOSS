@@ -5,6 +5,7 @@ export const Container = styled.div<{$isClicked?: boolean}>`
   justify-content: center;
   /* background-color: gray; */
   height: ${props => props.$isClicked ? '27%': '87%'};
+  overflow: hidden;
   margin: 0;
 `;
 
