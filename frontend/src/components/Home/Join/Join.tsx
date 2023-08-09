@@ -216,7 +216,7 @@ const Login = () => {
       )}
 
       {isImageModalOpen && (
-        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig}/>
+        <ImageModifyModal handleConfigUpdate={handleImageConfig}/>
       )}
     </Container>
   );

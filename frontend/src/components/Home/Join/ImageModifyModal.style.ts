@@ -19,6 +19,7 @@ export const ModalContent = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+
 `;
 
 export const CompleteButton = styled.button`
@@ -29,3 +30,4 @@ export const CompleteButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+

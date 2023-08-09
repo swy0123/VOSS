@@ -11,9 +11,11 @@ interface ImageModalDefaultType {
 }
 
 const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDefaultType>) => {
+  type Gender = "man" | "woman";
   const [hairColor, setHairColor] = useState("#aabbcc");
   const [faceColor, setFaceColor] = useState("#ffeeee");
-  const config = genConfig({  glassesStyle: "none", hatStyle: "none", hairColor, faceColor });
+  const [gender, setGender] = useState<Gender>("woman");
+  const config = genConfig({ sex: gender, hatStyle: "none", hairColor, faceColor });
 
   useEffect(() => {
     setHairColor(hairColor);
@@ -25,6 +27,24 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
 
   const handleCompleteClick = () => {
     handleConfigUpdate(config);
+  };
+
+  const handleGenderChange = () => {
+    setGender(prevGender => (prevGender === "man" ? "woman" : "man"));
+  };
+
+  const handleShowHairPicker = () => {
+    const colorPicker = document.getElementById("hairColorPicker");
+    if (colorPicker) {
+      colorPicker.style.display = colorPicker.style.display === "" ? "none" : "";
+    }
+  };
+
+  const handleShowFacePicker = () => {
+    const colorPicker = document.getElementById("faceColorPicker");
+    if (colorPicker) {
+      colorPicker.style.display = colorPicker.style.display === "" ? "none" : "";
+    }
   };
 
   async function download() {
@@ -45,21 +65,29 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
   }
 
   return (
-      <ModalOverlay>
-        <ModalContent>
+    <ModalOverlay>
+      <ModalContent>
         <div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
-          <div style={{ position: 'relative' }}>
-            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
+            <div style={{ position: 'relative' }}>
+              <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
             </div>
           </div>
-          <button onClick={download}>Download Avatar</button>
-          <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
-          <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
+          <button onClick={handleGenderChange}>
+            {gender === "man" ? "남성" : "여성"}
+          </button>
+          <div>
+            <button onClick={handleShowHairPicker}>머리 색</button> {/* Hair color picker trigger button */}
+            <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
+          </div>
+          <div>
+            <button onClick={handleShowFacePicker}>얼굴 색</button> {/* Face color picker trigger button */}
+            <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
+          </div>
         </div>
-        </ModalContent>
-        <CompleteButton onClick={handleCompleteClick}>Complete</CompleteButton>
-      </ModalOverlay>
+        <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 
