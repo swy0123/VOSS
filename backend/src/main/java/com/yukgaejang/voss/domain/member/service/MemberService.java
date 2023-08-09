@@ -16,7 +16,7 @@ public interface MemberService {
 
     boolean modifyMember(ModifyMemberRequest modifyMemberRequest, String email);
 
-    void follow(FollowRequest followRequest, String email);
+    boolean follow(FollowRequest followRequest, String email);
     void unfollow(Long targetId, String email);
 
     List<GetFollowMemberResponse> getFollowings(String email);

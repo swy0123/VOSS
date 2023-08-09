@@ -58,8 +58,7 @@ public class MemberController {
     public ResponseEntity<FollowResponse> follow(@RequestBody FollowRequest followRequest/*, @AuthenticationPrincipal Authentication authentication*/) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        memberService.follow(followRequest, authentication.getName());
-        return ResponseEntity.ok(new FollowResponse(true));
+        return ResponseEntity.ok(new FollowResponse(memberService.follow(followRequest, authentication.getName())));
     }
 
     @DeleteMapping("/unfollow/{memberId}")

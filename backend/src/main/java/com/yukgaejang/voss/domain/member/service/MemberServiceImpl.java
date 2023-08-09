@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void follow(FollowRequest targetEmail, String email) {
+    public boolean follow(FollowRequest targetEmail, String email) {
         Member follower = memberRepository.findByEmail(email).orElseThrow(() ->
                 new NoMemberException("팔로우를 시도하는 멤버가 존재하지 않습니다.")
         );
@@ -86,11 +86,14 @@ public class MemberServiceImpl implements MemberService {
                 new NoMemberException("팔로우하려는 대상 멤버가 존재하지 않습니다.")
         );
 
+        if (followRepository.isFollowing(following.getId(), follower.getId())) return false;
+
         Follow follow = new Follow(follower, following);
         followRepository.save(follow);
 
         // TODO : event로 처리
         notificationService.notifyFollow(follow);
+        return true;
     }
 
     @Override
