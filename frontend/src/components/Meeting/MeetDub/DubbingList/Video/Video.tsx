@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
 import { videoFilterState } from "/src/recoil/Training"
@@ -14,21 +15,33 @@ import {
   TimeImg, 
   VideoBox, 
   VideoItem } from "./Video.style"
+import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
 
 function Video () {
   const [videoFilter] = useRecoilState<VideosType[]>(videoFilterState)
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
+  const [send, setSend] = useRecoilState(sendMsg);
+  const [recieve, setRecieve] = useRecoilState(recieveMsg);
   
   const meetDubSelecting = (id:number) => {
-    setMeetDubSelect(id)
+    setSend(`/govideo${id}`)
     // void postRractice("DUB")
+    console.log(id)
   }
-
+  
   const formatTime = (durationInSec: number) => {
     const minutes = Math.floor(durationInSec / 60)
     const second = Math.floor(durationInSec % 60)
     return `${minutes.toString().padStart(2, '0')}분 ${second.toString().padStart(2, '0')}초`
   }
+  
+  //이벤트 수신 감지
+  useEffect(() => {
+    if(recieve.slice(0,8)==`/govideo`) {
+      setMeetDubSelect(parseInt(recieve.slice(8,10)))
+      setRecieve("/none");
+    }
+  }, [recieve])
 
   return (
     <VideoBox>

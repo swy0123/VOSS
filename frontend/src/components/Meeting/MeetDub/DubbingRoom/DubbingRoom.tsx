@@ -14,15 +14,20 @@ import Video from "./Video/Video"
 import RecordButton from "/src/components/DubbingRoom/RecordButton/RecordButton"
 import Role from "./Role/Role"
 import RoleSelectModal from "./RoleSelectModal/RoleSelectModal"
+import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
 
 function DubbingRoom () {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
   const [userSelectRole, setUserSelectRole] = useRecoilState<string[]>(userSelectRoleState)
   const [roleModal, setRoleModal] = useRecoilState(RoleModalState)
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
+  const [send, setSend] = useRecoilState(sendMsg);
+  const [recieve, setRecieve] = useRecoilState(recieveMsg);
+  
   const goDubbingList = () => {
     setMeetDubSelect(0)
     setUserSelectRole(["","","","","",""])
+    setSend("/golist")
   }
 
   const axiosVideo = async (id:number):Promise<void> => {
@@ -39,6 +44,14 @@ function DubbingRoom () {
     void axiosVideo(meetDubSelect);
   }, []);
 
+  //이벤트 수신 감지
+  useEffect(()=>{
+    if(recieve=="/golist") {
+      goDubbingList()
+      setRecieve("/none");
+    }
+  }, [recieve])
+  
   // 로딩 페이지가 하나 더 있으면 좋겠다.
   if (!video) {return <div>Loading...</div>;}
 
