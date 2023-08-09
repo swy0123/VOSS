@@ -22,9 +22,8 @@ import {
   Input, 
   Send, } from "./MessageRoom.style"
 
-
 const MessageRoom = () => {
-  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);  
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
   const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
   const [messages, setMessages] = useRecoilState<MessageType[]>(MessagesState);
@@ -32,31 +31,39 @@ const MessageRoom = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const [sendHover, setSendHover] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotlaPages] = useState(0);
 
   useEffect(() => {
-    // 웹소캣 연결을 수행합니다.
-    const ws = new WebSocket('wss:/i9b106.p.ssafy.io:8080/ws/messenger');
+  // 웹소캣 연결을 수행합니다.
+  const ws = new WebSocket(`wss:/i9b106.p.ssafy.io:8080/ws/messenger`);
 
-    ws.onopen = () => {
-      setSocket(ws);
+  ws.onopen = () => { 
+    setSocket(ws);
+  }
+    // console.log("websocket open")
+
+    // 서버로부터 메시지를 수신할 때의 처리를 등록합니다.
+  ws.onmessage = (event) => {
+    
+    console.log("event.data: ", event.data);
+    const newMessage = JSON.parse(event.data)
+    if (newMessage.memberId !== currentUser.userid) {
+      setMessages((prevMessages) => [...prevMessages, JSON.parse(event.data)]);
     }
+  };
 
-    ws.onmessage = (event) => {
-      console.log("event.data: ", event.data);
-      setMessages((prevMessages) => [...prevMessages, event.data]);
-    };
-
-    // return () => {
-    //   if (socket) {
-    //     socket.close();
-    //     // console.log("websocket close")
-    //   }
-    // };
+  // return () => {
+  //   if (socket) {
+  //     socket.close();
+  //     // console.log("websocket close")
+  //   }
+  // };
   }, []);
 
   const sendMessage = () => {
-    if (socket && message.trim() !== "") {
-      
+    if (message.trim() !== "") {
+
       const sentMessage = {
         chatId: currentRoom.chatId,
         sessionId: currentRoom.sessionId,
@@ -64,110 +71,73 @@ const MessageRoom = () => {
         content: message,
       };
 
-      console.log(sentMessage);
-
-      // const sentAlarm = {
-      //   chatId: 1,
-      //   sessionId: "init",
-      //   memberId: currentRoom.memberId,
-      //   content: "Alarm",
-      // };
-      
-      socket.send(sentMessage);
-      // socket.send(JSON.stringify(sentAlarm));
-      setMessages((prevMessages) => [...prevMessages, sentMessage]);
-      setMessage("");
-    }
-  };
-
-  // const startRef = useRef<HTMLDivElement>(null);
-  // const instantMove = () => {
-  //   startRef.current?.scrollIntoView({ behavior: "instant" });
+  // const sentAlarm = {
+  //   chatId: 1,
+  //   sessionId: "init",
+  //   memberId: currentRoom.memberId,
+  //   content: "Alarm",
   // };
-
-  // useEffect(() => {
-  //   setPosts([...messageLog]);
-  // }, []);
-
-  // useEffect(() => {
-  //   instantMove();
-  // }, [posts]);
-
-  // const fetch = useCallback(async () => {
-  //     try {
-  //         const { data } = await axios.get<Post[]>(
-  //             `http://localhost:5000/posts?_limit=10&_page=${page.current}`
-  //         );
-  //         setPosts((prevPosts) => [...prevPosts, ...data]);
-  //         setHasNextPage(data.length === 10);
-  //         if (data.length) {
-  //             page.current += 1;
-  //         }
-  //     } catch (err) {
-  //         console.error(err);
-  //     }
-  // }, []);
-
-  // useEffect(() => {
-  //     console.log(inView, hasNextPage);
-  //     if (inView && hasNextPage) {
-  //         fetch();
-  //     }
-  // }, [fetch, hasNextPage, inView]);
+  
+  socket.send(JSON.stringify(sentMessage));
+  setMessages((prevMessages) => [...prevMessages, sentMessage]);
+  // socket.send(JSON.stringify(sentAlarm));
+  setMessage("");
+}
+  };
 
   return (
     <MessegeListDiv>
 
-      <div>
-        <MessegeTitle>{currentRoom.name}</MessegeTitle>
-        <ExitImg
-            src={exitBtnHover ? ExitBoxHover : ExitBox}
-            onClickCapture={()=>setOpenRoom(false)}
-            onMouseEnter={() => setExitBtnHover(true)}
-            onMouseLeave={() => setExitBtnHover(false)}
-        /><hr />
-      </div>
+  <div>
+    <MessegeTitle>{currentRoom.name}</MessegeTitle>
+    <ExitImg
+        src={exitBtnHover ? ExitBoxHover : ExitBox}
+        onClickCapture={()=>setOpenRoom(false)}
+        onMouseEnter={() => setExitBtnHover(true)}
+        onMouseLeave={() => setExitBtnHover(false)}
+    /><hr />
+  </div>
 
-      <InfinityScroll style={{ position: "relative" }}>
-        {messages.map((message: MessageType, index: number) =>
-          message.memberId === currentUser.userid
-          ? (
-            <div key={index}>
-              <MyChatting>
-                <ChattingDate>{message.time}</ChattingDate>
-                <Chatting> {message.content}</Chatting>
-              </MyChatting>
-            </div>
-          ) : (
-            <div key={index}>
-              <OtherChatting>
-                <Chatting> {message.content}</Chatting>
-                <ChattingDate>{message.time}</ChattingDate>
-              </OtherChatting>
-            </div>
-          )
-        )}
-
-        {/* <div ref={startRef}></div> */}
-      </InfinityScroll>
-
-      <MessegeBodyDiv>
-        <div>
-          <Input 
-          className="input"
-          type="text" 
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
-          value={message}/>
-          <Send
-          style={{ width: '30px', height: '30px' }}
-          src={ sendHover ? ArrowHover :Arrow}
-          onMouseEnter={() => setSendHover(true)}
-          onMouseLeave={() => setSendHover(false)}
-          onClick={sendMessage}/>
+  <InfinityScroll style={{ position: "relative" }}>
+    {messages.map((message: MessageType, index: number) =>
+      message.memberId === currentUser.userid
+      ? (
+        <div key={index}>
+          <MyChatting>
+            <ChattingDate>{message.time}</ChattingDate>
+            <Chatting> {message.content}</Chatting>
+          </MyChatting>
         </div>
-      </MessegeBodyDiv>
+      ) : (
+        <div key={index}>
+          <OtherChatting>
+            <Chatting> {message.content}</Chatting>
+            <ChattingDate>{message.time}</ChattingDate>
+          </OtherChatting>
+        </div>
+      )
+    )}
 
-    </MessegeListDiv>
+    {/* <div ref={startRef}></div> */}
+  </InfinityScroll>
+
+  <MessegeBodyDiv>
+    <div>
+      <Input 
+      className="input"
+      type="text" 
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
+      value={message}/>
+      <Send
+      style={{ width: '30px', height: '30px' }}
+      src={ sendHover ? ArrowHover :Arrow}
+      onMouseEnter={() => setSendHover(true)}
+      onMouseLeave={() => setSendHover(false)}
+      onClick={sendMessage}/>
+    </div>
+  </MessegeBodyDiv>
+
+</MessegeListDiv>
   );
 };
 
