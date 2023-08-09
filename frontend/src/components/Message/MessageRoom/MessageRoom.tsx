@@ -49,7 +49,7 @@ const MessageRoom = () => {
     console.log("event.data: ", event.data);
     const newMessage = JSON.parse(event.data)
     if (newMessage.memberId !== currentUser.userid) {
-      setMessages((prevMessages) => [...prevMessages, JSON.parse(event.data)]);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     }
   };
 
