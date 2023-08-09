@@ -51,14 +51,20 @@ export const RoleModalState = atom<boolean>({
   default: false
 })
 
-// User가 선택한 Role
-export const userSelectRoleState = atom<string[]>({
-  key: "userSelectRoleState",
-  default:["","","","","",""]
+// 화상방 subscribers 인원수
+export const meetDubUserState = atom<number>({
+  key: "meetDubUserState",
+  default: 0
 })
 
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
-//   default:Array(userInfo.length).fill("")
+//   default:
+// })
+
+// // User가 선택한 Role
+// export const userSelectRoleState = atom<string[]>({
+//   key: "userSelectRoleState",
+//   default:["","","","","",""]
 // })
