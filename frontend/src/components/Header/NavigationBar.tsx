@@ -62,7 +62,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
           onMouseLeave={() => setMenuIsShown(false)}>
           <Menu>Training</Menu>
           <Menu>Meeting</Menu>
-          <Menu>Community</Menu>
+          <Menu style={{marginLeft:"6px"}}>Community</Menu>
         </MenuList>
       </LeftSection>
       
