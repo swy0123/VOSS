@@ -11,20 +11,22 @@ import Messenger from "../../Message/Messenger";
 import downloadImg from "/src/assets/Training/download.png";
 import { uploadFile } from "/src/api/FreeBoard";
 import {
-  CreateScrollDesign,
-  CreatePostDesign,
-  CreateTitleUserDesign,
-  CreateTitleDesign,
-  CreateUserDesign,
-  CreateContentDesign,
-  CreateFilesDesign,
-  CreateFileDesign,
-  CreateUploadDesign,
-  CreateIndexRowDesign,
-  CreateIndexDesign,
-  CreateCreateRowDesign,
-  CreateCreateDesign,
-} from "./PostCreate.style";
+  FreeScrollDesign,
+  FreeMainDesign,
+  FreeTitleUserDesign,
+  FreeTitleInputDesign,
+  FreeUserDesign,
+  FreeInfoDateDesign,
+  FreeInfoDesign,
+  FreeDateDesign,
+  FreeContentTextAreaDesign,
+  FreeFilesDesign,
+  FreeFileDesign,
+  FreepUdateDeleteDesign,
+  FreeUploadDesign,
+  FreeUpdateDesign,
+  FreedIexDesign
+} from "../FreeBoardDetail.style";
 
 
 function PostCreate() {
@@ -63,46 +65,53 @@ function PostCreate() {
   return (
     <BackGroundImg>
     <Header/>
-    <CreateScrollDesign >
-    <CreatePostDesign>
-      
-      {/* <h2 style={{ height: "1vh" }}>글 작성하기</h2><br/> */}
+    <FreeScrollDesign >
+    <FreeMainDesign>
 
-      <CreateTitleUserDesign>
-        <CreateTitleDesign
+      <FreeTitleUserDesign>
+        <FreeTitleInputDesign
           placeholder="제목"
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}
+          // autoFocus
         />
-        <CreateUserDesign>
+        <FreeUserDesign>
           {currentUser.nickname}
-        </CreateUserDesign>
-      </CreateTitleUserDesign>
+        </FreeUserDesign>
+      </FreeTitleUserDesign>
 
-      <CreateContentDesign
+      <FreeInfoDateDesign>
+        <FreeInfoDesign/>
+        <FreeDateDesign/>
+      </FreeInfoDateDesign>
+
+      <FreeContentTextAreaDesign
         className="textarea"
         placeholder="내용을 입력하세요"
         onChange={(changeContent)}
         value={content}
       />
 
-      <CreateFilesDesign>
+      <br/><br/>
+
+      <FreeFilesDesign>
+      첨부파일({files.length})
       {files.length
         ? files.map((file: any, index: number) => (
-          <CreateFileDesign key={index}>
+          <FreeFileDesign key={index}>
             <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
             {file.originalFileName}
             <button style={{marginLeft: '1vw'}} onClick={() => removeFile(index)}>
               <VscClose size='10'/>
             </button>
-          </CreateFileDesign>
+          </FreeFileDesign>
           ))
         : null
       }
-      </CreateFilesDesign>
+      </FreeFilesDesign>
 
-      <CreateCreateRowDesign>
-       <CreateUploadDesign>
+      <FreepUdateDeleteDesign>
+       <FreeUploadDesign>
         <label htmlFor="uploadFile">파일찾기</label>
         <input
           type='file'
@@ -112,21 +121,19 @@ function PostCreate() {
           multiple={true}
           style={{ display: 'none' }}
         />
-        </CreateUploadDesign>
+        </FreeUploadDesign>
 
-        <CreateCreateDesign onClick={CreatePost}>작성완료</CreateCreateDesign>
-      </CreateCreateRowDesign>
+        <FreeUpdateDesign onClick={CreatePost}>작성완료</FreeUpdateDesign>
+      </FreepUdateDeleteDesign>
 
       <br/>
 
-      <CreateIndexRowDesign>
-        <CreateIndexDesign onClick={goFreeBoard}>목록으로</CreateIndexDesign>
-      </CreateIndexRowDesign>
+      <FreedIexDesign onClick={goFreeBoard}>목록으로</FreedIexDesign>
 
       <br/><br/><br/>
 
-    </CreatePostDesign>
-    </CreateScrollDesign>
+    </FreeMainDesign>
+    </FreeScrollDesign>
     <Messenger/>
   </BackGroundImg>
   );

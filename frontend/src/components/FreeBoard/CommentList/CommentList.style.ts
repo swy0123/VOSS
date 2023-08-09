@@ -8,9 +8,9 @@ export const CommentInputDesign = styled.textarea`
   resize: none;
   overflow: hidden;
   color: white;
-  background-color: #313131;
+  background-color: rgba(1, 1, 1, 0.18);
   padding: 20px;
-  width: calc(70vw - 40px);
+  width: 960px;
   height: 71px;
   border: none;
   /* border: solid 1px orange; */
@@ -20,20 +20,20 @@ export const CommentInputDesign = styled.textarea`
 `;
 
 export const CommentCreateDesign = styled.div`  
-  margin-top: 1vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto;
-  width: 4vw;
-  height: 4vh;
-  border: solid 1px white;
+  margin: 10px 10px 0 auto;
+  padding: 5px;
+  width: 50px;
+  text-align: center;
+  font-size: 14px;
   border-radius: 10px;
+  color: white;
+  background-color: transparent;
+  border: solid 1px white;
 `;
 
 export const CommentDesign = styled.div`
-  margin-top: 1vh;
-  width: 70vw;
+  margin-top: 10px;
+  width: 1000px;
   border-bottom: solid 1px #7d7d7d;
   /* border: solid 1px pink; */
 
@@ -43,49 +43,46 @@ export const CommentInfoDesign = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  width: 70vw;
-  height: 5vh;
+  width: 1000px;
+  height: 35px;
   color: #a4a4a4;
   /* border: solid 1px pink; */
 `;
 
 export const CommentUpdateDesign = styled.div`
   margin-left: auto;
-  margin-right: 0.5vw;
+  margin-right: 15px;
   text-align: center;
-  line-height: 3vh;
-  width: 3.7vw;
-  height: 3vh;
-  font-size: 0.75vw;
-  color: black;
-  background-color: white;
-  border-radius: 50px;
-  border: solid 1px white;
+  font-size: 14px;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
   `;
 
 export const CommentDeleteDesign = styled.div`
+  margin-right: 15px;
   text-align: center;
-  line-height: 3vh;
-  width: 3.7vw;
-  height: 3vh;
-  font-size: 0.75vw;
+  font-size: 14px;
   color: white;
-  background-color: transparent;
-  border-radius: 50px;
-  border: solid 1px white;
+  text-decoration: underline;
+  cursor: pointer;
 `;
 
 
 export const CommentContentDiv = styled.div`
-  width: 70vw;
-  padding: 0.7vw 0 2vw 1vw;
+  margin-top: 10px;
+  width: 1000px;
+  padding: 10px 10px 20px;
+  font-size: 15px;
   /* border: solid 1px pink; */
 `;
 
 export const CommentContentTextArea = styled.textarea`
+  margin-top: 10px;
   color: white;
   background-color: transparent;
-  padding: 20px 0;
-  width:  70vw;
+  padding: 20px;
+  width:  940px;
+  margin-left: 10px;
   /* border: solid 1px orange; */
 `;
