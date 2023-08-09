@@ -8,6 +8,7 @@ export interface ChatProps {
   connectionIdProps: string;
   nicknameProps: string;
   streamManagerProps: any;
+  bottomOn: boolean;
   // messageReceived: () => void;
 }
 
@@ -76,6 +77,9 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   useEffect(() => {
     sendMessage();
   }, [])
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList])
 
   //명령어 전송
   useEffect(() => {
@@ -103,7 +107,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/golist");
     }
-    else if (send.length>7 && send.substr(0, 8) == "/govideo") {
+    else if (send.length > 7 && send.substr(0, 8) == "/govideo") {
       setSend("/none");
       sendMessage(send);
     }
@@ -125,8 +129,6 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         const video = document.getElementById("video-" + data.streamId);
       }, 50);
       setMessageList(updatedMessageList);
-      scrollToBottom();
-
     });
     //이부분에 조건문으로 명령어 감지하고 리코일 이벤트 추가
     if (messageList.length - 1 > 0) {
@@ -159,14 +161,13 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         messageList.pop();
       }
     }
-
   }, [messageList, chatProps]);
 
   //채팅 부분 css 작업 미완료
   return (
     <ChatContainer>
       <Chat>
-        <ChatScroll className="message-wrap">
+        <ChatScroll className="message-wrap" $bottomOn={chatProps.bottomOn}>
           {messageList.map((data, i) => (
             <div key={i}>
               <ChattingDetail className="msg-detail">
@@ -187,7 +188,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
           <div ref={chatScroll}></div>
         </ChatScroll>
 
-        <MessageInput id="messageInput">
+        <MessageInput id="messageInput" $bottomOn={chatProps.bottomOn}>
           <StyledInput
             className="msg-input"
             type="text"
