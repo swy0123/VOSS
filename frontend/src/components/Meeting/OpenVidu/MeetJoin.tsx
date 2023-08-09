@@ -181,7 +181,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   };
 
   const leaveSession = () => {
-    alert("leaveSession");
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     if (session) {
       session.disconnect();
