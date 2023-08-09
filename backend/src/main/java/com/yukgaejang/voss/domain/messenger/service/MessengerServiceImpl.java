@@ -16,6 +16,7 @@ import com.yukgaejang.voss.domain.messenger.service.dto.request.CreateMessengerR
 import com.yukgaejang.voss.domain.messenger.service.dto.response.CreateMessengerResponse;
 import com.yukgaejang.voss.domain.messenger.websocket.ChatRoom;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,8 @@ public class MessengerServiceImpl implements MessengerService{
     private final MemberRepository memberRepository;
     private final AttendRepository attendRepository;
     private final DirectChatRepository directChatRepository;
+
+    private final EntityManager em;
 
     @PostConstruct
     private void init() {
@@ -135,5 +138,7 @@ public class MessengerServiceImpl implements MessengerService{
     @Override
     public void updateLeaveTime(Long chatId, Long memberId) {
         attendRepository.updateLeaveTime(chatId, memberId);
+        em.flush();
+        em.clear();
     }
 }
