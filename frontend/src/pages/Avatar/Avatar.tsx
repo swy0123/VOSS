@@ -4,12 +4,16 @@ import domtoimage from "dom-to-image";
 import { saveAs } from 'file-saver';
 import { HexColorPicker } from "react-colorful";
 
-
 function AvatarBoard() {
   const [hairColor, setHairColor] = useState("#aabbcc"); // Hair color state
   const [faceColor, setFaceColor] = useState("#ffeeee"); // Face color state
 
-  const config = genConfig({ sex: "man", glassesStyle: "none", hatStyle: "none", hairColor: hairColor, faceColor }); // Use hairColor state
+  const config = genConfig({ 
+    sex: "man", 
+    glassesStyle: "none", 
+    hatStyle: "none", 
+    hairColor: hairColor, 
+    faceColor }); // Use hairColor state
 
   useEffect(() => {
     setHairColor(hairColor);
