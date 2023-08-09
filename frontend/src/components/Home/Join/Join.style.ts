@@ -23,6 +23,7 @@ export const Container = styled.div`
 export const P = styled.p`
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 export const H2 = styled.h2`
@@ -48,7 +49,8 @@ export const ModifyButton = styled.div`
   border: none;
   border-radius: 5px;
   font-size: 12px;
-  zindex: 1;
+  z-index: 1;
+  cursor: pointer;
 `;
 
 export const UnderText = styled.div`
@@ -76,6 +78,7 @@ export const InputHeader = styled.div`
 
 export const Img = styled.img`
   width: 16px;
+  cursor: pointer;
 `;
 
 export const ShowIcon = styled.div`
@@ -94,6 +97,7 @@ export const CheckDiv = styled.div<{ $isEmailChecked: boolean }>`
   justify-content:center;
   align-items: center;
   color: white;
+  cursor: pointer;
   border-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
   font-size: 12px;
   background-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
@@ -126,6 +130,7 @@ export const Button = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 20px;
+  cursor: pointer;
 `;
 
 export const BlockedButton = styled.button`

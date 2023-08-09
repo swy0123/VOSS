@@ -101,7 +101,7 @@ const Login = () => {
 
   // const CheckEmailForm = () => {
   //   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
-  //   if (!regex.test(password)) 
+  //   if (!regex.test(password))
   // };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -154,7 +154,7 @@ const Login = () => {
   return (
     <Container>
       <Title>
-        <P>회원 가입</P>
+        <P>회원가입</P>
         <H2>VOSS에 오신 것을 환영합니다!</H2>
       </Title>
 
@@ -227,7 +227,7 @@ const Login = () => {
       </form>
 
       <UnderText>
-        <P onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>
+        <P onClick={() => setLoginMode(true)} style={{ textDecoration: "none", cursor: "pointer" }}>
           이미 회원이신가요? 로그인 하기
         </P>
       </UnderText>

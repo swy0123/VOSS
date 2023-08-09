@@ -61,6 +61,7 @@ export const ShowPswd = styled.div`
   position: absolute;
   top: 50%;
   right: 12%;
+  cursor: pointer;
 `
 
 export const Input = styled.input`
@@ -87,11 +88,13 @@ export const CheckBox = styled.div`
   position: absolute;
   top: 10px;
   left: 0px;
+  cursor: pointer;
 `;
 export const Forgot = styled.div`
   position: absolute;
   top: 13px;
   right: 0px;
+  cursor: pointer;
 `;
 
 export const Button = styled.button`
@@ -105,6 +108,7 @@ export const Button = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 0px;
+  cursor: pointer;
 `;
 
 export const OAuthDiv = styled.div`
@@ -112,6 +116,7 @@ export const OAuthDiv = styled.div`
   margin: 0 auto;
   margin-top: 12px;
   width: 85%;
+  display: none;
 `;
 
 export const LineText = styled.div`

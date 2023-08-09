@@ -65,6 +65,7 @@ const ExitImg = styled.img`
   width: 20px;
   height: 20px;
   z-index: 1;
+  cursor: pointer;
 `;
 
 const TagButton = styled.div`
@@ -79,6 +80,7 @@ const TagButton = styled.div`
   height: 40px;
   margin: 8px auto;
   text-align: center;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.05);

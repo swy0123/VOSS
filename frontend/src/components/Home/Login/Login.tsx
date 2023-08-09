@@ -10,6 +10,7 @@ import NaverIcon from "../../../assets/main/naverIcon.png";
 import { useRecoilState } from "recoil";
 import { CurrentUserAtom, LoginModeAtom, LoginState } from "../../../recoil/Auth";
 import { Button, CheckBox, CheckBoxDiv, Container, Forgot, H2, Icon, Input, InputDiv, InputHeader, LineText, OAuthDiv, P, ShowPswd, Title, UnderText } from "./Login.style";
+import { Display } from './../../DubbingRoom/Video/Video.style';
 
 interface LoginProps {
   email: string;
@@ -149,7 +150,7 @@ const Login = () => {
       </OAuthDiv>
 
       <UnderText>
-        <P onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
+        <P onClick={() => setLoginMode(false)} style={{ textDecoration: "none",  cursor: "pointer"}}>
           처음 오셨나요? 회원가입
         </P>
       </UnderText>
