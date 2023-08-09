@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
 import { MeetRoomData, MeetingProps, joinMeet } from "../../../api/meeting";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../../recoil/Auth";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,6 +23,7 @@ import {
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
 import BadgeModal from "./BadgeModal";
+import { meetDubUserState } from "/src/recoil/HW_Atom";
 // import { VedioInnerDiv } from "./UserVideoComponent.style";
 
 export interface streamContainerProps {
@@ -39,6 +40,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [session, setSession] = useState<any>(undefined);
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
+  const [meetDubUser, setMeetDubUser] = useRecoilState<number>(meetDubUserState);
   const [chatActive, setChatActive] = useState(true);
 
   const [connectionId, setConnectionId] = useState("");
@@ -90,6 +92,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   useEffect(() => {
     setCurCount(subscribers.length + 1);
+    setMeetDubUser(subscribers.length + 1)
   }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
