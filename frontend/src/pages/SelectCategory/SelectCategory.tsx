@@ -21,6 +21,7 @@ import {
   Training,
   UnSkew,
   VoiceAnalysis} from './SelectCategory.style';
+import Header from '/src/components/SelectCategotyHeader/Header';
 
 function SelectCategory () {
   const [TrainIsShown, setTrainIsShown] = useState(false)
@@ -48,13 +49,11 @@ function SelectCategory () {
   const goMeetingBoard = () => {
     navigate("/meeting")
   }
-  const goAvatar = () => {
-    navigate("/avatar")
-  }
 
   return(
     <div>
       <MainImg>
+      <Header/>
         <AllCategory>
           
           <Training 
@@ -81,7 +80,6 @@ function SelectCategory () {
               <Icon src="/src/assets/Category/Meeting.png"/>
               <Title>Meeting</Title>
               <Description>다른 유저들과 함께 연습 할 수 있는 Meeting Room</Description>
-              <button style={{backgroundColor:"white"}}onClick={goAvatar}>아바타 쿠다사이!!</button>
             </Cartegory_units>
             
             <MeetingEnter $isShown={MeetIsShown}>

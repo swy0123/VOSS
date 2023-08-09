@@ -40,7 +40,10 @@ function Video ({script, roles, lines}: ScriptData) {
       videoId: script.videoUrl.slice(-11),
       events: {
         'onStateChange' : onPlayStateChange,
-      }
+      },
+      playerVars:{
+        'controls' : 0,
+      },
     });
   }
 
