@@ -2,10 +2,7 @@ package com.yukgaejang.voss.domain.freeboard.service;
 
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreateCommentResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.DeleteCommentResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.UpdateCommentResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +13,5 @@ public interface PostCommentService {
     UpdateCommentResponse updateComment(Long postId, Long commentId, UpdateCommentRequest updateCommentRequest);
     List<CommentDetailResponse> getComments(Long postId);
     DeleteCommentResponse deleteComment(Long postId, Long commentId);
+    Page<MyCommentListResponse> getMyCommentList(Pageable pageable, String email);
 }

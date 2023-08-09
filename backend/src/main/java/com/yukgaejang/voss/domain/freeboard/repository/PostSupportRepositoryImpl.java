@@ -184,7 +184,7 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                         p.isDeleted.eq(0).and(p.member.email.eq(email))
                 )
                 .groupBy(p.id, p, p.member, pl, pf)
-                .orderBy(createOrderSpecifier(pageable))
+                .orderBy(p.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
