@@ -24,7 +24,7 @@ import java.util.*;
 @Component
 public class OpenViduClient {
 
-    private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io";
+    private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io:9443";
     private final String SECRET = "MY_SECRET";
     private final OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
     private final HttpHeaders headers = new HttpHeaders();
@@ -100,7 +100,7 @@ public class OpenViduClient {
     public String getJoinMeetToken(String sessionId, String email) {
         String token = null;
         try {
-            String url = "https://i9b106.p.ssafy.io/openvidu/api/sessions/" + sessionId + "/connection";
+            String url = "https://i9b106.p.ssafy.io:9443/openvidu/api/sessions/" + sessionId + "/connection";
 
             String requestBody = "{\"type\": \"WEBRTC\", \"data\": \"" + email + "\", \"role\": \"PUBLISHER\"}";
 
