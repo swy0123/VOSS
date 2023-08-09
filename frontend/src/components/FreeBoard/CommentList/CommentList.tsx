@@ -1,7 +1,8 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { FreeBoardCommentCountState } from "/src/recoil/Community";
+import { CurrentUserAtom } from "/src/recoil/Auth";
 import { createComment, getComments, deleteComment, updateComment } from "/src/api/FreeBoard";
 import { CommentType } from "/src/type/FreeBoard";
 import ProfileImg from "/src/assets/Header/profile_tmp.png";
@@ -20,11 +21,13 @@ import {
 function CommentList() {
   const navigate = useNavigate()
   const id = parseInt(useParams().id || "");
+  const me = useRecoilValue(CurrentUserAtom).userid;
   const [comments, setComments] = useState<CommentType[]>([]);
   const [content, setContent] = useState<string>("");
   const [commentCount, setCommentCount] = useRecoilState<number>(FreeBoardCommentCountState);
   const [editId, setEditId] = useState<number>(0);
   const [editContent, setEditContent] = useState<string>("");
+  const goProfile = (memberId: number) => (navigate(`/profile/${memberId}`));
 
   const contentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = 'auto';
@@ -48,7 +51,7 @@ function CommentList() {
       return
     }
     createComment(id, content).then((res)=>{
-      if (res) {commentsGet()}
+      if (res) {commentsGet(); window.scrollTo(0, document.body.scrollHeight)}
     })
   };
   const commentUpdate = (commentId: number) => {
@@ -73,7 +76,8 @@ function CommentList() {
   return (
     <CommentListDesign>
 
-      <br/><div>총 <span style={{color: '#3290A7'}}>{commentCount}</span>개의 댓글이 있습니다.</div><br/>
+      <br/><br/>
+      <div>총 <span style={{color: '#3290A7'}}>{commentCount}</span>개의 댓글이 있습니다.</div><br/>
 
       <CommentInputDesign
         id="target-textarea"
@@ -88,20 +92,24 @@ function CommentList() {
         <CommentDesign key={comment.id}>
 
           <CommentInfoDesign>
-          <img style={{marginRight: '1vw', height: '60%'}} src={ProfileImg} alt="profileImg"/>
-          {`${comment.nickname} | `} 
-          {comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
+          <img onClick={()=>goProfile(comment.memberId || me)} style={{marginRight: '14px', height: '23px'}} src={ProfileImg} alt="profileImg"/>
+          <span onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
 
-          { comment.id === editId
-            ? <>
-              <CommentUpdateDesign onClick={()=>commentUpdate(comment.id || 0)}>완료</CommentUpdateDesign>
-              <CommentDeleteDesign onClick={()=>(setEditId(0), setEditContent(""))}>취소</CommentDeleteDesign>
-              </>
-            : <>
-              <CommentUpdateDesign onClick={()=>((setEditId(comment.id || 0)), setEditContent(comment.content || ""))}>수정</CommentUpdateDesign>
-              <CommentDeleteDesign onClick={()=>commentDelete(comment.id || 0)}>삭제</CommentDeleteDesign>
-              </>
-          }
+          { comment.memberId === me
+          ? <>
+            { comment.id === editId
+              ? <>
+                <CommentUpdateDesign onClick={()=>commentUpdate(comment.id || 0)}>완료</CommentUpdateDesign>
+                <CommentDeleteDesign onClick={()=>(setEditId(0), setEditContent(""))}>취소</CommentDeleteDesign>
+                </>
+              : <>
+                <CommentUpdateDesign onClick={()=>((setEditId(comment.id || 0)), setEditContent(comment.content || ""))}>수정</CommentUpdateDesign>
+                <CommentDeleteDesign onClick={()=>commentDelete(comment.id || 0)}>삭제</CommentDeleteDesign>
+                </>
+            }
+            </>
+          : null}
+
           </CommentInfoDesign>
 
           { comment.id === editId

@@ -13,23 +13,23 @@ import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import downloadImg from "/src/assets/Training/download.png";
 import {
-  UpdateScrollDesign,
-  UpdatePostDesign,
-  UpdateTitleUserDesign,
-  UpdateTitleDesign,
-  UpdateUserDesign,
-  UpdateInfoDateDesign,
-  UpdateInfoDesign,
-  UpdateDateDesign,
-  UpdateContentDesign,
-  UpdateFilesDesign,
-  UpdateFileDesign,
-  UpdateUploadDesign,
-  UpdateIndexDesign,
-  UpdateUpdateDeleteDesign,
-  UpdateUpdateDesign,
-  UpdateDeleteDesign,
-} from "./PostUpdate.style";
+  FreeScrollDesign,
+  FreeMainDesign,
+  FreeTitleUserDesign,
+  FreeTitleInputDesign,
+  FreeUserDesign,
+  FreeInfoDateDesign,
+  FreeInfoDesign,
+  FreeDateDesign,
+  FreeContentTextAreaDesign,
+  FreeFilesDesign,
+  FreeFileDesign,
+  FreepUdateDeleteDesign,
+  FreeUploadDesign,
+  FreeUpdateDesign,
+  FreeDeleteDesign,
+  FreedIexDesign
+} from "../FreeBoardDetail.style"
 
 
 function PostUpdate() {
@@ -91,34 +91,34 @@ function PostUpdate() {
   return (
     <BackGroundImg>
     <Header/>
-    <UpdateScrollDesign >
-    <UpdatePostDesign>
+    <FreeScrollDesign >
+    <FreeMainDesign>
       
       {/* <h2 style={{ height: "1vh" }}></h2><br/> */}
 
-      <UpdateTitleUserDesign>
-        <UpdateTitleDesign
+      <FreeTitleUserDesign>
+        <FreeTitleInputDesign
           placeholder="제목"
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}>
-        </UpdateTitleDesign>
-        <UpdateUserDesign>
+        </FreeTitleInputDesign>
+        <FreeUserDesign>
           {currentUser.nickname}
-        </UpdateUserDesign>
-      </UpdateTitleUserDesign>
+        </FreeUserDesign>
+      </FreeTitleUserDesign>
 
-      <UpdateInfoDateDesign>
-        <UpdateInfoDesign>
+      <FreeInfoDateDesign>
+        <FreeInfoDesign>
           <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHit} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
           <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentNum} 
           <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeImg" /><span style={{marginLeft: '0.5vw'}}/>{post.likes}
-        </UpdateInfoDesign>
-        <UpdateDateDesign>
+        </FreeInfoDesign>
+        <FreeDateDesign>
           {post.createdAt?.slice(0, 10)} {post.createdAt?.slice(11, 16)}
-        </UpdateDateDesign>
-      </UpdateInfoDateDesign>
+        </FreeDateDesign>
+      </FreeInfoDateDesign>
 
-      <UpdateContentDesign
+      <FreeContentTextAreaDesign
         className="textarea"
         placeholder="내용을 입력하세요"
         onChange={changeContent}
@@ -126,24 +126,26 @@ function PostUpdate() {
         autoFocus
       />
       
+      <br/><br/>
 
-      <UpdateFilesDesign>
+      <FreeFilesDesign>
+      첨부파일({files.length})
       {files.length
         ? files.map((file: any) => (
-          <UpdateFileDesign key={file.id}>
+          <FreeFileDesign key={file.id}>
             {file.originalFileName}
             <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
             <button style={{marginLeft: '1vw'}} onClick={() => removeFile(file.id)}>
               <VscClose size='10'/>
             </button>
-          </UpdateFileDesign>
+          </FreeFileDesign>
           ))
         : null
       }
-      </UpdateFilesDesign>
+      </FreeFilesDesign>
 
-      <UpdateUpdateDeleteDesign>
-      <UpdateUploadDesign>
+      <FreepUdateDeleteDesign>
+      <FreeUploadDesign>
         <label htmlFor="uploadFile">파일찾기</label>
         <input
           type='file'
@@ -153,22 +155,22 @@ function PostUpdate() {
           multiple={true}
           style={{ display: 'none' }}
         />
-      </UpdateUploadDesign>
+      </FreeUploadDesign>
 
 
-        <UpdateUpdateDesign onClick={UpdatePost}>수정완료</UpdateUpdateDesign>
-        <UpdateDeleteDesign onClick={DeletePost}>삭제</UpdateDeleteDesign>
-      </UpdateUpdateDeleteDesign>
+        <FreeUpdateDesign onClick={UpdatePost}>수정완료</FreeUpdateDesign>
+        <FreeDeleteDesign onClick={()=>navigate(-1)}>취소</FreeDeleteDesign>
+      </FreepUdateDeleteDesign>
 
       <br/>
 
-      <UpdateIndexDesign onClick={goFreeBoard}>목록으로</UpdateIndexDesign>
+      <FreedIexDesign onClick={goFreeBoard}>목록으로</FreedIexDesign>
 
 
       <br/><br/><br/>
 
-    </UpdatePostDesign>
-    </UpdateScrollDesign>
+    </FreeMainDesign>
+    </FreeScrollDesign>
     <Messenger/>
   </BackGroundImg>
   );
