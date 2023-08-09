@@ -8,10 +8,7 @@ import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreateCommentResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.DeleteCommentResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.UpdateCommentResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -83,5 +80,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         postComment.delete();
         postCommentRepository.save(postComment);
         return new DeleteCommentResponse(true);
+    }
+
+    @Override
+    public Page<MyCommentListResponse> getMyCommentList(Pageable pageable, String email) {
+        return postCommentRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
     }
 }
