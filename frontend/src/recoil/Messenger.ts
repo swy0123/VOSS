@@ -8,13 +8,11 @@ export const ShowMessengerState = atom({
   default: false
 });
 
-
 // 메시지룸 토글
 export const ShowMessageRoomState = atom({
   key: "ShowMessageRoomState",
   default: false
 });
-
 
 // 친구찾기 토글
 export const ShowFindFriendState = atom({
@@ -22,14 +20,12 @@ export const ShowFindFriendState = atom({
   default: false
 });
 
-
 // 채팅방 목록
 export const RoomsState = atom({
   key: "RoomsState",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
-
 
 // 현재 입장한 채팅방
 export const CurrentRoomState = atom({
@@ -42,5 +38,12 @@ export const CurrentRoomState = atom({
 export const MessagesState = atom({
   key: "MessagesState",
   default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+// 메신저 알림 여부
+export const MessengerAlarmState = atom({
+  key: "MessengerAlarmState",
+  default: false,
   effects_UNSTABLE: [persistAtom],
 });

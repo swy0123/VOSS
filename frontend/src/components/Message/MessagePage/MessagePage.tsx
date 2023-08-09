@@ -41,8 +41,7 @@ const MessagePage = () => {
         setRooms(dataRooms)
       }
     })
-  }, [rooms.length]);
-  // [isOpenMessenger, isOpenModal]
+  }, [rooms.length, isOpenRoom]);
   
   return (
     <MessegePageDiv>
