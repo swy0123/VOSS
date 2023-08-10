@@ -5,8 +5,6 @@ import { privateApi } from "./";
 export interface GetMeetProps {
   title: string;
   category: string;
-  page: string;
-  limit: string;
 }
 
 export const getMeet = async (getMeetProps: GetMeetProps) => {
@@ -16,11 +14,7 @@ export const getMeet = async (getMeetProps: GetMeetProps) => {
     "/meet?title=" +
     getMeetProps.title +
     "&category=" +
-    getMeetProps.category +
-    "&page=" +
-    getMeetProps.page +
-    "&limit=" +
-    getMeetProps.limit;
+    getMeetProps.category;
   console.log(URL);
   let config = {
     method: "get",
