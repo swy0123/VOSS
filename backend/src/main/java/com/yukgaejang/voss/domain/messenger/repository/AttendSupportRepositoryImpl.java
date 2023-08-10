@@ -52,7 +52,7 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
                 .set(attend.receiveMessageTime, LocalDateTime.now())
                 .where(
                         attend.chat.id.eq(chatId),
-                        attend.member.id.ne(memberId)
+                        attend.member.id.eq(memberId)
                 )
                 .execute();
         em.flush();
