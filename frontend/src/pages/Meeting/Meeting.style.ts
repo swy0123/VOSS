@@ -50,5 +50,5 @@ export const CloseSectionBtn = styled.img`
   margin: 0 auto;
   width: 30px;
   height: 30px;
-`
+`;
 
