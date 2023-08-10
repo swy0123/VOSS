@@ -41,3 +41,11 @@ export interface UserType {
   nickname?: string;
   email?: string;
 }
+
+
+// 뱃지들
+export interface BadgeType {
+  cnt? : number,
+  id?: number,
+  name?: string,
+}
