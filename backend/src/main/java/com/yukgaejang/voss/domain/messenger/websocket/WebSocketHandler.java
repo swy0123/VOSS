@@ -6,7 +6,6 @@ import com.yukgaejang.voss.domain.messenger.repository.entity.DirectChat;
 import com.yukgaejang.voss.domain.messenger.repository.mongo.DirectChatRepository;
 import com.yukgaejang.voss.domain.messenger.service.MessengerService;
 import com.yukgaejang.voss.domain.messenger.service.dto.ChatMessageDto;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,7 +23,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final MessengerService messengerService;
     private final DirectChatRepository directChatRepository;
     private final AttendRepository attendRepository;
-    private final EntityManager em;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -44,8 +42,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     chatMessageDto.getMemberId(), chatMessageDto.getContent(), LocalDateTime.now());
             directChatRepository.save(directChat);
             attendRepository.updateLastMessageTime(chatMessageDto.getChatId(), chatMessageDto.getMemberId());
-            em.flush();
-            em.clear();
         }
     }
 }

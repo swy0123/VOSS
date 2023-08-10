@@ -3,6 +3,7 @@ package com.yukgaejang.voss.domain.messenger.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,10 @@ import static com.yukgaejang.voss.domain.messenger.repository.entity.QAttend.*;
 @Transactional
 public class AttendSupportRepositoryImpl implements AttendSupportRepository{
     private final JPAQueryFactory queryFactory;
-
-    public AttendSupportRepositoryImpl(JPAQueryFactory queryFactory) {
+    private final EntityManager em;
+    public AttendSupportRepositoryImpl(JPAQueryFactory queryFactory, EntityManager em) {
         this.queryFactory = queryFactory;
+        this.em = em;
     }
 
     @Override
@@ -53,6 +55,8 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
                         attend.member.id.ne(memberId)
                 )
                 .execute();
+        em.flush();
+        em.clear();
     }
 
     @Override
@@ -62,9 +66,11 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
                 .set(attend.leaveTime, LocalDateTime.now())
                 .where(
                         attend.chat.id.eq(chatId),
-                        attend.member.id.eq(memberId)
+                        attend.member.id.ne(memberId)
                 )
                 .execute();
+        em.flush();
+        em.clear();
     }
 
     @Override
