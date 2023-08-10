@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { getMessageRooms, getMessages } from "/src/api/messenger";
 import { RoomType,CurrentRoomType, MessageType } from "/src/type/Auth";
-import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
+import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState, MessengerAlarmState } from "/src/recoil/Messenger";
 import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageAdd, } from "./MessagePage.style"
 
 
@@ -22,6 +22,7 @@ const MessagePage = () => {
   const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
   const [addBtnHover, setAddBtnHover] = useState(false);
   const [exitBtnHover, setExitBtnHover] = useState(false);
+  const [isAlarm, setIsAlarm] = useRecoilState(MessengerAlarmState); 
 
   const goToRoom = (room: RoomType) => {
     getMessages(room.chatId, 0, 20).then((dataMessages) => {
@@ -36,6 +37,8 @@ const MessagePage = () => {
   };
 
   useEffect(() => {
+    setIsAlarm(false);
+
     getMessageRooms().then((dataRooms) => {
       if (dataRooms) {
         setRooms(dataRooms)
