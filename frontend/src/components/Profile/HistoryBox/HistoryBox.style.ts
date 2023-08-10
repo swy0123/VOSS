@@ -2,12 +2,12 @@ import { styled } from "styled-components";
 
 
 export const HistoryBoxDesign = styled.div`
-  /* border: solid 1px red; */
-  width: 25vw;
+  width: 30vw;
   height: 100%;
   color: white;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10%;
+  border-radius: 30px;
+  /* border: solid 1px red; */
 `;
 
 export const HistoryTitleDesign = styled.div`
