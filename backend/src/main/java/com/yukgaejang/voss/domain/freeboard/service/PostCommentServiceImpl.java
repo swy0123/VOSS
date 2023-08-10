@@ -11,6 +11,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
+import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostCommentServiceImpl implements PostCommentService {
 
+    private final NotificationService notificationService;
     private final PostCommentRepository postCommentRepository;
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
@@ -34,12 +36,15 @@ public class PostCommentServiceImpl implements PostCommentService {
         if(post == null) {
             throw new NoPostException("존재하지 않는 글입니다.");
         }
-        PostComment postComment = PostComment.builder()
-                .member(memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다.")))
-                .post(post)
-                .content(createCommentRequest.getContent())
-                .build();
+//        PostComment postComment = PostComment.builder()
+//                .member(memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다.")))
+//                .post(post)
+//                .content(createCommentRequest.getContent())
+//                .build();
+        PostComment postComment = new PostComment(createCommentRequest.getContent(), post, memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다.")));
+
         postCommentRepository.save(postComment);
+        notificationService.notifyPostComment(postComment);
         return new CreateCommentResponse(true);
     }
 

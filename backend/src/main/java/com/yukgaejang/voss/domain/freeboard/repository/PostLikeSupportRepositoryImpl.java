@@ -2,6 +2,9 @@ package com.yukgaejang.voss.domain.freeboard.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.QPostLike;
+import com.yukgaejang.voss.domain.member.repository.entity.QMember;
+
+import static com.yukgaejang.voss.domain.member.repository.entity.QMember.member;
 
 public class PostLikeSupportRepositoryImpl implements PostLikeSupportRepository {
     static QPostLike pl = QPostLike.postLike;
@@ -17,6 +20,7 @@ public class PostLikeSupportRepositoryImpl implements PostLikeSupportRepository 
         return jpaQueryFactory
                 .selectOne()
                 .from(pl)
+                .join(pl.member, member)
                 .where(pl.post.id.eq(postId)
                         .and(pl.member.email.eq(email)))
                 .fetchOne() != null;

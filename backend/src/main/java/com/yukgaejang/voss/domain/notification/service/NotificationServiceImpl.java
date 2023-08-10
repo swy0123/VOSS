@@ -6,6 +6,7 @@ import com.yukgaejang.voss.domain.member.repository.entity.Follow;
 import com.yukgaejang.voss.domain.notification.repository.NotificationRepository;
 import com.yukgaejang.voss.domain.notification.repository.entity.Notification;
 import com.yukgaejang.voss.domain.notification.repository.entity.NotificationType;
+import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,11 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void notifyPostLike(PostLike postLike) {
-        notificationRepository.save(new Notification(postLike.getMember().getId(), postLike.getPost().getMember().getId(), postLike.getId(), NotificationType.LIKE));
+        notificationRepository.save(new Notification(postLike.getMember().getId(), postLike.getPost().getMember().getId(), postLike.getPost().getId(), NotificationType.POST_LIKE));
+    }
+
+    @Override
+    public void notifyRecordLike(RecordLike recordLike) {
+        notificationRepository.save(new Notification(recordLike.getMember().getId(), recordLike.getRecord().getMember().getId(), recordLike.getRecord().getId(), NotificationType.RECORD_LIKE));
     }
 }

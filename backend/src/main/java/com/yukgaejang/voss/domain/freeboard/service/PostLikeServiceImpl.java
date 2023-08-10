@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.freeboard.service;
 
+import com.yukgaejang.voss.domain.freeboard.exception.DupliacteLikeException;
 import com.yukgaejang.voss.domain.freeboard.exception.NoPostException;
 import com.yukgaejang.voss.domain.freeboard.repository.PostLikeRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
@@ -9,6 +10,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.response.CreatePostLikeR
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostLikeServiceImpl implements PostLikeService {
 
+    private final NotificationService notificationService;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final MemberRepository memberRepository;
@@ -28,13 +31,11 @@ public class PostLikeServiceImpl implements PostLikeService {
             throw new NoPostException("존재하지 않는 글입니다.");
         }
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        if(!postLikeRepository.existsByPostIdAndEmail(postId, email)) {
-            PostLike postLike = PostLike.builder()
-                    .post(post)
-                    .member(member)
-                    .build();
-            postLikeRepository.save(postLike);
+        if(postLikeRepository.existsByPostIdAndEmail(postId, email)) {
+            throw new DupliacteLikeException("이미 좋아요를 누른 글입니다.");
         }
+        PostLike postLike = new PostLike(post, member);
+        notificationService.notifyPostLike(postLike);
         return new CreatePostLikeResponse(true);
     }
 }
