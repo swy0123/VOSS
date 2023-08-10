@@ -12,7 +12,7 @@ export const Title = styled.h2`
   text-align: left;
   margin-bottom: 30px;
 `
-export const Box = styled.div`
+export const VideoBox = styled.div`
   height: 255px;
 `
 export const Display = styled.div`

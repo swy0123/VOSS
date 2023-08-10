@@ -9,16 +9,16 @@ export const Container = styled.div`
 export const Title = styled.h2`
   color: white;
   text-align: center;
+  margin-bottom: 19px;
 `
 export const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin-top: 8px;
-  padding-bottom: 8px;
-  height: 200px;
+  padding: 6px 0px 6px 0px;
+  height: 210px;
 `
 export const RecordItem = styled.div`
   display: flex;
@@ -34,8 +34,6 @@ export const RecordSelect = styled.input`
 `
 
 export const RecordLable = styled.label`
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
   font-weight: 100;
   line-height: 30px;
   color: white;

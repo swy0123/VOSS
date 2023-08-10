@@ -57,6 +57,12 @@ export const meetDubUserState = atom<number>({
   default: 0
 })
 
+// 동영상 현재시간
+export const timeState = atom<number>({
+  key: "timeState",
+  default: 0
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",

@@ -5,7 +5,6 @@ export const RecordBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px dashed #efefef;
   margin-top: 42px;
   height: 150px;
   width: 350px;

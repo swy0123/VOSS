@@ -64,9 +64,9 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       onMouseEnter={() => setMenuIsShown(true)}
       onMouseLeave={() => setMenuIsShown(false)}>
       <Menuitems>
-        <Item onClick={void goVoiceAnalysis}>목소리 분석</Item>  
-        <Item onClick={void goDubbingList}>더빙 연습</Item>  
-        <Item onClick={void goAccent}>발음 연습</Item>  
+        <Item onClick={goVoiceAnalysis}>목소리 분석</Item>  
+        <Item onClick={goDubbingList}>더빙 연습</Item>  
+        <Item onClick={goAccent}>발음 연습</Item>  
       </Menuitems>
 
       <Menuitems>
