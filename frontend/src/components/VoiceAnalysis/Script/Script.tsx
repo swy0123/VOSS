@@ -5,18 +5,21 @@ import {
   AgeButton,
   Container, 
   DelButton, 
+  DelButtonActive, 
   GenderBox, 
   GenderButton, 
   OptionCreate, 
   OptionSelect, 
   Options, 
   PlayButton, 
+  PlayButtonActive, 
   ScriptBox, 
   ScriptButtons, 
   ScriptInput, 
   Title } from "./Script.style";
 
 function Script() {
+  const [isHovered, setIsHovered] = useState(false);
   const [inputScripts, setInputSctipts] = useState("")
   const genderOpt = ["남성", "여성"]
   const ageOpt = ["어린이", "청소년","청년","중년","장년"]
@@ -28,7 +31,10 @@ function Script() {
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
   }
-  const DelScripts = () => {setInputSctipts("")}
+  const DelScripts = () => {
+    setInputSctipts("")
+    setIsHovered(false);
+  }
 
   const handleGenderBtn = (index:number) => {
     setIsGenderSelect(isGenderSelect.map((_,G_idx)=>(G_idx === index)))
@@ -41,6 +47,14 @@ function Script() {
     const AgeSelected = ageOpt.filter((_,index)=>(isAgeSelect[index]===true))
     setAgeSelected(AgeSelected)
   }
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
 
   const axiosMakeScript = async (genderSelected:string, ageSelected:string) => {
@@ -94,13 +108,25 @@ function Script() {
           onChange={ChagneScripts} 
           placeholder="대사를 입력해주세요.">
         </ScriptInput>
-        <ScriptButtons>
-          <DelButton 
-            src="/src/assets/Training/delete.png"
-            onClick={DelScripts}>
-          </DelButton>
-          <PlayButton src="/src/assets/Training/play.png"></PlayButton>
-        </ScriptButtons>
+        {inputScripts ? (
+          <ScriptButtons>
+            <DelButtonActive
+              src={isHovered ? "/src/assets/Training/trashcan(del).png" :
+              "/src/assets/Training/trashcan(active).png" } 
+              onClick={DelScripts}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleMouseLeave}></DelButtonActive>
+            <PlayButtonActive 
+              src="/src/assets/Training/play(active).png"></PlayButtonActive>
+          </ScriptButtons>
+        ) : (
+          <ScriptButtons>
+            <DelButton 
+              src="/src/assets/Training/trashcan.png"></DelButton>
+            <PlayButton 
+              src="/src/assets/Training/play.png"></PlayButton>
+          </ScriptButtons>
+        )}
       </ScriptBox>
     </Container>
   )

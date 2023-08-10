@@ -10,9 +10,12 @@ export const RecordBox = styled.div`
   width: 350px;
 `
 export const StopWatch = styled.div`
+  display: flex;
+  justify-content: space-between;
   color: white;
   margin-top: 20px;
   height: 20px;
+  width: 115px;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
   background-color: rgba(58, 58, 58, 0.7);
