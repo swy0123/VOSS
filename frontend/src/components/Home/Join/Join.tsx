@@ -40,7 +40,7 @@ const Login = () => {
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [config, setConfig] = useState({ glassesStyle: "none", hatStyle: "none" });
+  const [config, setConfig] = useState({});
 
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
@@ -60,7 +60,7 @@ const Login = () => {
     setIsImageModalOpen(false);
   };
 
-  const handleImageConfig = (updatedConfig: any) => {
+  const handleImageConfig = (updatedConfig: string) => {
     setConfig(updatedConfig);
     closeModal();
   };
@@ -98,11 +98,6 @@ const Login = () => {
     if (showPswd) setShowPswd(false);
     else setShowPswd(true);
   };
-
-  // const CheckEmailForm = () => {
-  //   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
-  //   if (!regex.test(password)) 
-  // };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -241,7 +236,7 @@ const Login = () => {
       )}
 
       {isImageModalOpen && (
-        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig} />
+        <ImageModifyModal handleConfigUpdate={handleImageConfig} />
       )}
     </Container>
   );
