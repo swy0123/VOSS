@@ -40,7 +40,7 @@ const Login = () => {
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [config, setConfig] = useState({});
+  const [config, setConfig] = useState({sex: "man", faceColor: "#ffe6c8", earSize: "big", hairColor:"#54216f", hairStyle: "normal", hatColor: "#ff1919", hatStyle: "none", eyeStyle: "circle", glassesStyle: "none", noseStyle: "short", mouthStyle: "peace", shirtStyle: "shrot", shirtColor: "#2a2348", bgColor: "#a3defb" });
 
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
