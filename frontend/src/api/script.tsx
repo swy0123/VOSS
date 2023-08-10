@@ -10,7 +10,7 @@ export const makeAnalysisScript: AsyncFunction = async(genderSelected,ageSelecte
     const response: AxiosResponse<string> = await privateApi.get<string>(
       `/practice/diction/script?cmd=${ageSelected} ${genderSelected} 성우지망생이 연습할 더빙 대사 60자 이내로 작성해줘`
     )
-    return response.data
+    return { script: response.data };
   }
   catch (error){
     console.log(error)
