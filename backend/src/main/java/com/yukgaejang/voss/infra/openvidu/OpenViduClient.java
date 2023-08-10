@@ -4,7 +4,6 @@ package com.yukgaejang.voss.infra.openvidu;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yukgaejang.voss.domain.meet.service.dto.GetSessionAndConnection;
 import com.yukgaejang.voss.infra.openvidu.exception.NoSessionExcepion;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduException;
@@ -25,10 +24,10 @@ import java.util.*;
 @Component
 public class OpenViduClient {
 
-    private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io:9443";
+    @Value("${OPENVIDU_URL}")
+    private String OPENVIDU_URL;
     @Value("${OPENVIDU_SECRET}")
     private String SECRET;
-    private final OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
     private final HttpHeaders headers = new HttpHeaders();
 
     @PostConstruct
@@ -39,6 +38,7 @@ public class OpenViduClient {
 
 
     public String createSession() {
+        OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
         String sessionId = UUID.randomUUID().toString();
         SessionProperties properties = new SessionProperties.Builder()
                 .customSessionId(sessionId)
