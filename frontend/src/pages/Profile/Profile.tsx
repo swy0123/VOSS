@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { getProfile } from "/src/api/profile";
 import { ProfileState, ModalOpenState } from "/src/recoil/Auth";
 import {
+  ProfileScrollDesign,
   ProfileDesign,
   ProfileSpace1,
   ProfileSpace2,
@@ -31,6 +32,7 @@ function Profile() {
   return (
     <BackGroundImg>
     <Header/>
+    <ProfileScrollDesign>
     <ProfileDesign>
 
     <ProfileSpace1>
@@ -44,8 +46,8 @@ function Profile() {
     <HistoryBox/>
     </ProfileSpace2>
     
-
     </ProfileDesign>
+    </ProfileScrollDesign>
     <Messenger/>
     </BackGroundImg>
   );
