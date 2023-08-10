@@ -8,6 +8,31 @@ interface JoinProps {
 }
 // http://i9b106.p.ssafy.io:8080/
 // http://wonyoung210.p-e.kr:8080/member
+const BASE_URL = "https://localhost:8080";
+
+export const uploadFile = async (formData: FormData) => {
+    
+    let config = {
+        method: 'post',
+        url: `${BASE_URL}/member/upload`,
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+        data: formData,
+    }
+
+    const res = await axios.request(config)
+    .catch ((err: any) => {
+        console.log("uploadFile catch: ", err);
+        return false
+    });
+    if (res) {
+        console.log("uploadFile then: ", res.data)
+        return res.data
+    }
+    return false
+}
+
 export const postJoin = async (user:JoinProps) => {
     console.log(user + JSON.stringify(user));
     console.log("join");

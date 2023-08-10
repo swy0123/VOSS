@@ -5,7 +5,9 @@ import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
 import Checked from "../../../assets/main/Checked.png";
 import Email from "../../../assets/main/Email.png";
-import { authEmail, postJoin, postTest } from "../../../api/join";
+import domtoimage from "dom-to-image";
+import { saveAs } from 'file-saver';
+import { authEmail, postJoin, postTest, uploadFile } from "../../../api/join";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
 import EmailModal from "./EmailModal";
@@ -54,13 +56,13 @@ const Login = () => {
 
   const handleModifyClick = () => {
     setIsImageModalOpen(true);
-  };
+  }
 
   const closeModal = () => {
     setIsImageModalOpen(false);
   };
 
-  const handleImageConfig = (updatedConfig: string) => {
+  const handleImageConfig = (updatedConfig: any) => {
     setConfig(updatedConfig);
     closeModal();
   };
@@ -99,7 +101,27 @@ const Login = () => {
     else setShowPswd(true);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  async function getBlob(): Promise<Blob> {
+    const scale = 2;
+    const node = document.getElementById("myAvatar");
+    if (node) {
+      const blob = await domtoimage.toBlob(node, {
+        height: node.offsetHeight * scale,
+        style: {
+          transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale}px)`,
+          "border-radius": 0
+        },
+        width: node.offsetWidth * scale
+      });
+
+      return blob;
+
+      // saveAs(blob, "avatar.png");
+    }
+    return new Blob;
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // nickName 이 비어있으면 알람
@@ -110,24 +132,35 @@ const Login = () => {
     } else if (!isPwdChecked) {
       alert("비밀번호를 확인해주세요");
     } else {
-      const JoinProps = {
-        email: email,
-        password: password,
-        nickname: nickName,
-      };
 
-      const joininfo = postJoin(JoinProps);
-      joininfo.then((res) => {
-        // 회원가입 성공
-        if (res.isJoinSuccess) {
-          setLoginMode(true);
-          alert(`${JoinProps.nickname}님, 회원 가입을 축하합니다!`);
-        }
-        // 회원가입 실패
-        else {
-          alert("회원가입 정보가 잘못되었습니다");
-        }
-      });
+      const blobPromise = getBlob();
+      const blob = await blobPromise;
+
+      const formData = new FormData();
+      formData.append('file', blob, 'image.jpg');
+
+      const profileImage = uploadFile(formData);
+      profileImage.then((res) => {
+        const JoinProps = {
+          email: email,
+          password: password,
+          nickname: nickName,
+          imageUrl: res[0].savedFileName
+        };
+  
+        const joininfo = postJoin(JoinProps);
+        joininfo.then((res) => {
+          // 회원가입 성공
+          if (res.isJoinSuccess) {
+            setLoginMode(true);
+            alert(`${JoinProps.nickname}님, 회원 가입을 축하합니다!`);
+          }
+          // 회원가입 실패
+          else {
+            alert("회원가입 정보가 잘못되었습니다");
+          }
+        });
+      })
     }
   };
 
