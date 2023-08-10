@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 export const FreeScrollDesign = styled.div`
-  margin-top: -15px;
+  margin-top: -2px;
   width: 100vw;
   height: 90vh;
   overflow-y: auto;

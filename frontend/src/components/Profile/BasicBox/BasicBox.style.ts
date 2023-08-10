@@ -4,7 +4,7 @@ import UpdateIconHover from "/src/assets/Profile/UpdateIconHover.png";
 export const BasicBoxDesign = styled.div`
   /* border: dotted 1px red; */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 30vw;
   height: 100%;
   color: white;
@@ -49,6 +49,7 @@ export const ProfileImgDesign2 = styled.div`
 
 export const ProfileInfoDesign = styled.div`
   /* border: solid 3px green; */
+  margin-left: 1vw;
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -143,6 +144,7 @@ export const ProfileFollowerDesign = styled.div`
   align-items: center;
   width: 7vw;
   height: 80%;
+  font-size: 10px;
   p {
     margin: 0vw;
   }
@@ -160,6 +162,7 @@ export const ProfileFollowingDesign = styled.div`
   align-items: center;
   width: 7vw;
   height: 80%;
+  font-size: 10px;
   p {
     margin: 0vw;
   }

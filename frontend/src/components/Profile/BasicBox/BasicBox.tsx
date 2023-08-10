@@ -21,6 +21,7 @@ import {
     ProfileFollowingSpaceDesign,
 } from "./BasicBox.style";
 
+const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com"
 
 function BasicBox() {
   const id = parseInt(useParams().id || "");
@@ -55,7 +56,7 @@ function BasicBox() {
         onMouseEnter={()=>setImgUpdate(true)}
         onMouseLeave={()=>setImgUpdate(false)}>
           {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
-          <img src={zammanbo} alt="zammanbo"/>
+          <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} alt="zammanbo"/>
         </ProfileImgDesign2>
       </ProfileImgDesign>
       
