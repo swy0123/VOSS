@@ -68,7 +68,7 @@ function DoughnutChart() {
   return (
     <div>
       <Doughnut style={{width: '13vw', height: '13vw', zIndex: "2"}} data={data} options={options}/>
-      <Count><p>{profile.totalCnt} 회</p></Count>
+      <Count style={{width: '13vw'}}><p>{profile.totalCnt} 회</p></Count>
     </div>
   );
 };
