@@ -7,6 +7,8 @@ import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
 import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
 import com.yukgaejang.voss.domain.member.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
+import com.yukgaejang.voss.global.file.service.AwsS3Service;
+import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,8 +26,15 @@ import java.util.List;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-    private final JwtService jwtService;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final AwsS3Service awsS3Service;
+    private static String dirName = "profile-file";
+
+    @PostMapping("/upload")
+    public ResponseEntity<List<CreateFileRequest>> uploadMultipleFile(@RequestPart MultipartFile file) {
+        List<MultipartFile> files = new ArrayList<>();
+        files.add(file);
+        return ResponseEntity.ok(awsS3Service.uploadMultiFile(files, dirName));
+    }
 
     @PostMapping
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest joinRequest) {
