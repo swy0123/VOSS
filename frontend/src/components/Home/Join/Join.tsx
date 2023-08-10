@@ -1,13 +1,9 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import Avatar, { genConfig } from "react-nice-avatar";
-import { Link } from "react-router-dom";
-import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
 import Checked from "../../../assets/main/Checked.png";
-import Email from "../../../assets/main/Email.png";
 import domtoimage from "dom-to-image";
-import { saveAs } from 'file-saver';
-import { authEmail, postJoin, postTest, uploadFile } from "../../../api/join";
+import { authEmail, postJoin, uploadFile } from "../../../api/join";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
 import EmailModal from "./EmailModal";
@@ -200,7 +196,7 @@ const Login = () => {
 
       <form onSubmit={handleSubmit}>
         <InputDiv>
-          <InputHeader>이메일</InputHeader>
+          <InputHeader>Email</InputHeader>
           <Input type="email" onChange={handleEmailField} placeholder="이메일 인증을 해주세요" />
           <ShowIcon>
             {isEmailChecked ? (
@@ -213,7 +209,7 @@ const Login = () => {
           </ShowIcon>
         </InputDiv>
         <InputDiv>
-          <InputHeader>비밀번호</InputHeader>
+          <InputHeader>Password</InputHeader>
           <Input
             type={showPswd ? "text" : "password"}
             onChange={handlePasswordField}
@@ -224,7 +220,7 @@ const Login = () => {
           </ShowIcon>
         </InputDiv>
         <InputDiv>
-          <InputHeader>비밀번호 확인</InputHeader>
+          <InputHeader>Password check</InputHeader>
           <Input
             type="password"
             onChange={handleRepasswordField}
@@ -238,7 +234,7 @@ const Login = () => {
           )} */}
         </InputDiv>
         <InputDiv>
-          <InputHeader>닉네임</InputHeader>
+          <InputHeader>Nickname</InputHeader>
           <Input
             type="text"
             onChange={handleUsernameField}
@@ -255,9 +251,8 @@ const Login = () => {
       </form>
 
       <UnderText>
-        <P onClick={() => setLoginMode(true)} style={{ textDecoration: "none" }}>
-          이미 회원이신가요? 로그인 하기
-        </P>
+        <div className="first-text">아직 회원이 아니신가요?</div>
+        <div className="second-text" onClick={() => setLoginMode(true)}>회원가입</div>
       </UnderText>
 
       {isOpenModal && (

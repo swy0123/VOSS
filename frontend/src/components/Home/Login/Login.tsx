@@ -149,9 +149,8 @@ const Login = () => {
       </OAuthDiv>
 
       <UnderText>
-        <P onClick={() => setLoginMode(false)} style={{ textDecoration: "none" }}>
-          처음 오셨나요? 회원가입
-        </P>
+        <div className="first-text">이미 회원이신가요?</div>
+        <div className="second-text" onClick={() => setLoginMode(false)}> 로그인 하기</div>
       </UnderText>
     </Container>
   );

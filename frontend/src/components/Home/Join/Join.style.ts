@@ -48,14 +48,31 @@ export const ModifyButton = styled.div`
   border: none;
   border-radius: 5px;
   font-size: 12px;
-  zindex: 1;
 `;
 
 export const UnderText = styled.div`
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 12%;
+font-size: 14px;
+/* position: relative;
+top: 0; */
+
+.first-text {
+  margin-right: 8px;
+  text-decoration: none;
+  cursor: default;
+}
+
+.second-text {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: #7a8091;
+  }
+}
 `;
 
 export const InputDiv = styled.div`
