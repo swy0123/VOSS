@@ -14,7 +14,6 @@ const Count = styled.div`
   transform: translate(-50%, -50%);
   width: 6.5vw;
   height: 6.5vw;
-  z-index: 1;
   color: rgba(293, 293, 293, 0.8) ;
 
   p{
@@ -67,8 +66,8 @@ function DoughnutChart() {
 
   return (
     <div>
-      <Doughnut style={{width: '13vw', height: '13vw', zIndex: "2"}} data={data} options={options}/>
-      <Count style={{width: '13vw'}}><p>{profile.totalCnt} 회</p></Count>
+      <Doughnut style={{width: '16vw', height: '16vw'}} data={data} options={options}/>
+      <Count style={{width: '16vw'}}><p>{profile.totalCnt} 회</p></Count>
     </div>
   );
 };
