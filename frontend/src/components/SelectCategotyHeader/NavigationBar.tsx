@@ -85,7 +85,6 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
       </IconList>
 
     </Navbar>
-    <EmptySpace/>
     </>
   )
 }

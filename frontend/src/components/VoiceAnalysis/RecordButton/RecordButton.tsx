@@ -118,7 +118,7 @@ function RecordButton () {
                   setPracticeEnd(false)}}
                 src="/src/assets/Training/stopbtn.png">
               </RecordBtn>
-              <Waves/>
+              {/* <Waves/> */}
             </NowRecording>) :
             (<RecordBtn
               onClick={() => {

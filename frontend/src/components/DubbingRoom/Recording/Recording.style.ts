@@ -17,7 +17,8 @@ export const RecordBox = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   margin-top: 8px;
-  height: 185px;
+  padding-bottom: 8px;
+  height: 200px;
 `
 export const RecordItem = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ export const RecordItem = styled.div`
   align-items: center;
   height: 30px;
   width: 370px;
-  margin : 2px 0px 2px 9px;
+  margin : 8px 0px 2px 9px;
 `
 export const RecordSelect = styled.input` 
   width: 18px;
@@ -45,7 +46,7 @@ export const DownloadImg = styled.img`
 `
 export const Warning = styled.div`
   color: #BABABA;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 8px;
   text-align: end;
 `
