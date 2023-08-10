@@ -48,12 +48,14 @@ export const OptionButton = styled.button`
   background-color: transparent;
   border: 1px solid #6C6C6C;
   border-radius: 14px;
-  color:#6C6C6C;
+  color:white;
   font-size: 13px;
   line-height: 30px;
   height: 30px;
   padding: 0px 7px 0px 7px;
   margin-left: 6px;
+  font-weight: 800;
+  cursor: pointer;
   
   &:hover{
     transform: scale(1.1);
@@ -61,8 +63,9 @@ export const OptionButton = styled.button`
   }
 `
 export const CategoryButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
-  border: solid ${props => props.$IsClick ? "2px white" : "1px $6C6C6C"};
+  color: ${props => props.$IsClick ? "#222222" : "white"};
+  border: solid ${props => props.$IsClick ? "1px black" : "1px white"};
+  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
 `
 export const ScriptBox = styled.div`
   display: flex;
