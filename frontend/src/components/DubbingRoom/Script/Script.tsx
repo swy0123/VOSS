@@ -39,14 +39,18 @@ function Script ({lines}: VideoProps) {
       clearInterval(intervalRef.current)
     }
   }
-
-  useEffect(() => {
+  
+  const scriptScrollAction = () => {
     const ScrollStartValue = document.getElementById(`ScriptBox`)?.getBoundingClientRect().y
     const ScriptPosition = document.getElementById(`${String(time)}`)?.getBoundingClientRect().y
     console.log(time,ScriptPosition)
     if (ScriptPosition) {
       ScrollRef.current.scrollTop += ScriptPosition-ScrollStartValue-12;
     }
+  }
+
+  useEffect(() => {
+    scriptScrollAction()
   }, [time]);
 
   useEffect(()=> {
@@ -55,6 +59,7 @@ function Script ({lines}: VideoProps) {
 
   return(
     <Container>
+      <div style={{color:'white'}}>{time}</div>
       <ScriptBox
         id="ScriptBox"
         ref={ScrollRef}>

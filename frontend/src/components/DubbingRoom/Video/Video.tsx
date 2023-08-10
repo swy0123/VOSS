@@ -24,7 +24,7 @@ function Video ({script, roles, lines}: ScriptData) {
   const handleRoleBtn = (index: number) => {
     const newRoleSelect = Array(roles.length).fill(false)
     newRoleSelect[index] = !isRoleSelect[index]
-    setIsRoleSelect(() => newRoleSelect)
+    setIsRoleSelect(newRoleSelect)
     roleSelectRef.current = newRoleSelect
 
     if (newRoleSelect[index] === true){
@@ -32,18 +32,24 @@ function Video ({script, roles, lines}: ScriptData) {
       setIsScriptSelect(() => newScriptSelect)
       scriptSelectRef.current = newScriptSelect
       }
+
+    else if (newRoleSelect[index] === false){
+      const newScriptSelect = Array(roles.length).fill(false)
+      setIsScriptSelect(newScriptSelect)
+      scriptSelectRef.current = newScriptSelect
+      }
   }
 
-  // 동영상 출력
+  // 동영상 출력ㄴ
   const onYouTubeIframeAPIReady = () => {
     const player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
       events: {
         'onStateChange' : onPlayStateChange,
       },
-      playerVars:{
-        'controls' : 0,
-      },
+      // playerVars:{
+      //   'controls' : 0,
+      // },
     });
   }
 

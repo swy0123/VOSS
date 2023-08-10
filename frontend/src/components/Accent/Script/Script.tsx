@@ -28,7 +28,7 @@ function Script() {
   const DelScripts = () => {setAccentScript("")}
 
   const handleCategoryBtn = (index:number) => {
-    setIsCategorySelect(isCategorySelect.map((_,C_idx)=>(C_idx === index)))
+    setIsCategorySelect(isCategorySelect.map((_,C_idx) => (C_idx === index)))
     const CategorySelected = categoryOpt.filter((_,index)=>(isCategorySelect[index]===true))
     setCategorySelected(CategorySelected)
   }
