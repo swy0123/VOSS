@@ -5,7 +5,9 @@ import { styled } from "styled-components";
 import Eye from "../../../assets/main/eye.png";
 import Checked from "../../../assets/main/Checked.png";
 import Email from "../../../assets/main/Email.png";
-import { authEmail, postJoin, postTest } from "../../../api/join";
+import domtoimage from "dom-to-image";
+import { saveAs } from 'file-saver';
+import { authEmail, postJoin, postTest, uploadFile } from "../../../api/join";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
 import EmailModal from "./EmailModal";
@@ -40,7 +42,7 @@ const Login = () => {
   const [isEmailChecked, setEmailChecked] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [config, setConfig] = useState({ glassesStyle: "none", hatStyle: "none" });
+  const [config, setConfig] = useState({sex: "man", faceColor: "#ffe6c8", earSize: "big", hairColor:"#54216f", hairStyle: "normal", hatColor: "#ff1919", hatStyle: "none", eyeStyle: "circle", glassesStyle: "none", noseStyle: "short", mouthStyle: "peace", shirtStyle: "shrot", shirtColor: "#2a2348", bgColor: "#a3defb" });
 
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
@@ -54,7 +56,7 @@ const Login = () => {
 
   const handleModifyClick = () => {
     setIsImageModalOpen(true);
-  };
+  }
 
   const closeModal = () => {
     setIsImageModalOpen(false);
@@ -99,12 +101,27 @@ const Login = () => {
     else setShowPswd(true);
   };
 
-  // const CheckEmailForm = () => {
-  //   let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
-  //   if (!regex.test(password)) 
-  // };
+  async function getBlob(): Promise<Blob> {
+    const scale = 2;
+    const node = document.getElementById("myAvatar");
+    if (node) {
+      const blob = await domtoimage.toBlob(node, {
+        height: node.offsetHeight * scale,
+        style: {
+          transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale}px)`,
+          "border-radius": 0
+        },
+        width: node.offsetWidth * scale
+      });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      return blob;
+
+      // saveAs(blob, "avatar.png");
+    }
+    return new Blob;
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // nickName 이 비어있으면 알람
@@ -115,24 +132,35 @@ const Login = () => {
     } else if (!isPwdChecked) {
       alert("비밀번호를 확인해주세요");
     } else {
-      const JoinProps = {
-        email: email,
-        password: password,
-        nickname: nickName,
-      };
 
-      const joininfo = postJoin(JoinProps);
-      joininfo.then((res) => {
-        // 회원가입 성공
-        if (res.isJoinSuccess) {
-          setLoginMode(true);
-          alert(`${JoinProps.nickname}님, 회원 가입을 축하합니다!`);
-        }
-        // 회원가입 실패
-        else {
-          alert("회원가입 정보가 잘못되었습니다");
-        }
-      });
+      const blobPromise = getBlob();
+      const blob = await blobPromise;
+
+      const formData = new FormData();
+      formData.append('file', blob, 'image.jpg');
+
+      const profileImage = uploadFile(formData);
+      profileImage.then((res) => {
+        const JoinProps = {
+          email: email,
+          password: password,
+          nickname: nickName,
+          imageUrl: res[0].savedFileName
+        };
+  
+        const joininfo = postJoin(JoinProps);
+        joininfo.then((res) => {
+          // 회원가입 성공
+          if (res.isJoinSuccess) {
+            setLoginMode(true);
+            alert(`${JoinProps.nickname}님, 회원 가입을 축하합니다!`);
+          }
+          // 회원가입 실패
+          else {
+            alert("회원가입 정보가 잘못되었습니다");
+          }
+        });
+      })
     }
   };
 
@@ -241,7 +269,7 @@ const Login = () => {
       )}
 
       {isImageModalOpen && (
-        <ImageModifyModal closeModal={closeModal} handleConfigUpdate={handleImageConfig} />
+        <ImageModifyModal handleConfigUpdate={handleImageConfig} />
       )}
     </Container>
   );

@@ -14,11 +14,20 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
+  width: 45%;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+
+  .image-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 `;
 
 export const CompleteButton = styled.button`
@@ -29,3 +38,4 @@ export const CompleteButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
