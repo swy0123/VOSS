@@ -6,12 +6,25 @@ import ProfileImg from "../../assets/Messenger/profile.png";
 import SendArrow from "../../assets/Messenger/SendArrow.png";
 import { createMeet } from "../../../api/meeting";
 import { useNavigate } from "react-router-dom";
-import { Backdrop, CategoryDiv, DialogBox, ModalContainer, PasswordInput, Span, TagButton, Title, TitleInput, TmpBorder } from "./AddMeetModal.style";
+import {
+  Backdrop,
+  CategoryDiv,
+  Checkbox,
+  DialogBox,
+  FlexDiv,
+  HalfInDiv,
+  Input,
+  ModalContainer,
+  Span,
+  TagButton,
+  Title,
+  TmpBorder,
+  TmpButton,
+} from "./AddMeetModal.style";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
-
 
 const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) => {
   const [title, setTitle] = useState("");
@@ -19,14 +32,14 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const [isChecked, setCheckBox] = useState(false);
   const [limit, setLimit] = useState(2);
   const TagName = ["목소리 분석 연습", "더빙 연습", "기타"];
-  const [selectedTag, setTag] = useState<boolean[]>([false, false, false]);
-  const [selectedCategory, setCategory] = useState("");
+  const [selectedTag, setTag] = useState<boolean[]>([true, false, false]);
+  const [selectedCategory, setCategory] = useState("DUB");
   const Category = ["DUB", "PRACTICE", "FREE"];
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const handleTagButton = (index: number) => {
     const newTagList = Array(TagName.length).fill(false);
@@ -56,12 +69,11 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     title: title,
     maxCount: limit,
     password: password,
-    category: selectedCategory
-  }
+    category: selectedCategory,
+  };
   const onClickOpenNewMeetRoom = async () => {
     console.log("title : " + title + ", password : " + password + ", limit : " + limit);
     console.log(", isChecked : " + isChecked + ", selectedTag : " + selectedTag);
-
 
     const meetRoomId = await createMeet({ addRoomData });
     console.log("방 생성 후 참가 시도");
@@ -104,45 +116,63 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
 
           <form>
             <Span>제목</Span>
-            <TitleInput className="input" type="text" onChange={handleTitle} value={title}></TitleInput>
-              
-            <div>
-              <Span>비밀번호
-              <input type="checkbox" onClick={changeCheck} /></Span>
-            <Span style={{marginLeft:"50%"}}>인원</Span>
-            </div>
-            
-            <div>
-              {isChecked ? (
-                <input className="input" type="text" onChange={handlePassword} value={password}></input>
-              ) : (
-                <PasswordInput
-                  className="input"
-                  type="text"
-                  onChange={handlePassword}
-                  value={password}
-                  disabled
-                ></PasswordInput>
-              )}
+            <Input className="input" type="text" onChange={handleTitle} value={title}></Input>
 
-              <div>
-                <TmpBorder onClick={limitDecrease}>-</TmpBorder>
+            <div>
+              <Span>
+                비밀번호
+                <Checkbox type="checkbox" onClick={changeCheck} />
+              </Span>
+              <Span style={{ marginLeft: "48%" }}>인원</Span>
+            </div>
+
+            <FlexDiv>
+              <HalfInDiv>
+                {isChecked ? (
+                  <Input
+                    className="input"
+                    type="text"
+                    onChange={handlePassword}
+                    value={password}
+                  ></Input>
+                ) : (
+                  <Input
+                    className="input"
+                    type="text"
+                    onChange={handlePassword}
+                    value={password}
+                    disabled
+                    style={{ borderColor: "transparent" }}
+                  ></Input>
+                )}
+              </HalfInDiv>
+
+              <HalfInDiv>
+                <TmpBorder
+                  style={{ border: "0px", cursor: "pointer", fontWeight: "bold" }}
+                  onClick={limitDecrease}
+                >
+                  ━
+                </TmpBorder>
                 <TmpBorder>{limit}</TmpBorder>
-                <TmpBorder onClick={limitIncrease}>+</TmpBorder>
-              </div>
-
-            </div>
-
+                <TmpBorder
+                  style={{ border: "0px", cursor: "pointer", fontWeight: "bold" }}
+                  onClick={limitIncrease}
+                >
+                  ┼
+                </TmpBorder>
+              </HalfInDiv>
+            </FlexDiv>
           </form>
 
-
-          <button type="button" onClick={onClickToggleModal}>
-            취소
-          </button>
-          <button type="button" onClick={onClickOpenNewMeetRoom}>
-            확인
-          </button>
-
+          <FlexDiv style={{justifyContent:"center"}}>
+            <TmpButton onClick={onClickToggleModal}>
+              취소
+            </TmpButton>
+            <TmpButton onClick={onClickOpenNewMeetRoom}>
+              확인
+            </TmpButton>
+          </FlexDiv>
         </div>
       </DialogBox>
       <Backdrop
