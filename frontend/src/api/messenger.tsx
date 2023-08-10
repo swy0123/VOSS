@@ -52,3 +52,16 @@ export const getUsers = async (nickname: string, page: number, limit: number) =>
     }
     return false
 };
+
+
+export const getReceive = async () => {
+    const res = await privateApi.get(`/messenger/receive`)
+    .catch(err => {
+        console.log("getReceive catch: ", err)
+    })
+    if (res) {
+        console.log("getReceive then: ", res.data)
+        return res.data
+    }
+    return false
+};

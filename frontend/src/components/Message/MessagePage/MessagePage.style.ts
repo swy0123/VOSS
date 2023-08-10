@@ -12,6 +12,7 @@ export const MessegePageDiv = styled.div`
   position: fixed;
   right: 25px;
   bottom: 25px;
+  z-index: 100;
   `;
 
 export const MessegeTitle = styled.div`
