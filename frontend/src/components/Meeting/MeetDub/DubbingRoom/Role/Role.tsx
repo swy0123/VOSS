@@ -28,17 +28,23 @@ function Role ({ roles, userSelectRole, setUserSelectRole }: VideoProps) {
   //이벤트 수신 감지
   useEffect(()=>{
     if(recieve.slice(0,11)=="/selectrole") {
-      const role_Idx = recieve.slice(11,12)
-      const nickname = recieve.slice(12)
+      const role_Idx = parseInt(recieve.slice(11,12))
+      const nickname = recieve.slice(13)
       const changeSelect = userSelectRole.map((selected,index)=>{
+
         // 선택 안된 역할
         if (index === role_Idx && !selected){
+          const duplication = userSelectRole.filter((selected)=>
+              selected===nickname).length
+          if (duplication >= 1){return}
           return nickname
         }
+
+        // 선택된 역할
         else if (index === role_Idx && selected === nickname){
           return ""
         }
-        else { return selected }
+        else {return selected }
       })
       setUserSelectRole(changeSelect)
       setRecieve("/none");

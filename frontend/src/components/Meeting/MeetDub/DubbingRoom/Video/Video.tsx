@@ -12,6 +12,8 @@ import {
   ProtectSection, 
   Thumbnail, 
   Title, 
+  VideoPause, 
+  VideoPlay, 
   YoutubeIcon} from "./Video.style";
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
@@ -96,15 +98,22 @@ function Video ({script, roles, lines}: ScriptData) {
   
   return(
     <Container>
-      {/* 영상 플레이 or 일시정지 예시 */}
-      <button onClick={SelfPlayVideo}>Play</button>
-      <button onClick={SelfPauseVideo}>Pause</button>
 
       <Title>{script.title}</Title>
       <Box>
       <Display id="player"></Display>
       {youtube ? ( 
-        <ProtectSection/>
+        <ProtectSection>
+          {!(meetDubPlayChange[0]-1) ? (
+            <VideoPause
+              onClick={SelfPauseVideo}
+              src="/src/assets/Meeting/pausebutton.png"/>
+            ) : (
+            <VideoPlay
+              onClick={SelfPlayVideo}
+              src="/src/assets/Meeting/playbutton.png"/>
+          )}
+        </ProtectSection>
         ):(
         <ImgSection>
           <Thumbnail

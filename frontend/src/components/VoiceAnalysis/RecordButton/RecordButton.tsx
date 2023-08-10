@@ -4,13 +4,15 @@ import { useRecoilState } from 'recoil';
 import { analysisRecordState } from '../../../recoil/Training';
 import { 
   CompleteBtn,
+  NowRecording,
   PracticeEnd,
   PracticeStart,
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
   SectionBtn, 
-  StopWatch } from './RecordButton.style';
+  StopWatch, 
+  Waves} from './RecordButton.style';
 
 function RecordButton () {
   const [analysisRecord, setAnalysisRecord] = useRecoilState(analysisRecordState)
@@ -102,18 +104,22 @@ function RecordButton () {
               setPracticeEnd(false)}}
             src="/src/assets/Training/startbtn.png"></RecordBtn>) :
           isRunning ? 
-            (<RecordBtn
-              onClick={() => {
-                startOrStop()
-                stopRecording()
-                pauseRecording()
-                changePracticeStart()}}
-              onMouseEnter={() => 
-                setPracticeEnd(true)}
-              onMouseLeave={() => {
-                setPracticeStart(false)
-                setPracticeEnd(false)}}
-              src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
+            (<NowRecording>
+              <RecordBtn
+                onClick={() => {
+                  startOrStop()
+                  stopRecording()
+                  pauseRecording()
+                  changePracticeStart()}}
+                onMouseEnter={() => 
+                  setPracticeEnd(true)}
+                onMouseLeave={() => {
+                  setPracticeStart(false)
+                  setPracticeEnd(false)}}
+                src="/src/assets/Training/stopbtn.png">
+              </RecordBtn>
+              <Waves/>
+            </NowRecording>) :
             (<RecordBtn
               onClick={() => {
                 startOrStop()
