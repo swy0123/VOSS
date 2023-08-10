@@ -31,10 +31,11 @@ public class PostLikeServiceImpl implements PostLikeService {
             throw new NoPostException("존재하지 않는 글입니다.");
         }
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        if(postLikeRepository.existsByPostIdAndEmail(postId, email)) {
+        if(postLikeRepository.existsByPostIdAndMemberId(postId, member.getId())) {
             throw new DupliacteLikeException("이미 좋아요를 누른 글입니다.");
         }
         PostLike postLike = new PostLike(post, member);
+        postLikeRepository.save(postLike);
         notificationService.notifyPostLike(postLike);
         return new CreatePostLikeResponse(true);
     }

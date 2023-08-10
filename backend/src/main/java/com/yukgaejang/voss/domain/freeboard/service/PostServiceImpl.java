@@ -91,7 +91,8 @@ public class PostServiceImpl implements PostService {
         Long likes = postLikeRepository.countByPostId(id);
         List<PostFileDetailResponse> imageFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeStartsWith(id, "image");
         List<PostFileDetailResponse> otherFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeNotStartsWith(id, "image");
-        boolean isLiked = postLikeRepository.existsByPostIdAndEmail(id, email);
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        boolean isLiked = postLikeRepository.existsByPostIdAndMemberId(post.getId(), member.getId());
         return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles, isLiked);
     }
 
