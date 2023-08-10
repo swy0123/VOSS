@@ -41,8 +41,6 @@ public class MessengerServiceImpl implements MessengerService{
     private final AttendRepository attendRepository;
     private final DirectChatRepository directChatRepository;
 
-    private final EntityManager em;
-
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
@@ -138,7 +136,5 @@ public class MessengerServiceImpl implements MessengerService{
     @Override
     public void updateLeaveTime(Long chatId, Long memberId) {
         attendRepository.updateLeaveTime(chatId, memberId);
-        em.flush();
-        em.clear();
     }
 }
