@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RecordLikeRepository extends JpaRepository<RecordLike, Long> {
     boolean existsByRecordIdAndMemberId(Long recordId, Long memberId);
+    RecordLike findByRecordIdAndMemberId(Long recordId, Long memberId);
 }
