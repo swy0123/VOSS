@@ -21,4 +21,7 @@ public interface NotificationService {
     void notifyRecordLike(RecordLike recordLike);
 
     List<ViewNotificationResponse> getMyNotifications(String email);
+
+    boolean readById(Long notificationId);
+    boolean readAll(String email);
 }

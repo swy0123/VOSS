@@ -49,4 +49,18 @@ public class NotificationServiceImpl implements NotificationService {
 
         return notificationRepository.findAllNotificationsByMemberId(member.getId());
     }
+
+    @Override
+    public boolean readById(Long notificationId) {
+        notificationRepository.deleteById(notificationId);
+        return true;
+    }
+
+    @Override
+    public boolean readAll(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+        notificationRepository.deleteByTargetId(member.getId());
+        return true;
+    }
 }
