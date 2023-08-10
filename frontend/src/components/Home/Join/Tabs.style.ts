@@ -1,38 +1,19 @@
 import { styled } from "styled-components";
 
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-`;
-
-export const ModalContent = styled.div`
-  width: 45%;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-
-  .image-options {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+export const TabsStyled = styled.div`
+  
+  h3 {
+    margin-top: 0;
   }
-
+  
   .tabs-component [role="tablist"] {
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex;
+    flex-wrap: wrap; */
     border-bottom: 1px solid #dee2e6;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   
   .tabs-component [role="tablist"] button {
@@ -48,6 +29,7 @@ export const ModalContent = styled.div`
     outline: none;
     background-color: #fff;
     transition: border 0.2s ease-in-out 0s;
+    flex-grow: 1
   }
   
   .tabs-component [role="tablist"] button.active,
@@ -94,15 +76,5 @@ export const ModalContent = styled.div`
   .tabs-component.vertical [role="tablist"] button:hover {
     border-color: #e9ecef transparent #e9ecef #b41c1c;
   }
-
-`;
-
-export const CompleteButton = styled.button`
-  background-color: green;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
+  
+`

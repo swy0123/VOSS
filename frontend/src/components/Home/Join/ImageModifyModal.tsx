@@ -2,6 +2,8 @@ import Avatar, { genConfig } from 'react-nice-avatar'
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { HexColorPicker } from "react-colorful";
 import { ModalOverlay, ModalContent, CompleteButton } from "./ImageModifyModal.style"
+import Tabs from './Tabs';
+import Tab from './Tab';
 
 
 interface ImageModalDefaultType {
@@ -23,6 +25,10 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
   useEffect(() => {
     setFaceColor(faceColor);
   }, [faceColor]);
+
+  useEffect(() => {
+    setShirtColor(shirtColor);
+  }, [shirtColor]);
 
   const handleCompleteClick = () => {
     handleConfigUpdate(config);
@@ -52,7 +58,36 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
       colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
     }
   };
-  
+
+  type TabsType = {
+    label: string;
+    index: number;
+    Component: React.FC<{}>;
+  }[];
+
+  const tabs: TabsType = [
+    {
+      label: "머리 색",
+      index: 1,
+      Component: () => <Tab content="일부 조건에서는 적용되지 않습니다" handleColorChange={setHairColor} newColor={hairColor} />
+    },
+    {
+      label: "얼굴 색",
+      index: 2,
+      Component: () => <Tab content=" " handleColorChange={setFaceColor} newColor={faceColor} />
+    },
+    {
+      label: "상의 색",
+      index: 3,
+      Component: () => <Tab content=" " handleColorChange={setShirtColor} newColor={shirtColor} />
+    }
+  ];
+  const [selectedTab, setSelectedTab] = useState<number>(tabs[0].index);
+  const tmpfun = (e:any) => {
+    setSelectedTab(e);
+    console.log("ssss");
+    console.log();
+  }
 
   return (
     <ModalOverlay>
@@ -65,7 +100,9 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
         <button onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
         </button>
-        <div className='image-options'>
+        <Tabs selectedTab={selectedTab} onClick={tmpfun} tabs={tabs} />
+
+        {/* <div className='image-options'>
           <div>
             <button onClick={handleShowHairPicker}>머리 색</button>
             <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
@@ -78,7 +115,7 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
             <button onClick={handleShowShirtPicker}>옷 색</button>
             <HexColorPicker id="shirtColorPicker" color={shirtColor} onChange={setShirtColor} />
           </div>
-        </div>
+        </div> */}
         <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
       </ModalContent>
     </ModalOverlay>
