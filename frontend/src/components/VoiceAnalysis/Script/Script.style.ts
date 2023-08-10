@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 450px; 
+  width: 470px; 
   margin: 0px 0px 20px 0px;
 `
 export const Title = styled.h2`
@@ -40,27 +40,23 @@ export const OptionCreate = styled.button`
 export const GenderBox = styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   height: 33px;
 `
 export const AgeBox =styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   height: 33px;
-  margin:8px 0px 18px 0px;
+  margin: 8px 0px 18px 0px;
 `
 export const OptionButton = styled.button`
-  background-color: transparent;
-  border: 1px solid white;
-  border-radius: 14px;
-  color: white;
-  font-size: 13px;
+  border-radius: 12px;
   line-height: 30px;
   height: 30px;
-  padding: 0px 7px 0px 7px;
-  margin-left: 6px;
+  margin-left: 7px;
   font-weight: 800;
+  padding: 0px 7px 0px 7px;
   cursor: pointer;
   
   &:hover{

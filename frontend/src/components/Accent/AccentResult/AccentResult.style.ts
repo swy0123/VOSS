@@ -3,8 +3,7 @@ import { styled } from 'styled-components';
 export const ResultBox = styled.div`
   background-color: #2E2E2E;
   border-radius: 8px;
-  margin-top: 10px;
-  width: 450px;
+  width: 470px;
   height: 200px;
 `
 
@@ -29,7 +28,7 @@ export const Text = styled.div`
 `
 export const Warning = styled.div`
   color: #BABABA;
-  font-size: 12px;
+  font-size: 14px;
 `
 
 export const Accuracy = styled.div`

@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 450px;
+  width: 470px;
   margin: 0px 0px 20px 0px;
 `
 export const Title = styled.h2`
@@ -40,20 +40,16 @@ export const OptionCreate = styled.button`
 export const CategoryBox =styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   height: 33px;
   margin:8px 0px 18px 0px;
 `
 export const OptionButton = styled.button`
-  background-color: transparent;
-  border: 1px solid #6C6C6C;
   border-radius: 14px;
-  color:white;
-  font-size: 13px;
   line-height: 30px;
   height: 30px;
   padding: 0px 7px 0px 7px;
-  margin-left: 6px;
+  margin-left: 7px;
   font-weight: 800;
   cursor: pointer;
   
@@ -72,7 +68,7 @@ export const ScriptBox = styled.div`
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  height: 190px;
+  height: 210px;
 `
 export const ScriptInput = styled.textarea`
   background-color: transparent;

@@ -1,16 +1,16 @@
 import { styled } from 'styled-components';
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 400px;
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 8px 0px;
 `
 
 export const Title = styled.h2`
   color: white;
   text-align: center;
+  margin-bottom: 19px;
 `
 
 export const RecordBox = styled.div`
@@ -19,8 +19,8 @@ export const RecordBox = styled.div`
   justify-content: flex-start;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin-top: 6px;
-  height: 200px;
+  padding: 6px 0px 6px 0px;
+  height: 210px;
 `
 
 export const RecordItem = styled.div`
@@ -29,7 +29,7 @@ export const RecordItem = styled.div`
   align-items: center;
   height: 30px;
   width: 370px;
-  margin : 8px 0px 0px 9px;
+  margin : 8px 0px 2px 9px;
 `
 
 export const RecordSelect = styled.input` 
@@ -38,8 +38,6 @@ export const RecordSelect = styled.input`
 `
 
 export const RecordLable = styled.label`
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
   font-weight: 100;
   line-height: 30px;
   color: white;
