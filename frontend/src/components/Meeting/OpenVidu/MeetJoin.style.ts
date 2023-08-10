@@ -24,10 +24,7 @@ export const HeaderText = styled.span`
 
 export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
-  ${(props) =>
-    props.$chatActive
-      ? "width: 75%; height: 90%;"
-      : "width: 98%; height: 90%;"};
+  ${(props) => (props.$chatActive ? "width: 75%; height: 90%;" : "width: 98%; height: 90%;")};
   float: left;
 `;
 
@@ -168,6 +165,27 @@ export const MeetBadgeImg = styled.img`
   pointer-events: auto;
 `;
 
+export const TmpButton = styled.div`
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: transparent;
+  padding-bottom: 2px;
+  margin: 15px;
+  width: 50px;
+  height: 30px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 25px;
+  border-color: white;
+  color: white;
+  &:hover {
+    color: black;
+    background-color: white;
+  }
+`;
+
 export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   position: absolute;
   left: 50%;
@@ -176,17 +194,13 @@ export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   width: max-content;
   height: auto;
   text-align: center;
-  transition: top 2s ease-in;
+  transition: top 1s ease-in;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 20001;
   font-size: 14px;
   color: white;
 
-
-  ${(props) =>
-    props.$hoverActive > 0
-      ? "animation-duration: 2s; animation-name: fadeout;"
-      : ""}
+  ${(props) => (props.$hoverActive > 0 ? "animation-duration: 1s; animation-name: fadeout;" : "")}
 
   @keyframes fadeout {
     0% {

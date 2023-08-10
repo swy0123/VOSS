@@ -19,7 +19,9 @@ import {
   MeetBadgeImg,
   ModalContainer,
   ModalHeader,
+  TmpButton,
 } from "./MeetJoin.style";
+import { FlexDiv } from "/src/pages/Meeting/AddMeetModal/AddMeetModal.style";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -93,7 +95,7 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
                   }}
                 />
                 {hover !== 0 && hover === badge.id ? (
-                  <MeetBadgeHovor $hoverActive={hover} >
+                  <MeetBadgeHovor $hoverActive={hover}>
                     <div className="hover-text"> {badge.name}</div>
                   </MeetBadgeHovor>
                 ) : (
@@ -106,17 +108,9 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
           )}
         </div>
 
-        <ExitImg
-          src={exitBtnHover ? ExitBoxHover : ExitBox}
-          onClick={(e: React.MouseEvent) => {
-            e.preventDefault();
-            if (onClickToggleModal) {
-              onClickToggleModal();
-            }
-          }}
-          onMouseEnter={() => setExitBtnHover(true)}
-          onMouseLeave={() => setExitBtnHover(false)}
-        />
+        <FlexDiv style={{ justifyContent: "center" }}>
+          <TmpButton onClick={onClickToggleModal}>취소</TmpButton>
+        </FlexDiv>
       </DialogBox>
       <Backdrop
         onClick={(e: React.MouseEvent) => {

@@ -11,7 +11,7 @@ export const VedioOuterDiv = styled.div`
   /* height: 100%; */
   border-radius: 12px;
   &:hover {
-    background-color: red;
+    background-color: transparent;
     opacity: 0.5;
   }
 `;
@@ -37,7 +37,7 @@ export const VedioHoverMenu = styled.div`
   width: 40%;
   height: 16%;
   color: white;
-  border-radius: 12px;
+  border-radius: 20px;
   background-color: black;
   border-width: 2px;
   border-style: solid;
@@ -55,4 +55,16 @@ export const VedioHoverMenu = styled.div`
     background-color: gray;
     opacity: 0.9;
   }
+`;
+
+export const ProfileImg = styled.div`
+  width: 120%;
+  height: 120%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: -10%;
+  top: -10%;
+  color: white;
 `;

@@ -28,6 +28,7 @@ export const MeetingRoom = styled.div`
   border-radius: 10px;
   margin-left: 1%;
   margin-bottom: 1%;
+  cursor: pointer;
 
   &:hover {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
@@ -80,6 +81,7 @@ export const PageMoveBtnImg = styled.img`
   height: 17px;
   width: 17px;
   margin: 10px;
+  cursor: pointer;
   &:hover{
     filter: drop-shadow(1px 1px 1px white)
   }

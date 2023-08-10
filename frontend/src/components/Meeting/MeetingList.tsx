@@ -15,179 +15,14 @@ import {
   PageMoveBtnImg,
   PaginationWrapper,
   PagingDiv,
-  Title
+  Title,
 } from "./MeetingList.style";
-import GoLeft from "../../assets/Meeting/GoLeft.png"
-import GoRight from "../../assets/Meeting/GoRight.png"
-
-const testdata = [
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  {
-    "meetRoomId": 96,
-    "category": "DUB",
-    "title": "213",
-    "maxCount": 2,
-    "currentCount": 2,
-    "createdAt": 1690873944779,
-    "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-    "password": false
-  },
-  // {
-  //   "meetRoomId": 96,
-  //   "category": "DUB",
-  //   "title": "213",
-  //   "maxCount": 2,
-  //   "currentCount": 2,
-  //   "createdAt": 1690873944779,
-  //   "sessionId": "bf6b8758-9223-48e7-8a95-f4110ba11f51",
-  //   "password": false
-  // },
-
-];
-
+import GoLeft from "../../assets/Meeting/GoLeft.png";
+import GoRight from "../../assets/Meeting/GoRight.png";
 
 function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
   //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
-  const Tag = ["DUB", "PRACTICE", "FREE"]
+  const Tag = ["DUB", "PRACTICE", "FREE"];
   const navigate = useNavigate();
 
   const [meetingData, setData] = useState<any[]>([]);
@@ -198,6 +33,11 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   const [startPage, setStartPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(1);
 
+  const TagName = {
+    "DUB": "목소리 분석 연습",
+    "PRACTICE": "더빙 연습",
+    "FREE": "기타",
+  };
 
   const maxDisplayedPages = 10;
   const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
@@ -225,7 +65,7 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
       }
     }
     setRoomsData();
-  }, [meetingData, currentPage])
+  }, [meetingData, currentPage]);
 
   const SetNewList = async () => {
     const tmp = {
@@ -235,8 +75,7 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     const tttmp = await getMeet(tmp);
     const newList = [...tttmp];
 
-    // setData([...newList]);
-    setData([...testdata]);
+    setData([...newList]);
   };
 
   const clickPageChange = (page: number) => {
@@ -244,13 +83,12 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     setCurrentPage(page);
   };
 
-
   const setRoomsData = () => {
-    setRooms(meetingData.slice((currentPage - 1) * 10, (currentPage) * 10));
-  }
+    setRooms(meetingData.slice((currentPage - 1) * 10, currentPage * 10));
+  };
 
   const goPostDetail = (data: MeetRoomData) => {
-    let password: (string | null) = "";
+    let password: string | null = "";
     if (data.password) {
       password = prompt("비밀번호를 입력해주세요" + "");
     }
@@ -267,7 +105,9 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
             <Category>{data.category}</Category>
             <Title>{data.title}</Title>
             <CountSection>
-              <Count>{data.currentCount}/{data.maxCount}</Count>
+              <Count>
+                {data.currentCount}/{data.maxCount}
+              </Count>
               <CountImg src="/src/assets/MeetingBoard/Usercount.png"></CountImg>
             </CountSection>
             <br></br>
@@ -276,18 +116,25 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
       </ListBox>
       <PagingDiv>
         <PaginationWrapper>
-          <PageMoveBtnImg src={GoLeft} onClick={() => {currentPage>1 && setCurrentPage(currentPage - 1)}} />
+          <PageMoveBtnImg
+            src={GoLeft}
+            onClick={() => {
+              currentPage > 1 && setCurrentPage(currentPage - 1);
+            }}
+          />
           {currentPage}/{totalPages}
           {/* {pages !== undefined && pages.slice(startPage - 1, endPage).map((page) => (
             <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
               {page}
             </PaginationItem>
           ))} */}
-          <PageMoveBtnImg src={GoRight} onClick={() => currentPage<totalPages && setCurrentPage(currentPage + 1)} />
+          <PageMoveBtnImg
+            src={GoRight}
+            onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
+          />
         </PaginationWrapper>
       </PagingDiv>
     </MeetingListDiv>
-
   );
 }
 

@@ -4,20 +4,12 @@ export const Container = styled.div`
   width: 65%;
   height: 60%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 10px
 `;
 
 export const Title = styled.div`
   margin-left: 1%;
   color: #ffffff;
-`;
-
-export const H1 = styled.h1`
-  display: inline;
-`;
-export const H3 = styled.h3`
-  display: inline;
-  margin-left: 2%;
 `;
 
 export const LeftDiv = styled.div`
@@ -36,7 +28,7 @@ export const TagButton = styled.div<{ $IsClick: boolean }>`
   font-weight: bold;
   margin: 0px 5px 12px 5px;
   padding: 8px;
-
+  cursor: pointer;
   &:hover {
     transform: scale(1.05);
     transition: 0.3s;
@@ -86,8 +78,8 @@ export const SearchInputButton = styled.img`
   top: 5px;
   cursor: pointer;
   &:hover {
-    transform: scale(1.1);
-    transition: 0.3s;
+    transform: scale(1.05);
+    transition: 0.2s;
   }
 `;
 
