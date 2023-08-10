@@ -1,14 +1,15 @@
 import Avatar, { genConfig } from 'react-nice-avatar'
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { HexColorPicker } from "react-colorful";
-import { ModalOverlay, ModalContent, CompleteButton } from "./ImageModifyModal.style"
+import { ModalOverlay, ModalContent, CompleteButton, ToggleButton } from "./ImageModifyModal.style"
 import Tabs from './Tabs';
 import Tab from './Tab';
+import { Margin } from '@mui/icons-material';
 
 
 interface ImageModalDefaultType {
   handleConfigUpdate: (config: any) => void;
 }
+
 
 const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDefaultType>) => {
   type Gender = "man" | "woman";
@@ -38,27 +39,6 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     setGender(prevGender => (prevGender === "man" ? "woman" : "man"));
   };
 
-  const handleShowHairPicker = () => {
-    const colorPicker = document.getElementById("hairColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "hidden" ? "visible" : "hidden";
-    }
-  };
-
-  const handleShowFacePicker = () => {
-    const colorPicker = document.getElementById("faceColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
-    }
-  };
-
-  const handleShowShirtPicker = () => {
-    const colorPicker = document.getElementById("shirtColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
-    }
-  };
-
   type TabsType = {
     label: string;
     index: number;
@@ -83,7 +63,7 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     }
   ];
   const [selectedTab, setSelectedTab] = useState<number>(tabs[0].index);
-  const tmpfun = (e:any) => {
+  const tmpfun = (e: any) => {
     setSelectedTab(e);
     console.log("ssss");
     console.log();
@@ -92,30 +72,24 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
   return (
     <ModalOverlay>
       <ModalContent>
+        <div style={{
+          color: "#555",
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginTop: "15px"
+        }}>
+          프로필 이미지 꾸미기
+        </div>
+
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
           <div style={{ position: 'relative' }}>
-            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
+            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem', marginTop: "20px" }} {...config} />
           </div>
         </div>
-        <button onClick={handleGenderChange}>
+        <ToggleButton gender={gender} onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
-        </button>
+        </ToggleButton>
         <Tabs selectedTab={selectedTab} onClick={tmpfun} tabs={tabs} />
-
-        {/* <div className='image-options'>
-          <div>
-            <button onClick={handleShowHairPicker}>머리 색</button>
-            <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
-          </div>
-          <div>
-            <button onClick={handleShowFacePicker}>얼굴 색</button>
-            <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
-          </div>
-          <div>
-            <button onClick={handleShowShirtPicker}>옷 색</button>
-            <HexColorPicker id="shirtColorPicker" color={shirtColor} onChange={setShirtColor} />
-          </div>
-        </div> */}
         <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
       </ModalContent>
     </ModalOverlay>
