@@ -71,7 +71,7 @@ export const TagButton = styled.div<{ $IsClick: boolean }>`
   position: relative;
   background-color: transparent;
   border: 1px solid #6c6c6c;
-  border-radius: 5px;
+  border-radius: 7px;
   width: fit-content;
   color: #6c6c6c;
   font-size: 15px;
@@ -109,7 +109,7 @@ export const TmpBorder = styled.div`
 export const Input = styled.input`
   background-color: transparent;
   border: 1px solid #6c6c6c;
-  border-radius: 5px;
+  border-radius: 7px;
   width: 96%;
   color: #6c6c6c;
   font-size: 15px;

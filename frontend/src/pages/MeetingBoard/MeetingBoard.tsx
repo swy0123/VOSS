@@ -6,7 +6,7 @@ import Messenger from "../../components/Message/Messenger";
 import MeetingList from "../../components/Meeting/MeetingList";
 import SearchInputImg from "../../assets/MeetingBoard/SearchInput.png";
 import AddMeetModal from "../Meeting/AddMeetModal/AddMeetModal";
-import { Container, CreateRoom, H1, H3, LeftDiv, RightDiv, SearchDiv, SearchInput, SearchInputButton, TagButton, Title } from "./MeetingBoard.style";
+import { Container, CreateRoom, LeftDiv, RightDiv, SearchDiv, SearchInput, SearchInputButton, TagButton, Title } from "./MeetingBoard.style";
 
 
 export interface MeetingBoardProps {
@@ -19,7 +19,7 @@ function MeetingBoard() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const startProps = {
     title: "",
-    category: "",
+    category: "DUB",
   };
   const Tag = ["목소리 분석 연습", "더빙 연습", "기타"];
   const TagCode = ["DUB", "PRACTICE", "FREE"];
@@ -30,6 +30,7 @@ function MeetingBoard() {
   const handleTagButton = (index: number) => {
     // const newTagList = [false, false, false]
     setTag(index);
+    onClickSearchButton();
   };
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -54,8 +55,8 @@ function MeetingBoard() {
       <Header />
       <Container>
         <Title>
-          <H1>화상 연습</H1>
-          <H3>방 목록</H3>
+          <h2>화상 연습</h2>
+          <h4>방 목록</h4>
         </Title>
         <SearchDiv>
           <CreateRoom onClick={onClickToggleModal}>+ 방 만들기</CreateRoom>

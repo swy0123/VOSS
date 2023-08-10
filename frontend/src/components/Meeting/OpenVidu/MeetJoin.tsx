@@ -92,7 +92,7 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   useEffect(() => {
     setCurCount(subscribers.length + 1);
-    setMeetDubUser(subscribers.length + 1)
+    setMeetDubUser(subscribers.length + 1);
   }, [subscribers]);
 
   const onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -126,7 +126,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     const mySession = OV.initSession();
     setSession(mySession);
 
-
     // --- 3) Specify the actions when events take place in the session ---
     mySession.on("streamCreated", (event) => {
       // event.stream.streamId = currentUser.email;
@@ -134,7 +133,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
       setSubscribers((subscribers) => [...subscribers, subscriber]);
       setConnectionId(event.stream.connection.connectionId);
       console.log(subscriber);
-      
     });
 
     mySession.on("streamDestroyed", (event) => {
@@ -244,8 +242,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   //     "createdAt": 1690876928365
   //   }
 
-
-  
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -254,7 +250,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     curCount: curCount,
     bottomOn: props.bottomOn,
   };
-  
 
   return (
     <Container>
@@ -282,14 +277,19 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
               <StreamContainer $streamContainerProps={streamContainerProps}>
                 {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
                 {/* <>{publisher.connection}</> */}
-                <UserVideoComponent streamManager={publisher}/>
+                <UserVideoComponent streamManager={publisher} videoActive={videoActive} />
               </StreamContainer>
             ) : null}
             {subscribers.map((sub, i) => (
-              <StreamContainer key={i} $streamContainerProps={streamContainerProps} >
+              <StreamContainer key={i} $streamContainerProps={streamContainerProps}>
                 {/* <>{JSON.parse(publisher.connection.data).clientData}</> */}
                 {/* <>{sub.connection}</> */}
-                <UserVideoComponent streamManager={sub} onClickToggleModal={onClickToggleModal} isOpenModal={isOpenModal}/>
+                <UserVideoComponent
+                  streamManager={sub}
+                  onClickToggleModal={onClickToggleModal}
+                  isOpenModal={isOpenModal}
+                  videoActive={videoActive}
+                />
               </StreamContainer>
             ))}
           </VideoContainer>
@@ -339,11 +339,8 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
           leaveSession={leaveSession}
         />
       </ToolBar>
-      
-      {isOpenModal && (
-        <BadgeModal onClickToggleModal={onClickToggleModal}>방 만들기</BadgeModal>
-      )}
 
+      {isOpenModal && <BadgeModal onClickToggleModal={onClickToggleModal}>방 만들기</BadgeModal>}
     </Container>
   );
 };
