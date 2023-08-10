@@ -25,7 +25,6 @@ public class NotificationController {
 
     @DeleteMapping("/{notificationId}")
     public ResponseEntity<Boolean> read(@PathVariable("notificationId") Long notificationId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ResponseEntity.ok(notificationService.readById(notificationId));
     }
 
