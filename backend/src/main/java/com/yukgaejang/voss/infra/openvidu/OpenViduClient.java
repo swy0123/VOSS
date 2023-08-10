@@ -12,6 +12,7 @@ import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -25,14 +26,15 @@ import java.util.*;
 public class OpenViduClient {
 
     private final String OPENVIDU_URL = "https://i9b106.p.ssafy.io:9443";
-    private final String SECRET = "MY_SECRET";
+    @Value("${OPENVIDU_SECRET}")
+    private String SECRET;
     private final OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
     private final HttpHeaders headers = new HttpHeaders();
 
     @PostConstruct
     public void init() {
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU");
+        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString(("OPENVIDUAPP:" + SECRET).getBytes()));
     }
 
 
