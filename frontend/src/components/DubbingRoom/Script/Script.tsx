@@ -1,7 +1,6 @@
 import { Line } from '../../../type/type';
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-scroll';
 import { timeState } from '/src/recoil/HW_Atom';
 import { 
   PlayChangebState, 

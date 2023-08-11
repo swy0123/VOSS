@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
 import { ScriptData } from "../../../type/type";
 import { 
   Container, 
