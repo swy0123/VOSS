@@ -49,6 +49,9 @@ function SelectCategory () {
   const goMeetingBoard = () => {
     navigate("/meeting")
   }
+  const goGame = () => {
+    navigate("/game")
+  }
 
   return(
     <div>
@@ -99,6 +102,7 @@ function SelectCategory () {
             <AllBoard $isShown={CommunityIsShown}>
               <Free onClick={goFreeBoard}><UnSkew>자유 게시판</UnSkew></Free>
               <Record><UnSkew>녹음 게시판</UnSkew></Record>
+              <Free onClick={goGame}><UnSkew>목소리 마피아</UnSkew></Free>
             </AllBoard>
           </Community>
 
