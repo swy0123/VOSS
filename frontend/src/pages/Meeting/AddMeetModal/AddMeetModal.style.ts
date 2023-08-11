@@ -25,7 +25,8 @@ export const DialogBox = styled.dialog`
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8) ;
+  backdrop-filter: blur(5px);
   color: white;
   z-index: 10000;
 `;
@@ -111,7 +112,7 @@ export const Input = styled.input`
   border: 1px solid #6c6c6c;
   border-radius: 7px;
   width: 96%;
-  color: #6c6c6c;
+  color: white;
   font-size: 15px;
   font-weight: bold;
   padding: 5px 2%;
