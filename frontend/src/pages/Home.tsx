@@ -3,11 +3,12 @@ import { styled } from "styled-components";
 import Login from "../components/Home/Login/Login";
 import Join from "../components/Home/Join/Join";
 // import mainimg from "/src/assets/main/mainimg.gif";
-import HomeContent from "../components/Home/HomeContent/HomeContent"
+import HomeContent from "../components/Home/HomeContent/HomeContent";
 import Messenger from "../components/Message/Messenger";
 import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../recoil/Auth";
-import mainimg from "/src/assets/main/mainimg.gif"
+import mainimg from "/src/assets/main/mainimg.gif";
+import Custom from "../components/Util/Custom";
 
 export const Mainimg = styled.div`
   background-image: url("${mainimg}");
@@ -25,10 +26,9 @@ function Home() {
   return (
     <Mainimg>
       <div>
+        <Custom />
         <HomeContent></HomeContent>
-        {loginMode 
-        ? <Login /> 
-        : <Join />}
+        {loginMode ? <Login /> : <Join />}
       </div>
     </Mainimg>
   );
