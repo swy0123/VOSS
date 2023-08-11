@@ -89,11 +89,11 @@ const Login = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <InputDiv>
-            <InputHeader>이메일</InputHeader>
+            <InputHeader>Email</InputHeader>
             <Input type="email" onChange={handleEmailField} placeholder="이메일을 입력해주세요" />
           </InputDiv>
           <InputDiv>
-            <InputHeader>비밀번호</InputHeader>
+            <InputHeader>Password</InputHeader>
             <Input
               type={showPswd ? "text" : "password"}
               onChange={handlePasswordField}
@@ -149,8 +149,8 @@ const Login = () => {
       </OAuthDiv>
 
       <UnderText>
-        <div className="first-text">이미 회원이신가요?</div>
-        <div className="second-text" onClick={() => setLoginMode(false)}> 로그인 하기</div>
+        <div className="first-text">아직 회원이 아니신가요?</div>
+        <div className="second-text" onClick={() => setLoginMode(false)}>회원가입</div>
       </UnderText>
     </Container>
   );

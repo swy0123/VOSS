@@ -179,7 +179,7 @@ const Login = () => {
     <Container>
       <Title>
         <P>회원 가입</P>
-        <H2>VOSS에 오신 것을 환영합니다!</H2>
+        <H2>회원정보를 입력해주세요</H2>
       </Title>
 
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "3%" }}>
@@ -251,8 +251,8 @@ const Login = () => {
       </form>
 
       <UnderText>
-        <div className="first-text">아직 회원이 아니신가요?</div>
-        <div className="second-text" onClick={() => setLoginMode(true)}>회원가입</div>
+        <div className="first-text">이미 회원이신가요?</div>
+        <div className="second-text" onClick={() => setLoginMode(true)}> 로그인 하기</div>
       </UnderText>
 
       {isOpenModal && (

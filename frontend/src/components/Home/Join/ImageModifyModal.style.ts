@@ -33,6 +33,7 @@ export const ModalContent = styled.div`
   .tabs-component [role="tablist"] {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     border-bottom: 1px solid #dee2e6;
     position: relative;
   }
@@ -43,7 +44,7 @@ export const ModalContent = styled.div`
     border-color: transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
-    display: block;
+    display: flex;
     padding: 0.5rem 1rem;
     cursor: pointer;
     margin: 0 1px;
@@ -56,7 +57,7 @@ export const ModalContent = styled.div`
   .tabs-component [role="tablist"] button:focus,
   .tabs-component [role="tablist"] button:hover {
     border-width: 1px;
-    border-color: #e9ecef #e9ecef #b41c1c;
+    border-color: #e9ecef #e9ecef #6b6b6b;
   }
   
   .tabs-component [role="tablist"] button.active {
@@ -94,7 +95,7 @@ export const ModalContent = styled.div`
   .tabs-component.vertical [role="tablist"] button.active,
   .tabs-component.vertical [role="tablist"] button:focus,
   .tabs-component.vertical [role="tablist"] button:hover {
-    border-color: #e9ecef transparent #e9ecef #b41c1c;
+    border-color: #e9ecef transparent #e9ecef #767875;
   }
 `;
 

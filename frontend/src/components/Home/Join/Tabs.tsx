@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect } from "react";
 
 type TabsProps = {
     selectedTab: number,
-    onClick: any,
     tabs: {
         label: string;
         index: number;

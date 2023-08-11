@@ -52,12 +52,13 @@ export const ModifyButton = styled.div`
 
 export const UnderText = styled.div`
 display: flex;
-justify-content: center;
-align-items: center;
-margin-top: 12%;
+position: absolute;
+width: max-content;
+left: 50%;
+bottom: 10px;
+transform: translate(-50%, 0);
 font-size: 14px;
-/* position: relative;
-top: 0; */
+
 
 .first-text {
   margin-right: 8px;

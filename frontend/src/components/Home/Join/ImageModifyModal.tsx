@@ -54,20 +54,15 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     {
       label: "얼굴 색",
       index: 2,
-      Component: () => <Tab content=" " handleColorChange={setFaceColor} newColor={faceColor} />
+      Component: () => <Tab content="얼굴 색을 지정해주세요" handleColorChange={setFaceColor} newColor={faceColor} />
     },
     {
       label: "상의 색",
       index: 3,
-      Component: () => <Tab content=" " handleColorChange={setShirtColor} newColor={shirtColor} />
+      Component: () => <Tab content="상의 색을 자유롭게 골라주세요" handleColorChange={setShirtColor} newColor={shirtColor} />
     }
   ];
   const [selectedTab, setSelectedTab] = useState<number>(tabs[0].index);
-  const tmpfun = (e: any) => {
-    setSelectedTab(e);
-    console.log("ssss");
-    console.log();
-  }
 
   return (
     <ModalOverlay>
@@ -89,7 +84,7 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
         <ToggleButton gender={gender} onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
         </ToggleButton>
-        <Tabs selectedTab={selectedTab} onClick={tmpfun} tabs={tabs} />
+        <Tabs selectedTab={selectedTab} tabs={tabs} />
         <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
       </ModalContent>
     </ModalOverlay>

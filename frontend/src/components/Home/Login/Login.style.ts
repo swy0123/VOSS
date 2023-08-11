@@ -36,10 +36,13 @@ position: relative;
 
 export const UnderText = styled.div`
 display: flex;
-justify-content: center;
-align-items: center;
-margin-top: 30%;
+position: absolute;
+width: max-content;
+left: 50%;
+bottom: 10px;
+transform: translate(-50%, 0);
 font-size: 14px;
+
 
 .first-text {
   margin-right: 8px;
