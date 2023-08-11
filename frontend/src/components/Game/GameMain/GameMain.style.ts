@@ -56,20 +56,22 @@ export const GameMainIcon = styled.img<{
   left: ${(props) => props.$Left};
   width: 90px;
   height: 80px;
-  
 
-  
-  ${(props) => props.$Animation ? props.$Duration+"animation-name: vive; animation-iteration-count: infinite;" : ""}
+  ${(props) =>
+    props.$Animation
+      ? props.$Duration +
+        "animation-name: vive; animation-iteration-count: infinite;"
+      : ""}
 
   @keyframes vive {
     0% {
-        transform: rotate( 25deg );
+      transform: rotate(25deg);
     }
     50% {
-        transform: rotate( -25deg );
+      transform: rotate(-25deg);
     }
     100% {
-        transform: rotate( 25deg );
+      transform: rotate(25deg);
     }
   }
 `;

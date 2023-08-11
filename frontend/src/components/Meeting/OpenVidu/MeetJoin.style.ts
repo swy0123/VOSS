@@ -24,7 +24,10 @@ export const HeaderText = styled.span`
 
 export const Session = styled.div<{ $chatActive: boolean }>`
   position: relative;
-  ${(props) => (props.$chatActive ? "width: 75%; height: 90%;" : "width: 98%; height: 90%;")};
+  ${(props) =>
+    props.$chatActive
+      ? "width: 75%; height: 90%;"
+      : "width: 98%; height: 90%;"};
   float: left;
 `;
 
@@ -128,6 +131,7 @@ export const DialogBox = styled.dialog`
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
   z-index: 10000;
 `;
 
@@ -200,7 +204,10 @@ export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   font-size: 14px;
   color: white;
 
-  ${(props) => (props.$hoverActive > 0 ? "animation-duration: 1s; animation-name: fadeout;" : "")}
+  ${(props) =>
+    props.$hoverActive > 0
+      ? "animation-duration: 1s; animation-name: fadeout;"
+      : ""}
 
   @keyframes fadeout {
     0% {
