@@ -10,13 +10,13 @@ export const Container = styled.div`
 export const RolesSection = styled.div`
   display: flex;
   flex-wrap : wrap;
-  width: 450px;
-  /* height: 40px; */
+  width: 500px;
 `
 
 export const RoleAndUser = styled.div`
   display : flex;
   align-items: center;
+  margin-left: 50px;
 `
 
 export const RoleItem = styled.button`
@@ -41,7 +41,7 @@ export const UserName = styled.div`
   line-height: 27px;
   color: white;
   height: 27px;
-  width: 55px;
+  width: 110px;
   margin: 0px 0px 9px 0px;
 `
 

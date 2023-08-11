@@ -11,13 +11,20 @@ export const ScriptBox = styled.div`
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 10px;
+    margin-right: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 20%; /* 스크롤바의 길이 */
+    background: #535353; /* 스크롤바의 색상 */
+    border-radius: 10px;
   }
 `
 export const Scripts = styled.div<{$IsClick:boolean}>`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0px 12px 0px;
+  margin: 0px 0px 20px 0px;
   font-weight: ${props => props.$IsClick ? '800' : '100'};
   font-size: ${props => props.$IsClick ? '18px' : '15px'};
 `
@@ -26,12 +33,17 @@ export const Script_Unit = styled.p`
   color: white;
   margin: 0px;
 `
-export const Role = styled(Script_Unit)``
+export const Role = styled(Script_Unit)`
+  width: 70px;
+  margin-left: 10px;
+`
 export const Sentence = styled(Script_Unit)`
   text-align: left;
-  width: 250px;
+  width: 350px;
 `
-export const Time = styled(Script_Unit)``
+export const Time = styled(Script_Unit)`
+  margin-left: 30px;
+`
 
 export const formatTime = (durationInSec: number) => {
   const minutes = Math.floor(durationInSec / 60)
