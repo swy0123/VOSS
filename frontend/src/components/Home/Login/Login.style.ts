@@ -15,12 +15,12 @@ export const Container = styled.div`
 `;
 
 export const P = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
 export const H2 = styled.h2`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   margin-top: 5%;
 `;
@@ -80,6 +80,7 @@ export const ShowPswd = styled.div`
   position: absolute;
   top: 50%;
   right: 12%;
+  cursor: pointer;
 `
 
 export const Input = styled.input`
@@ -111,6 +112,8 @@ export const Forgot = styled.div`
   position: absolute;
   top: 13px;
   right: 0px;
+  /* cursor: pointer; */
+  cursor: not-allowed
 `;
 
 export const Button = styled.button`
@@ -124,12 +127,13 @@ export const Button = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 0px;
+  cursor: pointer;
 `;
 
 export const OAuthDiv = styled.div`
   position: relative;
   margin: 0 auto;
-  margin-top: 12px;
+  margin-top: 40px;
   width: 85%;
 `;
 
@@ -149,4 +153,6 @@ export const Icon = styled.span`
   margin: 10px;
   position: relative;
   top: 20px;
+  /* cursor: pointer; */
+  cursor: not-allowed
 `;
