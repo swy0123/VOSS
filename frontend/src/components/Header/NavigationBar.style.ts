@@ -26,20 +26,36 @@ export const MenuList = styled.ul`
   line-height: 65px;
   height: 65px;
   width: 400px;
-  `
+`
+
 export const Menu = styled.li`
   text-align: center;
   width: 120px;
   color: white;
   font-size: 16px;
-  height: 64px;
+  height: 62px;
   line-height: 64px;
   
   cursor: pointer;
+  position: relative;
+
   &:hover {
-    border-bottom: solid 2px #efefef;
+    border-bottom: solid 3px #efefef;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 0%, white 100%);
+      opacity: 0.1; /* 조절 가능한 투명도 */
+      pointer-events: none;
+    }
   }
-`
+`;
+
 export const IconList = styled.div`
   display: flex;
   align-items: center;
