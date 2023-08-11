@@ -6,7 +6,7 @@ const OptionButton = styled.button`
   padding: 0px 7px 0px 7px;
   margin-right: 10px;
   font-size: 14px;
-  line-height: 30px;
+  line-height: 29px;
   height: 30px;
   
   &:hover{
@@ -25,5 +25,5 @@ export const GenreBox = styled.div`
 
 export const GenreButton = styled(OptionButton)<{$IsClick:boolean}>`
   color: ${props => props.$IsClick ? "white" : "#999999"};
-  border: solid ${props => props.$IsClick ? "2px white" : "2px #999999"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `
