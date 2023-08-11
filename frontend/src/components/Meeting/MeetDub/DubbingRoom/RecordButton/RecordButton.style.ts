@@ -6,7 +6,7 @@ export const RecordBox = styled.div`
   justify-content: space-between;
   align-items: center;
   border-top: 1px dashed #efefef;
-  margin-top: 42px;
+  margin-top: 20px;
   height: 150px;
   width: 350px;
 `
