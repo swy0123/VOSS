@@ -33,10 +33,10 @@ function BadgeBox() {
             onMouseLeave={()=>setSelect(0)}/>
             <BadgeBoxContent $hoverActive={select}>
             { !select
-            ? 1 
+            ? badge.cnt
             : select === badge.id
               ? <div style={{height: '2.5vw', display: 'flex', alignItems: 'center'}}>{badge.name}</div>
-              : "\u00A0"  
+              : "\u00A0"
             }
             </BadgeBoxContent>
           </BadgeItemDesign>
