@@ -11,13 +11,13 @@ import {
   PlayChangebState, 
   RoleSelectState, 
   ScriptSelectState } from "../../../recoil/Training";
-import { timeState, youtubeState } from "/src/recoil/HW_Atom";
+import { timeState } from "/src/recoil/HW_Atom";
 
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const [youtube, setYoutube] = useRecoilState<object|undefined>(youtubeState)
+  const [youtube, setYoutube] = useState<object|undefined>("")
   const [time, setTime] = useRecoilState(timeState);
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
@@ -53,7 +53,6 @@ function Video ({script, roles, lines}: ScriptData) {
         "controls" : 0,
         "fs": 0,
         "modestbranding": 0,
-        "modestbranding": 1,
       },
     });
     setYoutube(player)
