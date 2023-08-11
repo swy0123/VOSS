@@ -35,10 +35,29 @@ position: relative;
 `;
 
 export const UnderText = styled.div`
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
+display: flex;
+position: absolute;
+width: max-content;
+left: 50%;
+bottom: 10px;
+transform: translate(-50%, 0);
+font-size: 14px;
+
+
+.first-text {
+  margin-right: 8px;
+  text-decoration: none;
+  cursor: default;
+}
+
+.second-text {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: #7a8091;
+  }
+}
 `;
 
 export const InputDiv = styled.div`
