@@ -56,7 +56,10 @@ function BasicBox() {
         onMouseEnter={()=>setImgUpdate(true)}
         onMouseLeave={()=>setImgUpdate(false)}>
           {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
-          <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} alt="zammanbo"/>
+          { profile.imageUrl
+          ? <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} alt=""/>
+          : <img style={{width: '8vw', height: '8vw'}} src="/src/assets/Profile/ProfileNull.png" alt=""/>
+          }
         </ProfileImgDesign2>
       </ProfileImgDesign>
       

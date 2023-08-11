@@ -1,6 +1,7 @@
 // 게시글 목록 타입
 export interface PostListType {
   id?: number;
+  page: number;
   title?: string;
   nickname?: string;
   memberId?: number;
@@ -24,7 +25,7 @@ export interface PostType {
   hits?: number;
   likes?: number;
   liked?: boolean;
-  imageFiles?: Array<any>;
+  imageFiles?: Array<any>,
   otherFiles?: Array<any>;
   hasImageFile?: boolean;
   hasOtherFile?: boolean;

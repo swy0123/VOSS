@@ -15,14 +15,14 @@ import {
 } from "./PostList.style";
 
 
-function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, comments, likes, createdAt, hits}: PostListType) {
+function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, comments, likes, createdAt, hits, page}: PostListType ) {
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const goProfile = (id: number) => navigate(`/profile/${id}`);
 
   return(
     <PostListDesign>
-        <PostNumberDesign onClick={() => goPostDetail(id || 0)}>{id}</PostNumberDesign>
+        <PostNumberDesign onClick={() => goPostDetail(id || 0)}>{page}</PostNumberDesign>
         <PostTitleDesign onClick={() => goPostDetail(id || 0)}>{title}
         { hasImageFile
         ? <PostFileDesign src={HasImageFile} alt="HasImageFile"></PostFileDesign>
