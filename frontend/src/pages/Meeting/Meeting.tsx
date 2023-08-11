@@ -35,18 +35,18 @@ function Meeting() {
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
 
-  //뒤로가기 새로고침
-  useEffect(() => {
-    (() => {
-      window.addEventListener("beforeunload", onbeforeunload);
-      window.addEventListener("popstate", popstateHandler);
-    })();
+  // 뒤로가기 새로고침
+  // useEffect(() => {
+  //   (() => {
+  //     window.addEventListener("beforeunload", onbeforeunload);
+  //     window.addEventListener("popstate", popstateHandler);
+  //   })();
 
-    // return () => {
-    //   window.removeEventListener("beforeunload", onbeforeunload);
-    //   window.removeEventListener("popstate", popstateHandler);
-    // };
-  }, []);
+  //   // return () => {
+  //   //   window.removeEventListener("beforeunload", onbeforeunload);
+  //   //   window.removeEventListener("popstate", popstateHandler);
+  //   // };
+  // }, []);
 
   //이벤트 수신 감지
   useEffect(() => {
