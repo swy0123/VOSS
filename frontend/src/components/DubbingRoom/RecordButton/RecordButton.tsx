@@ -14,6 +14,7 @@ import {
   StopWatch, 
   Waves} from './RecordButton.style';
 import { PlayChangebState } from '/src/recoil/Training';
+import axios from "axios";
 
 function RecordButton () {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
@@ -60,8 +61,26 @@ function RecordButton () {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
-  const addRecord = (mediaBlobUrl) => {
-    setdubbingRecord([mediaBlobUrl,...dubbingRecord.slice(0,4)])
+  const addRecord = async (mediaBlobUrl:string) => {
+    const response = await fetch(mediaBlobUrl);
+    const blobData = await response.blob();
+
+    try {
+      const formData = new FormData();
+      const blob = new Blob([blobData], {type: "audio/webm;codecs=opus"});
+      formData.append("file", blob, "tmp.webm");
+
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      const response = await axios.post("https://courtney.reverof.p-e.kr:5000/combine", formData, config);
+  
+      setdubbingRecord([url,...dubbingRecord.slice(0,4)])
+    } catch (error) {
+      console.error('Error fetching merged audio:', error);
+    }
   }
 
   const changePracticeEnd = () => {
