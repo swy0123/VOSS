@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { dubbingRecordState } from '/src/recoil/HW_Atom';
+import { dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
 import { 
   CompleteBtn,
   NowRecording,
@@ -13,9 +13,12 @@ import {
   SectionBtn, 
   StopWatch, 
   Waves} from './RecordButton.style';
+import { PlayChangebState } from '/src/recoil/Training';
 
 function RecordButton () {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
+  const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [youtube, setYoutube] = useRecoilState<object|undefined>(youtubeState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
@@ -71,7 +74,19 @@ function RecordButton () {
     setPracticeStart(true)
     setPracticeEnd(false)
   }
+
+  // // 영상 플레이
+  // const SelfPlayVideo = () => {
+  //   youtube.playVideo()
+  //   setPlayChange([1, Math.floor(youtube.getCurrentTime())]);
+  // }
   
+  // // 영상 일시정지
+  // const SelfPauseVideo = () => {
+  //   youtube.pauseVideo()
+  //   setPlayChange([2, Math.floor(youtube.getCurrentTime())]);
+  // }
+
   return(
     <RecordBox>
       <StopWatch>{formatTime(time)}</StopWatch>

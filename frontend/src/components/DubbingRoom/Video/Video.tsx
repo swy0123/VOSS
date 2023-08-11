@@ -11,13 +11,13 @@ import {
   PlayChangebState, 
   RoleSelectState, 
   ScriptSelectState } from "../../../recoil/Training";
-import { timeState } from "/src/recoil/HW_Atom";
+import { timeState, youtubeState } from "/src/recoil/HW_Atom";
 
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const [youtube, setYoutube] = useState<object|undefined>("")
+  const [youtube, setYoutube] = useRecoilState<object|undefined>(youtubeState)
   const [time, setTime] = useRecoilState(timeState);
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
@@ -50,6 +50,10 @@ function Video ({script, roles, lines}: ScriptData) {
         'onStateChange' : onPlayStateChange,
       },
       playerVars:{
+        "controls" : 0,
+        "fs": 0,
+        "modestbranding": 0,
+        "modestbranding": 1,
       },
     });
     setYoutube(player)
@@ -57,12 +61,15 @@ function Video ({script, roles, lines}: ScriptData) {
 
   // 영상 상태 변경
   const onPlayStateChange = (event) => {
-    const nowTime = event.target.getCurrentTime();
+    const nowTime = event.target.getCurrentTime() * 10;
+    console.log(nowTime)
     if (event.data == YT.PlayerState.PLAYING) {
       setPlayChange([1, Math.floor(nowTime)]);
+      console.log("시작")
     }
     else if (event.data == YT.PlayerState.PAUSED) {
       setPlayChange([2, Math.floor(nowTime)]);
+      console.log("종료")
     }
   }
 
