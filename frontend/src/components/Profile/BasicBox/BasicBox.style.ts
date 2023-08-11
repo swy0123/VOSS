@@ -20,6 +20,9 @@ export const ProfileImgDesign = styled.div`
 
 export const ProfileImgDesign2 = styled.div`
   /* border: solid 2px yellow; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   aspect-ratio: 1/1;
   border-radius: 50%;
