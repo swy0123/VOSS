@@ -9,11 +9,11 @@ export const ProfileScrollDesign = styled.div`
   &::-webkit-scrollbar {
     display: none;
   };
-  border: solid 1px red;
+  /* border: solid 1px red; */
   `;
 
 export const ProfileDesign = styled.div`
-  border: dotted 1px yellow;
+  /* border: dotted 1px yellow; */
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -25,7 +25,7 @@ export const ProfileDesign = styled.div`
 `;
 
 export const ProfileSpace1 = styled.div`
-  border: dotted 1px white;
+  /* border: dotted 1px white; */
   display: flex;
   justify-content: center;
   height: 15vh;
@@ -33,7 +33,7 @@ export const ProfileSpace1 = styled.div`
   `;
 
 export const ProfileSpace2 = styled.div`
-  border: dotted 1px white;
+  /* border: dotted 1px white; */
   display: flex;
   justify-content: space-evenly;
   height: 42vh;

@@ -61,7 +61,7 @@ export const HistoryContentDesign = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 60%;
+  height: 70%;
   color: white;
   position: relative; /* 부모 컨테이너를 기준으로 하위 컴포넌트를 배치하기 위해 설정 */
   img {

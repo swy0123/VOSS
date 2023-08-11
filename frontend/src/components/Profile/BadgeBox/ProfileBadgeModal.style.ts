@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-//---------------배지 모달------------------
+
 export const ModalHeader = styled.div`
   color: white;
   text-align: center;
@@ -33,7 +33,7 @@ export const DialogBox = styled.dialog`
   border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 10000;
 `;
 
@@ -44,7 +44,7 @@ export const Backdrop = styled.div`
   position: fixed;
   top: 0;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
 `;
 
 
@@ -77,6 +77,17 @@ export const MeetBadgeImg = styled.img`
   pointer-events: auto;
 `;
 
+export const MeetBadgeImg2 = styled.img`
+  height: 60px;
+  width: 60px;
+  margin: 0 10px;
+  pointer-events: auto;
+  opacity: 0.4;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export const TmpButton = styled.div`
   pointer-events: auto;
   display: flex;
@@ -102,7 +113,7 @@ export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
-  top: 65%;
+  top: 70%;
   width: max-content;
   height: auto;
   text-align: center;
@@ -112,7 +123,9 @@ export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
   font-size: 14px;
   color: white;
 
-  ${(props) => (props.$hoverActive > 0 ? "animation-duration: 1s; animation-name: fadeout;" : "")}
+  ${(props) => props.$hoverActive > 0
+  ? "animation-duration: 1s; animation-name: fadeout;"
+  : "animation-duration: 0.5s; animation-name: fadeoutslow;"};
 
   @keyframes fadeout {
     0% {
@@ -121,7 +134,7 @@ export const MeetBadgeHovor = styled.div<{ $hoverActive: number }>`
     }
     100% {
       opacity: 1;
-      top: 65%;
+      top: 70%;
     }
   }
 `;
