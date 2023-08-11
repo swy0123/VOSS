@@ -46,6 +46,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   }
   const goGame = () => {
     navigate("/game")
+    location.reload();
   }
   const goAccent = async () => {
     await postRractice("DICTION")
