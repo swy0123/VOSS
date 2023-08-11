@@ -25,7 +25,7 @@ export interface PostType {
   hits?: number;
   likes?: number;
   liked?: boolean;
-  imageFiles?: Array<any>,
+  imageFiles?: Array<any>;
   otherFiles?: Array<any>;
   hasImageFile?: boolean;
   hasOtherFile?: boolean;
