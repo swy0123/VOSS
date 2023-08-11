@@ -2,12 +2,13 @@ import { styled } from "styled-components";
 
 
 export const HistoryBoxDesign = styled.div`
-  width: 30vw;
-  height: 100%;
+  /* border: solid 1px red; */
+  width: 27vw;
+  height: 22vw;
+  /* height: 100%; */
   color: white;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 30px;
-  /* border: solid 1px red; */
 `;
 
 export const HistoryTitleDesign = styled.div`
@@ -30,9 +31,15 @@ export const HistoryDetailDesign = styled.div`
   font-weight: bold;
   font-size: 2.2vh;
   width: 100%;
-  height: 10%;
+  height: 5%;
   color: white;
   `;
+
+export const HistoryTopPaddingDesign = styled.div`
+  /* border: dotted 1px white; */
+  width: 100%;
+  height: 5%;
+`;
 
 export const HistoryDetailIconDesign = styled.div`
   /* border: dotted 1px white; */
@@ -40,7 +47,7 @@ export const HistoryDetailIconDesign = styled.div`
   justify-content: end;
   align-items: center;
   color: white;
-  height: 15%;
+  height: 30%;
   width: 10%;
   `;
 
@@ -52,7 +59,7 @@ export const HistoryDetailNameDesign = styled.div`
   font-size: 1.7vh;
   color: white;
   height: 100%;
-  width: 18%;
+  width: 19%;
 `;
 
 export const HistoryContentDesign = styled.div`
@@ -61,10 +68,7 @@ export const HistoryContentDesign = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 70%;
+  height: 73%;
   color: white;
   position: relative; /* 부모 컨테이너를 기준으로 하위 컴포넌트를 배치하기 위해 설정 */
-  img {
-    height: 100%;
-  }
 `;
