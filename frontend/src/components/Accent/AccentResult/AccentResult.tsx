@@ -9,11 +9,21 @@ function AccentResult () {
   const [accuracyRate, setAccuracyRate] = useState<number>(0)
 
   // 발음 정확도 분석
-  function levenshteinDistance(str1: string, str2: string): number {
-  const len1 = str1.length;
-  const len2 = str2.length;
+function levenshteinDistance(str1: string, str2: string): number {
+  // // 정규식 선언 (특수문자, 괄호, 공백 모두 제거 실시 - 점은 제거 안함)
+  // var reg = /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/ ]/gim;
+  // // 정규식 선언 (특수문자, 괄호, 점, 공백 모두 제거 실시)
+  var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+  
+  // 정규식 선언 (특수문자, 괄호, 점 모두 제거 실시 - 공백은 제거 안함)
+  // var reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim;
+  const str1Modified = str1.replace(reg, "");
+  const str2Modified = str2.replace(reg, "");
+  
+  const len1 = str1Modified.length;
+  const len2 = str2Modified.length;
   const dp: number[][] = [];
-
+  
   for (let i = 0; i <= len1; i++) {
     dp[i] = [i];
   }
@@ -24,7 +34,7 @@ function AccentResult () {
 
   for (let i = 1; i <= len1; i++) {
     for (let j = 1; j <= len2; j++) {
-      const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      const cost = str1Modified[i - 1] === str2Modified[j - 1] ? 0 : 1;
       dp[i][j] = Math.min(
         dp[i - 1][j] + 1, // deletion
         dp[i][j - 1] + 1, // insertion
@@ -45,8 +55,6 @@ function calculateStringAccuracy(actual: string, sttResult: string) {
 useEffect(() => {
   calculateStringAccuracy(accentScript,accentStt)
 },[accentStt])
-
-
   return (
     <ResultBox>
       <Text>{accentStt}</Text>
@@ -58,3 +66,4 @@ useEffect(() => {
   )
 }
 export default AccentResult
+
