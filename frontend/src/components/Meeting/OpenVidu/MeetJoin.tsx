@@ -61,11 +61,19 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   //뒤로가기 새로고침
   useEffect(() => {
+
+    const prevPage = localStorage.getItem('prevPage');
+    if (prevPage === ('/meeting')) {
+      joinSession(); //이건 필요
+    } else {
+      leaveSession();
+      navigate('/meeting')
+    }
+
     (() => {
-      window.addEventListener("beforeunload", onbeforeunload);
-      window.addEventListener("popstate", popstateHandler);
+      // window.addEventListener("beforeunload", onbeforeunload);
+      // window.addEventListener("popstate", popstateHandler);
     })();
-    joinSession(); //이건 필요
 
     // return () => {
     //   window.removeEventListener("beforeunload", onbeforeunload);
