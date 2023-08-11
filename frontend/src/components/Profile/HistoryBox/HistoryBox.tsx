@@ -6,6 +6,7 @@ import {
     HistoryDetailIconDesign,
     HistoryDetailNameDesign,
     HistoryContentDesign,
+    HistoryTopPaddingDesign,
 } from "./HistoryBox.style";
 
 
@@ -24,6 +25,7 @@ function HistoryBox() {
       <HistoryContentDesign>
         <DoughnutChart></DoughnutChart>
       </HistoryContentDesign>
+      <HistoryTopPaddingDesign/>
     </HistoryBoxDesign>
   );
 };
