@@ -10,6 +10,7 @@ export const VedioOuterDiv = styled.div`
   aspect-ratio: 3 / 2;
   border-radius: 12px;
   border: 1px solid #333;
+  margin: 10px;
 
   &:hover {
     background-color: transparent;
