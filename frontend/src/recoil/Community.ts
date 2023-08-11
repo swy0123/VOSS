@@ -51,6 +51,14 @@ export const FreeBoardTotalPagesState = atom<number>({
 });
 
 
+// 자유게시판 전체 게시글 개수
+export const FreeBoardTotalElementsState = atom<number>({
+  key: "FreeBoardTotalElementsState",
+  default: 1,
+  effects_UNSTABLE: [persistAtom],
+});
+
+
 // 자유게시판 현재 댓글 개수
 export const FreeBoardCommentCountState = atom<number>({
   key: "FreeBoardCommentCountState",

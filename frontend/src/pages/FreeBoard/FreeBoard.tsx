@@ -7,7 +7,7 @@ import Messenger from "/src/components/Message/Messenger";
 import PostList from "../../components/FreeBoard/PostList/PostList";
 import { PostListType } from "/src/type/FreeBoard";
 import { useRecoilState } from "recoil";
-import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState } from "/src/recoil/Community";
+import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState, FreeBoardTotalElementsState } from "/src/recoil/Community";
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png"
 import {
   FreeBoardDesign,
@@ -35,12 +35,12 @@ import {
 function FreeBoard () {
   const navigate = useNavigate();
   const goPostCreate = () => navigate('/freeboard/create');
-
   const [input, setInput] = useRecoilState<string>(FreeBoardInputState);
   const [sort, setSort] = useRecoilState<string>(FreeBoardSortState);
   const [cond, setCond] = useRecoilState<string>(FreeBoardCondState);
   const [currentPage, setCurrentPage] = useRecoilState<number>(FreeBoardCurrentPageState);
   const [totalPages, setTotalPages] = useRecoilState<number>(FreeBoardTotalPagesState);
+  const [totalElements, setTotalElements] = useRecoilState<number>(FreeBoardTotalElementsState);
   const [posts, setPosts] = useRecoilState<PostListType[]>(FreeBoardListState);
 
   const clickPageChange = (page: number) => {
@@ -72,6 +72,7 @@ function FreeBoard () {
       if(postsData) {
         setPosts(postsData.content)
         setTotalPages(postsData.totalPages)
+        setTotalElements(postsData.totalElements)
       };
     });
   };
@@ -129,9 +130,10 @@ function FreeBoard () {
           <PostCategoryLikeDesign>좋아요</PostCategoryLikeDesign>
         </PostCategoryDesign>
 
-        {posts?.map(post => (
+        {posts?.map((post, index) => (
           <PostList
-            key={post.id} 
+            key={post.id}
+            page={totalElements - 10 * (currentPage - 1) - index}
             id={post.id}
             title={post.title} 
             memberId={post.memberId}
@@ -172,17 +174,19 @@ function FreeBoard () {
       </FreeBoardDesign>
 
       <PaginationWrapper>
-      {currentPage > 1 && (
-        <PaginationItem onClick={() => clickPageChange(currentPage - 1)}>이전</PaginationItem>
-      )}
+      {currentPage > 1
+      ? <PaginationItem onClick={() => clickPageChange(currentPage - 1)}>이전</PaginationItem>
+      : <PaginationItem style={{visibility: "hidden"}}>이전</PaginationItem>
+      }
       {pages.slice(startPage - 1, endPage).map((page) => (
         <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
           {page}
         </PaginationItem>
       ))}
-      {currentPage < totalPages && (
-        <PaginationItem onClick={() => clickPageChange(currentPage + 1)}>다음</PaginationItem>
-      )}
+      {currentPage < totalPages
+      ? <PaginationItem onClick={() => clickPageChange(currentPage + 1)}>다음</PaginationItem>
+      : <PaginationItem style={{visibility: "hidden"}}>다음</PaginationItem>
+      }
       </PaginationWrapper>
 
       <Messenger/>
