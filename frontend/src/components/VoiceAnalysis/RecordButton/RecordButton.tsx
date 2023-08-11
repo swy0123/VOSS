@@ -22,6 +22,8 @@ function RecordButton () {
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<number|null>(null);
   const [time, setTime] = useState(0);
+  const stopRef = useRef<number|null>(null);
+  const [stop, setStop] = useState(0);
   const { 
     startRecording, 
     stopRecording, 
@@ -39,21 +41,24 @@ function RecordButton () {
   const startOrStop = () => {
     if (!isRunning) {
       setIsRunning(true);
+
+      // 녹음 시간
       intervalRef.current = setInterval(() => {
         setTime((prevTime) => prevTime + 10);
       }, 10);
+
+      // 녹은 시간 20초 제한
+      stopRef.current = setInterval(() => {
+        setStop((prevTime) => prevTime + 1);
+      }, 100);
     }
     else if (isRunning && intervalRef.current) {
       clearInterval(intervalRef.current);
+      clearInterval(stopRef.current);
       setIsRunning(false);
     }
     setInitialBtn(false)
   }
-
-  useEffect(()=>{
-    if(time === 20000) {startOrStop()}
-    console.log(time)
-  },[time])
 
   const resetTimer = () => {
       clearInterval(intervalRef.current);
@@ -81,6 +86,17 @@ function RecordButton () {
     setPracticeStart(true)
     setPracticeEnd(false)
   }
+  
+  // 녹은 시간 20초 제한
+  useEffect(()=>{
+    if(stop === 200) {
+      startOrStop()
+      stopRecording()
+      setPracticeStart(false)
+      setPracticeEnd(false)
+    }
+  },[stop])
+
 
   return(
     <RecordBox>
@@ -95,6 +111,7 @@ function RecordButton () {
         { !initialBtn && !isRunning ?
         <RestartBtn
           onClick={() => {
+            setStop(0)
             resetTimer()
             stopRecording()
             clearBlobUrl()}}>취소</RestartBtn> : ""}
@@ -130,11 +147,14 @@ function RecordButton () {
             </NowRecording>) :
             (<RecordBtn
               onClick={() => {
+                if (stop === 200){ 
+                  alert("녹음을 완료/취소 해주세요")
+                  return }
                 startOrStop()
                 resumeRecording()
                 changePracticeEnd()}}
               onMouseEnter={() => 
-                  setPracticeStart(true)}
+                setPracticeStart(true)}
               onMouseLeave={() => {
                 setPracticeStart(false)
                 setPracticeEnd(false)}}
@@ -144,6 +164,7 @@ function RecordButton () {
         { !initialBtn && !isRunning ?
         <CompleteBtn
             onClick={() => {
+                setStop(0)
                 stopRecording()
                 addRecord(mediaBlobUrl)
                 resetTimer()
