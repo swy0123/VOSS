@@ -15,6 +15,7 @@ import PostUpdate from "./components/FreeBoard/PostUpdate/PostUpdate";
 import MeetingBoard from "./pages/MeetingBoard/MeetingBoard";
 import Meeting from "./pages/Meeting/Meeting";
 import Profile from "./pages/Profile/Profile";
+import Game from "./pages/Game/Game";
 import Avatar from "./pages/Avatar/Avatar";
 
 const router = createBrowserRouter([
@@ -55,6 +56,11 @@ const router = createBrowserRouter([
             {
                 path: "freeboard",
                 element: <FreeBoard />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "game",
+                element: <Game />,
                 errorElement: <ErrorComponent />,
             },
             {
