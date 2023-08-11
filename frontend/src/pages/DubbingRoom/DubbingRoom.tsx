@@ -55,6 +55,7 @@ function Dubbing() {
         <RightSection>
           <Recording></Recording>
           <RecordButton
+            script={video.script}
             lines={video.lines}></RecordButton>
         </RightSection>
       
