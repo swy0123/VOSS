@@ -1,12 +1,15 @@
 import Avatar, { genConfig } from 'react-nice-avatar'
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { HexColorPicker } from "react-colorful";
-import { ModalOverlay, ModalContent, CompleteButton } from "./ImageModifyModal.style"
+import { ModalOverlay, ModalContent, CompleteButton, ToggleButton } from "./ImageModifyModal.style"
+import Tabs from './Tabs';
+import Tab from './Tab';
+import { Margin } from '@mui/icons-material';
 
 
 interface ImageModalDefaultType {
   handleConfigUpdate: (config: any) => void;
 }
+
 
 const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDefaultType>) => {
   type Gender = "man" | "woman";
@@ -24,6 +27,10 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     setFaceColor(faceColor);
   }, [faceColor]);
 
+  useEffect(() => {
+    setShirtColor(shirtColor);
+  }, [shirtColor]);
+
   const handleCompleteClick = () => {
     handleConfigUpdate(config);
   };
@@ -32,53 +39,52 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     setGender(prevGender => (prevGender === "man" ? "woman" : "man"));
   };
 
-  const handleShowHairPicker = () => {
-    const colorPicker = document.getElementById("hairColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "hidden" ? "visible" : "hidden";
-    }
-  };
+  type TabsType = {
+    label: string;
+    index: number;
+    Component: React.FC<{}>;
+  }[];
 
-  const handleShowFacePicker = () => {
-    const colorPicker = document.getElementById("faceColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
+  const tabs: TabsType = [
+    {
+      label: "머리 색",
+      index: 1,
+      Component: () => <Tab content="일부 조건에서는 적용되지 않습니다" handleColorChange={setHairColor} newColor={hairColor} />
+    },
+    {
+      label: "얼굴 색",
+      index: 2,
+      Component: () => <Tab content="얼굴 색을 지정해주세요" handleColorChange={setFaceColor} newColor={faceColor} />
+    },
+    {
+      label: "상의 색",
+      index: 3,
+      Component: () => <Tab content="상의 색을 자유롭게 골라주세요" handleColorChange={setShirtColor} newColor={shirtColor} />
     }
-  };
-
-  const handleShowShirtPicker = () => {
-    const colorPicker = document.getElementById("shirtColorPicker");
-    if (colorPicker) {
-      colorPicker.style.visibility = colorPicker.style.visibility === "visible" ? "hidden" : "visible";
-    }
-  };
-  
+  ];
+  const [selectedTab, setSelectedTab] = useState<number>(tabs[0].index);
 
   return (
     <ModalOverlay>
       <ModalContent>
+        <div style={{
+          color: "#555",
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginTop: "15px"
+        }}>
+          프로필 이미지 꾸미기
+        </div>
+
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%' }}>
           <div style={{ position: 'relative' }}>
-            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem' }} {...config} />
+            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem', marginTop: "20px" }} {...config} />
           </div>
         </div>
-        <button onClick={handleGenderChange}>
+        <ToggleButton gender={gender} onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
-        </button>
-        <div className='image-options'>
-          <div>
-            <button onClick={handleShowHairPicker}>머리 색</button>
-            <HexColorPicker id="hairColorPicker" color={hairColor} onChange={setHairColor} />
-          </div>
-          <div>
-            <button onClick={handleShowFacePicker}>얼굴 색</button>
-            <HexColorPicker id="faceColorPicker" color={faceColor} onChange={setFaceColor} />
-          </div>
-          <div>
-            <button onClick={handleShowShirtPicker}>옷 색</button>
-            <HexColorPicker id="shirtColorPicker" color={shirtColor} onChange={setShirtColor} />
-          </div>
-        </div>
+        </ToggleButton>
+        <Tabs selectedTab={selectedTab} tabs={tabs} />
         <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
       </ModalContent>
     </ModalOverlay>

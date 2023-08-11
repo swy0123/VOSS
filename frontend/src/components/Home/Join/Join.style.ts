@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 
+
 export const Container = styled.div`
   background-color: #ffffff;
   /* width: 25%;
@@ -41,21 +42,51 @@ export const Title = styled.div`
 `;
 
 export const ModifyButton = styled.div`
+  border: none;
   position: absolute;
   bottom: 0;
   left: 4rem;
-  background: grey;
+  background: #aaa;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   font-size: 12px;
-  zindex: 1;
+  height: 22px;
+  width: 22px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+`;
+
+export const ModifyImg = styled.img`
+  width: 15px;
+  height: 15px;
+  margin: auto;
 `;
 
 export const UnderText = styled.div`
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
+display: flex;
+position: absolute;
+width: max-content;
+left: 50%;
+bottom: 10px;
+transform: translate(-50%, 0);
+font-size: 14px;
+
+
+.first-text {
+  margin-right: 8px;
+  text-decoration: none;
+  cursor: default;
+}
+
+.second-text {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: #7a8091;
+  }
+}
 `;
 
 export const InputDiv = styled.div`
