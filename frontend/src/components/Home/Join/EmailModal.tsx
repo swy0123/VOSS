@@ -36,7 +36,7 @@ const ModalContainer = styled.div`
 const DialogBox = styled.dialog`
   width: 300px;
   height: 200px;
-  padding: 7px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   font-weight: bold;
@@ -68,9 +68,8 @@ const ExitImg = styled.img`
 `;
 
 const TagButton = styled.div`
-  position: relative;
-  background-color: transparent;
-  border: 1px solid #bdbdbd;
+  color: black;
+  border: 1px solid #999;
   border-radius: 8px;
   color: #6c6c6c;
   padding: 0 2.5%;
@@ -79,12 +78,18 @@ const TagButton = styled.div`
   height: 40px;
   margin: 8px auto;
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 
   &:hover {
-    transform: scale(1.05);
     transition: 0.2s;
+    
+    background-color: #ccc;
+    color: white;
+    border-color: #ccc;
   }
 `;
+
 
 const ButtonText = styled.p`
   margin: 12px;
@@ -179,8 +184,8 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
         </div>
         <div>
           <InputDiv>
-            <InputHeader>인증번호</InputHeader>
-            <Input type="text" onChange={handleCheckField} placeholder="인증번호" />
+            <InputHeader>Confirm Code</InputHeader>
+            <Input type="text" onChange={handleCheckField} placeholder="인증코드를 입력해주세요" $isChecked={true} />
             {isActivate ? (
               <TagButton onClick={onClickButton}>
                 <ButtonText>인증하기</ButtonText>
