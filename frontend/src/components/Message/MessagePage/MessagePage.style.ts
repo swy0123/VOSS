@@ -38,12 +38,14 @@ export const MessegeList = styled.div`
   height: 340px;
   position: relative;
   top: -9px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 100%);
   overflow-y: auto;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    display: none;
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #535353;
+    border-radius: 10px;
   }
   `;
 

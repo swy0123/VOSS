@@ -82,6 +82,26 @@ import {
 };
 
 useEffect(() => {
+  const scrollToBottom = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
+  // 스크롤 위치를 조정하여 .time 속성이 가장 큰 메시지로 이동
+  const scrollToLatestMessage = () => {
+    const latestMessage = messages.reduce((latest, message) => {
+      if (!latest || (message.time && message.time > latest.time)) {
+        return message;
+      }
+      return latest;
+    }, null);
+
+    if (latestMessage) {
+      scrollToBottom(); // 스크롤을 가장 아래로 이동
+    }
+  };
+
+  scrollToLatestMessage();
+
   console.log("messageRoom mounted")
   
   if (!socketRef.current) {

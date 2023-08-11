@@ -2,13 +2,14 @@ import { styled } from "styled-components";
 
 export const MessageCardDiv = styled.div`
   width: 95%;
-  height: 45px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  /* border: solid 1px red; */
   &:hover {
-    background-color: rgba(217, 217, 217, 0.5);
+    background-color: rgba(217, 217, 217, 0.9);
   }
 `;
 
