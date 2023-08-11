@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { postRractice } from '/src/api/profile';
 import { 
@@ -27,9 +27,32 @@ function SelectCategory () {
   const [TrainIsShown, setTrainIsShown] = useState(false)
   const [MeetIsShown, setMeetIsShown] = useState(false)
   const [CommunityIsShown, setCommunityIsShown] = useState(false)
+  const [, setMicrophonePermission] = useState<boolean | null>(null)
+  const [, setCameraPermission] = useState<boolean | null>(null)
 
   // Router Link와 동일한 부분
   const navigate = useNavigate() 
+
+  useEffect(() => {
+    async function requestMediaPermissions() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
+
+        setMicrophonePermission(true);
+        setCameraPermission(true);
+
+        stream.getTracks().forEach((track) => track.stop());
+      } catch (error) {
+        setMicrophonePermission(false);
+        setCameraPermission(false);
+      }
+    }
+
+    requestMediaPermissions();
+  }, []);
 
   const goVoiceAnalysis = () => {
     void postRractice("ACT")
