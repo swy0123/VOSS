@@ -44,6 +44,10 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   const goDubbingList = () => {
     navigate("/dubbinglist")
   }
+  const goGame = () => {
+    navigate("/game")
+    location.reload();
+  }
   const goAccent = async () => {
     await postRractice("DICTION")
     navigate("/accent")
@@ -76,6 +80,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       <Menuitems>
         <Item onClick={goFreeBoard}>자유게시판</Item>  
         <Item>녹음게시판</Item>  
+        <Item onClick={goGame}>목소리 마피아</Item>  
       </Menuitems>
     </MenuBox>
   )
