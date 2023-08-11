@@ -48,7 +48,7 @@ export const BottomBar = styled.div`
 
 export const CloseSectionBtn = styled.img`
   margin: 0 auto;
-  width: 30px;
+  width: 60px;
   height: 30px;
 `;
 

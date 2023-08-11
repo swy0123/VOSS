@@ -9,6 +9,7 @@ export const Container = styled.div`
 `
 export const Title = styled.h2`
   color: white;
+  margin-top: 0px;
   text-align: left;
   margin-bottom: 10px;
 `
