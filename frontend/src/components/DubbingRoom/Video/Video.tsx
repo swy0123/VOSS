@@ -51,8 +51,7 @@ function Video ({script, roles, lines}: ScriptData) {
       },
       playerVars:{
         "controls" : 0,
-        "fs": 0,
-        "modestbranding": 0,
+        "disablekb" : 1,
       },
     });
     setYoutube(player)

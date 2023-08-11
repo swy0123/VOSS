@@ -57,7 +57,7 @@ export const Time = styled(Script_Unit)`
 `
 
 export const formatTime = (durationInSec: number) => {
-  const minutes = Math.floor(durationInSec / 10 / 600)
-  const second = Math.floor(durationInSec / 10 % 600)
+  const minutes = Math.floor(durationInSec / 600)
+  const second = Math.floor(durationInSec / 10 % 60)
   return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
 }
