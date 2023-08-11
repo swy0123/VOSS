@@ -40,22 +40,22 @@ export const OptionCreate = styled.button`
 export const GenderBox = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
   height: 33px;
 `
 export const AgeBox =styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
   height: 33px;
   margin: 8px 0px 18px 0px;
 `
 export const OptionButton = styled.button`
+  background-color: transparent;
   border-radius: 12px;
-  line-height: 30px;
+  line-height: 29px;
   height: 30px;
   margin-left: 7px;
-  font-weight: 800;
   padding: 0px 7px 0px 7px;
   cursor: pointer;
   
@@ -65,14 +65,12 @@ export const OptionButton = styled.button`
   }
 `
 export const GenderButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "#222222" : "white"};
-  border: solid ${props => props.$IsClick ? "1px white" : "1px white"};
-  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
+  color: ${props => props.$IsClick ? "white" : "#999999"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `
 export const AgeButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "#222222" : "white"};
-  border: solid ${props => props.$IsClick ? "1px white" : "1px white"};
-  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
+  color: ${props => props.$IsClick ? "white" : "#999999"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `
 export const ScriptBox = styled.div`
   display: flex;

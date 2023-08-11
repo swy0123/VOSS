@@ -40,17 +40,17 @@ export const OptionCreate = styled.button`
 export const CategoryBox =styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
-  height: 33px;
+  font-size: 13px;
+  height: 30px;
   margin:8px 0px 18px 0px;
 `
 export const OptionButton = styled.button`
-  border-radius: 14px;
-  line-height: 30px;
+  background-color: transparent;
+  border-radius: 12px;
+  line-height: 29px;
   height: 30px;
   padding: 0px 7px 0px 7px;
   margin-left: 7px;
-  font-weight: 800;
   cursor: pointer;
   
   &:hover{
@@ -59,9 +59,8 @@ export const OptionButton = styled.button`
   }
 `
 export const CategoryButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "#222222" : "white"};
-  border: solid ${props => props.$IsClick ? "1px black" : "1px white"};
-  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
+  color: ${props => props.$IsClick ? "white" : "#999999"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `
 export const ScriptBox = styled.div`
   display: flex;
