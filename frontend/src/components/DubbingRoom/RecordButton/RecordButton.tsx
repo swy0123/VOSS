@@ -18,7 +18,6 @@ import { PlayChangebState } from '/src/recoil/Training';
 function RecordButton () {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
-  const [youtube, setYoutube] = useRecoilState<object|undefined>(youtubeState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
