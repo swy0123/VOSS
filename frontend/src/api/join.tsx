@@ -8,7 +8,7 @@ interface JoinProps {
 }
 // http://i9b106.p.ssafy.io:8080/
 // http://wonyoung210.p-e.kr:8080/member
-const BASE_URL = "https://localhost:8080";
+const BASE_URL = "https://i9b106.p.ssafy.io:8080";
 
 export const uploadFile = async (formData: FormData) => {
     
