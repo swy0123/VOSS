@@ -15,8 +15,13 @@ import {
   Waves} from './RecordButton.style';
 import { PlayChangebState } from '/src/recoil/Training';
 import axios from "axios";
+import { Line } from '/src/type/type';
 
-function RecordButton () {
+interface VideoProps {
+  lines : Line[]
+}
+
+function RecordButton ({lines}: VideoProps) {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [practiceStart, setPracticeStart] = useState(false)
@@ -32,7 +37,11 @@ function RecordButton () {
     clearBlobUrl,
     pauseRecording,
     resumeRecording,
-    mediaBlobUrl } = useReactMediaRecorder({ audio: true });
+    mediaBlobUrl } = useReactMediaRecorder({ audio: true, 
+      video: false,
+      mediaRecorderOptions: {
+        mimeType: 'audio/webm;codecs=opus',
+      } });
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -72,12 +81,15 @@ function RecordButton () {
 
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',  
         },
+        responseType: 'blob',
       };
-      const response = await axios.post("https://courtney.reverof.p-e.kr:5000/combine", formData, config);
+      const res = await axios.post("https://courtney.reverof.p-e.kr:5000/combine?parts=26:147&parts=182:210&parts=253:337&parts=402:438", formData, config);
+      const newBlob = new Blob([res.data], {type: "audio/mp3"})
+      const audioBlobURL = URL.createObjectURL(newBlob);
   
-      setdubbingRecord([url,...dubbingRecord.slice(0,4)])
+      setdubbingRecord([audioBlobURL,...dubbingRecord.slice(0,4)])
     } catch (error) {
       console.error('Error fetching merged audio:', error);
     }
