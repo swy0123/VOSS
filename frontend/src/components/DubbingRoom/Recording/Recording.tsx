@@ -46,7 +46,7 @@ function Recording (){
             }}/>
             <a href={file} download="my-audio-file.mp3">
               <DownloadImg src="/src/assets/Training/download.png"/>
-            </a>
+            </a> 
           </RecordItem>
         ))}
       </RecordBox>

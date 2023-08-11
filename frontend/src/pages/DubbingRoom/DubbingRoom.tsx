@@ -54,7 +54,8 @@ function Dubbing() {
         
         <RightSection>
           <Recording></Recording>
-          <RecordButton></RecordButton>
+          <RecordButton
+            lines={video.lines}></RecordButton>
         </RightSection>
       
       </Container>
