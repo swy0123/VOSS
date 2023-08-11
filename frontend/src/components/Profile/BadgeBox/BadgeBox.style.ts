@@ -2,16 +2,18 @@ import { styled } from "styled-components";
 
 
 export const BadgeBoxDesign = styled.div`
+  /* border: solid 1px red;   */
   position: relative;
-  width: 30vw;
-  height: 100%;
+  width: 27vw;
+  height: 22vw;
+  /* height: 100%; */
   color: white;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 30px;
-  /* border: solid 1px red; */
 `;
 
 export const BadgeTitleDesign = styled.div`
+  /* border: dotted 1px white; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,34 +22,40 @@ export const BadgeTitleDesign = styled.div`
   width: 100%;
   height: 20%;
   color: white;
-  /* border: dotted 1px white; */
   `;
 
 export const BadgeTitleDetailDesign = styled.div`
+  /* border: dotted 1px white; */
+  font-size: 1vh;
   /* display: 'flex'; */
   text-align: end;
   position: absolute;
-  font-size: 1vh;
-  margin-left: 20.5vw;
+  /* margin-right: 2vw; */
   opacity: 0.6;
-  width: 7vw;
-  /* border: dotted 1px white; */
+  width: 24vw;
   &:hover {
     opacity: 0.8;
   }
 `;
 
+export const BadgeTopPaddingDetailDesign = styled.div`
+  /* border: dotted 1px white; */
+  width: 100%;
+  height: 5%;
+  `;
+
 export const BadgeContentDesign = styled.div`
   /* border: solid 1px red; */
   margin: 0 auto;
+  padding: 0 1.5vw;
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
-  width: 28vw;
-  height: 79%;
+  width: 24vw;
+  height: 70%;
   color: white;
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 0.4vw;
     border-radius: 6px;
     
   }
@@ -64,8 +72,8 @@ export const BadgeItemDesign = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 8.9vw;
-  height: 8.9vw;
+  width: 5.9vw;
+  height: 5.9vw;
   img {
     width: 50%;
     aspect-ratio: 1/1;
@@ -81,7 +89,7 @@ export const BadgeBoxContent = styled.div<{$hoverActive: number}>`
 
   ${({$hoverActive}) => $hoverActive > 0
     ? "animation-duration: 1.5s; animation-name: fadeout;"
-    : "animation-duration: 2.2s; animation-name: fadeoutslow;"};
+    : "animation-duration: 0.1s; animation-name: fadeoutslow;"};
 
   @keyframes fadeout {
     0% {
@@ -99,4 +107,11 @@ export const BadgeBoxContent = styled.div<{$hoverActive: number}>`
       opacity: 1;
     }
   };
-`
+`;
+
+export const BadgeBoxContent2 = styled.div`
+  /* border: solid 1px red; */
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.9vw;
+`;
