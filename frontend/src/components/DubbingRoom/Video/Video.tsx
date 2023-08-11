@@ -50,6 +50,7 @@ function Video ({script, roles, lines}: ScriptData) {
         'onStateChange' : onPlayStateChange,
       },
       playerVars:{
+        "controls" : 0,
       },
     });
     setYoutube(player)
@@ -57,12 +58,15 @@ function Video ({script, roles, lines}: ScriptData) {
 
   // 영상 상태 변경
   const onPlayStateChange = (event) => {
-    const nowTime = event.target.getCurrentTime();
+    const nowTime = event.target.getCurrentTime() * 10;
+    console.log(nowTime)
     if (event.data == YT.PlayerState.PLAYING) {
       setPlayChange([1, Math.floor(nowTime)]);
+      console.log("시작")
     }
     else if (event.data == YT.PlayerState.PAUSED) {
       setPlayChange([2, Math.floor(nowTime)]);
+      console.log("종료")
     }
   }
 
