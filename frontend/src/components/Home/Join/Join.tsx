@@ -8,6 +8,9 @@ import { useRecoilState } from "recoil";
 import { LoginModeAtom } from "../../../recoil/Auth";
 import EmailModal from "./EmailModal";
 import ImageModifyModal from "./ImageModifyModal";
+
+import modifyImage from '../../../assets/main/Modify.png';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
   Container,
@@ -23,8 +26,10 @@ import {
   BlockedButton,
   ModifyButton,
   CheckDiv,
+  ModifyImg,
   // CheckMsg,
 } from "./Join.style";
+import { Icon } from "../Login/Login.style";
 
 const Login = () => {
   const [nickName, setNickName] = useState("");
@@ -190,7 +195,7 @@ const Login = () => {
             style={{ width: "5rem", height: "5rem" }}
             {...config}
           />
-          <ModifyButton onClick={handleModifyClick}>수정</ModifyButton>
+          <ModifyButton onClick={handleModifyClick}><ModifyImg src={modifyImage}/></ModifyButton>
         </div>
       </div>
 
