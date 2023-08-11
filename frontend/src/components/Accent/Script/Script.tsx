@@ -18,8 +18,8 @@ import {
 
 function Script() {
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState)
-  const categoryOpt = ["뉴스", "날씨","법률","스포츠","직접 입력"]
-  const [isCategorySelect,setIsCategorySelect] = useState<boolean[]>([])
+  const categoryOpt = ["뉴스", "날씨","법률","스포츠","과학"]
+  const [isCategorySelect,setIsCategorySelect] = useState<boolean[]>([true,false,false,false,false])
   const [categorySelected,setCategorySelected] = useState<string[]>([])
   
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,11 +28,8 @@ function Script() {
   const DelScripts = () => {setAccentScript("")}
 
   const handleCategoryBtn = (index:number) => {
-    const newCategorySelect = Array(categoryOpt.length).fill(false)
-    newCategorySelect[index] = !isCategorySelect[index]
-    setIsCategorySelect(newCategorySelect)
-
-    const CategorySelected = categoryOpt.filter((category,index)=>(newCategorySelect[index]===true))
+    setIsCategorySelect(isCategorySelect.map((_,C_idx) => (C_idx === index)))
+    const CategorySelected = categoryOpt.filter((_,index)=>(isCategorySelect[index]===true))
     setCategorySelected(CategorySelected)
   }
 

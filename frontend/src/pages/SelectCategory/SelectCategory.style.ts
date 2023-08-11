@@ -7,6 +7,7 @@ export const MainImg = styled.div`
   position: fixed;
   height: 100vh;
   width: 100vw;
+  
 `;
 
 export const AllCategory = styled.div`
@@ -14,6 +15,7 @@ export const AllCategory = styled.div`
   position: absolute;
   margin-left: 6.5vw;
   transform: skew(-2.9deg);
+  
 `;
 
 export const Category = styled.div`
@@ -23,6 +25,7 @@ export const Category = styled.div`
   opacity: 80%;
   height: 100vh;
   width: 29vw;
+  
 
   &:hover {
     background-color: #132B31;
@@ -47,14 +50,10 @@ export const Icon = styled.img`
 
 export const Title = styled.h1`
   color: white;
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
 `;
 
 export const Description = styled.div`
   color: white;
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
 `
 
 export const AllSinglePractice = styled.div<{$isShown:boolean}>`

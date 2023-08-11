@@ -5,15 +5,17 @@ export const RecordBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px dashed #efefef;
   margin-top: 20px;
   height: 150px;
   width: 350px;
 `
 export const StopWatch = styled.div`
+  display: flex;
+  justify-content: space-between;
   color: white;
   margin-top: 20px;
   height: 20px;
+  width: 115px;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
   background-color: rgba(58, 58, 58, 0.7);

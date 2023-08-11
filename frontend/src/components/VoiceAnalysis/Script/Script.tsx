@@ -1,54 +1,63 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { makeAnalysisScript } from "../../../api/script";
 import { 
   AgeBox,
   AgeButton,
   Container, 
   DelButton, 
+  DelButtonActive, 
   GenderBox, 
   GenderButton, 
   OptionCreate, 
   OptionSelect, 
   Options, 
   PlayButton, 
+  PlayButtonActive, 
   ScriptBox, 
   ScriptButtons, 
   ScriptInput, 
   Title } from "./Script.style";
 
 function Script() {
+  const [isHovered, setIsHovered] = useState(false);
   const [inputScripts, setInputSctipts] = useState("")
   const genderOpt = ["남성", "여성"]
   const ageOpt = ["어린이", "청소년","청년","중년","장년"]
-  const [isGenderSelect,setIsGenderSelect] = useState<boolean[]>([])
-  const [isAgeSelect,setIsAgeSelect] = useState<boolean[]>([])
+  const [isGenderSelect,setIsGenderSelect] = useState<boolean[]>([true,false])
+  const [isAgeSelect,setIsAgeSelect] = useState<boolean[]>([true,false,false,false,false])
   const [genderSelected,setGenderSelected] = useState<string[]>([])
   const [ageSelected,setAgeSelected] = useState<string[]>([])
 
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
   }
-  const DelScripts = () => {setInputSctipts("")}
+  const DelScripts = () => {
+    setInputSctipts("")
+    setIsHovered(false);
+  }
 
   const handleGenderBtn = (index:number) => {
-    const newGenderSelect = Array(genderOpt.length).fill(false)
-    newGenderSelect[index] = !isGenderSelect[index]
-    setIsGenderSelect(newGenderSelect)
-
-    const GenderSelected = genderOpt.filter((gender,index)=>(newGenderSelect[index]===true))
+    setIsGenderSelect(isGenderSelect.map((_,G_idx)=>(G_idx === index)))
+    const GenderSelected = genderOpt.filter((_,index)=>(isGenderSelect[index]===true))
     setGenderSelected(GenderSelected)
   }
   
   const handleAgeBtn = (index:number) => {
-    const newAgeSelect = Array(ageOpt.length).fill(false)
-    newAgeSelect[index] = !isAgeSelect[index]
-    setIsAgeSelect(newAgeSelect)
-    
-    const AgeSelected = ageOpt.filter((age,index)=>(newAgeSelect[index]===true))
+    setIsAgeSelect(isAgeSelect.map((_,G_idx)=>(G_idx === index)))
+    const AgeSelected = ageOpt.filter((_,index)=>(isAgeSelect[index]===true))
     setAgeSelected(AgeSelected)
   }
 
-  const axiosMakeScript = async (genderSelected:string,ageSelected:string) => {
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+
+  const axiosMakeScript = async (genderSelected:string, ageSelected:string) => {
     setInputSctipts("스크립트를 생성중입니다...")
     try {
       const makeScriptData: string = await makeAnalysisScript(genderSelected,ageSelected);
@@ -99,13 +108,25 @@ function Script() {
           onChange={ChagneScripts} 
           placeholder="대사를 입력해주세요.">
         </ScriptInput>
-        <ScriptButtons>
-          <DelButton 
-            src="/src/assets/Training/delete.png"
-            onClick={DelScripts}>
-          </DelButton>
-          <PlayButton src="/src/assets/Training/play.png"></PlayButton>
-        </ScriptButtons>
+        {inputScripts ? (
+          <ScriptButtons>
+            <DelButtonActive
+              src={isHovered ? "/src/assets/Training/trashcan(del).png" :
+              "/src/assets/Training/trashcan(active).png" } 
+              onClick={DelScripts}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleMouseLeave}></DelButtonActive>
+            <PlayButtonActive 
+              src="/src/assets/Training/play(active).png"></PlayButtonActive>
+          </ScriptButtons>
+        ) : (
+          <ScriptButtons>
+            <DelButton 
+              src="/src/assets/Training/trashcan.png"></DelButton>
+            <PlayButton 
+              src="/src/assets/Training/play.png"></PlayButton>
+          </ScriptButtons>
+        )}
       </ScriptBox>
     </Container>
   )
