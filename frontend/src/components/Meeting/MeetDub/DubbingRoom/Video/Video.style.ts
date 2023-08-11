@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const Title = styled.h2`
   color: white;
   text-align: left;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `
 export const VideoBox = styled.div`
   height: 255px;
@@ -20,13 +20,14 @@ export const Display = styled.div`
   background-color: black;
   margin-bottom: 10px;
   height: 250px;
-  width: 450px;
+  width: 550px;
 `
 export const ImgSection = styled.div`
   position: absolute;
   display: flex;
   height: 250px;
-  width: 450px;
+  width: 550px;
+  margin-top: 5px;
   align-items: center;
   justify-content: center;
 `
@@ -68,7 +69,7 @@ export const RoleBox = styled.div`
   align-items: center;
   font-size: 13px;
   height: 33px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `
 export const OptionButton = styled.button`
   background-color: transparent;
