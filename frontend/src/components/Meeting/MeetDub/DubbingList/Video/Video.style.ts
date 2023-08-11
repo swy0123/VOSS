@@ -2,11 +2,17 @@ import { styled } from "styled-components";
 
 export const VideoBox = styled.div`
   display: flex;
-  width: 1260px;
+  width: 100%;
   flex-wrap: wrap;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    display: none;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: #535353; /* 스크롤바의 색상 */
+    border-radius: 10px;
   }
 `
 
@@ -17,9 +23,9 @@ export const VideoItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  margin: 0px 30px 25px 0px;
+  margin: 0px 20px 20px 0px;
   height: 240px;
-  width: 285px;
+  width: 275px;
   cursor: pointer;
 
   &:hover {
@@ -35,14 +41,14 @@ export const VideoItem = styled.div`
 
 export const Thumbnail = styled.img`
   margin: 25px 0px 6px 0px;
-  height: 140px;
-  width: 285px;
+  height: 160px;
+  width: 275px;
 `
 
 export const Infos = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   width: 260px;
 `
 const Info = styled.div`
@@ -51,7 +57,8 @@ const Info = styled.div`
   align-items: center;
   color: #ffffff;
   font-size: 11px;
-  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 3px;
 `
 export const Count = styled(Info)``
 export const Time = styled(Info)``
@@ -71,4 +78,5 @@ export const Description = styled.div`
   height: 50px;
   width: 260px;
   color: white;
+  margin-left: 20px;
 `
