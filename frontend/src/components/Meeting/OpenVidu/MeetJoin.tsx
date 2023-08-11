@@ -59,17 +59,18 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(0);
 
+  //뒤로가기 새로고침
   useEffect(() => {
     (() => {
       window.addEventListener("beforeunload", onbeforeunload);
       window.addEventListener("popstate", popstateHandler);
     })();
-    joinSession();
+    joinSession(); //이건 필요
 
-    return () => {
-      window.removeEventListener("beforeunload", onbeforeunload);
-      window.removeEventListener("popstate", popstateHandler);
-    };
+    // return () => {
+    //   window.removeEventListener("beforeunload", onbeforeunload);
+    //   window.removeEventListener("popstate", popstateHandler);
+    // };
   }, []);
 
   useEffect(() => {
@@ -95,14 +96,17 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     setMeetDubUser(subscribers.length + 1);
   }, [subscribers]);
 
+  //뒤로가기 새로고침
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     alert("onbeforeunload");
+    navigate("/meeting");
     leaveSession();
   };
-
+  //뒤로가기 새로고침
   const popstateHandler = () => {
     alert("popstateHandler");
+    navigate("/meeting");
     leaveSession();
   };
 

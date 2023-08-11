@@ -57,6 +57,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
 
   const changeCheck = () => {
     setCheckBox(!isChecked);
+    if(!isChecked) setPassword("");
   };
   const limitIncrease = () => {
     if (limit < 6) setLimit(limit + 1);
@@ -142,7 +143,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
                     onChange={handlePassword}
                     value={password}
                     disabled
-                    style={{ borderColor: "transparent" }}
+                    style={{ visibility: "hidden" }}
                   ></Input>
                 )}
               </HalfInDiv>
