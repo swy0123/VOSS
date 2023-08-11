@@ -89,24 +89,17 @@ export interface addRoomData {
 }
 
 export const createMeet = async ({ addRoomData }: { addRoomData: addRoomData }) => {
-  console.log("-----createMeet-----");
   const res = await privateApi.post("/meet", addRoomData);
-  console.log("createMeet되라");
-  console.log(res);
   return res.data.meetRoomId;
 };
 
 export const getMember = async (email: string) => {
-  console.log("-----getMember-----");
-  console.log(email);
   const URL = "/member/" + email;
   const res = await privateApi.get(URL);
-  console.log(res);
   return res;
 };
 
 export const getBadgeList = async () => {
-  console.log("-----getBadgeList-----");
   const res = await privateApi.get("/badge");
   return res.data;
 };
@@ -117,7 +110,6 @@ export interface GiveBadgeProps {
 }
 
 export const postBadge = async (giveBadgeProps: GiveBadgeProps) => {
-  console.log("-----giveBadge-----");
   const res = await privateApi.post("/badge", giveBadgeProps);
   return res.data;
 };

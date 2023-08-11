@@ -4,7 +4,7 @@ import Messenger from "../../components/Message/Messenger";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
-import { BottomBar, BottomSection, CloseSectionBtn, ClosedBottomSection, Container } from "./Meeting.style";
+import { BottomBar, BottomSection, CloseSectionBtn, ClosedBottomSection, Container, UnderBack } from "./Meeting.style";
 import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
 import { MeetingProps } from "../../api/meeting";
 import CloseSection from "../../assets/Meeting/CloseSection.png";
@@ -76,7 +76,7 @@ function Meeting() {
   };
 
   return (
-    <BackGroundImg>
+    <UnderBack>
       <Container $isClicked={bottomOn}>
         <MeetJoin props={props} />
       </Container>
@@ -92,7 +92,7 @@ function Meeting() {
       )}
 
       <Messenger />
-    </BackGroundImg>
+    </UnderBack>
   );
 }
 export default Meeting;

@@ -34,8 +34,8 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   const [endPage, setEndPage] = useState<number>(1);
 
   const TagName = {
-    "DUB": "목소리 분석 연습",
-    "PRACTICE": "더빙 연습",
+    "PRACTICE": "목소리 분석 연습",
+    "DUB": "더빙 연습",
     "FREE": "기타",
   };
 

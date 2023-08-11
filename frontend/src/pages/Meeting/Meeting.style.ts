@@ -52,3 +52,15 @@ export const CloseSectionBtn = styled.img`
   height: 30px;
 `;
 
+export const UnderBack = styled.div`
+  position: fixed;
+  background-color: #202124;
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;

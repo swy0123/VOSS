@@ -22,7 +22,7 @@ const UserVideoComponent = (props: any) => {
   const [isMuted, toggleMuted] = useState<boolean>(false);
   const [userNickname, setUserNickname] = useState(currentUser.nickname);
   const [userEmail, setUserEmail] = useState("");
-  const [userImgURL, setuserImgURL] = useState("");
+  const [userImgURL, setuserImgURL] = useState<string>("");
   const [userId, setUserId] = useState(0);
 
   useEffect(() => {
@@ -38,13 +38,12 @@ const UserVideoComponent = (props: any) => {
   const setUserData = async (email: string) => {
     setOver(false);
     const response = await getMember(email);
-    console.log(response);
 
     setUserEmail(email);
     setUserNickname(response.data.nickname);
     setUserId(response.data.id);
-    setuserImgURL(response.data.imageUrl);
-    setSelected({
+    setuserImgURL("https://b106-voss.s3.ap-northeast-2.amazonaws.com/"+response.data.imageUrl);
+     setSelected({
       userId: userId,
       email: userEmail,
       nickname: userNickname,
@@ -53,35 +52,29 @@ const UserVideoComponent = (props: any) => {
   };
 
   const handleMouseOver = (event: MouseEvent<HTMLDivElement>) => {
-    console.log("handleMouseOver over");
     event.stopPropagation();
     event.preventDefault();
     if (!props.isOpenModal) setOver(true);
   };
   const handleMouseOut = (event: MouseEvent<HTMLDivElement>) => {
-    console.log("handleMouseOut out");
     event.stopPropagation();
     event.preventDefault();
     if (!props.isOpenModal) setOver(false);
   };
 
   const onClickMute = useCallback(() => {
-    console.log("대상 음소거");
     toggleMuted(!isMuted);
   }, [isMuted]);
 
   const onClickFollow = async () => {
     const response = await postFollow(userId);
-    console.log(response);
     if (response.isFollowSuccess) alert("팔로우 성공");
     else alert("이미 팔로우한 사용자입니다.");
-    console.log("팔로우 하기");
   };
 
   const onClickGiveBadge = () => {
     setUserData(userEmail);
     props.onClickToggleModal();
-    console.log("뱃지 주기");
   };
 
   return (
@@ -92,7 +85,7 @@ const UserVideoComponent = (props: any) => {
     >
       {props.videoActive ? (
         <ProfileImg id="111">
-          <img src="" alt="이미지가 들어갈 자리입니다" />
+          <img src={userImgURL} alt="이미지가 들어갈 자리입니다" />
         </ProfileImg>
       ) : (
         <></>
