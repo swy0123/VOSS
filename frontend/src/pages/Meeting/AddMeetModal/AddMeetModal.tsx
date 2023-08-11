@@ -34,7 +34,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const TagName = ["목소리 분석 연습", "더빙 연습", "기타"];
   const [selectedTag, setTag] = useState<boolean[]>([true, false, false]);
   const [selectedCategory, setCategory] = useState("DUB");
-  const Category = ["DUB", "PRACTICE", "FREE"];
+  const Category = ["PRACTICE", "DUB", "FREE"];
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
