@@ -72,3 +72,31 @@ export const FollowerTabState = atom({
   key: "FollowerTabState",
   default: true,
 });
+
+
+// 배지 전체 정보
+export const BadgesState = atom({
+  key: "BadgesState",
+  default: [
+    { "id": 1, "name": "여자 청소년 목소리 능력자" },
+    { "id": 2, "name": "중년 여성 목소리 능력자" },
+    { "id": 3, "name": "장년 여성 목소리 능력자" },
+    { "id": 4, "name": "여자 어린이 목소리 능력자" },
+    { "id": 5, "name": "남자 어린이 목소리 능력자" },
+    { "id": 6, "name": "남자 청소년 목소리 능력자" },
+    { "id": 7, "name": "중년 여성 목소리 능력자" },
+    { "id": 8, "name": "장년 남성 목소리 능력자" },
+    { "id": 9, "name": "인간 목소리 분석기" },
+    { "id": 10, "name": "성대모사의 달인" },
+    { "id": 11, "name": "인기스타" },
+    { "id": 12, "name": "무엇이든 물어보세요(고인물)" },
+    { "id": 13,"name": "피리부는 사나이" }
+  ],
+});
+
+
+// 뱃지 모달창 토글
+export const BadgeModalShowState = atom({
+  key: "BadgeModalShowState",
+  default: false,
+});

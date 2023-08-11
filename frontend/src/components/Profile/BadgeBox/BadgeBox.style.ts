@@ -21,15 +21,26 @@ export const BadgeTitleDesign = styled.div`
   height: 20%;
   color: white;
   /* border: dotted 1px white; */
+  `;
+
+export const BadgeTitleDetailDesign = styled.div`
+  /* display: 'flex'; */
+  text-align: end;
+  position: absolute;
+  font-size: 1vh;
+  margin-left: 20.5vw;
+  opacity: 0.8;
+  width: 7vw;
+  /* border: dotted 1px white; */
 `;
 
 export const BadgeContentDesign = styled.div`
+  /* border: solid 1px red; */
   margin: 0 auto;
   display: flex;
-  /* justify-content: space-evenly; */
   flex-wrap: wrap;
   overflow: auto;
-  width: 95%;
+  width: 28vw;
   height: 79%;
   color: white;
   &::-webkit-scrollbar {
@@ -41,70 +52,49 @@ export const BadgeContentDesign = styled.div`
     background: rgba(255, 255, 255, 0.2);
     border-radius: 6px;
   }
-  /* border: solid 1px red; */
   `;
 
 export const BadgeItemDesign = styled.div`
-  border: solid 1px red;
-  /* margin-right: auto; */
+  /* border: solid 1px red; */
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 24%;
-  aspect-ratio: 1/1;
-  /* height: 24%; */
+  width: 8.9vw;
+  height: 8.9vw;
   img {
-    height : 50%;
+    width: 50%;
     aspect-ratio: 1/1;
-    /* width: 50px; */
   };
 `;
 
-export const BadgeHoverDesign = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease-in-out;
-  width: 10vw;
-  height: 5vw;
-  text-align: center;
-  line-height: 5vw;
-  background-color: rgba(1, 1, 1, 0.1);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  `;
 
 export const BadgeBoxContent = styled.div`
+  /* border: solid 1px red; */
   font-weight: bold;
-  font-size: 1.3vw;
+  text-align: center;
+  font-size: 0.9vw;
 
   ${({$hoverActive}) =>
   $hoverActive > 0
     ? "animation-duration: 1.5s; animation-name: fadeout;"
-    : "animation-duration: 4s; animation-name: fadeoutslow;"}
+    : "animation-duration: 2.2s; animation-name: fadeoutslow;"};
 
   @keyframes fadeout {
     0% {
-      top: 120%;
       opacity: 0;
     }
     100% {
       opacity: 1;
-      top: 100%;
     }
   };
   @keyframes fadeoutslow {
     0% {
-      top: 120%;
       opacity: 0;
     }
     100% {
       opacity: 1;
-      top: 100%;
     }
   };
 `
