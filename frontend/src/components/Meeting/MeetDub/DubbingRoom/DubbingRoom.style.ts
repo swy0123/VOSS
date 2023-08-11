@@ -16,13 +16,14 @@ export const RightSection = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 100px;
-  margin-top: 10px;
+  margin-top: 0px;
 `
 
 export const GoDubbingListBtn = styled.button`
   width: 80px;
   height: 30px;
   margin-left: 490px;
+  margin-bottom: 8px;
   border-radius: 20px;
   border: none;
   cursor: pointer;
