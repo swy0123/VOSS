@@ -29,9 +29,12 @@ export const BadgeTitleDetailDesign = styled.div`
   position: absolute;
   font-size: 1vh;
   margin-left: 20.5vw;
-  opacity: 0.8;
+  opacity: 0.6;
   width: 7vw;
   /* border: dotted 1px white; */
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const BadgeContentDesign = styled.div`
@@ -70,14 +73,13 @@ export const BadgeItemDesign = styled.div`
 `;
 
 
-export const BadgeBoxContent = styled.div`
+export const BadgeBoxContent = styled.div<{$hoverActive: number}>`
   /* border: solid 1px red; */
   font-weight: bold;
   text-align: center;
   font-size: 0.9vw;
 
-  ${({$hoverActive}) =>
-  $hoverActive > 0
+  ${({$hoverActive}) => $hoverActive > 0
     ? "animation-duration: 1.5s; animation-name: fadeout;"
     : "animation-duration: 2.2s; animation-name: fadeoutslow;"};
 
