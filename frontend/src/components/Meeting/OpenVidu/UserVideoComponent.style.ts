@@ -8,8 +8,9 @@ export const VedioOuterDiv = styled.div`
   position: relative;
   overflow: hidden;
   aspect-ratio: 3 / 2;
-  /* height: 100%; */
   border-radius: 12px;
+  border: 1px solid #333;
+
   &:hover {
     background-color: transparent;
     opacity: 0.5;
@@ -67,4 +68,10 @@ export const ProfileImg = styled.div`
   left: -10%;
   top: -10%;
   color: white;
+
+  img {
+    border-radius: 100rem;
+    width: 20%;
+    object-fit: cover;
+  }
 `;
