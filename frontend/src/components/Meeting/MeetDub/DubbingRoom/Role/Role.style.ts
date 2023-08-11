@@ -11,6 +11,7 @@ export const RolesSection = styled.div`
   display: flex;
   flex-wrap : wrap;
   width: 500px;
+  margin-top: 5px;
 `
 
 export const RoleAndUser = styled.div`
