@@ -24,6 +24,8 @@ import DubbingList from "/src/components/Meeting/MeetDub/DubbingList/DubbingList
 
 
 function Meeting() {
+
+  const navigate = useNavigate()
   const { state } = useLocation(); // 2번 라인
   const [bottomOn, setBottomOn] = useState(false);
 
@@ -33,42 +35,52 @@ function Meeting() {
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
 
+  //뒤로가기 새로고침
   useEffect(() => {
     (() => {
       window.addEventListener("beforeunload", onbeforeunload);
+      window.addEventListener("popstate", popstateHandler);
     })();
 
-    return () => {
-      window.removeEventListener("beforeunload", onbeforeunload);
-    };
+    // return () => {
+    //   window.removeEventListener("beforeunload", onbeforeunload);
+    //   window.removeEventListener("popstate", popstateHandler);
+    // };
   }, []);
 
   //이벤트 수신 감지
-  useEffect(()=>{
-    if(recieve=="/open") {
+  useEffect(() => {
+    if (recieve == "/open") {
       console.log("bottomOn");
       setBottomOn(true);
       setRecieve("/none");
     }
-    else if(recieve=="/close") {
+    else if (recieve == "/close") {
       console.log("bottomOff");
       setBottomOn(false);
       setRecieve("/none");
     }
   }, [recieve])
-  
+
+  //뒤로가기 새로고침
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    event.returnValue = "";
+    alert("onbeforeunload");
+    navigate("/meeting");
+  };
+  //뒤로가기 새로고침
+  const popstateHandler = () => {
+    alert("popstateHandler");
+    navigate("/meeting");
   };
 
-  const isBottomOn = (order:string) => {
+  const isBottomOn = (order: string) => {
     console.log("isBottomOn : " + order)
     setMeetDubSelect(0)
     // setSend("open");
     setSend(order);
   }
-  
+
   const props: MeetingProps = {
     password: state.password,
     meetRoomId: state.meetRoomId,
@@ -82,12 +94,12 @@ function Meeting() {
       </Container>
       {bottomOn ? (
         <BottomSection>
-          <CloseSectionBtn src={CloseSection} onClick={()=>{isBottomOn("/close")}}/>
-          {meetDubSelect ?  <DubbingRoom/> : <DubbingList/>}
+          <CloseSectionBtn src={CloseSection} onClick={() => { isBottomOn("/close") }} />
+          {meetDubSelect ? <DubbingRoom /> : <DubbingList />}
         </BottomSection>
       ) : (
         <ClosedBottomSection>
-          <BottomBar onClick={()=>{isBottomOn("/open")}}><img src={Vector}/>더빙연습</BottomBar>
+          <BottomBar onClick={() => { isBottomOn("/open") }}><img src={Vector} />더빙연습</BottomBar>
         </ClosedBottomSection>
       )}
 
