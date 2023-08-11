@@ -13,17 +13,19 @@ import {
   SectionBtn, 
   StopWatch, 
   Waves} from './RecordButton.style';
-import { PlayChangebState } from '/src/recoil/Training';
+import { PlayChangebState, ScriptSelectState } from '/src/recoil/Training';
 import axios from "axios";
-import { Line } from '/src/type/type';
+import { Line, Script } from '/src/type/type';
 
 interface VideoProps {
+  script : Script
   lines : Line[]
 }
 
-function RecordButton ({lines}: VideoProps) {
+function RecordButton ({script, lines}: VideoProps) {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
@@ -70,11 +72,23 @@ function RecordButton ({lines}: VideoProps) {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
+  const getParamStr = () => {
+    let param = ""
+
+    for (var i = 0; i < lines.length; i++) {
+      if (!isScriptSelect[i]) continue;
+      param += "&parts=" + lines[i].startSec + ":" + lines[i].endSec;
+    }
+
+    return param;
+  }
+
   const addRecord = async (mediaBlobUrl:string) => {
     const response = await fetch(mediaBlobUrl);
     const blobData = await response.blob();
 
     try {
+      const url = "https://courtney.reverof.p-e.kr:5000/combine?id=" + script.id + getParamStr();
       const formData = new FormData();
       const blob = new Blob([blobData], {type: "audio/webm;codecs=opus"});
       formData.append("file", blob, "tmp.webm");
@@ -83,9 +97,9 @@ function RecordButton ({lines}: VideoProps) {
         headers: {
           'Content-Type': 'multipart/form-data',  
         },
-        responseType: 'blob',
+        'responseType': 'blob',
       };
-      const res = await axios.post("https://courtney.reverof.p-e.kr:5000/combine?parts=26:147&parts=182:210&parts=253:337&parts=402:438", formData, config);
+      const res = await axios.post(url, formData, config);
       const newBlob = new Blob([res.data], {type: "audio/mp3"})
       const audioBlobURL = URL.createObjectURL(newBlob);
   
