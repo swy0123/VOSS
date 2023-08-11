@@ -2,14 +2,12 @@ import { styled } from "styled-components";
 
 const OptionButton = styled.button`
   background-color: transparent;
-  border: 1px solid #6C6C6C;
   border-radius: 12px;
   padding: 0px 7px 0px 7px;
   margin-right: 10px;
-  font-size: 13px;
-  line-height: 30px;
+  font-size: 14px;
+  line-height: 29px;
   height: 30px;
-  color:#6C6C6C;
   
   &:hover{
     transform: scale(1.1);
@@ -26,6 +24,6 @@ export const GenreBox = styled.div`
 `
 
 export const GenreButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
-  border: solid ${props => props.$IsClick ? "2px white" : "1px #6C6C6C"};
+  color: ${props => props.$IsClick ? "white" : "#999999"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `

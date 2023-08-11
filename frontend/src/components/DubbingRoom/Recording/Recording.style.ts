@@ -9,15 +9,16 @@ export const Container = styled.div`
 export const Title = styled.h2`
   color: white;
   text-align: center;
+  margin-bottom: 19px;
 `
 export const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  margin-top: 8px;
-  height: 185px;
+  padding: 6px 0px 6px 0px;
+  height: 210px;
 `
 export const RecordItem = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ export const RecordItem = styled.div`
   align-items: center;
   height: 30px;
   width: 370px;
-  margin : 2px 0px 2px 9px;
+  margin : 8px 0px 2px 9px;
 `
 export const RecordSelect = styled.input` 
   width: 18px;
@@ -33,8 +34,6 @@ export const RecordSelect = styled.input`
 `
 
 export const RecordLable = styled.label`
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
   font-weight: 100;
   line-height: 30px;
   color: white;
@@ -45,7 +44,7 @@ export const DownloadImg = styled.img`
 `
 export const Warning = styled.div`
   color: #BABABA;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 8px;
   text-align: end;
 `

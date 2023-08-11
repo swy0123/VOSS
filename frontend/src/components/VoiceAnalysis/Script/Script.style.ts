@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 450px; 
+  width: 470px; 
   margin: 0px 0px 20px 0px;
 `
 export const Title = styled.h2`
@@ -40,26 +40,23 @@ export const OptionCreate = styled.button`
 export const GenderBox = styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   height: 33px;
 `
 export const AgeBox =styled.div`
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   height: 33px;
-  margin:8px 0px 18px 0px;
+  margin: 8px 0px 18px 0px;
 `
 export const OptionButton = styled.button`
-  background-color: transparent;
-  border: 1px solid #6C6C6C;
-  border-radius: 14px;
-  color:#6C6C6C;
-  font-size: 13px;
+  border-radius: 12px;
   line-height: 30px;
   height: 30px;
+  margin-left: 7px;
+  font-weight: 800;
   padding: 0px 7px 0px 7px;
-  margin-left: 6px;
   cursor: pointer;
   
   &:hover{
@@ -68,15 +65,18 @@ export const OptionButton = styled.button`
   }
 `
 export const GenderButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
-  border: solid ${props => props.$IsClick ? "2px white" : "1px #6C6C6C"};
+  color: ${props => props.$IsClick ? "#222222" : "white"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px white"};
+  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
 `
 export const AgeButton = styled(OptionButton)<{$IsClick:boolean}>`
-  color: ${props => props.$IsClick ? "white" : "#6C6C6C"};
-  border: solid ${props => props.$IsClick ? "2px white" : "1px $6C6C6C"};
+  color: ${props => props.$IsClick ? "#222222" : "white"};
+  border: solid ${props => props.$IsClick ? "1px white" : "1px white"};
+  background-color: ${props => props.$IsClick ? "#efefef" : "transparent"};
 `
 export const ScriptBox = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
@@ -86,28 +86,45 @@ export const ScriptInput = styled.textarea`
   background-color: transparent;
   font-size: 18px;
   color: white;
-  padding: 25px 0px 25px 20px;
-  height: 125px;
-  width: 400px;
+  margin-top: 20px;
+  padding: 0px 0px 25px 20px;
+  height: 130px;
+  width: 440px;
   border: none;
   resize: none;
+  outline: none;
 
-  &:focus {
-    outline:none;
+  &::-webkit-scrollbar {
+    width: 8px;
+    margin-right: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 20px; /* 스크롤바의 길이 */
+    background: #535353; /* 스크롤바의 색상 */
+    border-radius: 10px;
   }
 `
+
 export const ScriptButtons = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;  
+  justify-content: flex-end; 
+  align-items: flex-end;
 `
+
 export const DelButton = styled.img`
-  margin: 6px;
-  width: 23px;
+  width: 24px;
+  height: 24px;
+  margin: 0px 10px 14px 0px;
   cursor: pointer;
 `
+
 export const PlayButton = styled.img`
   margin: 6px;
-  width: 23px;
+  width: 33px;
+  margin-right: 10px;
   cursor: pointer;
 `
+
+export const DelButtonActive = styled(DelButton)``
+export const PlayButtonActive = styled(PlayButton)``

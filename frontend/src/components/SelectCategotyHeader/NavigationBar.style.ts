@@ -5,7 +5,7 @@ export const Navbar = styled.div`
   position: fixed;
   justify-content: space-between;
   align-items: center;
-  height: 46px;
+  height: 65px;
   width: 100vw;
   z-index: 9999;
 `
@@ -15,8 +15,8 @@ export const LeftSection = styled.div`
 `
 export const Logo = styled.img`
   cursor: pointer;
-  height: 28px;
-  width: 48px;
+  height: 35px;
+  width: 63px;
   margin: 0px 30px 0px 40px;
 `
 export const IconList = styled.div`
@@ -54,10 +54,10 @@ export const AlarmCount = styled.div`
   line-height: 11px;
 `
 export const AlarmIcon = styled.img`
-  height: 20px;
+  height: 30px;
 `
 export const Profile = styled.img`
-  height: 30px;
+  height: 46px;
   margin-right: 30px;
   z-index: 1;
 `

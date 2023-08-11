@@ -23,19 +23,18 @@ export const Logo = styled.img`
 export const MenuList = styled.ul`
   display: flex;
   list-style: none;
-  line-height: 46px;
-  height: 46px;
+  line-height: 65px;
+  height: 65px;
   width: 400px;
   `
 export const Menu = styled.li`
   text-align: center;
   width: 120px;
   color: white;
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
   font-size: 16px;
-  height: 44px;
-  line-height: 44px;
+  height: 64px;
+  line-height: 64px;
+  
   cursor: pointer;
   &:hover {
     border-bottom: solid 2px #efefef;

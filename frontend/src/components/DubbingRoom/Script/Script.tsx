@@ -1,7 +1,7 @@
 import { Line } from '../../../type/type';
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-scroll';
+import { timeState } from '/src/recoil/HW_Atom';
 import { 
   PlayChangebState, 
   ScriptSelectState } from '../../../recoil/Training';
@@ -22,7 +22,7 @@ function Script ({lines}: VideoProps) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const intervalRef = useRef<number|undefined>(null);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useRecoilState(timeState);
   const ScrollRef = useRef<number>(0)
 
   const fixTopScript = () => {
@@ -39,14 +39,17 @@ function Script ({lines}: VideoProps) {
       clearInterval(intervalRef.current)
     }
   }
-
-  useEffect(() => {
+  
+  const scriptScrollAction = () => {
     const ScrollStartValue = document.getElementById(`ScriptBox`)?.getBoundingClientRect().y
     const ScriptPosition = document.getElementById(`${String(time)}`)?.getBoundingClientRect().y
-    console.log(time,ScriptPosition)
     if (ScriptPosition) {
       ScrollRef.current.scrollTop += ScriptPosition-ScrollStartValue-12;
     }
+  }
+
+  useEffect(() => {
+    scriptScrollAction()
   }, [time]);
 
   useEffect(()=> {

@@ -5,13 +5,13 @@ import { useRecoilState } from "recoil";
 import { MeetDubPlayChangebState } from "/src/recoil/HW_Atom";
 import { ScriptData } from "/src/type/type";
 import { 
-  Box,
   Container, 
   Display, 
   ImgSection, 
   ProtectSection, 
   Thumbnail, 
   Title, 
+  VideoBox, 
   VideoPause, 
   VideoPlay, 
   YoutubeIcon} from "./Video.style";
@@ -100,7 +100,7 @@ function Video ({script, roles, lines}: ScriptData) {
     <Container>
 
       <Title>{script.title}</Title>
-      <Box>
+      <VideoBox>
       <Display id="player"></Display>
       {youtube ? ( 
         <ProtectSection>
@@ -124,7 +124,7 @@ function Video ({script, roles, lines}: ScriptData) {
         </ImgSection>
         )
       }
-      </Box>
+      </VideoBox>
     </Container>
   )
 }
