@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AlarmListItem from "./AlarmListItem";
 import {
   Triangle,
@@ -6,19 +6,37 @@ import {
   AlarmHeader,
   AlarmWord,
   AlarmExitBtn,
+  Container,
 } from "./AlarmSection.style";
-
-
+import { recevieAlarm } from "/src/api/alarm";
+import { AlarmType } from "/src/type/hw_type";
 
 interface Headertype {
+  AlarmIsShown : boolean,
   setAlarmIsshown : Dispatch<SetStateAction<boolean>>,
 }
 
-function AlarmSection({ setAlarmIsshown }: Headertype) {
+function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
+  const [alarmList, setAlarmList] = useState<AlarmType[] | undefined>([])
+  
+  const axiosReceiveAlarm = async ():Promise<void> => {
+    try {
+      const data: AlarmType[]|undefined = await recevieAlarm()
+      setAlarmList(data)
+      console.log(data)
+    }
+    catch (error) {
+      console.log("ReceiveAlarm",error)
+    }
+  }
 
+  useEffect(() => {
+    void axiosReceiveAlarm() 
+  },[])
+  
   return(
-    <div>
+    <Container $IsClick={AlarmIsShown}>
       <Triangle/>
       <AlarmListBox>
         <AlarmHeader>
@@ -29,7 +47,7 @@ function AlarmSection({ setAlarmIsshown }: Headertype) {
         {/* 알림 데이터 리스트를 map으로 하나 씩 AlarmListItem으로 전달 */}
         <AlarmListItem/>
       </AlarmListBox>
-    </div>
+    </Container>
   )
 }
 export default AlarmSection
