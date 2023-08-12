@@ -58,14 +58,16 @@ export const EmptySpace = styled.div`
 `
 export const ProfileHoverList = styled.div`
   display: flex;
+  background-color: white;
   flex-direction: column;
-  justify-content: end;
+  justify-content: space-between;
   position: fixed;
-  top: 26px;
-  right: 32px;
+  top: 60px;
+  right: 40px;
   width: 68px;
-  height: 120px;
-  padding: 0px 5px 10px 5px;
+  height: 100px;
+  padding: 0px 5px 0px 5px;
+  border-radius: 2px;
   /* border: dotted 1px yellow; */
   `;
 
@@ -74,12 +76,12 @@ export const ProfileHoverListItem = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
   width: 68px;
   height: 25px;
   font-size: 5px;
   border-bottom: solid 1px #d9d9d9;
   // 마우스 호버 시에 작동
+  
   &:hover {
     text-decoration: underline;
     font-weight: bold;
@@ -89,8 +91,8 @@ export const ProfileHoverListItem = styled.div`
 
 export const ProfileHoverTriangle = styled.div`
   position: fixed;
-  top: 37px;
-  right: 63px;
+  top: 52px;
+  right: 72px;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
   border-bottom: 10px solid white; 
