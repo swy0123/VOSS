@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState, MouseEvent, useEffect } from "react";
+import React, { PropsWithChildren, useState, MouseEvent, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
@@ -22,6 +22,7 @@ import {
   TmpButton,
 } from "./MeetJoin.style";
 import { FlexDiv } from "/src/pages/Meeting/AddMeetModal/AddMeetModal.style";
+import AlertContext from "/src/context/alert/AlertContext";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -38,6 +39,11 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
   const [hover, setHover] = useState<number>(0);
   const [badgeList, setBadgeList] = useState<BadgeData[]>();
   const navigate = useNavigate();
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
   useEffect(() => {
@@ -56,8 +62,8 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
     };
     const response = await postBadge(giveBadgeProps);
     console.log(response);
-    if (response.success == true) alert("뱃지 부여 성공!");
-    else alert("뱃지 부여 실패! 같은 사람이 24시간 안에 같은 사람에게 같은 배지 못 줌!");
+    if (response.success == true) onAlertClick("뱃지 부여 성공!");
+    else onAlertClick("뱃지 부여 실패! 같은 사람이 24시간 안에 같은 사람에게 같은 배지 못 줌!");
     if (onClickToggleModal) {
       onClickToggleModal();
     }
