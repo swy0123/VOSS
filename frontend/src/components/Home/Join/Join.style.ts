@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 
-
 export const Container = styled.div`
   background-color: #ffffff;
   /* width: 25%;
@@ -22,12 +21,12 @@ export const Container = styled.div`
 `;
 
 export const P = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
 `;
 
 export const H2 = styled.h2`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   margin-top: 5%;
 `;
@@ -44,6 +43,7 @@ export const Title = styled.div`
 export const ModifyButton = styled.div`
   border: none;
   position: absolute;
+  cursor: pointer;
   bottom: 0;
   left: 4rem;
   background: #aaa;
@@ -64,29 +64,28 @@ export const ModifyImg = styled.img`
 `;
 
 export const UnderText = styled.div`
-display: flex;
-position: absolute;
-width: max-content;
-left: 50%;
-bottom: 10px;
-transform: translate(-50%, 0);
-font-size: 14px;
+  display: flex;
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  font-size: 14px;
 
-
-.first-text {
-  margin-right: 8px;
-  text-decoration: none;
-  cursor: default;
-}
-
-.second-text {
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    color: #7a8091;
+  .first-text {
+    margin-right: 8px;
+    text-decoration: none;
+    cursor: default;
   }
-}
+
+  .second-text {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #7a8091;
+    }
+  }
 `;
 
 export const InputDiv = styled.div`
@@ -111,32 +110,35 @@ export const Img = styled.img`
 
 export const ShowIcon = styled.div`
   position: absolute;
+  cursor: pointer;
   top: 50%;
   transform: translate(-50%, 0%);
   right: 10%;
 `;
-export const CheckDiv = styled.div<{ $isEmailChecked: boolean }>`
+export const CheckDiv = styled.div<{ $isEmailChecked: boolean; $isChecked?: boolean }>`
+  cursor: pointer;
   transform: translate(50%, -10%);
-  width: 30px;
-  height: 20px;
+  width: 34px;
+  height: 24px;
   border-radius: 8px;
-  border-style: solid;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   color: white;
-  border-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
   font-size: 12px;
   background-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
-  &:hover{
-    opacity: 0.7;
-    border-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")};
+  &:hover {
+    opacity: ${(props) => (props.$isEmailChecked ? "" : "0.7")};
+    /* background-color: ${(props) => (props.$isEmailChecked ? "#4CAF50;" : "#444444;")}; */
+    background-color: ${(props) =>
+      props.$isEmailChecked ? "#4CAF50;" : props.$isChecked ? "#444444;" : "#DD0013;"};
   }
 `;
 
-export const Input = styled.input`
-  border: #bdbdbd;
+export const Input = styled.input<{ $isChecked: boolean }>`
+  outline: none;
   border-style: solid;
+  border-color: black;
   width: 80%;
   height: 40px;
   padding: 0px;
@@ -144,6 +146,11 @@ export const Input = styled.input`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 20px;
+  &:focus {
+    border-width: 2px;
+    border-color: ${(props) => (props.$isChecked ? "black" : "#DD0013")};
+    height: 38px;
+  }
 `;
 
 export const Button = styled.button`
@@ -157,6 +164,7 @@ export const Button = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 20px;
+  cursor: pointer;
 `;
 
 export const BlockedButton = styled.button`
@@ -170,6 +178,7 @@ export const BlockedButton = styled.button`
   border-width: 1px;
   border-radius: 8px;
   margin-top: 20px;
+  cursor: not-allowed;
 `;
 
 export const Timer = styled.h1`
