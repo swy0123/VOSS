@@ -6,6 +6,28 @@ export const Container = styled.div`
   width: 470px;
   margin-bottom: 0px;
 `
+export const HeaderSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+export const BackButton = styled.button`
+  background: rgba(34, 80, 91, 0.70);
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 14px;
+  height: 28px;
+  width: 80px;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  cursor: pointer;
+
+  &:hover{
+    transform: scale(1.1);
+    transition: .3s;
+  }
+`
 
 export const Title = styled.h2`
   color: white;

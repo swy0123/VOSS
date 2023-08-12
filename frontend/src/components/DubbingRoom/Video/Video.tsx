@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { ScriptData } from "../../../type/type";
 import { 
+  BackButton,
   Container, 
   Display, 
+  HeaderSection, 
   RoleBox, 
   RoleButton, 
   Title } from "./Video.style";
@@ -12,6 +14,7 @@ import {
   RoleSelectState, 
   ScriptSelectState } from "../../../recoil/Training";
 import { timeState, youtubeState } from "/src/recoil/HW_Atom";
+import { useNavigate } from "react-router-dom";
 
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
@@ -94,6 +97,11 @@ function Video ({script, roles, lines}: ScriptData) {
       }
     }
   }
+  const navigate = useNavigate() 
+
+  const goDubbingList = () => {
+    navigate("/dubbinglist")
+  }
 
   useEffect(()=>{
     onMuteChange()
@@ -113,7 +121,11 @@ function Video ({script, roles, lines}: ScriptData) {
 
   return(
     <Container>
-      <Title>{script.title}<span style={{fontSize:'20px'}}>  Time : {time}</span></Title>
+      <HeaderSection>
+        <Title>{script.title}<span style={{fontSize:'20px'}}>  Time : {time}</span></Title>
+        <BackButton
+          onClick={goDubbingList}>목록으로</BackButton>
+      </HeaderSection>
       <Display id="player"></Display>
       <RoleBox>
           {roles.map((role,index) => (
