@@ -106,7 +106,15 @@ public class MessengerServiceImpl implements MessengerService{
     public List<ViewMessengerListResponse> viewMessenger(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("회원이 아닙니다."));
         List<Long> chatIdList = attendRepository.findByMemberId(member.getId());
-        return attendRepository.findByChatId(chatIdList, member.getId());
+        List<ViewMessengerListResponse> viewMessengerList = new ArrayList<>();
+        List<Attend> getAttendListByChatId = attendRepository.findByChatId(chatIdList, member.getId());
+        for (Attend attend : getAttendListByChatId) {
+            ViewMessengerListResponse viewMessenger = new ViewMessengerListResponse(attend.getMember().getNickname(), attend.getChat().getId(),
+                    attend.getMember().getId(), attend.getChat().getSession());
+            viewMessenger.setUnReadMessage(attend.getLeaveTime().compareTo(attend.getReceiveMessageTime()) < 0 ?true:false);
+            viewMessengerList.add(viewMessenger);
+        }
+        return viewMessengerList;
     }
 
     @Override

@@ -2,14 +2,12 @@ package com.yukgaejang.voss.domain.messenger.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
-import com.yukgaejang.voss.domain.messenger.service.dto.response.ViewMessengerListResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.yukgaejang.voss.domain.messenger.repository.entity.QAttend.*;
 
@@ -33,16 +31,13 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
     }
 
     @Override
-    public List<ViewMessengerListResponse> findByChatId(List<Long> chatId, Long memberId) {
+    public List<Attend> findByChatId(List<Long> chatId, Long memberId) {
         return queryFactory
                 .select(attend)
                 .from(attend)
                 .where(attend.chat.id.in(chatId), attend.member.id.ne(memberId))
                 .orderBy(attend.receiveMessageTime.desc())
-                .fetch()
-                .stream()
-                .map(o -> new ViewMessengerListResponse(o))
-                .collect(Collectors.toList());
+                .fetch();
     }
 
     @Override
