@@ -11,3 +11,21 @@ export const recevieAlarm = async () => {
     console.log(error)
   }
 }
+
+export const CheckAllAlarm = async () => {
+  try{
+    await privateApi.delete(`/notification`)
+  }
+  catch (error){
+    console.log(error)
+  }
+}
+
+export const CheckDetailAlarm = async (notiId:numeber) => {
+  try{
+    await privateApi.delete(`/notification/${notiId}`)
+  }
+  catch (error){
+    console.log(error)
+  }
+}

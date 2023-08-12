@@ -48,7 +48,7 @@ export const AlarmExitBtn = styled.img`
   cursor: pointer;
 `
 
-export const AlarmBox = styled.div`
+export const AlarmListItem = styled.div`
 `
 
 export const AlarmList = styled.div`
