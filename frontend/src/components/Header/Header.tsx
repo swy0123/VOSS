@@ -12,10 +12,13 @@ function Header() {
       <NavigationBar 
         AlarmIsShown={AlarmIsShown}
         setMenuIsShown={setMenuIsShown}
-        setAlarmIsshown={setAlarmIsshown}
-        />
+        setAlarmIsshown={setAlarmIsshown}/>
+
       {MenuIsShown ? <MenuListBar setMenuIsShown={setMenuIsShown}/>: ""}
-      {AlarmIsShown ? <AlarmSection setAlarmIsshown={setAlarmIsshown}/> : ""}
+      
+      <AlarmSection 
+        AlarmIsShown={AlarmIsShown}
+        setAlarmIsshown={setAlarmIsshown}/>
     </header>
   );
 }
