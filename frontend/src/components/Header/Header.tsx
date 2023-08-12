@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuListBar from "./MenuListBar";
 import NavigationBar from "./NavigationBar";
 import AlarmSection from "./AlarmSection";
 
 function Header() {
   const [MenuIsShown, setMenuIsShown] = useState(false)
-  const [AlarmIsShown, setAlarmIsshown] = useState(false) 
+  const [AlarmIsShown, setAlarmIsshown] = useState<boolean>("") 
+    
+  useEffect(()=>{
+    setTimeout(()=> {setAlarmIsshown(false)},200)
+  },[]) 
 
   return (
     <header>

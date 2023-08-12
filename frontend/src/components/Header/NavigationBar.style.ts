@@ -77,19 +77,7 @@ export const Alarm = styled.div<{$AlarmIsShown?: boolean}>`
     background-color: #949494;
   }
 `
-export const AlarmCount = styled.div`
-  position: absolute;
-  top: 5px;
-  left: 15px;
-  background-color: #B3261E;
-  border-radius: 100px;
-  height: 11px;
-  width: 11px;
-  font-size: 1px;
-  color: white;
-  text-align: center;
-  line-height: 11px;
-`
+
 export const AlarmIcon = styled.img`
   height: 30px;
 `
