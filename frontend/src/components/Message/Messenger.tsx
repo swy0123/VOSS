@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import MessagePage from "./MessagePage/MessagePage";
-import {  getReceive } from "/src/api/messenger";
+import { getMessageRooms } from "/src/api/messenger";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShowMessengerState, MessengerAlarmState } from "/src/recoil/Messenger";
 import { CurrentUserAtom, LoginState } from "/src/recoil/Auth";
+import { RoomType } from "/src/type/Auth";
 import MessengerIcon from "/src/assets/Messenger/MessengerIcon.png"
 import RedDot from "/src/assets/Messenger/RedDot.png";
 import { MessegeDiv, MessageIcon, MessageChecked } from "./Messenger.style"
@@ -25,7 +26,7 @@ const Messenger = () =>{
       content: "enter",
     };
     if (initRef.current) {
-      console.log("messenger socket enter")
+      // console.log("init socket enter")
       initRef.current.send(JSON.stringify(enterMessage));
     };
   };
@@ -44,10 +45,14 @@ const Messenger = () =>{
   };
   
   useEffect(() => {
-    console.log("init socket mounted")
+    // console.log("init socket mounted")
 
-    getReceive().then((data) => {
-      if (data) {setIsAlarm(true)}
+    getMessageRooms().then((dataRooms: RoomType[]) => {
+      if (dataRooms) {
+        if (dataRooms.some((room) => room.lastReceiveMessageTime > room.lastLeaveTime)) {
+          setIsAlarm(true)
+        }
+      }
     })
   
     if (!initRef.current) {
@@ -55,13 +60,13 @@ const Messenger = () =>{
       
       wss.onopen = () => { 
         initRef.current = wss; 
-        console.log("init socket open")
+        // console.log("init socket open")
         sendEnterMessage();
       };
     
       wss.onmessage = (event) => {
         let recieveMessage = JSON.parse(event.data);
-        console.log("memberId: ", recieveMessage.memberId, "userId: ", me, "recieveMessage: ", recieveMessage);
+        // console.log("memberId: ", recieveMessage.memberId, "userId: ", me, "recieveMessage: ", recieveMessage);
 
         if ( recieveMessage.memberId == me && recieveMessage.sessionId == "init") {
           setIsAlarm(true);
@@ -69,12 +74,13 @@ const Messenger = () =>{
       };
 
       wss.onclose = () => {
-        console.log("init socket close")
+        sendLeaveMessage();
+        // console.log("init socket close")
         if (isLogin) {
           const wss = new WebSocket(WebSocket_URL);
           wss.onopen = () => { 
             initRef.current = wss; 
-            console.log("init socket open") 
+            // console.log("init socket open") 
             sendEnterMessage();
           };
         };
@@ -84,9 +90,9 @@ const Messenger = () =>{
     return () => {
       if (initRef.current && !isLogin) {
           sendLeaveMessage();
-          console.log("init socket close");
+          // console.log("init socket close");
       } else {
-        console.log("init socket unmounted");
+        // console.log("init socket unmounted");
       }
     };
 

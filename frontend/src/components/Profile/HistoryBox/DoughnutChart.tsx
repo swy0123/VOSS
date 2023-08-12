@@ -1,7 +1,5 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { useRecoilValue } from 'recoil';
-import { ProfileState } from '/src/recoil/Auth';
 import { styled } from "styled-components";
 
 const Count = styled.div`
@@ -14,8 +12,7 @@ const Count = styled.div`
   transform: translate(-50%, -50%);
   width: 6.5vw;
   height: 6.5vw;
-  color: rgba(293, 293, 293, 0.8) ;
-
+  color: rgba(293, 293, 293, 0.8);
   p{
     font-size: 1.1vw;
   }
@@ -24,15 +21,13 @@ const Count = styled.div`
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function DoughnutChart() {
-  const profile = useRecoilValue(ProfileState);
-
+function DoughnutChart( totalCnt: number, dictionCnt: number, dubCnt: number, actCnt: number ) {
   const data = {
     labels: [ '발음', '연기', '성별, 연령'],
     datasets: [
       {
         label: 'history',
-        data: [ profile.dictionCnt, profile.dubCnt, profile.actCnt],
+        data: [ dictionCnt, dubCnt, actCnt],
         backgroundColor: [
           '#ABF9A9',
           '#C3DAFF',
@@ -55,7 +50,7 @@ function DoughnutChart() {
       },
       tooltip: {
         callbacks: {
-          label: function (context) {
+          label: function (context: any) {
             return context.label + " 연습 " + context.raw + " 회"; // "연령: " + 라벨 텍스트로 수정
           },
         },
@@ -66,8 +61,8 @@ function DoughnutChart() {
 
   return (
     <div  style={{width: '13vw', height: '13vw'}}>
-      <Doughnut data={data} options={options}/>
-      <Count style={{ width: '13vw', height: '13vw'}}><p>{profile.totalCnt} 회</p></Count>
+      <Doughnut data={data} options={options} />
+      <Count style={{ width: '4vw', height: '4vw'}}><p>{totalCnt} 회</p></Count>
     </div>
   );
 };

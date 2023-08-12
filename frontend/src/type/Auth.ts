@@ -4,6 +4,7 @@ export interface FollowListType {
   email: string;
   nickname: string;
   following: boolean;
+  imageUrl: string
 }
 
 // 채팅방
@@ -23,16 +24,19 @@ export interface CurrentRoomType {
   chatId: number;
   memberId: number;
   sessionId: string;
+  lastLeaveTime: string,
+  lastReceiveMessageTime: string;
+  isRead?: boolean;
 }
 
 
 // 채팅방 메시지
 export interface MessageType {
-  chatId?: number;
-  sessionId?: string;
-  memberId?: number;
-  content?: string;
-  time?: string;
+  chatId: number;
+  sessionId: string;
+  memberId: number;
+  content: string;
+  time: string;
 }
 
 // 유저페이지 유저
