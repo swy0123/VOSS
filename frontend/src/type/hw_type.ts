@@ -2,6 +2,6 @@
 export interface AlarmType {
   id : number,
   senderNickname : string,
-  contenId : null
+  contentId : number | null
   type : string
 }
