@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
+import { FollowListType } from "../type/Auth";
 const { persistAtom } = recoilPersist();
 
 
@@ -36,7 +37,7 @@ export const LoginModeAtom = atom({
 export const ProfileState = atom({
   key: "ProfileState",
   default: {
-    userid: 0,
+    id: 0,
     email: "",
     nickname: "",
     isFollowing: false,
@@ -53,13 +54,13 @@ export const ProfileState = atom({
 
 
 // 팔로워, 팔로잉 목록
-export const FollowerListState = atom({
+export const FollowerListState = atom<FollowListType[]>({
   key: "FollowerListState",
   default: [],
 });
-export const FollowingListState = atom({
+export const FollowingListState = atom<FollowListType[]>({
   key: "FollowingListState",
-  default: [],
+  default: []
 });
 
 

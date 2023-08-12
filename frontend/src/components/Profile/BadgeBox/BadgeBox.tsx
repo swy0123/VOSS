@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ProfileState, BadgeModalShowState } from "/src/recoil/Auth";
 import { BadgeType } from "/src/type/Auth";
@@ -18,31 +19,19 @@ import {
 function BadgeBox() {
   const [select, setSelect] = useState<number>(0);
   const [showModal, setShowModal] = useRecoilState(BadgeModalShowState);
-  // const badges = useRecoilValue(ProfileState).badges
-  const badges = [
-    { "id": 1, cnt: 1, "name": "여자 청소년 목소리 능력자" },
-    { "id": 2, cnt: 1,"name": "중년 여성 목소리 능력자" },
-    { "id": 3, cnt: 1,"name": "장년 여성 목소리 능력자" },
-    { "id": 4, cnt: 1,"name": "여자 어린이 목소리 능력자" },
-    { "id": 5, cnt: 1,"name": "남자 어린이 목소리 능력자" },
-    { "id": 6,cnt: 1, "name": "남자 청소년 목소리 능력자" },
-    { "id": 7,cnt: 1, "name": "중년 여성 목소리 능력자" },
-    { "id": 8, cnt: 1,"name": "장년 남성 목소리 능력자" },
-    { "id": 9, cnt: 1,"name": "인간 목소리 분석기" },
-    { "id": 10,cnt: 1, "name": "성대모사의 달인" },
-    { "id": 11,cnt: 1, "name": "인기스타" },
-    { "id": 12,cnt: 1, "name": "무엇이든 물어보세요(고인물)" },
-    // { "id": 13,cnt: 1,"name": "피리부는 사나이" }
-  ];
+  const badges = useRecoilValue(ProfileState).badges;
+  const navigate = useNavigate();
+  const goMeeting = () => navigate('/meeting');
 
   return (
     <BadgeBoxDesign>
       <BadgeTitleDesign>
-        활동 뱃지
+        활동 배지
         <BadgeTitleDetailDesign onClick={()=>setShowModal(true)}>자세히 보기 〉</BadgeTitleDetailDesign>
       </BadgeTitleDesign>      
 
-      <BadgeContentDesign onClick={()=>setShowModal(true)}>
+      { badges.length > 0
+      ? <BadgeContentDesign onClick={()=>setShowModal(true)}>
         {badges.map((badge: BadgeType) => (
           <BadgeItemDesign key={badge.id}>
             <img src={`/src/assets/Profile/badge/B${badge.id}.png`} alt=""
@@ -58,7 +47,12 @@ function BadgeBox() {
           </BadgeItemDesign>
         ))}
       </BadgeContentDesign>
-    
+      : <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '24vw', height: '70%', padding: '0 1.5vw', opacity: '0.8', fontSize: '1vw'}}>
+        <p>배지가 없습니다</p>
+        <p> <span onClick={goMeeting} style={{textDecoration: 'underline', cursor: 'pointer'}}>화상 연습</span>에서 사람들과 함께 연습하고 배지를 받아보세요!</p>
+      </div>
+      }
+
     <BadgeTopPaddingDetailDesign/>
     <BadgeTopPaddingDetailDesign/>
     
