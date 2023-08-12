@@ -1,5 +1,10 @@
 import { styled } from "styled-components";
 
+// color: ${props => props.$IsClick ? "white" : "#999999"};
+
+export const Container = styled.div<{$IsClick:boolean}>`
+  opacity: ${props => props.$IsClick ? 1 : 0};
+`
 
 export const Triangle = styled.div`
   position: fixed;

@@ -64,9 +64,9 @@ export const timeState = atom<number>({
 })
 
 // 더빙 개인 연습방 youtube control
-export const youtubeState = atom<object|undefined>({
+export const youtubeState = atom<object | undefined>({
   key: "youtubeState",
-  default: ""
+  default: undefined,
 })
 
 // // User가 선택한 Role
@@ -75,7 +75,7 @@ export const youtubeState = atom<object|undefined>({
 //   default:
 // })
 
-// // User가 선택한 Role
+// // User가 선택한 Role  
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
 //   default:["","","","","",""]
