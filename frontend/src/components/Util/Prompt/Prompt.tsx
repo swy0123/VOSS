@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { DialogContainer } from '../Util.style';
 
 interface Props {
   message: string;
@@ -29,7 +30,7 @@ const Prompt = ({ message, _default, onClickOK, onClickCancel }: Props) => {
   };
 
   return (
-    <div className="dialog-container">
+    <DialogContainer>
       <div className="overlay" onClickCapture={(e) => e.stopPropagation()} />
       <form className="dialog" onSubmit={handleSubmit}>
         <h2 className="title">Prompt</h2>
@@ -48,7 +49,7 @@ const Prompt = ({ message, _default, onClickOK, onClickCancel }: Props) => {
           <button type="submit">ok</button>
         </div>
       </form>
-    </div>
+    </DialogContainer>
   );
 };
 

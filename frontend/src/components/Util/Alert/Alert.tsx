@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { DialogContainer } from '../Util.style';
 
 interface Props {
   message: string;
@@ -19,7 +20,7 @@ const Alert = ({ message, onClose }: Props) => {
   }, [onClose]);
 
   return (
-    <div className="dialog-container">
+    <DialogContainer>
       <div className="overlay" onClickCapture={(e) => e.stopPropagation()} />
       <div className="dialog">
         <h2 className="title">Alert</h2>
@@ -30,7 +31,7 @@ const Alert = ({ message, onClose }: Props) => {
           </button>
         </div>
       </div>
-    </div>
+    </DialogContainer>
   );
 };
 
