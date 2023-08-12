@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
+import { AlarmInfoListType } from "../type/hw_type";
 const { persistAtom } = recoilPersist();
 
 // 더빙 연습 녹음 기록
@@ -67,6 +68,12 @@ export const timeState = atom<number>({
 export const youtubeState = atom<object | undefined>({
   key: "youtubeState",
   default: undefined,
+})
+
+// 알림 목록
+export const alarmInfoState = atom<AlarmInfoListType[]>({
+  key: "alarmInfoState",
+  default: [],
 })
 
 // // User가 선택한 Role

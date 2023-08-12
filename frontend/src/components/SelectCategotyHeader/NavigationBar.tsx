@@ -9,10 +9,8 @@ import {
   Logo,
   IconList,
   Alarm,
-  AlarmCount,
   AlarmIcon,
   Profile,
-  EmptySpace,
   ProfileHoverList,
   ProfileHoverListItem,
   ProfileHoverTriangle,
@@ -58,7 +56,6 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
       <IconList>
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
-          <AlarmCount>3</AlarmCount>
         </Alarm>
         <Profile
         src={ProfileImg}
