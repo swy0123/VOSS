@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom, ProfileState, ModalOpenState, FollowerTabState ,FollowerListState, FollowingListState } from "/src/recoil/Auth";
 import { postFollow, deleteUnfollow, getFollowers, getFollowings  } from '/src/api/profile';
-import zammanbo from "/src/assets/Profile/zammanbo.png";
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
 import {
     BasicBoxDesign,
@@ -41,6 +40,7 @@ function BasicBox() {
   const [showImgUpdate, setImgUpdate] = useState(false)
 
   useEffect(()=> {
+    console.log(123, profile)
     getFollowings(id).then(followings => {
       if (followings) {setFollowings(followings)};
     })
@@ -50,19 +50,14 @@ function BasicBox() {
   }, [isModalOpen])
 
   return (
-    <BasicBoxDesign>
+    <> { profile.id > 0
+    ? <BasicBoxDesign>
       <ProfileImgDesign>
         <ProfileImgDesign2
         onMouseEnter={()=>setImgUpdate(true)}
         onMouseLeave={()=>setImgUpdate(false)}>
-          { profile.imageUrl
-          ? <>
           {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
           <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} alt=""/>
-          </> 
-          : <img style={{width: '7vw', height: '7vw'}} src={`/src/assets/Profile/ProfileNull.png`} alt=""/>
-          }
-
         </ProfileImgDesign2>
       </ProfileImgDesign>
       
@@ -73,8 +68,8 @@ function BasicBox() {
             { id === currentUser.userid
             ? <ProfileBtnDesign><img src={UpdateIcon} alt=""/></ProfileBtnDesign>
             : profile.isFollowing
-              ? <FollowButton onClick={()=>(setFollow(), deleteUnfollow(id))}>팔로우</FollowButton>
-              : <FollowingButton onClick={() => (setFollow(), postFollow(id))}>팔로잉</FollowingButton>
+            ? <FollowingButton onClick={() => (setFollow(), postFollow(id))}>팔로잉</FollowingButton>
+              : <FollowButton onClick={()=>(setFollow(), deleteUnfollow(id))}>팔로우</FollowButton>
             }
         </ProfileNameBoxDesign>
 
@@ -93,7 +88,9 @@ function BasicBox() {
       </ProfileInfoDesign>
       
     </BasicBoxDesign>
-  );
-};
+    : <h3 style={{color: 'white'}}>회원 정보가 없습니다</h3>
+    } </>
+    );
+  };
 
-export default BasicBox;
+  export default BasicBox;

@@ -33,28 +33,30 @@ import {
     const socketRef = useRef<WebSocket | null>(null);
     const [exitBtnHover, setExitBtnHover] = useState(false);
     const [sendHover, setSendHover] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
+    const chatContainerRef = useRef<HTMLDivElement | null>(null);
   
-  const sendMessage = () => {
-    if (message.trim() !== "") {
-      const sentMessage = {
-        chatId: currentRoom.chatId,
-        sessionId: currentRoom.sessionId,
-        memberId: me,
-        content: message,
-      };
-      const sentAlarm = {
-        chatId: 1,
-        sessionId: "init",
-        memberId: currentRoom.memberId,
-        content: "Alarm",
-      };
-      if (socketRef.current) {
-        socketRef.current.send(JSON.stringify(sentMessage));
-        socketRef.current.send(JSON.stringify(sentAlarm));
-        setMessage("");
+    const sendMessage = () => {
+      if (message.trim() !== "") {
+        const sentMessage = {
+          chatId: currentRoom.chatId,
+          sessionId: currentRoom.sessionId,
+          memberId: me,
+          content: message,
+        };
+        const sentAlarm = {
+          chatId: 1,
+          sessionId: "init",
+          memberId: currentRoom.memberId,
+          content: "Alarm",
+        };
+        if (socketRef.current) {
+          socketRef.current.send(JSON.stringify(sentMessage));
+          socketRef.current.send(JSON.stringify(sentAlarm));
+          setMessage("");
+        }
       }
-    }
-  };
+    };
   
   const sendEnterMessage = () => {
     const enterMessage = {
@@ -78,29 +80,33 @@ import {
     if (socketRef.current) {
     socketRef.current.send(JSON.stringify(leaveMessage));
     socketRef.current.close();
+    };
   };
-};
 
-useEffect(() => {
   const scrollToBottom = () => {
-    window.scrollTo(0, document.body.scrollHeight);
-  };
-
-  // 스크롤 위치를 조정하여 .time 속성이 가장 큰 메시지로 이동
-  const scrollToLatestMessage = () => {
-    const latestMessage = messages.reduce((latest, message) => {
-      if (!latest || (message.time && message.time > latest.time)) {
-        return message;
-      }
-      return latest;
-    }, null);
-
-    if (latestMessage) {
-      scrollToBottom(); // 스크롤을 가장 아래로 이동
+    const chatContainer = document.getElementById('chat-container');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   };
 
-  scrollToLatestMessage();
+  const scrollToMessage = () => {
+    setFirstRender(true)
+    const chatContainer = document.getElementById('chat-container');
+    if (chatContainer) {
+      const unreadMessages = messages.filter(message => message.time > currentRoom.lastLeaveTime);
+      if (unreadMessages.length > 0) {
+        chatContainer.scrollTo(0, 400 - (unreadMessages.length-1) * 35)
+      } else {
+        scrollToBottom();
+      }
+    }
+  };
+
+
+useEffect(() => {
+
+  scrollToMessage();
 
   console.log("messageRoom mounted")
   
@@ -116,7 +122,7 @@ useEffect(() => {
     
     ws.onmessage = (event) => {
       let recieveMessage = JSON.parse(event.data);
-        console.log("memberId: ", recieveMessage.memberId, "userId: ", me, "recieveMessage: ", recieveMessage);
+        // console.log("memberId: ", recieveMessage.memberId, "userId: ", me, "recieveMessage: ", recieveMessage);
 
         if (recieveMessage.sessionId != "init") {
           setMessages((prevMessages) => [...prevMessages, JSON.parse(event.data)]);
@@ -124,6 +130,7 @@ useEffect(() => {
       };
 
       ws.onclose = () => {
+        sendLeaveMessage();
         console.log("websocket close")
         if (isOpenRoom) {
           const ws = new WebSocket(WebSocket_URL);
@@ -147,6 +154,14 @@ useEffect(() => {
 
   }, []);
 
+
+  useEffect(() => {
+    if (firstRender) {
+      scrollToBottom();
+    }
+  }, [messages])
+
+
   return (
     <MessegeListDiv>
 
@@ -160,7 +175,11 @@ useEffect(() => {
         /><hr />
       </div>
 
-      <InfinityScroll style={{ position: "relative" }}>
+      <InfinityScroll
+      ref={chatContainerRef}
+      id="chat-container" // 이 부분을 추가해줍니다.
+      style={{ position: "relative" }}
+        >
         {messages.map((message: MessageType, index: number) =>
           message.memberId === me
           ? (
@@ -182,12 +201,16 @@ useEffect(() => {
       </InfinityScroll>
 
       <MessegeBodyDiv>
-        <div>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}> 
           <Input 
           className="input"
           type="text" 
           onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
           value={message}
+          autoFocus
           />
           <Send
           style={{ width: '30px', height: '30px' }}
@@ -195,7 +218,7 @@ useEffect(() => {
           onMouseEnter={() => setSendHover(true)}
           onMouseLeave={() => setSendHover(false)}
           onClick={sendMessage}/>
-        </div>
+        </form>
       </MessegeBodyDiv>
 
     </MessegeListDiv>

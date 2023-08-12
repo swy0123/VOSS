@@ -20,6 +20,7 @@ function App() {
     if (location.pathname !== "/" && !loginState) {
       navigate("/");
     } else if (location.pathname === "/" && loginState) {
+      navigate("/category");
     }
   }, [loginState, location ]);
   // window.location.pathname : URL
