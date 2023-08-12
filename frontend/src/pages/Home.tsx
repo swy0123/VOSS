@@ -26,7 +26,6 @@ function Home() {
   return (
     <Mainimg>
       <div>
-        <Custom />
         <HomeContent></HomeContent>
         {loginMode ? <Login /> : <Join />}
       </div>
