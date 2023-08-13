@@ -86,7 +86,8 @@ export const OptionButton = styled.button`
   padding: 0px 7px 0px 7px;
   margin-right: 8px;
   font-size: 13px;
-  
+  cursor: pointer;
+
   &:hover{
     transform: scale(1.1);
     transition: .3s;
