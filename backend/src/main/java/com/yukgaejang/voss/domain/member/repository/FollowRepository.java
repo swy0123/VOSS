@@ -18,6 +18,8 @@ public interface FollowRepository extends JpaRepository<Follow, Long>, FollowSup
     @Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END FROM Follow f WHERE f.follower.id = :myId AND f.following.id = :memberId")
     boolean isFollowing(@Param("memberId") Long memberId, @Param("myId") Long myId);
 
+    boolean existsByFollowerIdAndFollowingId(Long myId, Long targetId);
+
     @Modifying
     @Query("DELETE FROM Follow f WHERE f.follower.id = :followerId AND f.following.id = :followingId")
     void unfollow(@Param("followingId") Long followingId, @Param("followerId") Long followerId);

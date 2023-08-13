@@ -32,7 +32,7 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
                 .where(jpaQueryFactory
                         .selectOne()
                         .from(follow)
-                        .where(follow.follower.id.eq(targetId).and(follow.following.id.eq(member.id)))
+                        .where(follow.follower.id.eq(targetId).and(follow.following.id.eq(myId)))
                         .exists())
                 .fetch();
     }
@@ -50,7 +50,7 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
                 .where(jpaQueryFactory
                         .selectOne()
                         .from(follow)
-                        .where(follow.following.id.eq(targetId).and(follow.follower.id.eq(member.id)))
+                        .where(follow.following.id.eq(targetId).and(follow.follower.id.eq(myId)))
                         .exists())
                 .fetch();
     }
