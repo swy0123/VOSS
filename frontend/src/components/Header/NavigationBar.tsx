@@ -71,28 +71,14 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
         </Alarm>
-            <Profile
-              src = {currentUser.imageUrl.length > 0 ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}    
-              onClick={() => goProfile(currentUser.userid)}
-              onMouseEnter={() => setProfileMenuShown(true)}
-              onMouseLeave={() => setProfileMenuShown(false)}>
-          </Profile>
-        {/* { currentUser.imageUrl ? (
-            <Profile
-              src={ currentUser.imageUrl ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}
-              onClick={() => goProfile(currentUser.userid)}
-              onMouseEnter={() => setProfileMenuShown(true)}
-              onMouseLeave={() => setProfileMenuShown(false)}>
-          </Profile>
-          ):(
-            <Profile
-            src={ProfileNull}
-              onClick={() => goProfile(currentUser.userid)}
-              onMouseEnter={() => setProfileMenuShown(true)}
-              onMouseLeave={() => setProfileMenuShown(false)}>
-            </Profile>
-          )
-        } */}
+
+        <Profile
+          src = {currentUser.imageUrl.length > 0 ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}    
+          onClick={() => goProfile(currentUser.userid)}
+          onMouseEnter={() => setProfileMenuShown(true)}
+          onMouseLeave={() => setProfileMenuShown(false)}>
+        </Profile>
+        
         {profileMenuShown
         ? <div>
           <ProfileHoverList 
