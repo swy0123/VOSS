@@ -11,8 +11,7 @@ export const CurrentUserAtom = atom({
     userid: 0,
     email: "",
     nickname: "",
-    accessToken: "",
-    refreshToken: ""
+    imageUrl: "",
   },
   effects_UNSTABLE: [persistAtom], // 상태가 변할 때마다 로컬스토리지에 저장
 });
