@@ -5,13 +5,13 @@ export const RecordBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 42px;
   height: 150px;
   width: 350px;
 `
 export const StopWatch = styled.p`
   color: white;
-  margin: 20px 0px 20px 0px;
+  margin: 25px 0px 20px 0px;
   height: 1px;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
@@ -37,6 +37,7 @@ export const SectionBtn = styled.div`
   display: flex;
   align-items: center;
   height: 60px;
+  
 `
 export const Button = styled.button`
   background-color: #3a3a3a;
