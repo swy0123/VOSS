@@ -1,16 +1,17 @@
 package com.yukgaejang.voss.domain.recordboard.service.dto.response;
 
 import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
-import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordFile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class RecordDetailResponse {
-    private Long postId;
+    private Long recordId;
     private String description;
     private String nickname;
     private Long memberId;
@@ -20,9 +21,10 @@ public class RecordDetailResponse {
     private LocalDateTime createdAt;
     private Long likes;
     private boolean isLiked;
+    private String likeMembers;
 
     public RecordDetailResponse(Record record, String originalFileName, String savedFileName, Long likes, Integer isLiked) {
-        this.postId = record.getId();
+        this.recordId = record.getId();
         this.description = record.getDescription();
         this.nickname = record.getMember().getNickname();
         this.memberId = record.getMember().getId();

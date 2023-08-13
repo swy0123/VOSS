@@ -2,6 +2,8 @@ package com.yukgaejang.voss.domain.recordboard.repository;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,9 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
-import org.springframework.stereotype.Repository;
+import java.util.stream.Collectors;
 
 @Repository
 public class RecordSupportRepositoryImpl implements RecordSupportRepository {
@@ -72,6 +72,16 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .where(r.isDeleted.eq(0));
 
         return new PageImpl<>(records, pageable, countQuery.fetchCount());
+    }
+
+    private String getLikeMembers(NumberPath<Long> id) {
+        return jpaQueryFactory
+                .select(rl.member.nickname)
+                .from(rl)
+                .where(rl.record.id.eq(id))
+                .fetch()
+                .stream()
+                .collect(Collectors.joining(", "));
     }
 
     @Override
