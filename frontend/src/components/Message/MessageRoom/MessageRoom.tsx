@@ -44,7 +44,7 @@ import {
           content: message,
         };
         const sentAlarm = {
-          chatId: 1,
+          chatId: currentRoom.chatId,
           sessionId: "init",
           memberId: currentRoom.memberId,
           content: "Alarm",

@@ -2,7 +2,7 @@ import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png"
 import AddMessage from "/src/assets/Messenger/AddMessage.png";
 import AddMessageHover from "/src/assets/Messenger/AddMessageHover.png";
-import MessageCard from "../MessageCard/MessageCard";
+import RedDot from "/src/assets/Messenger/RedDot.png";
 import MessageModal from "../MessageModal/MessageModal";
 import MessageRoom from "../MessageRoom/MessageRoom";
 import { useRecoilState } from "recoil";
@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { getMessageRooms, getMessages } from "/src/api/messenger";
 import { RoomType,CurrentRoomType, MessageType } from "/src/type/Auth";
 import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState, MessengerAlarmState } from "/src/recoil/Messenger";
-import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageAdd, } from "./MessagePage.style"
+import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageChecked, MessageTitle, MessageCardDiv, MessageAdd, } from "./MessagePage.style"
 
 
 const MessagePage = () => {
@@ -45,6 +45,10 @@ const MessagePage = () => {
       }
     })
   }, [rooms.length, isOpenRoom]);
+
+  useEffect(() => {
+    console.log(123)
+  }, [rooms]);
   
   return (
     <MessegePageDiv>
@@ -62,9 +66,21 @@ const MessagePage = () => {
         <MessegeList>
           {rooms.map((room: RoomType, index: number) => (
             <div key={index} onClick={() => goToRoom(room)}>
-              <MessageCard room={room} />
+              
+            <MessageCardDiv key={index} onClick={() => goToRoom(room)}>
+            <MessageTitle>{room.name}</MessageTitle>
+              { room.unReadMessage
+              ? <MessageChecked src={RedDot}/>
+              : null
+              }
+            </MessageCardDiv>
+
             </div>
           ))}
+          { rooms.length === 0
+          ? <div style={{ textAlign: "center", marginTop: "150px" }}>채팅방이 없습니다</div>
+          : null
+          }
         </MessegeList>
       </MessegeBodyDiv>
 

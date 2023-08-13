@@ -29,6 +29,7 @@ export const CommentCreateDesign = styled.div`
   color: white;
   background-color: transparent;
   border: solid 1px white;
+  cursor: pointer;
 `;
 
 export const CommentDesign = styled.div`

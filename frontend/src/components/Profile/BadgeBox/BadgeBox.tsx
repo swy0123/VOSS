@@ -27,7 +27,7 @@ function BadgeBox() {
     <BadgeBoxDesign>
       <BadgeTitleDesign>
         활동 배지
-        <BadgeTitleDetailDesign onClick={()=>setShowModal(true)}>자세히 보기 〉</BadgeTitleDetailDesign>
+        <BadgeTitleDetailDesign onClick={()=>setShowModal(true)} style={{cursor: 'pointer'}}>자세히 보기 〉</BadgeTitleDetailDesign>
       </BadgeTitleDesign>      
 
       { badges.length > 0

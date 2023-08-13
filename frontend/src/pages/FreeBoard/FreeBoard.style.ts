@@ -26,6 +26,7 @@ export const OrderSelectDesign = styled.select`
   background-color: #313131;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 `;
 
 export const PostCategoryDesign = styled.div`
@@ -106,6 +107,7 @@ export const SearchSelectDesign = styled.select`
   background-color: #313131;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
   /* border: solid 1px white; */
   `;
 
@@ -146,6 +148,7 @@ export const InputBoxBtn = styled.button`
   background-color: transparent;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
   `;
 
 export const CreateSpaceDesign = styled.div`
@@ -167,6 +170,7 @@ export const CreateBtnDesign = styled.div`
   background-color: rgba(34, 80, 91, 0.7);
   border-radius: 10px;
   font-size: 0.8vw;
+  cursor: pointer;
   img {
     margin-right: 0.5vw;
     height: 50%;

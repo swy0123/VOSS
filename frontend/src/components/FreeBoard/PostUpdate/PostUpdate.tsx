@@ -61,8 +61,8 @@ function PostUpdate() {
   const removeFile = (id: number) => {
     setFiles((prevFiles: any) => prevFiles.filter((file: any) => file.id !== id));
   };
-
-
+  
+  const goProfile = () => (navigate(`/profile/${post.memberId}`));
   const goFreeBoard = () => navigate("/freeboard");
   const UpdatePost = () => {
     const deleteFileIds = firstFiles.filter(((file: PostFirstFilesType) => !files.includes(file))).map((file: PostFirstFilesType) => file.id);
@@ -72,7 +72,6 @@ function PostUpdate() {
     updatePost(id, title, content, deleteFileIds, newFiles)
     .then(()=>navigate(`/freeboard/${id}`));
   }
-  const DeletePost = () => (deletePost(id), navigate("/freeboard"))
 
   useEffect(() => {
     getPost(id).then((dataPost) => {
@@ -102,7 +101,7 @@ function PostUpdate() {
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}>
         </FreeTitleInputDesign>
-        <FreeUserDesign>
+        <FreeUserDesign onClick={goProfile}>
           {currentUser.nickname}
         </FreeUserDesign>
       </FreeTitleUserDesign>
@@ -146,7 +145,7 @@ function PostUpdate() {
 
       <FreepUdateDeleteDesign>
       <FreeUploadDesign>
-        <label htmlFor="uploadFile">파일찾기</label>
+        <label style={{cursor: 'pointer'}} htmlFor="uploadFile">파일찾기</label>
         <input
           type='file'
           id="uploadFile"

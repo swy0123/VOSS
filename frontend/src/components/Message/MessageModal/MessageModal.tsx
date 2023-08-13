@@ -59,8 +59,8 @@ const MessageModal = () => {
   };
 
   useEffect(() => {
-    if (inputs.length > 0) {
-      getUsers(inputs, 0, 20).then((userData) => {
+    if (inputs.trim().length > 0) {
+      getUsers(inputs, 0, 30).then((userData) => {
         if (userData) {
           setUsers(userData.content)
         }
@@ -118,6 +118,11 @@ const MessageModal = () => {
           </FriendListItemDesign>
           ))}
         </FriendListDesign>
+
+        { inputs.trim().length > 0 && users.length === 0
+        ? <FriendListItemDesign style={{marginBottom: '170px'}}>해당하는 친구가 없습니다</FriendListItemDesign>
+        : null
+        } 
 
       </DialogBox>
       <Backdrop onClick={()=>setOpenModal(false)}/>
