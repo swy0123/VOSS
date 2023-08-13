@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { 
   dubbingRecordState, 
   dubbingRecordTimeState } from "/src/recoil/HW_Atom"
@@ -30,6 +30,23 @@ function Recording (){
     currentTime()
   },[dubbingRecord])
 
+  const handleAudioPlay = (index:number) => {
+    console.log(`Playing audio at index ${index}`);
+    if (audioRefs.current[index].current !== null) {
+      audioRefs.current[index].current.play();
+    }
+  };
+
+  const handleAudioPause = (index:number) => {
+    if (audioRefs.current[index].current !== null) {
+      audioRefs.current[index].current.pause();
+      audioRefs.current[index].current.currentTime = 0; // Rewind audio to the beginning
+    }
+  };
+
+  const audioRefs = useRef([]);
+
+
   return(
     <Container>
       <Title>녹음 기록</Title>
@@ -43,7 +60,8 @@ function Recording (){
             <audio src={file} controls style={{
               width :'100px',
               height : '28px',
-            }}/>
+            }} onPlay={() => handleAudioPlay(index)}
+            onPause={() => handleAudioPause(index)}/>
             <a href={file} download="my-audio-file.mp3">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a> 
