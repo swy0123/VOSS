@@ -39,21 +39,18 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
 
     @Override
     public List<GetFollowMemberResponse> findFollowers(Long targetId, Long myId) {
-        QFollow f = follow;
-        QMember m = member;
-
         return jpaQueryFactory
                 .select(Projections.constructor(GetFollowMemberResponse.class,
-                        m.id, m.email, m.nickname, member.imageUrl, jpaQueryFactory
+                        member.id, member.email, member.nickname, member.imageUrl, jpaQueryFactory
                                 .selectOne()
-                                .from(f)
-                                .where(f.follower.id.eq(myId).and(f.following.id.eq(m.id)))
+                                .from(follow)
+                                .where(follow.follower.id.eq(myId).and(follow.following.id.eq(member.id)))
                                 .exists()))
-                .from(m)
+                .from(member)
                 .where(jpaQueryFactory
                         .selectOne()
-                        .from(f)
-                        .where(f.following.id.eq(targetId).and(f.follower.id.eq(m.id)))
+                        .from(follow)
+                        .where(follow.following.id.eq(targetId).and(follow.follower.id.eq(member.id)))
                         .exists())
                 .fetch();
     }
