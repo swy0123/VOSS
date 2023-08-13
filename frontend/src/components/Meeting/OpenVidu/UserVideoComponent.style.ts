@@ -39,11 +39,11 @@ export const VedioInnerDiv = styled.div`
 
 export const VedioMuteIcon = styled.img`
   position: absolute;
-  right: 3%;
-  bottom: 5%;
+  right: 2%;
+  bottom: 3%;
   color: white;
-  width: 6%;
-  height: 9%;
+  width: 50px;
+  height: 50px;
   z-index: 5;
 `;
 export const VedioHoverMenu = styled.div`

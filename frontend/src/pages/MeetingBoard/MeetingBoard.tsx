@@ -28,11 +28,11 @@ function MeetingBoard() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const startProps = {
     title: "",
-    category: "PRACTICE",
+    category: "",
   };
   const Tag = ["목소리 분석 연습", "더빙 연습", "기타"];
   const TagCode = ["PRACTICE", "DUB", "FREE"];
-  const [selectedTag, setTag] = useState<number>(0);
+  const [selectedTag, setTag] = useState<string>("");
   const [searchForm, setSearch] = useState("");
   const [meetingBoardProps, setMeetingBoardProps] = useState<MeetingBoardProps>(startProps);
 
@@ -48,6 +48,12 @@ function MeetingBoard() {
     setSearch(e.target.value);
   };
 
+
+  const handleCategory = (index:number) => {
+    if(selectedTag==TagCode[index]) setTag("");
+    else setTag(TagCode[index]);
+  };
+
   const handleOnKeyPress = (e : KeyboardEvent<HTMLInputElement>)=>{
   console.log("키 입력");
   console.log(e.key);
@@ -59,7 +65,7 @@ function MeetingBoard() {
   const onClickSearchButton = () => {
     const newKeyWord = {
       title: searchForm,
-      category: TagCode[selectedTag],
+      category: selectedTag,
     };
     console.log(newKeyWord);
     console.log("isClickedSearchButton");
@@ -93,7 +99,7 @@ function MeetingBoard() {
 
         <LeftDiv>
           {Tag.map((data, index) => (
-            <TagButton key={index} $IsClick={selectedTag == index} onClick={() => setTag(index)}>
+            <TagButton key={index} $IsClick={selectedTag == TagCode[index]} onClick={() => handleCategory(index)}>
               {data}
             </TagButton>
           ))}

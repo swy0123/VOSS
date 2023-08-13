@@ -13,6 +13,7 @@ export const Header = styled.div`
   top: 0px;
   width: 100%;
   height: 25px;
+  max-height: 10%;
   text-align: center;
   background-color: #222222;
   color: white;
