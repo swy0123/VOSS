@@ -1,15 +1,20 @@
 import { styled } from 'styled-components';
 
 export const Container =styled.div`
+  background-color: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: flex-end;
+  height: 204px;
+  width: 470px;
 `
 
 export const ScriptBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 22px;
-  height: 160px;
+  padding: 0px 22px 22px 22px;
+  height: 165px;
+  width: 417px;
   overflow-y: scroll;
-  background-color: rgba(0, 0, 0, 0.15);
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -18,14 +23,10 @@ export const ScriptBox = styled.div`
 
   &::-webkit-scrollbar-thumb {
     height: 20px; /* 스크롤바의 길이 */
-    background: #535353; /* 스크롤바의 색상 */
-    border-radius: 10px;
+    border-radius: 9px;
+    background: #181818;
+    border: 1px solid #515151;
   }
-
-  /* &::-webkit-scrollbar-track {
-    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상
-  }
-   */
 `
 
 export const Scripts = styled.div<{$IsClick:boolean}>`
@@ -57,7 +58,7 @@ export const Time = styled(Script_Unit)`
 `
 
 export const formatTime = (durationInSec: number) => {
-  const minutes = Math.floor(durationInSec / 10 / 600)
-  const second = Math.floor(durationInSec / 10 % 600)
+  const minutes = Math.floor(durationInSec / 600)
+  const second = Math.floor(durationInSec / 10 % 60)
   return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
 }

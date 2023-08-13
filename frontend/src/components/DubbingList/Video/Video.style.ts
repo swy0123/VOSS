@@ -30,33 +30,40 @@ export const VideoItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  margin: 0px 20px 15px 0px;
+  margin: 0px 1.6% 1.3% 0px;
   height: 240px;
   width: 280px;
   cursor: pointer;
 
+  @media only screen and (max-width: 1500px) {
+    width: 23%
+  }
+  @media only screen and (max-width: 1250px) {
+    width: 31%
+  }
+  @media only screen and (max-width: 860px) {
+    width: 47%
+  }
+  @media only screen and (max-width: 560px) {
+    width: 90%
+  }
+  
   &:hover {
     background-color: #132B31;
   }
 `
-// export const Thumbnail = styled.iframe`
-//   margin-top: 15px;
-//   border: none;
-//   height: 120px;
-//   width: 215px;
-// `
 
 export const Thumbnail = styled.img`
   margin: 20px 0px 11px 0px;
   height: 155px;
-  width: 280px;
+  width: 100%;
 `
 
 export const Infos = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
-  width: 260px;
+  width: 100%;
 `
 const Info = styled.div`
   display: flex;
@@ -64,7 +71,7 @@ const Info = styled.div`
   align-items: center;
   color: #ffffff;
   font-size: 12px;
-  margin-left: 15px;
+  margin-right: 5%;
 `
 export const Count = styled(Info)``
 export const Time = styled(Info)``
@@ -81,7 +88,8 @@ export const TimeImg = styled(Icon)``
 export const Description = styled.div`
   font-size: 16px;
   text-align: left;
-  height: 50px;
-  width: 250px;
   color: white;
+  height: 50px;
+  width: 100%;
+  margin-left: 12%;
 `

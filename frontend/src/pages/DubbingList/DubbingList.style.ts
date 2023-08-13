@@ -10,5 +10,5 @@ export const DubbingBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 81%;
-  margin-left: 20px;
+  margin-left: 3%;
 `
