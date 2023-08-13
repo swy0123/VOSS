@@ -4,6 +4,16 @@ export const GameNoticeDiv = styled.div`
   width: 90%;
   height: 90%;
 `;
+export const RecordBtn = styled.button`
+  display: block;
+  margin: 0 auto;
+  width: 10%;
+  height: 10%;
+  margin-top: 180px;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
 
 export const GameTitle = styled.img`
   width: 45%;
@@ -36,4 +46,13 @@ export const RecordButton = styled.div`
     box-shadow: 0 0 20px #107e5d;
     transition: 0.2s;
   }
+`;
+
+export const RecordExplain = styled.div`
+  margin-top: 80px;
+  font-size: 25px;
+  color: white;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
