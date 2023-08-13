@@ -17,7 +17,6 @@ const Messenger = () =>{
   const initRef = useRef<WebSocket | null>(null);
   const isLogin = useRecoilValue(LoginState);
   const [isAlarm, setIsAlarm] = useRecoilState(MessengerAlarmState);
-
   const sendEnterMessage = () => {
     const enterMessage = {
       chatId: 1,
