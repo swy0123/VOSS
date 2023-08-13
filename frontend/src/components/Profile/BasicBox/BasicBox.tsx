@@ -5,6 +5,7 @@ import { CurrentUserAtom, ProfileState, ModalOpenState, FollowerTabState ,Follow
 import { postFollow, deleteUnfollow, getFollowers, getFollowings  } from '/src/api/profile';
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png"
+import ImageModifyModal from '../ModalBox/ImageModifyModal';
 import {
     BasicBoxDesign,
     ProfileImgDesign,
@@ -31,6 +32,7 @@ function BasicBox() {
   const [followers, setFollowers] = useRecoilState(FollowerListState)
   const [followings, setFollowings] = useRecoilState(FollowingListState)
   const [followerCount, setFollowerCount] = useState(0);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [profile, setProfile] = useRecoilState(ProfileState)
   const setFollow = () => {
     profile.isFollowing
@@ -49,11 +51,20 @@ function BasicBox() {
     })
   }, [isModalOpen])
 
+  const handleModifyClick = () => {
+    setIsImageModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsImageModalOpen(false);
+  };
+
   return (
     <> { profile.id > 0
     ? <BasicBoxDesign>
       <ProfileImgDesign>
         <ProfileImgDesign2
+        onClick={handleModifyClick}
         onMouseEnter={()=>setImgUpdate(true)}
         onMouseLeave={()=>setImgUpdate(false)}>
           {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
@@ -89,6 +100,8 @@ function BasicBox() {
         </FollowBoxDesign>
 
       </ProfileInfoDesign>
+
+      {isImageModalOpen && <ImageModifyModal handleConfigUpdate={closeModal} />}
       
     </BasicBoxDesign>
     : <h3 style={{color: 'white'}}>회원 정보가 없습니다</h3>
