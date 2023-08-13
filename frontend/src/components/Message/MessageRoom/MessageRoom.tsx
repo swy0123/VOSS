@@ -108,7 +108,7 @@ import {
 useEffect(() => {
   setUnReadIndex(-1);
   scrollToMessage();
-  console.log("messageRoom mounted")
+  // console.log("messageRoom mounted")
   
   if (!socketRef.current) {
     const ws = new WebSocket(WebSocket_URL);
@@ -116,7 +116,7 @@ useEffect(() => {
     
     ws.onopen = () => { 
       socketRef.current = ws; 
-      console.log("websocket open")
+      // console.log("websocket open")
       sendEnterMessage();
     };
     
@@ -131,12 +131,12 @@ useEffect(() => {
 
       ws.onclose = () => {
         sendLeaveMessage();
-        console.log("websocket close")
+        // console.log("websocket close")
         if (isOpenRoom) {
           const ws = new WebSocket(WebSocket_URL);
           ws.onopen = () => { 
             socketRef.current = ws; 
-            console.log("websocket open")
+            // console.log("websocket open")
             sendEnterMessage();
           };
         };
@@ -146,17 +146,17 @@ useEffect(() => {
     return () => {
       if (socketRef.current) {
         sendLeaveMessage();
-        console.log("websocket close if");
+        // console.log("websocket close if");
         if (isOpenRoom) {
           const ws = new WebSocket(WebSocket_URL);
           ws.onopen = () => { 
             socketRef.current = ws; 
-            console.log("websocket open")
+            // console.log("websocket open")
             sendEnterMessage();
           };
         };
       } else {
-        console.log("websocket close else");
+        // console.log("websocket close else");
       }
     };
 

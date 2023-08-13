@@ -41,7 +41,6 @@ function BasicBox() {
   const [showImgUpdate, setImgUpdate] = useState(false)
 
   useEffect(()=> {
-    console.log(123, profile)
     getFollowings(id).then(followings => {
       if (followings) {setFollowings(followings)};
     })
