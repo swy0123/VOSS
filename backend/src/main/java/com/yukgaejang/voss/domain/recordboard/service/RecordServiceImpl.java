@@ -6,9 +6,11 @@ import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.recordboard.exception.NoRecordException;
 import com.yukgaejang.voss.domain.recordboard.exception.NoRecordFileException;
 import com.yukgaejang.voss.domain.recordboard.repository.RecordFileRepository;
+import com.yukgaejang.voss.domain.recordboard.repository.RecordLikeRepository;
 import com.yukgaejang.voss.domain.recordboard.repository.RecordRepository;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordFile;
+import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordLike;
 import com.yukgaejang.voss.domain.recordboard.service.dto.request.CreateRecordRequest;
 import com.yukgaejang.voss.domain.recordboard.service.dto.request.UpdateRecordRequest;
 import com.yukgaejang.voss.domain.recordboard.service.dto.response.*;
@@ -19,12 +21,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.yukgaejang.voss.domain.recordboard.repository.entity.QRecordLike.recordLike;
+
 
 @Service
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 
     private final RecordRepository recordRepository;
+    private final RecordLikeRepository recordLikeRepository;
     private final RecordFileRepository recordFileRepository;
     private final MemberRepository memberRepository;
     private final AwsS3Service awsS3Service;
@@ -70,19 +78,46 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Page<RecordDetailResponse> getRecordList(String email, Pageable pageable) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        return recordRepository.findAllByIsDeletedFalse(pageable, member.getId());
+        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByIsDeletedFalse(pageable, member.getId());
+        for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
+            List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
+            List<String> likeMembers = new ArrayList<>();
+            for (RecordLike recordLike : recordLikeList) {
+                likeMembers.add(recordLike.getMember().getNickname() + "(" + recordLike.getMember().getEmail() + ")");
+            }
+            recordDetailResponse.setLikeMembers(String.join(", ", likeMembers));
+        }
+        return recordDetailResponses;
     }
 
     @Override
     public Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        return recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
+        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
+        for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
+            List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
+            List<String> likeMembers = new ArrayList<>();
+            for (RecordLike recordLike : recordLikeList) {
+                likeMembers.add(recordLike.getMember().getNickname() + "(" + recordLike.getMember().getEmail() + ")");
+            }
+            recordDetailResponse.setLikeMembers(String.join(", ", likeMembers));
+        }
+        return recordDetailResponses;
     }
 
     @Override
     public Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        return recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
+        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
+        for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
+            List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
+            List<String> likeMembers = new ArrayList<>();
+            for (RecordLike recordLike : recordLikeList) {
+                likeMembers.add(recordLike.getMember().getNickname() + "(" + recordLike.getMember().getEmail() + ")");
+            }
+            recordDetailResponse.setLikeMembers(String.join(", ", likeMembers));
+        }
+        return recordDetailResponses;
     }
 
     @Override

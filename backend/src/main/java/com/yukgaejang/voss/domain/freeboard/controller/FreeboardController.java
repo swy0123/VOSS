@@ -112,6 +112,13 @@ public class FreeboardController {
         return ResponseEntity.ok(postLikeService.createPostLike(postId, email));
     }
 
+    @DeleteMapping("/{postId}/like")
+    public ResponseEntity<DeletePostLikeResponse> deletePostLike(@PathVariable Long postId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(postLikeService.deletePostLike(postId, email));
+    }
+
     @GetMapping("/my-post")
     public ResponseEntity<Page<MyPostListResponse>> getMyPostList(@PageableDefault Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

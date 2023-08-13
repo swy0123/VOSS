@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.recordboard.repository.RecordRepository;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.RecordLike;
 import com.yukgaejang.voss.domain.recordboard.service.dto.response.CreateRecordLikeResponse;
+import com.yukgaejang.voss.domain.recordboard.service.dto.response.DeleteRecordLikeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,17 @@ public class RecordLikeServiceImpl implements RecordLikeService {
         recordLikeRepository.save(recordLike);
         notificationService.notifyRecordLike(recordLike);
         return new CreateRecordLikeResponse(true);
+    }
+
+    @Override
+    public DeleteRecordLikeResponse deleteRecordLike(String email, Long recordId) {
+        Record record = recordRepository.findByIdAndIsDeletedFalse(recordId);
+        if(record == null) {
+            throw new NoRecordException("존재하지 않는 글입니다.");
+        }
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoRecordException("존재하지 않는 사용자입니다."));
+        RecordLike recordLike = recordLikeRepository.findByRecordIdAndMemberId(recordId, member.getId());
+        recordLikeRepository.delete(recordLike);
+        return new DeleteRecordLikeResponse(true);
     }
 }
