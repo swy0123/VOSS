@@ -36,3 +36,51 @@ export const StartButton = styled.div`
     transition: 0.2s;
   }
 `;
+
+export const PlayExplain = styled.div`
+  margin-top: 80px;
+  font-size: 25px;
+  color: white;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StyledDivWithText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  color: white;
+  padding: 20px;
+  width: 60%;
+  margin: 60px auto;
+`;
+
+export const OptionButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+export const OptionButton = styled.div<{ $IsColor: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: ${(props) => (props.$IsColor ? "#ffc000" : "white")};
+  width: 170px;
+  height: 120px;
+  margin: 8px;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 20px ${(props) => (props.$IsColor ? "#ffc000" : "white")};
+    transition: 0.2s;
+  }
+`;
+
