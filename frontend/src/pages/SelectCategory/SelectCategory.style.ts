@@ -99,7 +99,8 @@ export const MeetingEnterIcon = styled.img`
   height: 30px;
   width: 50px;
   margin-right: 30px;
-  
+  cursor: pointer;
+
   &:hover {
     transform: scale(1.3);
     transition: .5s;

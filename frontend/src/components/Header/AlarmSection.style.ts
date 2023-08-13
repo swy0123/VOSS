@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 
-// color: ${props => props.$IsClick ? "white" : "#999999"};
 
 export const Container = styled.div`
 `
@@ -8,7 +7,7 @@ export const Container = styled.div`
 export const AlarmCount = styled.div`
   position: fixed;
   top: 22px;
-  right: 124px;
+  right: 129px;
   background-color: #B3261E;
   border-radius: 100px;
   height: 11px;
@@ -27,18 +26,19 @@ export const AlarmListBox = styled.div<{$IsClick:boolean}>`
   background-color: white;
   border-radius: 5px;
   top: 60px;
-  right: 100px;
+  right: 108px;
   height: 280px;
   width: 230px;
   z-index: 9999;
 
   opacity: ${props => props.$IsClick ? 1 : 0};
+  z-index: ${props => props.$IsClick ? 9999 : -1};
 `
 
 export const Triangle = styled.div`
   position: fixed;
   top: 48px;
-  right: 127px;
+  right: 133px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 15px solid white;
@@ -50,18 +50,18 @@ export const AlarmHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
-  height: 27px;
+  height: 32px;
   width: 230px;
 `
 
 export const AlarmWord = styled.p`
-  font-size: 11px;
+  font-size: 14px;
   margin-left: 10px;
 `
 
 export const AlarmExitBtn = styled.img`
-  height: 16px;
-  width: 16px;
+  height: 17px;
+  width: 17px;
   margin-right: 5px;
   cursor: pointer;
 `
@@ -99,7 +99,7 @@ export const AlarmItem = styled.div`
   border-radius: 4px;
   margin: 0px 10px 8px 6px;
   padding: 10px;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
 
   /* &:hover {
