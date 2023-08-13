@@ -63,7 +63,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
         </Alarm>
         
         <Profile
-          src = {currentUser.imageUrl.length > 0 ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}    
+          src = {currentUser.imageUrl ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}    
           onClick={() => goProfile(currentUser.userid)}
           onMouseEnter={() => setProfileMenuShown(true)}
           onMouseLeave={() => setProfileMenuShown(false)}>
