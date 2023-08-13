@@ -21,4 +21,6 @@ public interface MeetService {
     List<ViewScriptLineResponse> selectCasting(List<SelectCastingRequest> selectCastingRequestList);
 
     List<GetAllMeetJoinResponse> getMeetJoinList(Long meetRoomId);
+
+    Boolean meetRoomRecord(RecordRequest recordRequest);
 }

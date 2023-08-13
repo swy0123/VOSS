@@ -123,6 +123,16 @@ public class MeetServiceImpl implements MeetService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Boolean meetRoomRecord(RecordRequest recordRequest) {
+        Meet meet = meetRepository.findByMeetId(recordRequest.getMeetRoomId()).orElseThrow();
+        if (recordRequest.getCommand() == RecordRequest.COMMAND.START) {
+            return openViduClient.recordStart(meet.getSessionId());
+        } else {
+            return openViduClient.recordStop(meet.getSessionId());
+        }
+    }
+
     private Meet getMeetBuJoinMeetRoomRequest(JoinMeetRoomRequest joinMeetRoomRequest) {
         Optional<Meet> findMeet = meetRepository.findByMeetId(joinMeetRoomRequest.getMeetRoomId());
         Meet meet = findMeet.orElseThrow(() -> new NoMeetRoomException("해당 방이 없습니다."));
