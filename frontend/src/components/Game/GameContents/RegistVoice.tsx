@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GameMainContainer } from '../GameMain/GameMain.style';
 import {
   GameExplain,
@@ -7,11 +7,27 @@ import {
   RecordButton,
   RecordExplain,
   RecordBtn,
+  StyledDivWithText,
+  NextBtn,
+  ButtonContainer,
 } from './RegistVoice.style';
 import GameTitleImg from '/src/assets/Game/GameTitleImg.png';
 import StartBtnImg from '/src/assets/Training/restartbtn.png';
 
 const sentence = [
+  '(1/10)',
+  '(2/10)',
+  '(3/10)',
+  '(4/10)',
+  '(5/10)',
+  '(6/10)',
+  '(7/10)',
+  '(8/10)',
+  '(9/10)',
+  '(10/10)',
+];
+
+const readMessage = [
   '11111111111',
   '2222222222222',
   '33333333333',
@@ -26,15 +42,18 @@ const sentence = [
 
 function RegistVoice() {
   const [ViewRecordVoice, setViewRecordVoice] = useState(true);
-  const [CurrentSentenceInex, setCurrentSentenceIndex] = useState(0);
+  const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
 
   const handleRecordButtonClick = () => {
     setViewRecordVoice(false);
   };
 
-  const handleRecorBtnonClick = () => {
-    if (CurrentSentenceInex < sentence.length - 1) {
-      setCurrentSentenceIndex(CurrentSentenceInex + 1);
+  const handleRecorBtnonClick = async () => {
+    if (CurrentSentenceIndex < sentence.length - 1) {
+      setCurrentSentenceIndex(CurrentSentenceIndex + 1);
+    } else {
+      setViewRecordVoice(true);
+      setCurrentSentenceIndex(0);
     }
   };
 
@@ -50,10 +69,20 @@ function RegistVoice() {
           </GameExplain>
         ) : (
           <div>
-            <RecordExplain>{sentence[CurrentSentenceInex]}</RecordExplain>
-            <RecordBtn onClick={handleRecorBtnonClick}>
-              <img src={StartBtnImg}></img>
-            </RecordBtn>
+            <RecordExplain>
+              녹음 버튼을 누르고
+              <br />
+              아래 문장을 읽어주세요{sentence[CurrentSentenceIndex]}
+            </RecordExplain>
+            <StyledDivWithText>
+              {readMessage[CurrentSentenceIndex]}
+            </StyledDivWithText>
+            <ButtonContainer>
+              <RecordBtn onClick={handleRecorBtnonClick}>
+                <img src={StartBtnImg}></img>
+              </RecordBtn>
+              <NextBtn onClick={handleRecorBtnonClick}>넘어가기</NextBtn>
+            </ButtonContainer>
           </div>
         )}
 
