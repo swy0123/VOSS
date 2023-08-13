@@ -53,6 +53,9 @@ function SelectCategory() {
   const goGame = () => {
     navigate('/game');
   };
+  const goRecordBoard = () => {
+    navigate("/recordboard")
+  };
 
   return (
     <div>
@@ -124,7 +127,7 @@ function SelectCategory() {
                 <UnSkew>자유 게시판</UnSkew>
               </Free>
               <Record>
-                <UnSkew>녹음 게시판</UnSkew>
+                <UnSkew onClick={goRecordBoard}>녹음 게시판</UnSkew>
               </Record>
               <Free onClick={goGame}>
                 <UnSkew>목소리 마피아</UnSkew>
