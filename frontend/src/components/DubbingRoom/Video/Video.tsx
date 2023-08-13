@@ -1,6 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { ScriptData } from "../../../type/type";
+import { useNavigate } from "react-router-dom";
+
+// 리코일
+import { 
+  PlayChangebState, 
+  RoleSelectState, 
+  ScriptSelectState } from "../../../recoil/Training";
+import { 
+  PlayTriggerState, 
+  timeState } from "/src/recoil/HW_Atom";
+
+// 스타일
 import { 
   BackButton,
   Container, 
@@ -8,24 +20,22 @@ import {
   HeaderSection, 
   RoleBox, 
   RoleButton, 
-  Title } from "./Video.style";
-import { 
-  PlayChangebState, 
-  RoleSelectState, 
-  ScriptSelectState } from "../../../recoil/Training";
-import { timeState, youtubeState } from "/src/recoil/HW_Atom";
-import { useNavigate } from "react-router-dom";
-
+  Title,
+  Thumbnail, 
+  ProtectSection,
+  ImgSection} from "./Video.style";
+    
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<boolean>(PlayTriggerState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const [youtube, setYoutube] = useState<object|undefined>("")
-  // const [youtube, setYoutube] = useRecoilState<object|undefined>(youtubeState)
+  const [youtube, setYoutube] = useState<object|undefined>(undefined)
   const [time, setTime] = useRecoilState(timeState);
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-
+  const navigate = useNavigate() 
+  
   // 역할 선택
   const handleRoleBtn = (index: number) => {
     const newRoleSelect = Array(roles.length).fill(false)
@@ -50,9 +60,6 @@ function Video ({script, roles, lines}: ScriptData) {
   const onYouTubeIframeAPIReady = () => {
     const player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
-      events: {
-        'onStateChange' : onPlayStateChange,
-      },
       playerVars:{
         "controls" : 0,
         "disablekb" : 1,
@@ -61,14 +68,24 @@ function Video ({script, roles, lines}: ScriptData) {
     setYoutube(player)
   }
 
-  // 영상 상태 변경
-  const onPlayStateChange = (event) => {
-    const nowTime = event.target.getCurrentTime() * 10;
-    if (event.data == YT.PlayerState.PLAYING) {
-      setPlayChange([1, Math.floor(nowTime)]);
+  // 영상 상태 변경  
+  const onPlayStateChange = async () => {
+    // 영상 시작
+    if (playTrigger === 1){
+      await youtube.playVideo()
+      setPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
     }
-    else if (event.data == YT.PlayerState.PAUSED) {
-      setPlayChange([2, Math.floor(nowTime)]);
+
+    // 영상 일시 정지
+    else if (playTrigger === 2){
+      await youtube.pauseVideo()
+      setPlayChange([2, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
+
+    // 영상 다시 시작 준비
+    else if (playTrigger === 0){
+      await youtube.seekTo(0)
+      setPlayChange([2, 0]);
     }
   }
 
@@ -97,11 +114,14 @@ function Video ({script, roles, lines}: ScriptData) {
       }
     }
   }
-  const navigate = useNavigate() 
 
   const goDubbingList = () => {
     navigate("/dubbinglist")
   }
+
+  useEffect(()=>{
+    void onPlayStateChange()
+  },[playTrigger])
 
   useEffect(()=>{
     onMuteChange()
@@ -121,12 +141,24 @@ function Video ({script, roles, lines}: ScriptData) {
 
   return(
     <Container>
+
       <HeaderSection>
         <Title>{script.title}<span style={{fontSize:'20px'}}>  Time : {time}</span></Title>
         <BackButton
           onClick={goDubbingList}>목록으로</BackButton>
       </HeaderSection>
+
       <Display id="player"></Display>
+      {playTrigger ? (
+        <ProtectSection></ProtectSection>
+        ) : (
+        <ImgSection>
+          <Thumbnail 
+            src={`https://img.youtube.com/vi/${script.videoUrl.slice(-11)}/mqdefault.jpg`}/>
+        </ImgSection>
+        )
+      }
+
       <RoleBox>
           {roles.map((role,index) => (
             <RoleButton 
@@ -142,3 +174,24 @@ function Video ({script, roles, lines}: ScriptData) {
   )
 }
 export default Video
+
+
+
+
+
+// // 영상 상태 변경 일단 보관
+
+// events: {
+//   'onStateChange' : onPlayStateChange,
+// },
+
+// const onPlayStateChange = (event) => {
+//   const nowTime = event.target.getCurrentTime() * 10;
+//   console.log(nowTime)
+//   if (event.data == YT.PlayerState.PLAYING) {
+//     setPlayChange([1, Math.floor(nowTime)]);
+//   }
+//   else if (event.data == YT.PlayerState.PAUSED) {
+//     setPlayChange([2, Math.floor(nowTime)]);
+//   }
+// }

@@ -63,7 +63,6 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
         const content = `${senderNickname}님이`
       }
     })
-    console.log("랜더링 돼야하는건데",alarmInfoTmp)
     setAlarmInfo(alarmInfoTmp)
   }
   

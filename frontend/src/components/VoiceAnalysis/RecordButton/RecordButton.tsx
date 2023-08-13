@@ -24,6 +24,7 @@ function RecordButton () {
   const [time, setTime] = useState(0);
   const stopRef = useRef<number|null>(null);
   const [stop, setStop] = useState(0);
+  
   const { 
     startRecording, 
     stopRecording, 
@@ -47,7 +48,7 @@ function RecordButton () {
         setTime((prevTime) => prevTime + 10);
       }, 10);
 
-      // 녹은 시간 20초 제한
+      // 녹음 시간 20초 제한
       stopRef.current = setInterval(() => {
         setStop((prevTime) => prevTime + 1);
       }, 100);
@@ -87,7 +88,7 @@ function RecordButton () {
     setPracticeEnd(false)
   }
   
-  // 녹은 시간 20초 제한
+  // 녹음 시간 20초 제한
   useEffect(()=>{
     if(stop === 200) {
       startOrStop()
@@ -147,9 +148,10 @@ function RecordButton () {
             </NowRecording>) :
             (<RecordBtn
               onClick={() => {
-                if (stop === 200){ 
+                if (stop >= 200){ 
                   alert("녹음을 완료/취소 해주세요")
-                  return }
+                  return 
+                }
                 startOrStop()
                 resumeRecording()
                 changePracticeEnd()}}
