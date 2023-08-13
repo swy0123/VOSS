@@ -181,21 +181,27 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoResponse getInfo(Long memberId, String email) {
-        Member me = memberRepository.findById(memberId).orElseThrow(() ->
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
                 new NoMemberException("없는 사용자입니다.")
         );
 
-        List<ViewBadgeResponse> badges = badgeService.getBadges(me);
-        int actCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.ACT);
-        int dubCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DUB);
-        int dictionCnt = statRepository.getCountByMemberAndPracticeType(me, PracticeType.DICTION);
+        Member me = memberRepository.findByEmail(email).orElseThrow(() ->
+                new NoMemberException("없는 사용자입니다.")
+        );
+
+        List<ViewBadgeResponse> badges = badgeService.getBadges(member);
+        int actCnt = statRepository.getCountByMemberAndPracticeType(member, PracticeType.ACT);
+        int dubCnt = statRepository.getCountByMemberAndPracticeType(member, PracticeType.DUB);
+        int dictionCnt = statRepository.getCountByMemberAndPracticeType(member, PracticeType.DICTION);
+
+        System.out.println(member.getId() + " " + memberId + "---------" + followRepository.existsByFollowerIdAndFollowingId(member.getId(), memberId));
 
         return MemberInfoResponse.builder()
-                .id(me.getId())
-                .email(me.getEmail())
-                .nickname(me.getNickname())
-                .imageUrl(me.getImageUrl())
-                .isFollowing(followRepository.isFollowing(memberId, me.getId()))
+                .id(member.getId())
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .imageUrl(member.getImageUrl())
+                .isFollowing(followRepository.existsByFollowerIdAndFollowingId(me.getId(), memberId))
                 .followerCnt(followRepository.getFollowerCount(memberId))
                 .followingCnt(followRepository.getFollowingCount(memberId))
                 .badges(badges)
