@@ -60,10 +60,10 @@ export const StyledDivWithText = styled.div`
 `;
 
 export const OptionButtonContainer = styled.div`
-  display: flex; /* 가로 정렬을 위해 플렉스 컨테이너로 설정 */
-  flex-direction: row; /* 가로 방향으로 정렬 */
-  flex-wrap: wrap; /* 컨테이너의 크기를 넘어갈 경우 줄바꿈 */
-  justify-content: center; /* 가로 방향 가운데 정렬 */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const OptionButton = styled.div<{ $IsColor: boolean }>`
