@@ -23,7 +23,7 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
     public List<GetFollowMemberResponse> findFollowings(Long targetId, Long myId) {
         return jpaQueryFactory
                 .select(Projections.constructor(GetFollowMemberResponse.class,
-                        member.id, member.email, member.nickname, jpaQueryFactory
+                        member.id, member.email, member.nickname, member.imageUrl, jpaQueryFactory
                                 .selectOne()
                                 .from(follow)
                                 .where(follow.follower.id.eq(myId).and(follow.following.id.eq(member.id)))
@@ -44,7 +44,7 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
 
         return jpaQueryFactory
                 .select(Projections.constructor(GetFollowMemberResponse.class,
-                        m.id, m.email, m.nickname, jpaQueryFactory
+                        m.id, m.email, m.nickname, member.imageUrl, jpaQueryFactory
                                 .selectOne()
                                 .from(f)
                                 .where(f.follower.id.eq(myId).and(f.following.id.eq(m.id)))

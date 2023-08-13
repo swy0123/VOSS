@@ -11,12 +11,14 @@ public class GetFollowMemberResponse {
     Long memberId;
     String email;
     String nickname;
+    String imageUrl;
     boolean isFollowing;
 
-    public GetFollowMemberResponse(Long memberId, String email, String nickname, boolean isFollowing) {
+    public GetFollowMemberResponse(Long memberId, String email, String nickname, String imageUrl, boolean isFollowing) {
         this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
         this.isFollowing = isFollowing;
     }
 
