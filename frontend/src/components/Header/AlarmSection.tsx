@@ -79,7 +79,6 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
     
     const alarmInfoTmp = await alarmInfo.filter((alarm,index) => index !== a_idx)
     await setAlarmInfo(alarmInfoTmp)
-
     await axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
 
     if (type === "POST_LIKE" || type === "COMMENT"){
