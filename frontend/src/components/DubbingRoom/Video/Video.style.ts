@@ -66,9 +66,9 @@ export const ProtectSection = styled(ImgSection)`
 export const Thumbnail = styled.img`
   position: absolute;
   margin-bottom: 10px;
-  height: 268px;
+  height: 270px;
   width: 470px;
-  top: 68px;
+  top: 65px;
 `
 
 export const RoleBox = styled.div`
