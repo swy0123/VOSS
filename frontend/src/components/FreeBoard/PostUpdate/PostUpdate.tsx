@@ -5,7 +5,7 @@ import { CurrentUserAtom } from "/src/recoil/Auth";
 import { VscClose } from 'react-icons/vsc';
 import { BackGroundImg } from "../../BackGroundImg";
 import { getPost, updatePost, deletePost, uploadFile } from "/src/api/FreeBoard";
-import { PostType, PostFilesType, PostFirstFilesType } from "/src/type/FreeBoard";
+import { PostType, PostFilesType } from "/src/type/FreeBoard";
 import Header from "../../Header/Header";
 import Messenger from "../../Message/Messenger";
 import PostHit from "/src/assets/FreeBoard/PostHit.png";
@@ -65,7 +65,7 @@ function PostUpdate() {
   const goProfile = () => (navigate(`/profile/${post.memberId}`));
   const goFreeBoard = () => navigate("/freeboard");
   const UpdatePost = () => {
-    const deleteFileIds = firstFiles.filter(((file: PostFirstFilesType) => !files.includes(file))).map((file: PostFirstFilesType) => file.id);
+    const deleteFileIds = firstFiles.filter(((file: PostFilesType) => !files.includes(file))).map((file: PostFilesType) => file.id);
     const newFiles = files.filter((file: PostFilesType) => !('id' in file));
     console.log("deleteFileIds: ", deleteFileIds)
     console.log("newFiles: ", newFiles)
@@ -101,16 +101,16 @@ function PostUpdate() {
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}>
         </FreeTitleInputDesign>
-        <FreeUserDesign onClick={goProfile}>
-          {currentUser.nickname}
+        <FreeUserDesign>
+          <span onClick={goProfile}>{currentUser.nickname}</span>
         </FreeUserDesign>
       </FreeTitleUserDesign>
 
       <FreeInfoDateDesign>
         <FreeInfoDesign>
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHit} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentNum} 
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeImg" /><span style={{marginLeft: '0.5vw'}}/>{post.likes}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHit} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{(post.hits?.toLocaleString())}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{(commentNum.toLocaleString())} 
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeImg" /><span style={{marginLeft: '0.5vw'}}/>{(post.likes?.toLocaleString())}
         </FreeInfoDesign>
         <FreeDateDesign>
           {post.createdAt?.slice(0, 10)} {post.createdAt?.slice(11, 16)}
@@ -125,7 +125,7 @@ function PostUpdate() {
         autoFocus
       />
       
-      <br/><br/>
+      <br/><br/><br/><br/>
 
       <FreeFilesDesign>
       첨부파일({files.length})

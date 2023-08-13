@@ -1,16 +1,16 @@
 // 게시글 목록 타입
 export interface PostListType {
-  id?: number;
+  id: number;
   page: number;
-  title?: string;
-  nickname?: string;
-  memberId?: number;
-  createdAt?: string;
+  title: string;
+  nickname: string;
+  memberId: number;
+  createdAt: string;
   hasImageFile?: boolean;
   hasOtherFile?: boolean;
-  comments?: number;
-  likes?: number;
-  hits?: number;
+  comments: number;
+  likes: number;
+  hits: number;
 };
 
 
@@ -35,21 +35,13 @@ export interface PostType {
 
 // 게시글 첨부파일 타입
 export interface PostFilesType {
+  id?: number;
   originalFileName?: string;
   savedFileName?: string;
   contentType?: string;
   size: number;
 };
 
-
-// 게시글 조회, 수정 때만 반환되는 파일 타입
-export interface PostFirstFilesType {
-  id? : number;
-  originalFileName?: string;
-  savedFileName?: string;
-  contentType?: string;
-  size: number;
-};
 
 // 댓글 타입
 export interface CommentType {
@@ -58,4 +50,5 @@ export interface CommentType {
   nickname?: string;
   content?: string;
   createdAt?: string;
+  imageUrl? : string;
 };

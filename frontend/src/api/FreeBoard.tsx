@@ -112,10 +112,20 @@ export const uploadFile = async (files: any) => {
 }
 
 
-
-
 export const postLike = async ( id: number ) => {
     const res = await privateApi.post(`/freeboard/${id}/like`, )
+    .catch(err => {
+        console.log("postLike catch: ", err)
+    })
+    if (res) {
+        console.log("postLike then: ", res.data)
+        return(res.data)
+    }
+    return false
+};
+
+export const deleteLike = async ( id: number ) => {
+    const res = await privateApi.delete(`/freeboard/${id}/like`, )
     .catch(err => {
         console.log("postLike catch: ", err)
     })

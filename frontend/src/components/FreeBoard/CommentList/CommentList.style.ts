@@ -71,9 +71,8 @@ export const CommentDeleteDesign = styled.div`
 
 
 export const CommentContentDiv = styled.div`
-  margin-top: 10px;
   width: 1000px;
-  padding: 10px 10px 20px;
+  padding: 10px 10px 30px;
   font-size: 15px;
   /* border: solid 1px pink; */
 `;
