@@ -19,6 +19,7 @@ export const PostNumberDesign = styled.div`
   justify-content: center;
   width: 8%;
   text-align: center;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
@@ -32,6 +33,7 @@ export const PostTitleDesign = styled.div`
   margin-left: 6%;
   width: 44%;
   font-size: 0.9vw;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
@@ -63,6 +65,7 @@ export const PostUserDesign = styled.div`
   justify-content: center;
   align-items: center;
   width: 10%;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }

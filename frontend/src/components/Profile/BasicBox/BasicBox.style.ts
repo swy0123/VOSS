@@ -86,6 +86,7 @@ export const ProfileBtnDesign = styled.div`
   align-items: center;
   width: 4vw;
   height: 100%;
+  cursor: pointer;
   img {
     margin-top: 10%;
     height: 40%;
@@ -151,6 +152,7 @@ export const ProfileFollowerDesign = styled.div`
   width: 7vw;
   height: 80%;
   font-size: 10px;
+  cursor: pointer;
   p {
     margin: 0vw;
   }
@@ -169,6 +171,7 @@ export const ProfileFollowingDesign = styled.div`
   width: 7vw;
   height: 80%;
   font-size: 10px;
+  cursor: pointer;
   p {
     margin: 0vw;
   }

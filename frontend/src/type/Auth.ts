@@ -14,7 +14,7 @@ export interface RoomType {
   memberId: number;
   sessionId: string;
   lastLeaveTime: string;
-  lastReceiveMessageTime: string;
+  unReadMessage: boolean;
 }
 
 
@@ -25,8 +25,7 @@ export interface CurrentRoomType {
   memberId: number;
   sessionId: string;
   lastLeaveTime: string,
-  lastReceiveMessageTime: string;
-  isRead?: boolean;
+  unReadMessage?: boolean;
 }
 
 

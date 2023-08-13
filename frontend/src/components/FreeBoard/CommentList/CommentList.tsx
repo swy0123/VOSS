@@ -18,6 +18,8 @@ import {
   CommentContentTextArea,
  } from "./CommentList.style";
 
+ const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
+
 function CommentList() {
   const navigate = useNavigate()
   const id = parseInt(useParams().id || "");
@@ -92,8 +94,8 @@ function CommentList() {
         <CommentDesign key={comment.id}>
 
           <CommentInfoDesign>
-          <img onClick={()=>goProfile(comment.memberId || me)} style={{marginRight: '14px', height: '23px'}} src={ProfileImg} alt="profileImg"/>
-          <span onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
+          <img onClick={()=>goProfile(comment.memberId || me)} style={{marginRight: '14px', height: '23px', cursor: 'pointer'}} src={`${FILE_SERVER_URL}/${comment.imageUrl}`} alt="profileImg"/>
+          <span style={{cursor: 'pointer'}} onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
 
           { comment.memberId === me
           ? <>
