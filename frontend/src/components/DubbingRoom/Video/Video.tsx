@@ -88,6 +88,13 @@ function Video ({script, roles, lines}: ScriptData) {
       await youtube.seekTo(0)
       setPlayChange([2, 0]);
     }
+
+    // 뮤트 시키고 영상 재생
+    else if (playTrigger === 3){
+      await youtube.mute();
+      await youtube.playVideo();
+      setPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
   }
 
   // 영상 대사별 Mute
