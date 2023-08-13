@@ -8,9 +8,12 @@ type AsyncFunction = (
 export const makeAnalysisScript: AsyncFunction = async(genderSelected,ageSelected) => {
   try{
     const response: AxiosResponse<string> = await privateApi.get<string>(
-      `/practice/diction/script?cmd=${ageSelected} ${genderSelected} 성우지망생이 연습할 더빙 대사 60자 이내로 작성해줘`
+      `/practice/diction/script?cmd=성별이${ageSelected}이고 ${genderSelected}인 성우지망생이 연습할 더빙 대사 60자 이내로 작성해줘`
     )
-    return { script: response.data };
+    console.log(genderSelected)
+    console.log(ageSelected)
+    console.log(response)
+    return response.data
   }
   catch (error){
     console.log(error)
