@@ -16,7 +16,7 @@ import { CurrentUserAtom } from "/src/recoil/Auth";
 import { getMember } from "/src/api/meeting";
 import { postFollow } from "/src/api/profile";
 import AlertContext from "/src/context/alert/AlertContext";
-import Mute from "/src/assets/Meeting/Mute.png";
+import Mute from "../../../assets/Meeting/MikeOff.png";
 
 const UserVideoComponent = (props: any) => {
   const [selected, setSelected] = useRecoilState(selectedMember);

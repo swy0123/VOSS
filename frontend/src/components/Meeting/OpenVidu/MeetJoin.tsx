@@ -2,7 +2,7 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { useCallback, useEffect, useState } from "react";
 import UserVideoComponent from "./UserVideoComponent";
-import { MeetRoomData, MeetingProps, joinMeet } from "../../../api/meeting";
+import { MeetRoomData, MeetingProps, getBadgeList, joinMeet } from "../../../api/meeting";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom } from "../../../recoil/Auth";
@@ -31,6 +31,17 @@ export interface streamContainerProps {
   bottomOn: boolean;
 }
 
+
+export interface ModalDefaultType {
+  onClickToggleModal: () => void;
+  badgeList: BadgeData[] | undefined;
+}
+
+export interface BadgeData {
+  id: number;
+  name: string;
+}
+
 // export interface MeetJoinProps {
 //   token: string;
 //   bottomOn: boolean;
@@ -57,6 +68,7 @@ const MeetJoin = (props: any) => {
   const [curCount, setCurCount] = useState(0);
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [badgeList, setBadgeList] = useState<BadgeData[]>();
 
   const [time, setTime] = useState(0);
   const [hour, setHour] = useState(0);
@@ -82,10 +94,8 @@ const MeetJoin = (props: any) => {
       // window.addEventListener("popstate", popstateHandler);
     })();
 
-    // return () => {
-    //   window.removeEventListener("beforeunload", onbeforeunload);
-    //   window.removeEventListener("popstate", popstateHandler);
-    // };
+    
+    getBadge();
   }, []);
 
   useEffect(() => {
@@ -146,6 +156,11 @@ const MeetJoin = (props: any) => {
   const popstateHandler = () => {
     navigate("/meeting");
     leaveSession();
+  };
+
+  const getBadge = async () => {
+    const response = await getBadgeList();
+    setBadgeList([...response]);
   };
 
   const toggleChat = () => {
@@ -369,7 +384,7 @@ const MeetJoin = (props: any) => {
         />
       </ToolBar>
 
-      {isOpenModal && <BadgeModal onClickToggleModal={onClickToggleModal}>방 만들기</BadgeModal>}
+      {isOpenModal && <BadgeModal onClickToggleModal={onClickToggleModal} badgeList={badgeList}>방 만들기</BadgeModal>}
     </Container>
   );
 };

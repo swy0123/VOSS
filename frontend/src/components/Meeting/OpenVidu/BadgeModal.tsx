@@ -23,21 +23,16 @@ import {
 } from "./MeetJoin.style";
 import { FlexDiv } from "/src/pages/Meeting/AddMeetModal/AddMeetModal.style";
 import AlertContext from "/src/context/alert/AlertContext";
+import { BadgeData, ModalDefaultType } from "./MeetJoin";
 
-interface ModalDefaultType {
-  onClickToggleModal: () => void;
-}
 
-interface BadgeData {
-  id: number;
-  name: string;
-}
 
-const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) => {
+
+const BadgeModal = ({ onClickToggleModal, badgeList , children }: PropsWithChildren<ModalDefaultType>) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const [hover, setHover] = useState<number>(0);
-  const [badgeList, setBadgeList] = useState<BadgeData[]>();
+  // const [badgeList, setBadgeList] = useState<BadgeData[]>();/
   const navigate = useNavigate();
   const { alert: alertComp } = useContext(AlertContext);
   const onAlertClick = async (text:string) => {
@@ -46,15 +41,15 @@ const BadgeModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalDef
   };
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
-  useEffect(() => {
-    console.log(selected);
-    getBadge();
-  }, []);
+  // useEffect(() => {
+  //   console.log(selected);
+  //   getBadge();
+  // }, []);
 
-  const getBadge = async () => {
-    const response = await getBadgeList();
-    setBadgeList([...response]);
-  };
+  // const getBadge = async () => {
+  //   const response = await getBadgeList();
+  //   setBadgeList([...response]);
+  // };
   const giveBadge = async (id: number) => {
     const giveBadgeProps: GiveBadgeProps = {
       receiverId: selected.userId,
