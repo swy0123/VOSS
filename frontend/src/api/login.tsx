@@ -64,7 +64,8 @@ export const postLogin = async (user: LoginProps) => {
     let email = res.data.email
     let nickname = res.data.nickname
     let userid = res.data.userId
-    let userinfo = {email, nickname, userid, accessToken, refreshToken}
+    let imageUrl = res.data.imageUrl
+    let userinfo = {email, nickname, userid, imageUrl}
     console.log("userinfo: ", userinfo)
 
     return userinfo; // Login 컴포넌트로 현재 유저 정보 보내기
