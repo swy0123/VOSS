@@ -113,7 +113,6 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   const axiosReceiveAlarm = async ():Promise<void> => {
     try {
       const data: AlarmType[] | undefined = await recevieAlarm()
-      console.log(data)
       WriteAlarmContent(data)
     }
     catch (error) {
