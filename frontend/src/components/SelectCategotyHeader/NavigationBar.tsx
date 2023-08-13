@@ -1,8 +1,8 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { CurrentUserAtom, LoginState } from "../../recoil/Auth";
-import ProfileImg from "/src/assets/Header/profile_tmp.png";
+import { CurrentUserAtom, LoginState, ProfileState } from "../../recoil/Auth";
+import ProfileNull from "/src/assets/Profile/ProfileNull.png"
 import {
   Navbar,
   LeftSection,
@@ -22,7 +22,14 @@ interface Headertype {
   setAlarmIsshown : Dispatch<SetStateAction<boolean>>,
 }
 
+const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com"
+
 function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
+  const [profileMenuShown, setProfileMenuShown] = useState(false)
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
+  const [isLogin, setLoginState] = useRecoilState(LoginState)
+  const [profile, setProfile] = useRecoilState(ProfileState)
+
   // Router Link와 동일한 부분!!
   const navigate = useNavigate()  
   const goSelectCategory = () => {navigate("/category")}
@@ -42,9 +49,6 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
     localStorage.removeItem('refresh_token');
     navigate("/");
   }
-  const [profileMenuShown, setProfileMenuShown] = useState(false)
-  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
-  const [isLogin, setLoginState] = useRecoilState(LoginState)
 
   return(
     <>
@@ -57,12 +61,22 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown }: Headertype) {
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
         </Alarm>
-        <Profile
-        src={ProfileImg}
-        onClick={() => goProfile(currentUser.userid)}
-        onMouseEnter={() => setProfileMenuShown(true)}
-        onMouseLeave={() => setProfileMenuShown(false)}>
-        </Profile>
+        { profile.imageUrl ? (
+            <Profile
+              src={`${FILE_SERVER_URL}/${profile.imageUrl}`}
+              onClick={() => goProfile(currentUser.userid)}
+              onMouseEnter={() => setProfileMenuShown(true)}
+              onMouseLeave={() => setProfileMenuShown(false)}>
+          </Profile>
+          ):(
+            <Profile
+            src={ProfileNull}
+              onClick={() => goProfile(currentUser.userid)}
+              onMouseEnter={() => setProfileMenuShown(true)}
+              onMouseLeave={() => setProfileMenuShown(false)}>
+            </Profile>
+          )
+        }
         {profileMenuShown
         ? <div>
           <ProfileHoverList 

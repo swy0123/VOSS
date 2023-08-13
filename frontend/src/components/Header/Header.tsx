@@ -5,12 +5,8 @@ import AlarmSection from "./AlarmSection";
 
 function Header() {
   const [MenuIsShown, setMenuIsShown] = useState(false)
-  const [AlarmIsShown, setAlarmIsshown] = useState<boolean>("") 
+  const [AlarmIsShown, setAlarmIsshown] = useState<boolean>(false) 
     
-  useEffect(()=>{
-    setTimeout(()=> {setAlarmIsshown(false)},300)
-  },[]) 
-
   return (
     <header>
       <NavigationBar 
