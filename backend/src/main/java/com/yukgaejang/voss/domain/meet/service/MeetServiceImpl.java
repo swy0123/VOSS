@@ -124,12 +124,15 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public Boolean meetRoomRecord(RecordRequest recordRequest) {
+    public RecordResponse meetRoomRecord(RecordRequest recordRequest) {
         Meet meet = meetRepository.findByMeetId(recordRequest.getMeetRoomId()).orElseThrow();
         if (recordRequest.getCommand() == RecordRequest.COMMAND.START) {
-            return openViduClient.recordStart(meet.getSessionId());
+            openViduClient.recordStart(meet.getSessionId());
+            return new RecordResponse(RecordRequest.COMMAND.START, "");
         } else {
-            return openViduClient.recordStop(meet.getSessionId());
+            openViduClient.recordStop(meet.getSessionId());
+            String recordFile = openViduClient.getRecordFile(meet.getSessionId());
+            return new RecordResponse(RecordRequest.COMMAND.STOP, recordFile);
         }
     }
 
