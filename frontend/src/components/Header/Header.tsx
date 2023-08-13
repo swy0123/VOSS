@@ -8,7 +8,7 @@ function Header() {
   const [AlarmIsShown, setAlarmIsshown] = useState<boolean>("") 
     
   useEffect(()=>{
-    setTimeout(()=> {setAlarmIsshown(false)},200)
+    setTimeout(()=> {setAlarmIsshown(false)},300)
   },[]) 
 
   return (
