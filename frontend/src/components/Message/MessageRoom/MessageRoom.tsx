@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback, useRef, ChangeEvent } from "react";
-import { useInView } from "react-intersection-observer";
-import { getMessages } from "/src/api/messenger";
-import { RoomType, MessageType, CurrentRoomType } from "/src/type/Auth";
+import { MessageType, CurrentRoomType } from "/src/type/Auth";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShowMessageRoomState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
 import { CurrentUserAtom } from "/src/recoil/Auth";
@@ -35,6 +33,7 @@ import {
     const [sendHover, setSendHover] = useState(false);
     const [firstRender, setFirstRender] = useState(false);
     const chatContainerRef = useRef<HTMLDivElement | null>(null);
+    const [unReadIndex, setUnReadIndex] = useState<number>(-1);
   
     const sendMessage = () => {
       if (message.trim() !== "") {
@@ -96,7 +95,9 @@ import {
     if (chatContainer) {
       const unreadMessages = messages.filter(message => message.time > currentRoom.lastLeaveTime);
       if (unreadMessages.length > 0) {
-        chatContainer.scrollTo(0, 400 - (unreadMessages.length-1) * 35)
+        setUnReadIndex(20-unreadMessages.length)
+        chatContainer.scrollTop = chatContainer.scrollHeight
+        chatContainer.scrollTo(0, chatContainer.scrollTop - (unreadMessages.length-1) * 37)
       } else {
         scrollToBottom();
       }
@@ -105,10 +106,9 @@ import {
 
 
 useEffect(() => {
-
+  setUnReadIndex(-1);
   scrollToMessage();
-
-  console.log("messageRoom mounted")
+  // console.log("messageRoom mounted")
   
   if (!socketRef.current) {
     const ws = new WebSocket(WebSocket_URL);
@@ -116,7 +116,7 @@ useEffect(() => {
     
     ws.onopen = () => { 
       socketRef.current = ws; 
-      console.log("websocket open")
+      // console.log("websocket open")
       sendEnterMessage();
     };
     
@@ -131,12 +131,12 @@ useEffect(() => {
 
       ws.onclose = () => {
         sendLeaveMessage();
-        console.log("websocket close")
+        // console.log("websocket close")
         if (isOpenRoom) {
           const ws = new WebSocket(WebSocket_URL);
           ws.onopen = () => { 
             socketRef.current = ws; 
-            console.log("websocket open")
+            // console.log("websocket open")
             sendEnterMessage();
           };
         };
@@ -146,9 +146,17 @@ useEffect(() => {
     return () => {
       if (socketRef.current) {
         sendLeaveMessage();
-        console.log("websocket close if");
+        // console.log("websocket close if");
+        if (isOpenRoom) {
+          const ws = new WebSocket(WebSocket_URL);
+          ws.onopen = () => { 
+            socketRef.current = ws; 
+            // console.log("websocket open")
+            sendEnterMessage();
+          };
+        };
       } else {
-        console.log("websocket close else");
+        // console.log("websocket close else");
       }
     };
 
@@ -182,21 +190,22 @@ useEffect(() => {
         >
         {messages.map((message: MessageType, index: number) =>
           message.memberId === me
-          ? (
-            <div key={index}>
+          ? <div key={index}>
               <MyChatting>
-                <ChattingDate>{message.time?.slice(0, 10)} {message.time?.slice(11, 17)}</ChattingDate>
+                <ChattingDate>{message.time?.slice(5, 10)} {message.time?.slice(11, 16)}</ChattingDate>
                 <Chatting> {message.content}</Chatting>
               </MyChatting>
             </div>
-          ) : (
-            <div key={index}>
+          : <div key={index}>
+              { unReadIndex === index
+              ? <p style={{ fontSize: '10px', textAlign: 'center', width: '100%'}}>- 여기까지 읽었습니다 -</p>
+              : null
+              }
               <OtherChatting>
-                <Chatting> {message.content}</Chatting>
-                <ChattingDate>{message.time?.slice(0, 10)} {message.time?.slice(11, 17)}</ChattingDate>
+                <Chatting style={{backgroundColor: '#efefef', borderColor: '#efefef'}}> {message.content}</Chatting>
+                <ChattingDate>{message.time?.slice(5, 10)} {message.time?.slice(11, 16)}</ChattingDate>
               </OtherChatting>
             </div>
-          )
         )}
       </InfinityScroll>
 
@@ -213,8 +222,7 @@ useEffect(() => {
           autoFocus
           />
           <Send
-          style={{ width: '30px', height: '30px' }}
-          src={ sendHover ? ArrowHover :Arrow}
+          src={ sendHover ? ArrowHover : Arrow}
           onMouseEnter={() => setSendHover(true)}
           onMouseLeave={() => setSendHover(false)}
           onClick={sendMessage}/>

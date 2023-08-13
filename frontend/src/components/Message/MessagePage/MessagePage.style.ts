@@ -8,7 +8,7 @@ export const MessegePageDiv = styled.div`
   border-style: solid;
   border: 1px;
   /* border: solid 10px green; */
-  background-color: #efefef;
+  background-color: white;
   position: fixed;
   right: 25px;
   bottom: 25px;

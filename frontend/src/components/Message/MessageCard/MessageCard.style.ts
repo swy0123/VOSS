@@ -9,7 +9,7 @@ export const MessageCardDiv = styled.div`
   margin: 0 auto;
   /* border: solid 1px red; */
   &:hover {
-    background-color: rgba(217, 217, 217, 0.9);
+    background-color: #efefef;
   }
 `;
 

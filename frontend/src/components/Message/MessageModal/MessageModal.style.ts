@@ -89,10 +89,11 @@ export const FriendListDesign = styled.div`
 
 export const FriendListItemDesign = styled.div`
   /* border: solid 3px blue; */
+  height: 45px;
   display: flex;
   justify-content: space-evenly;
   &:hover {
-    background-color: rgba(217, 217, 217, 0.5)
+    background-color: #efefef;
   }
 `;
 
@@ -101,6 +102,10 @@ export const FriendListItem1 = styled.div`
   display: flex;
   align-items: center;
   width: 10%;
+  img {
+    width: 35px;
+    height: 35px;
+  };
   `;
   
   export const FriendListItem2 = styled.div`
@@ -112,7 +117,7 @@ export const FriendListItem1 = styled.div`
     &:hover{
       text-decoration: underline;
     }
-  }
+  };
   `;
   
   export const FriendListItem3 = styled.div`
@@ -121,7 +126,7 @@ export const FriendListItem1 = styled.div`
   align-items: center;
   width: 8%;
   img {
-    width: 30px;
-    height: 38px;
+    width: 32px;
+    height: 30px;
   }
 `;

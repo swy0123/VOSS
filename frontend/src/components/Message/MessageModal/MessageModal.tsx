@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import SendArrow from "/src/assets/Messenger/SendArrow.png";
-import ProfileImg from "/src/assets/Messenger/profile.png";
+import SendArrowHover from "/src/assets/Messenger/SendArrowHover.png";
+import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import { useRecoilState } from "recoil";
 import { getUsers, createMessageRoom, getMessages, getMessageRooms } from "/src/api/messenger";
 import { UserType, RoomType, MessageType } from "/src/type/Auth";
 import { ShowFindFriendState, ShowMessageRoomState, RoomsState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
 import { ModalContainer, DialogBox, Backdrop, ExitImg, FriendTitleDesign, FriendSearchDesign, FriendListDesign, FriendListItemDesign, FriendListItem1, FriendListItem2, FriendListItem3, } from "./MessageModal.style"
 
+const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
 
 const MessageModal = () => {
   const navigate = useNavigate()
@@ -21,6 +23,7 @@ const MessageModal = () => {
   const [users, setUsers] = useState([])
   const [inputs, setInputs] = useState("");
   const [exitBtnHover, setExitBtnHover] = useState(false);
+  const [isSendHover, setSendHover] = useState<number>(-1);
   const SearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputs(event.target.value);
   };
@@ -96,9 +99,22 @@ const MessageModal = () => {
         <FriendListDesign>
           {users.map((user: UserType, index: number) => (
           <FriendListItemDesign key={index}>
-            <FriendListItem1><img onClick={()=>(goProfile(user.memberId))} style={{height: '80%'}} src={ProfileImg} /></FriendListItem1>
+            <FriendListItem1>
+              { user.imageUrl.length > 0
+              ? <img onClick={()=>(goProfile(user.memberId))} src={`${FILE_SERVER_URL}/${user.imageUrl}`} />
+              : <img onClick={()=>(goProfile(user.memberId))} src={ProfileNull} />
+              }
+            </FriendListItem1>
             <FriendListItem2><span onClick={()=>(goProfile(user.memberId))}>{user.nickname}</span></FriendListItem2>
-            <FriendListItem3><img src={SendArrow} onClick={()=>goToRoom(user.memberId)}/></FriendListItem3>
+            <FriendListItem3
+              onMouseEnter={()=>setSendHover(index)}
+              onMouseLeave={()=>setSendHover(-1)}
+            >
+              { isSendHover === index
+              ? <img src={SendArrowHover} onClick={()=>goToRoom(user.memberId)}/>
+              : <img src={SendArrow} onClick={()=>goToRoom(user.memberId)}/>
+              }
+            </FriendListItem3>
           </FriendListItemDesign>
           ))}
         </FriendListDesign>
