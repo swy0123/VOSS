@@ -110,7 +110,7 @@ public class MessengerServiceImpl implements MessengerService{
         List<Attend> getAttendListByChatId = attendRepository.findByChatId(chatIdList, member.getId());
         for (Attend attend : getAttendListByChatId) {
             ViewMessengerListResponse viewMessenger = new ViewMessengerListResponse(attend.getMember().getNickname(), attend.getChat().getId(),
-                    attend.getMember().getId(), attend.getChat().getSession());
+                    attend.getMember().getId(), attend.getChat().getSession(), attend.getLeaveTime());
             viewMessenger.setUnReadMessage(attend.getLeaveTime().compareTo(attend.getReceiveMessageTime()) < 0 ?true:false);
             viewMessengerList.add(viewMessenger);
         }
