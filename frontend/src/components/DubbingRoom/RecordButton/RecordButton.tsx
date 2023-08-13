@@ -122,11 +122,12 @@ function RecordButton ({script, lines}: VideoProps) {
   const changePracticeStart = () => {
     setPracticeStart(true)
     setPracticeEnd(false)
-    setPlayTrigger(0)
+    setPlayTrigger(2)
   }
 
+  // 연습 다시시작 준비
   const changePracticeReset = () => {
-    setPlayTrigger(2)
+    setPlayTrigger(0)
   }
 
   return(
