@@ -85,6 +85,7 @@ export const Profile = styled.img`
   height: 46px;
   margin-right: 30px;
   z-index: 1;
+  border-radius: 100px;
   cursor: pointer;
 `
 export const ProfileHover =styled.img`
