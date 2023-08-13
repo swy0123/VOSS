@@ -61,6 +61,9 @@ function MenuListBar({setMenuIsShown}:Headertype) {
   const goMeetingBoard = () => {
     navigate("/meeting")
   }
+  const goRecordBoard = () => {
+    navigate("/recordboard")
+  }
 
 
   return(
@@ -79,7 +82,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
     
       <Menuitems>
         <Item onClick={goFreeBoard}>자유게시판</Item>  
-        <Item>녹음게시판</Item>  
+        <Item onClick={goRecordBoard}>녹음게시판</Item>  
         <Item onClick={goGame}>목소리 마피아</Item>  
       </Menuitems>
     </MenuBox>
