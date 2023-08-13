@@ -75,7 +75,7 @@ function PostDetail() {
   };
 
   const downloadFile = (file: PostFilesType) => {
-    fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET', mode: 'cors'})
+    fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET', mode: 'no-cors'})
     .then(res => {
       return res.blob();
     })
