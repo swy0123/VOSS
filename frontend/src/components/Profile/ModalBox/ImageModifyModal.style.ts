@@ -139,6 +139,27 @@ export const CompleteButton = styled.button`
   padding: 5px 14px;
   border-radius: 20px;
   margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+  &:hover {
+    background-color: #666;
+    color: white;
+    border-color: #666;
+  }
+`;
+
+export const CancelButton = styled.button`
+  background-color: transparent;
+  color: #AAAAAA;
+  border: 1px solid #AAAAAA;
+  font-size: 16px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-top: 20px;
+  margin-right: 10px;
+  margin-bottom: 20px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 

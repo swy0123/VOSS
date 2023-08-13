@@ -1,11 +1,18 @@
 import axios from "axios";
-import { publicApi } from ".";
+import { privateApi, publicApi } from ".";
 
 interface JoinProps {
     email: string,
     password: string,
-    nickname: string
+    nickname: string,
+    imageUrl: string
 }
+
+interface UpdateMemberProps {
+    nickname: string;
+    imageUrl: string
+}
+
 // http://i9b106.p.ssafy.io:8080/
 // http://wonyoung210.p-e.kr:8080/member
 const BASE_URL = "https://i9b106.p.ssafy.io:8080";
@@ -34,9 +41,15 @@ export const uploadFile = async (formData: FormData) => {
 }
 
 export const postJoin = async (user:JoinProps) => {
-    console.log(user + JSON.stringify(user));
     console.log("join");
     const response = await publicApi.post("/member", user);
+    console.log(response.data);
+    return response.data;
+}
+
+export const putUpdateMember = async (user:UpdateMemberProps) => {
+    console.log("멤버 수정 api");
+    const response = await privateApi.put("/member", user);
     console.log(response.data);
     return response.data;
 }
