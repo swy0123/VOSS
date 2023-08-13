@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom, ProfileState, ModalOpenState, FollowerTabState ,FollowerListState, FollowingListState } from "/src/recoil/Auth";
 import { postFollow, deleteUnfollow, getFollowers, getFollowings  } from '/src/api/profile';
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
+import ProfileNull from "/src/assets/Profile/ProfileNull.png"
 import {
     BasicBoxDesign,
     ProfileImgDesign,
@@ -40,7 +41,6 @@ function BasicBox() {
   const [showImgUpdate, setImgUpdate] = useState(false)
 
   useEffect(()=> {
-    console.log(123, profile)
     getFollowings(id).then(followings => {
       if (followings) {setFollowings(followings)};
     })
@@ -57,7 +57,10 @@ function BasicBox() {
         onMouseEnter={()=>setImgUpdate(true)}
         onMouseLeave={()=>setImgUpdate(false)}>
           {showImgUpdate ? <img id='updateIcon' style={{width: '1.6vw', height: '1.6vw', zIndex: '1'}} src={UpdateIcon} alt="" /> : null}
-          <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} alt=""/>
+          { profile.imageUrl
+            ? <img src={`${FILE_SERVER_URL}/${profile.imageUrl}`} />
+            : <img style={{ width: '115%', height: '115%', margin: '0 auto'}} src={ProfileNull} />
+          }
         </ProfileImgDesign2>
       </ProfileImgDesign>
       

@@ -106,10 +106,12 @@ export const FollowButton = styled.button`
   text-align: center;
   line-height: 50%;
   font-weight: bold;
-  border: solid 1px #EFEFEF;
+  border: solid 1px #132B31;
   border-radius: 7px;
   cursor: pointer;
   font-size: 1vw;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+
   `;
 
 export const FollowingButton = styled.button`
@@ -126,6 +128,7 @@ export const FollowingButton = styled.button`
   border-radius: 7px;
   cursor: pointer;
   font-size: 1vw;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   `;
 
 export const FollowBoxDesign = styled.div`

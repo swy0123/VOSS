@@ -8,7 +8,7 @@ export const MessegeListDiv = styled.div`
   border-radius: 15px;
   border-style: solid;
   border: 1px;
-  background-color: #efefef;
+  background-color: white;
   position: fixed;
   right: 25px;
   bottom: 25px;
@@ -20,7 +20,7 @@ export const MessegeTitle = styled.div`
   font-weight: bolder;
   margin-top: 10px;
   margin-left: 10px;
-`;
+  `;
 
 export const ExitImg = styled.img`
   position: absolute;
@@ -28,35 +28,42 @@ export const ExitImg = styled.img`
   top: 9px;
   width: 20px;
   height: 20px;
-`;
+  `;
 
 export const MessegeBodyDiv = styled.div`
   margin: 0 auto;
-`;
+  `;
 
 export const InfinityScroll = styled.div`
+  /* border: 5px red solid; */
   height: 300px;
-  width: 90%;
+  width: 95%;
   margin: 1px auto;
+  padding: 0 5px;
   position: relative;
   overflow-y: auto;
-  /* -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-    display: none;
-} */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: rgba(186, 186, 186, 1); /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
 `;
 
 export const Chatting = styled.div`
   border-style: solid;
   border-width: 1px;
-  border-radius: 5px;
+  border-radius: 10px;
   border-color: #d9d9d9;
   background-color: white;
-  font-size: 11px;
+  font-size: 12px;
   height: fit-content;
   max-width: 70%;
   padding: 7px;
-  margin: 3px;
+  margin: 4px;
+  word-wrap: break-word;
 `;
 
 export const MyChatting = styled.div`
@@ -73,6 +80,7 @@ export const ChattingDate = styled.div`
   position: relative;
   margin-top: auto;
   margin-bottom: 7px;
+  opacity: 0.5;
 `;
 
 export const Input = styled.input`
@@ -86,6 +94,8 @@ export const Input = styled.input`
 
 export const Send = styled.img`
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: 11px;
+  bottom: 14px;
+  width: 32px;
+  height: 30px;
 `;

@@ -42,8 +42,9 @@ export interface MessageType {
 // 유저페이지 유저
 export interface UserType {
   memberId: number;
-  nickname?: string;
-  email?: string;
+  nickname: string;
+  email: string;
+  imageUrl: string;
 }
 
 
