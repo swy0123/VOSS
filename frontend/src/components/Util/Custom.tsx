@@ -5,23 +5,20 @@ import PromptContext from "/src/context/prompt/PromptContext";
 
 const Custom = () => {
   const { alert: alertComp } = useContext(AlertContext);
-
-  const onAlertClick = async () => {
-    const result = await alertComp("hello world");
-      console.log("custom", result);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
   };
 
   const { confirm: confirmComp } = useContext(ConfirmContext);
-
-  const onConfirmClick = async () => {
-    const result = await confirmComp("are you sure?");
+  const onConfirmClick = async (text:string)  => {
+    const result = await confirmComp(text);
       console.log("custom", result);
   };
 
   const { prompt: promptComp } = useContext(PromptContext);
-
-  const onPromptClick = async () => {
-    const result = await promptComp("what is your name?");
+  const onPromptClick = async (text:string) => {
+    const result = await promptComp(text);
       console.log("custom", result);
   };
 
@@ -30,9 +27,9 @@ const Custom = () => {
       <h1>Home</h1>
       <p>Click the buttons below to see the dialogs</p>
       <div className="buttons">
-        <button onClick={() => onAlertClick()}>alert (component)</button>
-        <button onClick={() => onConfirmClick()}>confirm (component)</button>
-        <button onClick={() => onPromptClick()}>prompt (component)</button>
+        <button onClick={() => onAlertClick("text")}>alert (component)</button>
+        <button onClick={() => onConfirmClick("text")}>confirm (component)</button>
+        <button onClick={() => onPromptClick("text")}>prompt (component)</button>
       </div>
     </main>
   );

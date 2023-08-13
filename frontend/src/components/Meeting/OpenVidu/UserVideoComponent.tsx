@@ -7,13 +7,14 @@ import {
   VedioInnerDiv,
   VedioOuterDiv,
 } from "./UserVideoComponent.style";
-import React, { useCallback, MouseEvent, useState, useEffect, useRef } from "react";
+import React, { useCallback, MouseEvent, useState, useEffect, useRef, useContext } from "react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { selectedMember } from "/src/recoil/Meeting";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { getMember } from "/src/api/meeting";
 import { postFollow } from "/src/api/profile";
+import AlertContext from "/src/context/alert/AlertContext";
 
 const UserVideoComponent = (props: any) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
@@ -51,6 +52,12 @@ const UserVideoComponent = (props: any) => {
     });
   };
 
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
+
   const handleMouseOver = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     event.preventDefault();
@@ -68,8 +75,8 @@ const UserVideoComponent = (props: any) => {
 
   const onClickFollow = async () => {
     const response = await postFollow(userId);
-    if (response.isFollowSuccess) alert("팔로우 성공");
-    else alert("이미 팔로우한 사용자입니다.");
+    if (response.isFollowSuccess) onAlertClick("팔로우 성공");
+    else onAlertClick("이미 팔로우한 사용자입니다.");
   };
 
   const onClickGiveBadge = () => {
