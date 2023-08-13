@@ -27,7 +27,6 @@ function Video () {
   const meetDubSelecting = (id:number) => {
     setSend(`/govideo${id}`)
     // void postRractice("DUB")
-    console.log(id)
   }
   
   const formatTime = (durationInSec: number) => {
