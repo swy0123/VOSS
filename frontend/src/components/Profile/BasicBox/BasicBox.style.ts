@@ -120,7 +120,7 @@ export const FollowingButton = styled.button`
   padding: 0.3vw;
   width: 6.2vw;
   height: 2.05vw;
-  background-color: #EFEFEF;
+  background-color: #333333;
   color: #132B31;
   text-align: center;
   line-height: 50%;

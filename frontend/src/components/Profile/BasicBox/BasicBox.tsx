@@ -71,8 +71,8 @@ function BasicBox() {
             { id === currentUser.userid
             ? <ProfileBtnDesign><img src={UpdateIcon} alt=""/></ProfileBtnDesign>
             : profile.isFollowing
-            ? <FollowingButton onClick={() => (setFollow(), postFollow(id))}>팔로잉</FollowingButton>
-              : <FollowButton onClick={()=>(setFollow(), deleteUnfollow(id))}>팔로우</FollowButton>
+            ? <FollowingButton onClick={() => (setFollow(), deleteUnfollow(id))}>팔로잉</FollowingButton>
+              : <FollowButton onClick={()=>(setFollow(), postFollow(id))}>팔로우</FollowButton>
             }
         </ProfileNameBoxDesign>
 
