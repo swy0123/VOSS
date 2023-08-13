@@ -7,6 +7,7 @@ import { styled } from "styled-components";
 export const VedioOuterDiv = styled.div`
   position: relative;
   overflow: hidden;
+  font-size: 20px;
   aspect-ratio: 3 / 2;
   border-radius: 12px;
   border: 1px solid #333;
@@ -28,10 +29,21 @@ export const Video = styled.video`
 
 export const VedioInnerDiv = styled.div`
   position: absolute;
-  left: 2%;
-  top: 0;
+  left: 4%;
+  top: 2%;
   color: white;
-  font-size: 10px;
+  font-size: 12px;
+  /* font-size: 5%; */
+  z-index: 5;
+`;
+
+export const VedioMuteIcon = styled.img`
+  position: absolute;
+  right: 3%;
+  bottom: 5%;
+  color: white;
+  width: 6%;
+  height: 9%;
   z-index: 5;
 `;
 export const VedioHoverMenu = styled.div`
@@ -45,7 +57,8 @@ export const VedioHoverMenu = styled.div`
   border-style: solid;
   border-color: white;
   opacity: 0.8;
-  font-size: 20px;
+  font-size: 7%;
+  cursor: pointer;
   z-index: 10;
   top:50%;
   left:50%;
