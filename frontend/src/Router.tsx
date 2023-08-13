@@ -17,6 +17,7 @@ import Meeting from "./pages/Meeting/Meeting";
 import Profile from "./pages/Profile/Profile";
 import Game from "./pages/Game/Game";
 import Avatar from "./pages/Avatar/Avatar";
+import RecordBoard from "./pages/RecordBoard/RecordBoard";
 
 const router = createBrowserRouter([
     {
@@ -96,6 +97,11 @@ const router = createBrowserRouter([
             {
                 path: "avatar",
                 element: <Avatar />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "recordboard",
+                element: <RecordBoard />,
                 errorElement: <ErrorComponent />,
             },
         ],
