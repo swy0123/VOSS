@@ -35,6 +35,8 @@ function PostCreate() {
   const [content, setContent] = useState<string>("");
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [files, setFiles] = useState<PostFilesType[]>([]);
+  
+  const goProfile = () => (navigate(`/profile/${currentUser.userid}`));
 
   const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = 'auto';
@@ -75,7 +77,7 @@ function PostCreate() {
           value={title}
           // autoFocus
         />
-        <FreeUserDesign>
+        <FreeUserDesign onClick={goProfile}>
           {currentUser.nickname}
         </FreeUserDesign>
       </FreeTitleUserDesign>

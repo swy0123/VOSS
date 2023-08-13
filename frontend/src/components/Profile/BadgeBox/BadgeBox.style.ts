@@ -54,6 +54,7 @@ export const BadgeContentDesign = styled.div`
   width: 24vw;
   height: 70%;
   color: white;
+  cursor: pointer;
   &::-webkit-scrollbar {
     width: 0.4vw;
     border-radius: 6px;
@@ -75,6 +76,7 @@ export const BadgeItemDesign = styled.div`
   width: 5.9vw;
   height: 5.9vw;
   img {
+    cursor: pointer;
     width: 50%;
     aspect-ratio: 1/1;
   };

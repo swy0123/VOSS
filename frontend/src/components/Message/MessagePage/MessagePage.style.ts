@@ -49,6 +49,30 @@ export const MessegeList = styled.div`
   }
   `;
 
+export const MessageCardDiv = styled.div`
+  /* border: solid 1px red; */
+  width: 95%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  &:hover {
+    background-color: #efefef;
+  }
+`;
+
+export const MessageTitle = styled.div`
+  font-size: 15px;
+  margin: 3%;
+`;
+
+export const MessageChecked = styled.img`
+  float: right;
+  margin: 5px;
+  width: 8px;
+`;
+
 export const MessageAdd = styled.img`
   position: absolute;
   right: 10px;

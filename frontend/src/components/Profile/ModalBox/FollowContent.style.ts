@@ -19,6 +19,7 @@ export const UserImage = styled.img`
   object-fit: cover;
   border-radius: 50%;
   margin-right: 10px;
+  cursor: pointer;
   `;
 
 export const UserName = styled.div`
@@ -27,6 +28,7 @@ export const UserName = styled.div`
   width: 12.5vw;
   font-weight: bold;
   font-size: 1vw;
+  cursor: pointer;
   span {
     &:hover {
       border-bottom: solid 1.5px;

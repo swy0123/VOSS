@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import MessagePage from "./MessagePage/MessagePage";
 import { getMessageRooms } from "/src/api/messenger";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ShowMessengerState, MessengerAlarmState } from "/src/recoil/Messenger";
+import { ShowMessengerState, MessengerAlarmState, RoomsState } from "/src/recoil/Messenger";
 import { CurrentUserAtom, LoginState } from "/src/recoil/Auth";
 import { RoomType } from "/src/type/Auth";
 import MessengerIcon from "/src/assets/Messenger/MessengerIcon.png"
@@ -17,6 +17,7 @@ const Messenger = () =>{
   const initRef = useRef<WebSocket | null>(null);
   const isLogin = useRecoilValue(LoginState);
   const [isAlarm, setIsAlarm] = useRecoilState(MessengerAlarmState);
+  const [rooms, setRooms] = useRecoilState<RoomType[]>(RoomsState);
   const sendEnterMessage = () => {
     const enterMessage = {
       chatId: 1,
@@ -48,7 +49,7 @@ const Messenger = () =>{
 
     getMessageRooms().then((dataRooms: RoomType[]) => {
       if (dataRooms) {
-        if (dataRooms.some((room) => room.lastReceiveMessageTime > room.lastLeaveTime)) {
+        if (dataRooms.some((room) => room.unReadMessage)) {
           setIsAlarm(true)
         }
       }
@@ -69,7 +70,14 @@ const Messenger = () =>{
 
         if ( recieveMessage.memberId == me && recieveMessage.sessionId == "init") {
           setIsAlarm(true);
-        }
+          const UpdatedRooms = rooms.map(room => {
+            if (room.chatId === recieveMessage.chatId) {
+              return {...room, unReadMessage: true}
+            };
+            return room;
+          })
+          setRooms(UpdatedRooms);
+        };
       };
 
       wss.onclose = () => {
