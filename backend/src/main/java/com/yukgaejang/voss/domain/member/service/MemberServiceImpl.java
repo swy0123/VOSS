@@ -194,8 +194,6 @@ public class MemberServiceImpl implements MemberService {
         int dubCnt = statRepository.getCountByMemberAndPracticeType(member, PracticeType.DUB);
         int dictionCnt = statRepository.getCountByMemberAndPracticeType(member, PracticeType.DICTION);
 
-        System.out.println(member.getId() + " " + memberId + "---------" + followRepository.existsByFollowerIdAndFollowingId(member.getId(), memberId));
-
         return MemberInfoResponse.builder()
                 .id(member.getId())
                 .email(member.getEmail())
