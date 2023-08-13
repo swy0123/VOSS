@@ -34,7 +34,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const [limit, setLimit] = useState(2);
   const TagName = ["목소리 분석 연습", "더빙 연습", "기타"];
   const [selectedTag, setTag] = useState<boolean[]>([true, false, false]);
-  const [selectedCategory, setCategory] = useState("DUB");
+  const [selectedCategory, setCategory] = useState("PRACTICE");
   const Category = ["PRACTICE", "DUB", "FREE"];
   const [exitBtnHover, setExitBtnHover] = useState(false);
 
@@ -74,13 +74,14 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     if (limit > 2) setLimit(limit - 1);
   };
 
-  const addRoomData = {
-    title: title,
-    maxCount: limit,
-    password: password,
-    category: selectedCategory,
-  };
+  
   const onClickOpenNewMeetRoom = async () => {
+    const addRoomData = {
+      title: title,
+      maxCount: limit,
+      password: password,
+      category: selectedCategory,
+    };
     console.log("title : " + title + ", password : " + password + ", limit : " + limit);
     console.log(", isChecked : " + isChecked + ", selectedTag : " + selectedTag);
 

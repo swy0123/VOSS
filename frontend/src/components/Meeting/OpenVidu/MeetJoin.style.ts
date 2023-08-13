@@ -54,9 +54,7 @@ export const StreamContainer = styled.div<{
   /* min-height: 100%; */
   width: ${(props) =>
     props.$streamContainerProps.bottomOn
-      ? props.$streamContainerProps.curCount < 3
-        ? "28%"
-        : 100 / props.$streamContainerProps.curCount - 2 + "%"
+      ? "15%"
       : // ? "auto"
       props.$streamContainerProps.curCount == 4
       ? 39 + "%"
