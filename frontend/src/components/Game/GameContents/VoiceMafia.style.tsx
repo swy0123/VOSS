@@ -59,13 +59,6 @@ export const StyledDivWithText = styled.div`
   margin: 60px auto;
 `;
 
-// display: flex;
-// flex-direction: column;
-// justify-content: flex-start;
-
-// padding: 6px 0px 6px 0px;
-// height: 210px;
-
 export const OptionButtonContainer = styled.div`
   display: flex; /* 가로 정렬을 위해 플렉스 컨테이너로 설정 */
   flex-direction: row; /* 가로 방향으로 정렬 */
