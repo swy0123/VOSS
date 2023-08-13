@@ -39,7 +39,7 @@ export const AlarmListBox = styled.div<{$IsClick:boolean}>`
 export const Triangle = styled.div`
   position: fixed;
   top: 48px;
-  right: 133px;
+  right: 130px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-bottom: 15px solid white;

@@ -46,32 +46,18 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
 
       if (type === "FOLLOW") {
         const content = `${senderNickname}님이 회원님을 팔로우 했습니다.`
-        alarmInfoTmp.push([content,notiId,type,""])
+        alarmInfoTmp.push([content,notiId,type,contentId])
       }
 
       else if (type === "POST_LIKE") {
-        getPostTitle(contentId)
-          .then (data => {
-            const content = `${senderNickname}님이 '${data.title}' 게시글을 좋아합니다.`
-            alarmInfoTmp.push([content,notiId,type,data.id])
-          })
-          .catch(error => {
-            console.log(error)
-          })
-        }
-        
-      else if (type=== "COMMENT") {
-        getPostTitle(contentId)
-        .then (data => {
-          const content = `${senderNickname}님이 '${data.title}' 게시글에 댓글을 달았습니다.`
-          alarmInfoTmp.push([content,notiId,type, data.id])
-        })
-        .catch(error => {
-          console.log("여기가 에러지",error)
-        })
-        // console.log("이거 해볼만 하다",getPostTitle(contentId).then(data=> setTest(data)))
+        const content = `${senderNickname}님이 내 게시글을 좋아합니다.`
+        alarmInfoTmp.push([content,notiId,type,contentId])
       }
 
+      else if (type=== "COMMENT") {
+        const content = `${senderNickname}님이 내 게시글에 댓글을 달았습니다.`
+        alarmInfoTmp.push([content,notiId,type,contentId])
+      }
       // 녹게 완성되면 바로 작업
       else if (type === "RECORD_LIKE") {
         const content = `${senderNickname}님이`
@@ -88,16 +74,16 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   }
 
   // 상세 알람 확인
-  const DetailAlarmChecking = (alarm:[string, number, string, number],a_idx:number):void => {
-    const [content, notiId ,type, postId] = alarm
+  const DetailAlarmChecking = async (alarm:[string, number, string, number],a_idx:number):void => {
+    const [content, notiId ,type, contendId] = alarm
     
-    const alarmInfoTmp = alarmInfo.filter((alarm,index) => index !== a_idx)
-    setAlarmInfo(alarmInfoTmp)
+    const alarmInfoTmp = await alarmInfo.filter((alarm,index) => index !== a_idx)
+    await setAlarmInfo(alarmInfoTmp)
 
-    axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
+    await axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
 
     if (type === "POST_LIKE" || type === "COMMENT"){
-      navigate(`/freeboard/${postId}`)
+      navigate(`/freeboard/${contendId}`)
     }
 
     else if (type === "FOLLOW"){
@@ -105,16 +91,6 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
     }
   }
 
-  const getPostTitle = async (contentId:number):Promise<string | any> => {
-    try {
-      const data: PostType = await getPost(contentId)
-      return data
-    }
-    catch (error) {
-      console.log("AlarmListItem_컴포넌트",error)
-    }
-  }
-  
   // 모든 알람 가져오기 axios
   const axiosReceiveAlarm = async ():Promise<void> => {
     try {

@@ -46,6 +46,7 @@ export const AlarmIcon = styled.img`
 export const Profile = styled.img`
   height: 46px;
   margin-right: 30px;
+  border-radius: 100px;
   z-index: 1;
   cursor: pointer;
 `
