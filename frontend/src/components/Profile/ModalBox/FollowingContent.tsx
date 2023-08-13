@@ -33,8 +33,8 @@ const FollowingContent = () => {
           { currentUser.userid === user.memberId
           ? <ItsMeButton>나</ItsMeButton>
           : user.following
-            ? <FollowButton onClick={()=>(setFollow(user.memberId), deleteUnfollow(user.memberId))}>팔로우</FollowButton>
-            : <FollowingButton onClick={()=>(setFollow(user.memberId), postFollow(user.memberId))}>팔로잉</FollowingButton>
+            ? <FollowingButton onClick={()=>(setFollow(user.memberId), deleteUnfollow(user.memberId))}>팔로잉</FollowingButton>
+            : <FollowButton onClick={()=>(setFollow(user.memberId), postFollow(user.memberId))}>팔로우</FollowButton>
           }
         </UserContainer>
       ))};
