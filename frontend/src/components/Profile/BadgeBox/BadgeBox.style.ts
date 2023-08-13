@@ -33,6 +33,7 @@ export const BadgeTitleDetailDesign = styled.div`
   /* margin-right: 2vw; */
   opacity: 0.6;
   width: 24vw;
+  cursor: pointer;
   &:hover {
     opacity: 0.8;
   }
