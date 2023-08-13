@@ -86,13 +86,13 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   }
 
   // 상세 알람 확인
-  const DetailAlarmChecking = async (alarm:[string, number, string, number],a_idx:number):void => {
+  const DetailAlarmChecking = (alarm:[string, number, string, number],a_idx:number):void => {
     const [content, notiId ,type, postId] = alarm
     
-    const alarmInfoTmp = await alarmInfo.filter((alarm,index) => index !== a_idx)
-    await setAlarmInfo(alarmInfoTmp)
+    const alarmInfoTmp = alarmInfo.filter((alarm,index) => index !== a_idx)
+    setAlarmInfo(alarmInfoTmp)
 
-    await axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
+     axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
 
     if (type === "POST_LIKE" || type === "COMMENT"){
       navigate(`/freeboard/${postId}`)
@@ -113,6 +113,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   const axiosReceiveAlarm = async ():Promise<void> => {
     try {
       const data: AlarmType[] | undefined = await recevieAlarm()
+      console.log(data)
       WriteAlarmContent(data)
     }
     catch (error) {
