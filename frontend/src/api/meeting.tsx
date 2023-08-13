@@ -42,7 +42,6 @@ export const getMeet = async (getMeetProps: GetMeetProps) => {
 export interface MeetingProps {
   password: string;
   meetRoomId: number;
-  bottomOn: boolean;
 }
 export const joinMeet = async (postMeetJoinProps: MeetingProps) => {
   console.log("-----postMeetJoin-----");

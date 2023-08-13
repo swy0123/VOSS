@@ -30,8 +30,14 @@ export interface streamContainerProps {
   curCount: number;
   bottomOn: boolean;
 }
+
+// export interface MeetJoinProps {
+//   token: string;
+//   bottomOn: boolean;
+// }
+// {props}:{props:MeetJoinProps}
 //https://i9b106.p.ssafy.io/openvidu/api/sessions/ses_GseS0kJaEF/connection"
-const MeetJoin = ({ props }: { props: MeetingProps }) => {
+const MeetJoin = (props:any) => {
   const navigate = useNavigate();
   const currentUser = useRecoilValue(CurrentUserAtom);
   const [mySessionId, setMySessionId] = useState(currentUser.userId);
@@ -50,7 +56,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   const [streamManagerTmp, setStreamManagerTmp] = useState<any>(undefined);
   const [curCount, setCurCount] = useState(0);
 
-  const [roomData, setRoomData] = useState<any>();
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
@@ -61,13 +66,16 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
   //뒤로가기 새로고침
   useEffect(() => {
+    console.log("MeetJoin------------");
+    console.log(props.roomData.token);
+    console.log(props.bottomOn);
 
-    const prevPage = localStorage.getItem('prevPage');
-    if (prevPage === ('/meeting')) {
+    const prevPage = localStorage.getItem("prevPage");
+    if (prevPage === "/meeting") {
       joinSession(); //이건 필요
     } else {
       leaveSession();
-      navigate('/meeting')
+      navigate("/meeting");
     }
 
     (() => {
@@ -107,13 +115,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   //뒤로가기 새로고침
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    alert("onbeforeunload");
     navigate("/meeting");
     leaveSession();
   };
   //뒤로가기 새로고침
   const popstateHandler = () => {
-    alert("popstateHandler");
     navigate("/meeting");
     leaveSession();
   };
@@ -160,10 +166,10 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
 
     // --- 4) Connect to the session with a valid user token ---
     try {
-      const token = await getToken();
-      console.log(token);
+      // const token = await getToken();
+      console.log(props.roomData.token);
 
-      await mySession.connect(token, { clientData: currentUser.email });
+      await mySession.connect(props.roomData.token, { clientData: currentUser.email });
 
       const devices = await OV.getDevices();
       console.log("devices");
@@ -233,27 +239,6 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
     sendSignalUserChanged({ nickname: nickname });
   };
 
-  //-----------------------------------
-
-  const getToken = async () => {
-    const res = await joinMeet(props);
-    if (res.message !== undefined) alert(res.message);
-    else setRoomData(res);
-    console.log(res);
-    return res.token;
-  };
-
-  //   {
-  //     "token": "wss://i9b106.p.ssafy.io?sessionId=bda526ac-d9a4-4d0b-9261-36559e48a7b5&token=tok_OldmH9XaXA5ZUpm2",
-  //     "status": "입장",
-  //     "meetRoomId": 107,
-  //     "category": "DUB",
-  //     "title": "111111",
-  //     "maxCount": 2,
-  //     "currentCount": 0,
-  //     "createdAt": 1690876928365
-  //   }
-
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -266,11 +251,11 @@ const MeetJoin = ({ props }: { props: MeetingProps }) => {
   return (
     <Container>
       <Header id="session-header">
-        {roomData !== undefined ? (
+        {props.roomData !== undefined ? (
           <>
-            <HeaderText>{roomData.title} </HeaderText>{" "}
+            <HeaderText>{props.roomData.title} </HeaderText>{" "}
             <span style={{ fontSize: "10px", color: "gray" }}>
-              &#40;{curCount}/{roomData.maxCount}&#41;
+              &#40;{curCount}/{props.roomData.maxCount}&#41;
             </span>
           </>
         ) : (

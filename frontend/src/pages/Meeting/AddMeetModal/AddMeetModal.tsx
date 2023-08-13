@@ -1,10 +1,10 @@
-import React, { PropsWithChildren, useState, ChangeEvent, useEffect } from "react";
+import React, { PropsWithChildren, useState, ChangeEvent, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
 import ProfileImg from "../../assets/Messenger/profile.png";
 import SendArrow from "../../assets/Messenger/SendArrow.png";
-import { createMeet } from "../../../api/meeting";
+import { MeetingProps, createMeet, joinMeet } from "../../../api/meeting";
 import { useNavigate } from "react-router-dom";
 import {
   Backdrop,
@@ -21,6 +21,7 @@ import {
   TmpBorder,
   TmpButton,
 } from "./AddMeetModal.style";
+import AlertContext from "/src/context/alert/AlertContext";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -36,6 +37,13 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const [selectedCategory, setCategory] = useState("DUB");
   const Category = ["PRACTICE", "DUB", "FREE"];
   const [exitBtnHover, setExitBtnHover] = useState(false);
+
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text: string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
+
   const navigate = useNavigate();
   //서버와 통신해서 해당 사용자의 친구목록 전부 표시 (이후 전역에 저장해 관리)
   //FriendsList
@@ -57,7 +65,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
 
   const changeCheck = () => {
     setCheckBox(!isChecked);
-    if(!isChecked) setPassword("");
+    if (!isChecked) setPassword("");
   };
   const limitIncrease = () => {
     if (limit < 6) setLimit(limit + 1);
@@ -81,9 +89,30 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
     joinMeetingRoom(meetRoomId, password);
   };
 
-  const joinMeetingRoom = (meetRoomId: number, password: string) => {
+  const joinMeetingRoom = async (meetRoomId: number, password: string) => {
     console.log("meetRoomId : " + meetRoomId + ", password : " + password + " 이동");
-    navigate(`/meeting/join`, { state: { password: password, meetRoomId: meetRoomId } });
+    try {
+      const roomData = await getToken(password, meetRoomId);
+      console.log(roomData);
+      navigate(`/meeting/join`, {
+        state: { password: password, meetRoomId: meetRoomId, roomData: roomData },
+      });
+    } catch {
+      console.log("joinMeetingRoom error");
+    }
+  };
+
+  const getToken = async (password: string, meetRoomId: number) => {
+    const props: MeetingProps = {
+      password: password,
+      meetRoomId: meetRoomId,
+    };
+    const res = await joinMeet(props);
+    // setToken(res.token);
+    if (res.message !== undefined) onAlertClick(res.message);
+    // else onAlertClick(res);
+    console.log(res);
+    return res;
   };
 
   return (
@@ -166,13 +195,9 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
             </FlexDiv>
           </form>
 
-          <FlexDiv style={{justifyContent:"center"}}>
-            <TmpButton onClick={onClickToggleModal}>
-              취소
-            </TmpButton>
-            <TmpButton onClick={onClickOpenNewMeetRoom}>
-              확인
-            </TmpButton>
+          <FlexDiv style={{ justifyContent: "center" }}>
+            <TmpButton onClick={onClickToggleModal}>취소</TmpButton>
+            <TmpButton onClick={onClickOpenNewMeetRoom}>확인</TmpButton>
           </FlexDiv>
         </div>
       </DialogBox>

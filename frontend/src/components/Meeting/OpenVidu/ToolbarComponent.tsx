@@ -8,7 +8,13 @@ import VideoOn from "../../../assets/Meeting/VideoOn.png";
 import Shutdown from "../../../assets/Meeting/Shutdown.png";
 import ChatImg from "../../../assets/Meeting/ChatImg.png";
 
-import { AppBar, ToolBarIcon, ToolBarIconDiv, ToolBarSetDiv, Toolbar } from "./ToolbarComponent.style";
+import {
+  AppBar,
+  ToolBarIcon,
+  ToolBarIconDiv,
+  ToolBarSetDiv,
+  Toolbar,
+} from "./ToolbarComponent.style";
 
 const ToolbarComponent = (props: any) => {
   //   const [fullscreen, setFullscreen] = useState(false);
@@ -30,7 +36,7 @@ const ToolbarComponent = (props: any) => {
   // };
 
   const chatStatusChanged = () => {
-    props.toggleChat()
+    props.toggleChat();
   };
 
   // const switchCamera = () => {
@@ -48,22 +54,20 @@ const ToolbarComponent = (props: any) => {
       <Toolbar>
         <ToolBarSetDiv>
           <ToolBarIconDiv onClick={micStatusChanged}>
-            {props.audioActive ? (
-              <ToolBarIcon src={MikeOff} />
+            {props.audioActive ? <ToolBarIcon src={MikeOff} /> : <ToolBarIcon src={MikeOn} />}
+          </ToolBarIconDiv>
+          <ToolBarIconDiv>
+            {props.videoActive ? (
+              <ToolBarIcon onClick={camStatusChanged} src={VideoOff} />
             ) : (
-              <ToolBarIcon src={MikeOn} />
+              <ToolBarIcon onClick={camStatusChanged} src={VideoOn} />
             )}
           </ToolBarIconDiv>
-          <ToolBarIconDiv onClick={camStatusChanged}>
-            {props.videoActive ? <ToolBarIcon src={VideoOff} /> : <ToolBarIcon src={VideoOn} />}
+          <ToolBarIconDiv>
+            <ToolBarIcon onClick={chatStatusChanged} src={ChatImg} />
           </ToolBarIconDiv>
-          <ToolBarIconDiv onClick={chatStatusChanged}>
-            <ToolBarIcon src={ChatImg} />
-          </ToolBarIconDiv>
-          <ToolBarIconDiv
-            onClick={leaveSession}
-          >
-            <ToolBarIcon src={Shutdown} />
+          <ToolBarIconDiv>
+            <ToolBarIcon onClick={leaveSession} src={Shutdown} />
           </ToolBarIconDiv>
         </ToolBarSetDiv>
       </Toolbar>
