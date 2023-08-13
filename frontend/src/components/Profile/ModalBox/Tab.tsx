@@ -13,7 +13,7 @@ const Tab: React.FC<TabProps> = ({ content, handleColorChange, newColor }) => {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <HexColorPicker id={`${content}ColorPicker`} color={newColor} onChange={handleColorChange}/>
       </div>
-      <p style={{ height: "20px", margin: 0, fontSize: "12px", marginTop: "20px", marginBottom:"0px" }}>{content}</p>
+      <p style={{ height: "20px", margin: 0, fontSize: "12px", marginTop: "20px", marginBottom:"0px", color:"black" }}>{content}</p>
     </div>
   );
 };

@@ -1,22 +1,49 @@
 import Avatar, { genConfig } from 'react-nice-avatar'
-import { PropsWithChildren, useEffect, useState } from 'react';
-import { ModalOverlay, ModalContent, CompleteButton, ToggleButton, AvatarImg, AvatarImg1 } from "./ImageModifyModal.style"
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { ModalOverlay, ModalContent, CompleteButton, ToggleButton, CancelButton} from "./ImageModifyModal.style"
 import Tabs from './Tabs';
 import Tab from './Tab';
+import domtoimage from "dom-to-image";
+import { putUpdateMember, uploadFile } from '/src/api/join';
+import { ProfileState } from "/src/recoil/Auth";
+import { useRecoilState, useRecoilValue } from "recoil";
+import AlertContext from "/src/context/alert/AlertContext";
 
 
 interface ImageModalDefaultType {
-  handleConfigUpdate: (config: any) => void;
+  closeModal: () => void;
+  changeImage: (newUrl: string) => void;
+}
+
+async function getBlob(): Promise<Blob> {
+  const node = document.getElementById("myAvatar");
+  if (node) {
+    node.style.width = '50rem';
+    node.style.height = '50rem';
+
+    const blob = await domtoimage.toBlob(node, {
+      width: node.offsetWidth,
+      height: node.offsetHeight
+    });
+
+    node.style.width = '5rem';
+    node.style.height = '5rem';
+
+    return blob;
+  }
+  return new Blob();
 }
 
 
-const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDefaultType>) => {
+const ImageModifyModal = ({ closeModal, changeImage }: PropsWithChildren<ImageModalDefaultType>) => {
   type Gender = "man" | "woman";
   const [hairColor, setHairColor] = useState("#aabbcc");
   const [faceColor, setFaceColor] = useState("#ffeeee");
   const [shirtColor, setShirtColor] = useState("#ffeeee");
   const [gender, setGender] = useState<Gender>("woman");
+  const [profile, setProfile] = useRecoilState(ProfileState)
   const config = genConfig({ sex: gender, hairColor, faceColor, shirtColor });
+  const { alert: alertComp } = useContext(AlertContext);
 
   useEffect(() => {
     setHairColor(hairColor);
@@ -30,12 +57,42 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
     setShirtColor(shirtColor);
   }, [shirtColor]);
 
-  const handleCompleteClick = () => {
-    handleConfigUpdate(config);
+  const handleCompleteClick = async () => {
+    closeModal();
+
+    const blobPromise = getBlob();
+    const blob = await blobPromise;
+
+    const formData = new FormData();
+    formData.append("file", blob, "image.jpg");
+
+    const profileImage = uploadFile(formData);
+    profileImage.then((res) => {
+      const UpdateProps = {
+        nickname: profile.nickname,
+        imageUrl: res[0].savedFileName,
+      };
+
+      const updateInfo = putUpdateMember(UpdateProps);
+      updateInfo.then((res) => {
+        if (res) {
+          onAlertClick(`정보 수정이 완료 되었습니다`);
+          changeImage(UpdateProps.imageUrl);
+          
+        } else {
+          onAlertClick("회원가입 정보가 잘못되었습니다");
+        }
+      });
+    });
   };
 
   const handleGenderChange = () => {
     setGender(prevGender => (prevGender === "man" ? "woman" : "man"));
+  };
+
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
   };
 
   type TabsType = {
@@ -72,22 +129,22 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
           fontWeight: "bold",
           marginTop: "15px"
         }}>
-          프로필 이미지 꾸미기
+          프로필 이미지 바꾸기
         </div> 
 
         <Avatar 
           className="avatar-bar" 
           id="myAvatar" 
-          style={{ 
-            width: '8rem', 
-            height: '8rem',
-            marginTop: "10px", }} {...config} />
-s
+          style={{ width: '5rem', height: '5rem' }} {...config} />
+
         <ToggleButton gender={gender} onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
         </ToggleButton>
         <Tabs selectedTab={selectedTab} tabs={tabs} />
-        <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
+        <div style={{display: "flex" }}>
+          <CancelButton onClick={closeModal}>취소</CancelButton>
+          <CompleteButton onClick={handleCompleteClick}>완료</CompleteButton>
+        </div>
       </ModalContent>
     </ModalOverlay>
   );

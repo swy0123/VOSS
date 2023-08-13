@@ -26,7 +26,7 @@ const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com"
 
 function BasicBox() {
   const id = parseInt(useParams().id || "");
-  const currentUser = useRecoilValue(CurrentUserAtom)
+  //const currentUser = useRecoilValue(CurrentUserAtom)
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState);
   const [followerTabShow, setFollowerTabShow] = useRecoilState(FollowerTabState)
   const [followers, setFollowers] = useRecoilState(FollowerListState)
@@ -34,6 +34,8 @@ function BasicBox() {
   const [followerCount, setFollowerCount] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [profile, setProfile] = useRecoilState(ProfileState)
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
+  
   const setFollow = () => {
     profile.isFollowing
     ? setFollowerCount(followerCount - 1)
@@ -58,6 +60,11 @@ function BasicBox() {
   const closeModal = () => {
     setIsImageModalOpen(false);
   };
+
+  const changeImage = (newImageUrl: string) => {
+    setProfile({...profile, imageUrl: newImageUrl});
+    setCurrentUser({...currentUser, imageUrl: newImageUrl});
+  }
 
   return (
     <> { profile.id > 0
@@ -101,7 +108,7 @@ function BasicBox() {
 
       </ProfileInfoDesign>
 
-      {isImageModalOpen && <ImageModifyModal handleConfigUpdate={closeModal} />}
+      {isImageModalOpen && <ImageModifyModal closeModal={closeModal} changeImage={changeImage} />}
       
     </BasicBoxDesign>
     : <h3 style={{color: 'white'}}>회원 정보가 없습니다</h3>
