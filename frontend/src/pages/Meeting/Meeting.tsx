@@ -4,9 +4,16 @@ import Messenger from "../../components/Message/Messenger";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
-import { BottomBar, BottomSection, CloseSectionBtn, ClosedBottomSection, Container, UnderBack } from "./Meeting.style";
+import {
+  BottomBar,
+  BottomSection,
+  CloseSectionBtn,
+  ClosedBottomSection,
+  Container,
+  UnderBack,
+} from "./Meeting.style";
 import MeetJoin from "../../components/Meeting/OpenVidu/MeetJoin";
-import { MeetingProps } from "../../api/meeting";
+import { MeetingProps, joinMeet } from "../../api/meeting";
 import CloseSection from "../../assets/Meeting/CloseSection.png";
 import Vector from "../../assets/Meeting/Vector.png";
 import DubbingRoom from "/src/components/Meeting/MeetDub/DubbingRoom/DubbingRoom";
@@ -22,10 +29,8 @@ import DubbingList from "/src/components/Meeting/MeetDub/DubbingList/DubbingList
 각 값은 보내고 받을 때마다 none으로 초기화
 */
 
-
 function Meeting() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { state } = useLocation(); // 2번 라인
   const [bottomOn, setBottomOn] = useState(false);
 
@@ -33,20 +38,9 @@ function Meeting() {
   //recieve는 chat으로 받는 이벤트
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
-  const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
+  const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState);
 
-  // 뒤로가기 새로고침
-  // useEffect(() => {
-  //   (() => {
-  //     window.addEventListener("beforeunload", onbeforeunload);
-  //     window.addEventListener("popstate", popstateHandler);
-  //   })();
-
-  //   // return () => {
-  //   //   window.removeEventListener("beforeunload", onbeforeunload);
-  //   //   window.removeEventListener("popstate", popstateHandler);
-  //   // };
-  // }, []);
+  // const [token, setToken] = useState<any>();
 
   //이벤트 수신 감지
   useEffect(() => {
@@ -54,13 +48,13 @@ function Meeting() {
       console.log("bottomOn");
       setBottomOn(true);
       setRecieve("/none");
-    }
-    else if (recieve == "/close") {
+    } else if (recieve == "/close") {
       console.log("bottomOff");
       setBottomOn(false);
       setRecieve("/none");
     }
-  }, [recieve])
+  }, [recieve]);
+
 
   //뒤로가기 새로고침
   const onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -75,31 +69,38 @@ function Meeting() {
   };
 
   const isBottomOn = (order: string) => {
-    console.log("isBottomOn : " + order)
-    setMeetDubSelect(0)
+    console.log("isBottomOn : " + order);
+    setMeetDubSelect(0);
     // setSend("open");
     setSend(order);
-  }
-
-  const props: MeetingProps = {
-    password: state.password,
-    meetRoomId: state.meetRoomId,
-    bottomOn: bottomOn,
   };
+
 
   return (
     <UnderBack>
       <Container $isClicked={bottomOn}>
-        <MeetJoin props={props} />
+        <MeetJoin roomData={state.roomData} bottomOn={bottomOn} />
       </Container>
       {bottomOn ? (
         <BottomSection>
-          <CloseSectionBtn src={CloseSection} onClick={() => { isBottomOn("/close") }} />
+          <CloseSectionBtn
+            src={CloseSection}
+            onClick={() => {
+              isBottomOn("/close");
+            }}
+          />
           {meetDubSelect ? <DubbingRoom /> : <DubbingList />}
         </BottomSection>
       ) : (
         <ClosedBottomSection>
-          <BottomBar onClick={() => { isBottomOn("/open") }}><img src={Vector} />더빙연습</BottomBar>
+          <BottomBar
+            onClick={() => {
+              isBottomOn("/open");
+            }}
+          >
+            <img src={Vector} />
+            더빙연습
+          </BottomBar>
         </ClosedBottomSection>
       )}
 

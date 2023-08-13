@@ -66,6 +66,11 @@ export const Count = styled.p`
   margin: 0px;
 `;
 
+export const LockImg = styled.img`
+  height: 17px;
+  width: 17px;
+  margin-right: 20%;
+`;
 
 export const CountImg = styled.img`
   height: 17px;

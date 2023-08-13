@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 import { OpenVidu } from "openvidu-browser";
-import { MeetRoomData, getMeet } from "../../api/meeting";
+import { MeetRoomData, MeetingProps, getMeet, joinMeet } from "../../api/meeting";
 import { MeetingBoardProps } from "../../pages/MeetingBoard/MeetingBoard";
 import {
   Category,
@@ -10,6 +10,7 @@ import {
   CountImg,
   CountSection,
   ListBox,
+  LockImg,
   MeetingListDiv,
   MeetingRoom,
   PageMoveBtnImg,
@@ -19,6 +20,7 @@ import {
 } from "./MeetingList.style";
 import GoLeft from "../../assets/Meeting/GoLeft.png";
 import GoRight from "../../assets/Meeting/GoRight.png";
+import AlertContext from "/src/context/alert/AlertContext";
 
 function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
   //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
@@ -33,10 +35,16 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   const [startPage, setStartPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(1);
 
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text: string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
+
   const TagName = {
-    "PRACTICE": "목소리 분석 연습",
-    "DUB": "더빙 연습",
-    "FREE": "기타",
+    PRACTICE: "목소리 분석 연습",
+    DUB: "더빙 연습",
+    FREE: "기타",
   };
 
   const maxDisplayedPages = 10;
@@ -78,23 +86,45 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     setData([...newList]);
   };
 
-  const clickPageChange = (page: number) => {
-    SetNewList();
-    setCurrentPage(page);
-  };
+  // const clickPageChange = (page: number) => {
+  //   SetNewList();
+  //   setCurrentPage(page);
+  // };
 
   const setRoomsData = () => {
     setRooms(meetingData.slice((currentPage - 1) * 10, currentPage * 10));
   };
 
-  const goPostDetail = (data: MeetRoomData) => {
-    let password: string | null = "";
-    if (data.password) {
-      password = prompt("비밀번호를 입력해주세요" + "");
+  const goPostDetail = async (data: MeetRoomData) => {
+    let password = "";
+    try {
+      if (data.password) {
+        password = prompt("비밀번호를 입력해주세요" + "");
+        const roomData = await getToken(password, data.meetRoomId);
+        navigate(`/meeting/join`, {
+          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
+        });
+      } else if (confirm(data.meetRoomId + "방에 입장하시겠습니까?")) {
+        const roomData = await getToken(password, data.meetRoomId);
+        navigate(`/meeting/join`, {
+          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
+        });
+      }
+    } catch {
+      console.log("joinMeetingRoom error");
     }
-    if (confirm(data.meetRoomId + "방에 입장하시겠습니까?")) {
-      navigate(`/meeting/join`, { state: { password: password, meetRoomId: data.meetRoomId } });
-    }
+  };
+
+  const getToken = async (password: string, meetRoomId: number) => {
+    const props: MeetingProps = {
+      password: password,
+      meetRoomId: meetRoomId,
+    };
+    const res = await joinMeet(props);
+    if (res.message !== undefined) onAlertClick(res.message);
+    // else alert(res);
+    console.log(res);
+    return res;
   };
 
   return (
@@ -105,6 +135,7 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
             <Category>{data.category}</Category>
             <Title>{data.title}</Title>
             <CountSection>
+              {data.password ? <LockImg src="/src/assets/MeetingBoard/Lock.png"></LockImg> : <></>}
               <Count>
                 {data.currentCount}/{data.maxCount}
               </Count>
@@ -123,11 +154,6 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
             }}
           />
           {currentPage}/{totalPages}
-          {/* {pages !== undefined && pages.slice(startPage - 1, endPage).map((page) => (
-            <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
-              {page}
-            </PaginationItem>
-          ))} */}
           <PageMoveBtnImg
             src={GoRight}
             onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
