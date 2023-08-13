@@ -46,8 +46,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
       userid: 0,
       email: "",
       nickname: "",
-      accessToken: "",
-      refreshToken: ""});
+      imageUrl: ""});
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     navigate("/");
@@ -72,9 +71,15 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
         </Alarm>
-        { profile.imageUrl ? (
             <Profile
-              src={`${FILE_SERVER_URL}/${profile.imageUrl}`}
+              src = {currentUser.imageUrl.length > 0 ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}    
+              onClick={() => goProfile(currentUser.userid)}
+              onMouseEnter={() => setProfileMenuShown(true)}
+              onMouseLeave={() => setProfileMenuShown(false)}>
+          </Profile>
+        {/* { currentUser.imageUrl ? (
+            <Profile
+              src={ currentUser.imageUrl ? `${FILE_SERVER_URL}/${currentUser.imageUrl}` : ProfileNull}
               onClick={() => goProfile(currentUser.userid)}
               onMouseEnter={() => setProfileMenuShown(true)}
               onMouseLeave={() => setProfileMenuShown(false)}>
@@ -87,7 +92,7 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
               onMouseLeave={() => setProfileMenuShown(false)}>
             </Profile>
           )
-        }
+        } */}
         {profileMenuShown
         ? <div>
           <ProfileHoverList 
