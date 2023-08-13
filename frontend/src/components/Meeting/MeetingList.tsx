@@ -21,6 +21,8 @@ import {
 import GoLeft from "../../assets/Meeting/GoLeft.png";
 import GoRight from "../../assets/Meeting/GoRight.png";
 import AlertContext from "/src/context/alert/AlertContext";
+import PromptContext from "/src/context/prompt/PromptContext";
+import ConfirmContext from "/src/context/confirm/ConfirmContext";
 
 function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardProps }) {
   //이거도 전역 변수 만들어서 처리하면 좋을 듯?/
@@ -39,6 +41,20 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
+  };
+
+  const { prompt: promptComp } = useContext(PromptContext);
+  const onPromptClick = async (text:string) => {
+    const result = await promptComp(text);
+      console.log("custom", result);
+      return result;
+  };
+
+  const { confirm: confirmComp } = useContext(ConfirmContext);
+  const onConfirmClick = async (text:string)  => {
+    const result = await confirmComp(text);
+      console.log("custom", result);
+      return result;
   };
 
   const TagName = {
@@ -96,15 +112,16 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
   };
 
   const goPostDetail = async (data: MeetRoomData) => {
-    let password = "";
+    let password : string | null = "";
     try {
       if (data.password) {
-        password = prompt("비밀번호를 입력해주세요" + "");
+        password = await onPromptClick("비밀번호를 입력해주세요" + "");
+        if(password == null) return;
         const roomData = await getToken(password, data.meetRoomId);
         navigate(`/meeting/join`, {
           state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
         });
-      } else if (confirm(data.meetRoomId + "방에 입장하시겠습니까?")) {
+      } else if (await onConfirmClick(data.meetRoomId + "방에 입장하시겠습니까?")) {
         const roomData = await getToken(password, data.meetRoomId);
         navigate(`/meeting/join`, {
           state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
