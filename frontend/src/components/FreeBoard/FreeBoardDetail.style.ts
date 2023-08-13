@@ -23,6 +23,7 @@ export const FreeTitleUserDesign = styled.div`
   display: flex;
   width: 1000px;
   height: 50px;
+  cursor: pointer;
   /* border: solid 1px red; */
   `;
 
@@ -97,6 +98,7 @@ padding: 50px 30px 70px 30px;
 width: 960px;
 height: 151px;
 color: white;
+font-size: 15px;
 background-color: transparent;
 border: none;
 /* border: solid 1px yellow; */
@@ -110,6 +112,7 @@ width: 75px;
 height: 30px;
 border-radius: 30px;
 border: solid 1px #EFEFEF;
+cursor: pointer;
 `;
 
 export const FreeLikeNumDesign = styled.div`
@@ -145,9 +148,11 @@ export const FreeFilesDesign = styled.div`
   `;
 
 export const FreeFileDesign = styled.div`
+  /* border: solid 1px red; */
   background-color: rgba(255, 255, 255, 0.21); 
   padding: 5px 10px;
   margin: 5px;
+  cursor: pointer;
 `;
 
 export const FreepUdateDeleteDesign = styled.div`
@@ -158,6 +163,7 @@ export const FreepUdateDeleteDesign = styled.div`
   height: 70px;
   font-size: 13px;
   border-bottom: solid 1px #dedede;
+  cursor: pointer;
 `;
 
 export const FreeUploadDesign = styled.div`
@@ -166,6 +172,7 @@ export const FreeUploadDesign = styled.div`
   margin-left: 40px;
   border: solid 1px white;
   font-size: 14px;
+  cursor: pointer;
   label {
     width: 100%;
     height: 100%;
@@ -206,4 +213,5 @@ export const FreedIexDesign = styled.div`
   font-weight: bold;
   background-color: rgba(34, 80, 91, 0.7);
   border-radius: 15px;
+  cursor: pointer;
 `;

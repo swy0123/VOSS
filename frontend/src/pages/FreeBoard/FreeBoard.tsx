@@ -81,13 +81,6 @@ function FreeBoard () {
     searchPost(sort, cond, input, 1);
   },[sort]);
 
-  // useEffect(() => {
-  //   const prevPage = localStorage.getItem('prevPage');
-  //   if (!prevPage?.startsWith('/freeboard') || prevPage === null) {
-  //     pageReset();
-  //   }
-  // }, []);
-
   const pages = [...Array(totalPages).keys()].map((page) => page + 1);
   const maxDisplayedPages = 10;
   const halfDisplayedPages = Math.floor(maxDisplayedPages / 2);
@@ -111,7 +104,7 @@ function FreeBoard () {
     <BackGroundImg>
       <Header/>
       <FreeBoardDesign>
-        <h2 onClick={pageReset}>자유 게시판</h2>
+        <h2 onClick={pageReset} style={{ cursor: 'pointer'}}>자유 게시판</h2>
 
         <OrderBoxDesign>
           <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
@@ -122,7 +115,7 @@ function FreeBoard () {
         </OrderBoxDesign>
 
         <PostCategoryDesign>
-          <PostCategoryNumberDesign>글 번호</PostCategoryNumberDesign>
+          <PostCategoryNumberDesign>전체 ({totalElements})</PostCategoryNumberDesign>
           <PostCategoryTitleDesign>제목</PostCategoryTitleDesign>
           <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
           <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
