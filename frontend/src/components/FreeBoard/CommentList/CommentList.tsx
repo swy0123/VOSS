@@ -5,7 +5,7 @@ import { FreeBoardCommentCountState } from "/src/recoil/Community";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { createComment, getComments, deleteComment, updateComment } from "/src/api/FreeBoard";
 import { CommentType } from "/src/type/FreeBoard";
-import ProfileImg from "/src/assets/Header/profile_tmp.png";
+import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import {
   CommentListDesign,
   CommentInputDesign,
@@ -94,7 +94,10 @@ function CommentList() {
         <CommentDesign key={comment.id}>
 
           <CommentInfoDesign>
-          <img onClick={()=>goProfile(comment.memberId || me)} style={{marginRight: '14px', height: '23px', cursor: 'pointer'}} src={`${FILE_SERVER_URL}/${comment.imageUrl}`} alt="profileImg"/>
+          <img 
+            onClick={()=>goProfile(comment.memberId || me)}
+            style={{marginRight: '14px', width: '27px', height: '27px', cursor: 'pointer'}}
+            src={ comment.imageUrl ? `${FILE_SERVER_URL}/${comment.imageUrl}` : ProfileNull } alt="profileImg"/>
           <span style={{cursor: 'pointer'}} onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
 
           { comment.memberId === me

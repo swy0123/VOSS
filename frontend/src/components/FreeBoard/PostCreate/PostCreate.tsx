@@ -77,8 +77,8 @@ function PostCreate() {
           value={title}
           // autoFocus
         />
-        <FreeUserDesign onClick={goProfile}>
-          {currentUser.nickname}
+        <FreeUserDesign>
+          <span onClick={goProfile}>{currentUser.nickname}</span>
         </FreeUserDesign>
       </FreeTitleUserDesign>
 
@@ -94,7 +94,7 @@ function PostCreate() {
         value={content}
       />
 
-      <br/><br/>
+      <br/><br/><br/><br/>
 
       <FreeFilesDesign>
       첨부파일({files.length})

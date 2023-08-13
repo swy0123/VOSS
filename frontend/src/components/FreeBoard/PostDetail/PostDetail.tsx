@@ -6,14 +6,15 @@ import { CurrentUserAtom } from "/src/recoil/Auth";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
-import { getPost, deletePost, postLike } from "/src/api/FreeBoard";
-import { PostType } from "/src/type/FreeBoard";
+import { getPost, deletePost, postLike, deleteLike } from "/src/api/FreeBoard";
+import { PostType, PostFilesType } from "/src/type/FreeBoard";
 import CommentList from "/src/components/FreeBoard/CommentList/CommentList";
 import PostHitImg from "/src/assets/FreeBoard/PostHit.png";
 import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
 import downloadImg from "/src/assets/Training/download.png";
+import { saveAs } from "file-saver";
 import {
   FreeScrollDesign,
   FreeMainDesign,
@@ -24,7 +25,6 @@ import {
   FreeInfoDesign,
   FreeDateDesign,
   FreeContentDesign,
-  FreeLikeDesign,
   FreeLikeNumDesign,
   FreeLikeImageDesign,
   FreeFilesDesign,
@@ -35,6 +35,8 @@ import {
   FreedIexDesign,
 } from "../FreeBoardDetail.style";
 
+const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
+
 function PostDetail() {
   const navigate = useNavigate();
   const id = parseInt(useParams().id || "");
@@ -42,8 +44,8 @@ function PostDetail() {
   const [post, setPost] = useState<PostType>({});
   const [likes, setLikes] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
-  const [imageFiles, setImageFiles] = useState([]);
-  const [otherFiles, setOtherFiles] = useState([]);
+  const [imageFiles, setImageFiles] = useState<PostFilesType[]>([]);
+  const [otherFiles, setOtherFiles] = useState<PostFilesType[]>([]);
   const commentCount = useRecoilValue<number>(FreeBoardCommentCountState);
   
   const goFreeBoard = () => navigate("/freeboard");
@@ -55,13 +57,54 @@ function PostDetail() {
     })
   };
   const LikePost = () => {
-    postLike(id).then((dataLikes)=> {
-      if (dataLikes) {
-        if (liked) { setLikes(likes-1)} 
-        else {setLikes(likes+1)}
-        setLiked(!liked)
-      }
-    })
+    if (liked) {
+      deleteLike(id).then((dataLikes) =>{
+        if (dataLikes) {
+          setLikes(likes-1)
+          setLiked(!liked)
+        };
+      });
+    } else {
+      postLike(id).then((dataLikes) => {
+        if (dataLikes) {
+          setLikes(likes+1)
+          setLiked(!liked)
+        };
+      });
+    }
+  };
+
+  const downloadFile = (file: PostFilesType) => {
+    // fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET',})
+    // .then(res => {
+    //   return res.blob();
+    // })
+    // .then(blob => {
+    //   const url = window.URL.createObjectURL(blob);
+    //   const a = document.createElement('a');
+    //   a.href = url;
+    //   a.download = `${file.originalFileName}`;
+    //   document.body.appendChild(a); 
+    //   a.click();  
+    //   setTimeout(
+    //     (_: any) => { window.URL.revokeObjectURL(url); }, 
+    //     60000); 
+    //   a.remove(); 
+    // })
+    // .catch(err => {
+    //   console.error('err: ', err);
+    // })
+
+    // fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET'})
+    // .then(res => {
+    //   return res.blob();
+    // })
+    // .then(blob => {
+    //   saveAs(blob, `${file.originalFileName}`);
+    // })
+    // .catch(err => {
+    //   console.error('err: ', err);
+    // })
   };
 
   useEffect(() => {
@@ -89,37 +132,43 @@ function PostDetail() {
 
       <FreeInfoDateDesign>
         <FreeInfoDesign>
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHitImg} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{post.hits}
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{commentCount} 
-          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeimg" /><span style={{marginLeft: '0.5vw'}}/>{likes}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostHitImg} alt="PostHit" /><span style={{marginLeft: '0.5vw'}}/>{(post.hits?.toLocaleString())}
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostComment} alt="PostComment" /><span style={{marginLeft: '0.5vw'}}/>{(commentCount.toLocaleString())} 
+          <img style={{height: '2vh', marginLeft: '1vw'}} src={PostLikeImg} alt="PostLikeimg" /><span style={{marginLeft: '0.5vw'}}/>{(likes.toLocaleString())}
         </FreeInfoDesign>
         <FreeDateDesign>
           {post.createdAt?.slice(0, 10)} {post.createdAt?.slice(11, 16)}
         </FreeDateDesign>
       </FreeInfoDateDesign>
 
-      <FreeContentDesign>{post.content}</FreeContentDesign>
+      <FreeContentDesign>
+        {post.content}
+        {imageFiles.map((file, index: number) => (
+          <div key={index}>
+            <br/><br/>
+            <img src={`${FILE_SERVER_URL}/${file.savedFileName}`} alt="" />
+          </div>
+        ))}
+      </FreeContentDesign>
       
-      <FreeLikeDesign onClick={LikePost}>
-        <FreeLikeNumDesign>{likes}</FreeLikeNumDesign>
-        <FreeLikeImageDesign>{ liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}</FreeLikeImageDesign>
-      </FreeLikeDesign>
+      <FreeLikeImageDesign onClick={LikePost}>{ liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}</FreeLikeImageDesign>
+      <FreeLikeNumDesign>{likes.toLocaleString()}</FreeLikeNumDesign>
 
       <FreepUdateDeleteDesign>
           { imageFiles.length || otherFiles.length
           ? <FreeFilesDesign>
             첨부파일 : 
-            {imageFiles.map((file: any, index: number) => (
-            <FreeFileDesign key={index}>
-              {file.originalFileName}
-              <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
-            </FreeFileDesign>
+            {imageFiles.map((file, index: number) => (
+              <FreeFileDesign key={index} onClick={()=>downloadFile(file)}>
+                {file.originalFileName}
+                <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="Download" />
+              </FreeFileDesign>
             ))}
-            {otherFiles.map((file: any, index: number) => (
-              <FreeFileDesign key={index}>
-              {file.originalFileName}
-              <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
-            </FreeFileDesign>
+            {otherFiles.map((file, index: number) => (
+              <FreeFileDesign key={index} onClick={()=>downloadFile(file)}>
+                {file.originalFileName}
+                <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="Download" />
+              </FreeFileDesign>
             ))}
           </FreeFilesDesign>
           : null
