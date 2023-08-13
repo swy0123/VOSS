@@ -5,10 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.infra.openvidu.exception.NoSessionExcepion;
-import io.openvidu.java.client.OpenVidu;
-import io.openvidu.java.client.OpenViduException;
-import io.openvidu.java.client.Session;
-import io.openvidu.java.client.SessionProperties;
+import io.openvidu.java.client.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +26,12 @@ public class OpenViduClient {
     @Value("${OPENVIDU_SECRET}")
     private String SECRET;
     private final HttpHeaders headers = new HttpHeaders();
+    private String sessionId;
+    private OpenVidu openVidu;
+    private RecordingProperties recordingProperties = new RecordingProperties.Builder()
+            .hasAudio(true)
+            .hasVideo(false)
+            .build();
 
     @PostConstruct
     public void init() {
@@ -38,9 +41,12 @@ public class OpenViduClient {
 
 
     public String createSession() {
-        OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
-        String sessionId = UUID.randomUUID().toString();
+        openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
+        sessionId = UUID.randomUUID().toString();
+
         SessionProperties properties = new SessionProperties.Builder()
+                .recordingMode(RecordingMode.MANUAL)
+                .defaultRecordingProperties(recordingProperties)
                 .customSessionId(sessionId)
                 .build();
         try{
@@ -51,6 +57,29 @@ public class OpenViduClient {
             return "세션 생성에 실패했습니다.";
         }
     }
+
+    public Boolean recordStart(String meetRoomSessionId) {
+        try {
+            openVidu.startRecording(meetRoomSessionId, recordingProperties);
+            return true;
+        } catch (OpenViduJavaClientException e) {
+            throw new RuntimeException(e);
+        } catch (OpenViduHttpException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean recordStop(String meetRoomSessionId) {
+        try {
+            openVidu.stopRecording(meetRoomSessionId);
+            return true;
+        } catch (OpenViduJavaClientException e) {
+            throw new RuntimeException(e);
+        } catch (OpenViduHttpException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public List<Long> getSessionBySessionId(String sessionId) {
         String url = OPENVIDU_URL + "/openvidu/api/sessions/" + sessionId;
