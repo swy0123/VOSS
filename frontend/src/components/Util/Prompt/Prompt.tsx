@@ -33,7 +33,7 @@ const Prompt = ({ message, _default, onClickOK, onClickCancel }: Props) => {
     <DialogContainer>
       <div className="overlay" onClickCapture={(e) => e.stopPropagation()} />
       <form className="dialog" onSubmit={handleSubmit}>
-        <h2 className="title">Prompt</h2>
+        <h2 className="title">VOSS</h2>
         <div className="text">{message}</div>
         <input
           id="input"

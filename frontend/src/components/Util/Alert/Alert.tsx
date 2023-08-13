@@ -23,7 +23,7 @@ const Alert = ({ message, onClose }: Props) => {
     <DialogContainer>
       <div className="overlay" onClickCapture={(e) => e.stopPropagation()} />
       <div className="dialog">
-        <h2 className="title">Alert</h2>
+        <h2 className="title">VOSS</h2>
         <div className="text">{message}</div>
         <div className="buttons">
           <button onClick={onClose} autoFocus>

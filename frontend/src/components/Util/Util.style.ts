@@ -59,7 +59,7 @@ export const DialogContainer = styled.div`
       transition: all 0.2s;
       font-weight: bold;
       margin: 0 5px;
-      width: 50px;
+      width: 70px;
       height: 28px;
       cursor: pointer;
     }

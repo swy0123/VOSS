@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { ChangeEvent, useEffect, useState, useCallback } from "react";
+import { ChangeEvent, useEffect, useState, useCallback, KeyboardEvent } from "react";
 import { BackGroundImg } from "../../components/BackGroundImg";
 import Header from "../../components/Header/Header";
 import Messenger from "../../components/Message/Messenger";
@@ -28,7 +28,7 @@ function MeetingBoard() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const startProps = {
     title: "",
-    category: "DUB",
+    category: "PRACTICE",
   };
   const Tag = ["목소리 분석 연습", "더빙 연습", "기타"];
   const TagCode = ["PRACTICE", "DUB", "FREE"];
@@ -36,12 +36,10 @@ function MeetingBoard() {
   const [searchForm, setSearch] = useState("");
   const [meetingBoardProps, setMeetingBoardProps] = useState<MeetingBoardProps>(startProps);
 
-  const handleTagButton = async(index: number) => {
-    // const newTagList = [false, false, false]
-    setTag(index);
-    console.log(selectedTag)
+  useEffect(() => {
     onClickSearchButton();
-  };
+  }, [selectedTag]);
+
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -49,6 +47,14 @@ function MeetingBoard() {
   const handleSearchForm = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+
+  const handleOnKeyPress = (e : KeyboardEvent<HTMLInputElement>)=>{
+  console.log("키 입력");
+  console.log(e.key);
+    if (e.key === 'Enter') {
+      onClickSearchButton();
+    }
+  }
 
   const onClickSearchButton = () => {
     const newKeyWord = {
@@ -70,28 +76,24 @@ function MeetingBoard() {
         </Title>
         <SearchDiv>
           <CreateRoom onClick={onClickToggleModal}>+ 방 만들기</CreateRoom>
-          <form>
+          {/* <form> */}
             <SearchInput
               type="text"
               onChange={handleSearchForm}
+              onKeyPress={handleOnKeyPress}
               value={searchForm}
               placeholder="검색"
             />
             <SearchInputButton
-              type="image"
               src={SearchInputImg}
               onClick={onClickSearchButton}
             ></SearchInputButton>
-          </form>
+          {/* </form> */}
         </SearchDiv>
 
         <LeftDiv>
           {Tag.map((data, index) => (
-            <TagButton
-              key={index}
-              $IsClick={selectedTag == index}
-              onClick={() => handleTagButton(index)}
-            >
+            <TagButton key={index} $IsClick={selectedTag == index} onClick={() => setTag(index)}>
               {data}
             </TagButton>
           ))}
