@@ -11,7 +11,6 @@ import {
   Menu,
   IconList,
   Alarm,
-  AlarmCount,
   AlarmIcon,
   Profile,
   EmptySpace,
@@ -69,13 +68,12 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
       <IconList>
         <Alarm onClick={AlarmToggle} $AlarmIsShown={AlarmIsShown}>
           <AlarmIcon src="/src/assets/Header/alarm.png"/>
-          <AlarmCount>3</AlarmCount>
         </Alarm>
         <Profile
-        src={ProfileImg}
-        onClick={() => goProfile(currentUser.userid)}
-        onMouseEnter={() => setProfileMenuShown(true)}
-        onMouseLeave={() => setProfileMenuShown(false)}>
+          src={ProfileImg}
+          onClick={() => goProfile(currentUser.userid)}
+          onMouseEnter={() => setProfileMenuShown(true)}
+          onMouseLeave={() => setProfileMenuShown(false)}>
         </Profile>
         {profileMenuShown
         ? <div>
