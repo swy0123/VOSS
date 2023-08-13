@@ -21,7 +21,7 @@ interface messageType {
 
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [messageList, setMessageList] = useState<messageType[]>([]);
-  const [message, setMessage] = useState("시작");
+  const [message, setMessage] = useState(chatProps.nicknameProps+"님이 입장하셨습니다.");
   const [connectionId, setConnectionId] = useState(chatProps.connectionIdProps);
   const [nickname, setNickname] = useState(chatProps.nicknameProps);
   const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
