@@ -22,5 +22,5 @@ public interface MeetService {
 
     List<GetAllMeetJoinResponse> getMeetJoinList(Long meetRoomId);
 
-    RecordResponse meetRoomRecord(RecordRequest recordRequest);
+    GroupRecordResponse meetRoomRecord(GroupRecordRequest groupRecordRequest);
 }

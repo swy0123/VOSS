@@ -58,8 +58,8 @@ public class MeetController {
         return ResponseEntity.ok(meetService.selectCasting(selectCastingRequestList));
     }
 
-    @PostMapping("/recording")
-    public ResponseEntity<RecordResponse> meetRoomRecord(@RequestBody RecordRequest recordRequest) {
-        return ResponseEntity.ok(meetService.meetRoomRecord(recordRequest));
+    @PostMapping("/group-recording")
+    public ResponseEntity<GroupRecordResponse> meetRoomRecord(@RequestBody GroupRecordRequest groupRecordRequest) {
+        return ResponseEntity.ok(meetService.meetRoomRecord(groupRecordRequest));
     }
 }

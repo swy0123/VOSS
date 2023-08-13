@@ -7,6 +7,7 @@ import com.yukgaejang.voss.domain.meet.repository.CastingSelectionRepository;
 import com.yukgaejang.voss.domain.meet.repository.MeetRepository;
 import com.yukgaejang.voss.domain.meet.repository.entity.CastingSelection;
 import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
+import com.yukgaejang.voss.domain.meet.service.dto.Command;
 import com.yukgaejang.voss.domain.meet.service.dto.request.*;
 import com.yukgaejang.voss.domain.meet.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
@@ -124,15 +125,15 @@ public class MeetServiceImpl implements MeetService{
     }
 
     @Override
-    public RecordResponse meetRoomRecord(RecordRequest recordRequest) {
-        Meet meet = meetRepository.findByMeetId(recordRequest.getMeetRoomId()).orElseThrow();
-        if (recordRequest.getCommand() == RecordRequest.COMMAND.START) {
+    public GroupRecordResponse meetRoomRecord(GroupRecordRequest groupRecordRequest) {
+        Meet meet = meetRepository.findByMeetId(groupRecordRequest.getMeetRoomId()).orElseThrow();
+        if (groupRecordRequest.getCommand() == Command.START) {
             openViduClient.recordStart(meet.getSessionId());
-            return new RecordResponse(RecordRequest.COMMAND.START, "");
+            return new GroupRecordResponse(Command.START, "");
         } else {
             openViduClient.recordStop(meet.getSessionId());
             String recordFile = openViduClient.getRecordFile(meet.getSessionId());
-            return new RecordResponse(RecordRequest.COMMAND.STOP, recordFile);
+            return new GroupRecordResponse(Command.STOP, recordFile);
         }
     }
 
