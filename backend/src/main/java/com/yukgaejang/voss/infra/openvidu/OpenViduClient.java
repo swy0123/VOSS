@@ -11,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.*;
 
@@ -43,7 +45,6 @@ public class OpenViduClient {
     public String createSession() {
         openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
         sessionId = UUID.randomUUID().toString();
-
         SessionProperties properties = new SessionProperties.Builder()
                 .recordingMode(RecordingMode.MANUAL)
                 .defaultRecordingProperties(recordingProperties)
@@ -60,6 +61,9 @@ public class OpenViduClient {
 
     public Boolean recordStart(String meetRoomSessionId) {
         try {
+            if (isRecordFileExists(meetRoomSessionId)) {
+                deleteRecordFile(meetRoomSessionId);
+            }
             openVidu.startRecording(meetRoomSessionId, recordingProperties);
             return true;
         } catch (OpenViduJavaClientException e) {
@@ -78,6 +82,45 @@ public class OpenViduClient {
         } catch (OpenViduHttpException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void deleteRecordFile(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        ResponseEntity<Void> block = WebClient.create().delete()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+    }
+
+    public Boolean isRecordFileExists(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        return WebClient.create().get()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is4xxClientError()) {
+                        return Mono.just(false);
+                    } else if (response.statusCode().is2xxSuccessful()) {
+                        return Mono.just(true);
+                    }
+                    return Mono.empty();
+                })
+                .block();
+    }
+
+    public String getRecordFile(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        String body = getString(url);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonNode.get("url").asText();
     }
 
 

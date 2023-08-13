@@ -59,7 +59,7 @@ public class MeetController {
     }
 
     @PostMapping("/recording")
-    public ResponseEntity<Boolean> meetRoomRecord(@RequestBody RecordRequest recordRequest) {
+    public ResponseEntity<RecordResponse> meetRoomRecord(@RequestBody RecordRequest recordRequest) {
         return ResponseEntity.ok(meetService.meetRoomRecord(recordRequest));
     }
 }
