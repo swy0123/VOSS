@@ -32,7 +32,7 @@ function Script ({lines}: VideoProps) {
       setTime(meetDubPlayChange[1] * 1);
       intervalRef.current = setInterval(() => {
         setTime((prevTime) => prevTime + 1);
-      }, 1000);
+      }, 100);
     }
 
     // 2은 PausedState

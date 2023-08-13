@@ -46,12 +46,10 @@ function Meeting() {
   useEffect(() => {
     if (recieve == "/open") {
       console.log("bottomOn");
-      setMeetDubSelect(0);
       setBottomOn(true);
       setRecieve("/none");
     } else if (recieve == "/close") {
       console.log("bottomOff");
-      setMeetDubSelect(0);
       setBottomOn(false);
       setRecieve("/none");
     }
