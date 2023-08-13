@@ -115,7 +115,7 @@ function FreeBoard () {
         </OrderBoxDesign>
 
         <PostCategoryDesign>
-          <PostCategoryNumberDesign>전체 ({totalElements})</PostCategoryNumberDesign>
+          <PostCategoryNumberDesign>전체 ({(totalElements.toLocaleString())})</PostCategoryNumberDesign>
           <PostCategoryTitleDesign>제목</PostCategoryTitleDesign>
           <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
           <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
@@ -173,7 +173,7 @@ function FreeBoard () {
       }
       {pages.slice(startPage - 1, endPage).map((page) => (
         <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
-          {page}
+          {(page.toLocaleString())}
         </PaginationItem>
       ))}
       {currentPage < totalPages

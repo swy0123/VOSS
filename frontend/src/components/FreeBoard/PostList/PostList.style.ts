@@ -66,8 +66,10 @@ export const PostUserDesign = styled.div`
   align-items: center;
   width: 10%;
   cursor: pointer;
-  &:hover {
-    text-decoration: underline;
+  span {
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 

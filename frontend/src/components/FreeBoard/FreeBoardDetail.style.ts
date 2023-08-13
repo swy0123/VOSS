@@ -23,7 +23,6 @@ export const FreeTitleUserDesign = styled.div`
   display: flex;
   width: 1000px;
   height: 50px;
-  cursor: pointer;
   /* border: solid 1px red; */
   `;
 
@@ -59,6 +58,10 @@ width: 150px;
 height: 60px;
 text-decoration: underline;
 color: #a4a4a4;
+span {
+  color: #a4a4a4;
+  cursor: pointer;
+}
 /* border: solid 1px red; */
 `;
 
@@ -88,39 +91,39 @@ export const FreeDateDesign = styled.div`
   `;
 
 export const FreeContentDesign = styled.div`
+  /* border: solid 1px yellow; */
   padding: 70px 30px 180px 30px;
   width: 960px;
-  /* border: solid 1px yellow; */
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  };
+  img {
+    max-width: 500px;
+    width: 100%,
+  }
   `;
 
 export const FreeContentTextAreaDesign = styled.textarea`
-padding: 50px 30px 70px 30px;
+padding: 50px 30px 20px 30px;
 width: 960px;
-height: 151px;
+height: 130px;
 color: white;
 font-size: 15px;
+line-height: 30px;
 background-color: transparent;
 border: none;
 /* border: solid 1px yellow; */
-`;
-
-export const FreeLikeDesign = styled.div`
-margin: 0 auto;
-display: flex;
-justify-content: center;
-width: 75px;
-height: 30px;
-border-radius: 30px;
-border: solid 1px #EFEFEF;
-cursor: pointer;
 `;
 
 export const FreeLikeNumDesign = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40%;
-  font-size: 12px;
+  width: 100%;
+  height: 35px;
+  font-size: 13px;
   /* border: solid 1px green; */
   `;
 
@@ -128,10 +131,11 @@ export const FreeLikeImageDesign = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 100%;
+  cursor: pointer;
   img {
-    height: 15px;
-    width: 15px;
+    height: 30px;
+    width: 30px;
   }
   /* border: solid 1px green; */
   `;
@@ -163,7 +167,6 @@ export const FreepUdateDeleteDesign = styled.div`
   height: 70px;
   font-size: 13px;
   border-bottom: solid 1px #dedede;
-  cursor: pointer;
 `;
 
 export const FreeUploadDesign = styled.div`
@@ -189,6 +192,7 @@ export const FreeUpdateDesign = styled.div`
   color: black;
   background-color: white;
   border: solid 1px white;
+  cursor: pointer;
   `;
 
 export const FreeDeleteDesign = styled.div`
@@ -201,6 +205,7 @@ export const FreeDeleteDesign = styled.div`
   color: white;
   background-color: transparent;
   border: solid 1px white;
+  cursor: pointer;
   `;
 
 export const FreedIexDesign = styled.div`
