@@ -5,18 +5,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukgaejang.voss.infra.openvidu.exception.NoSessionExcepion;
-import io.openvidu.java.client.OpenVidu;
-import io.openvidu.java.client.OpenViduException;
-import io.openvidu.java.client.Session;
-import io.openvidu.java.client.SessionProperties;
+import io.openvidu.java.client.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.*;
 
@@ -29,6 +28,12 @@ public class OpenViduClient {
     @Value("${OPENVIDU_SECRET}")
     private String SECRET;
     private final HttpHeaders headers = new HttpHeaders();
+    private String sessionId;
+    private OpenVidu openVidu;
+    private RecordingProperties recordingProperties = new RecordingProperties.Builder()
+            .hasAudio(true)
+            .hasVideo(false)
+            .build();
 
     @PostConstruct
     public void init() {
@@ -38,9 +43,11 @@ public class OpenViduClient {
 
 
     public String createSession() {
-        OpenVidu openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
-        String sessionId = UUID.randomUUID().toString();
+        openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
+        sessionId = UUID.randomUUID().toString();
         SessionProperties properties = new SessionProperties.Builder()
+                .recordingMode(RecordingMode.MANUAL)
+                .defaultRecordingProperties(recordingProperties)
                 .customSessionId(sessionId)
                 .build();
         try{
@@ -51,6 +58,71 @@ public class OpenViduClient {
             return "세션 생성에 실패했습니다.";
         }
     }
+
+    public Boolean recordStart(String meetRoomSessionId) {
+        try {
+            if (isRecordFileExists(meetRoomSessionId)) {
+                deleteRecordFile(meetRoomSessionId);
+            }
+            openVidu.startRecording(meetRoomSessionId, recordingProperties);
+            return true;
+        } catch (OpenViduJavaClientException e) {
+            throw new RuntimeException(e);
+        } catch (OpenViduHttpException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean recordStop(String meetRoomSessionId) {
+        try {
+            openVidu.stopRecording(meetRoomSessionId);
+            return true;
+        } catch (OpenViduJavaClientException e) {
+            throw new RuntimeException(e);
+        } catch (OpenViduHttpException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteRecordFile(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        ResponseEntity<Void> block = WebClient.create().delete()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+    }
+
+    public Boolean isRecordFileExists(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        return WebClient.create().get()
+                .uri(url)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is4xxClientError()) {
+                        return Mono.just(false);
+                    } else if (response.statusCode().is2xxSuccessful()) {
+                        return Mono.just(true);
+                    }
+                    return Mono.empty();
+                })
+                .block();
+    }
+
+    public String getRecordFile(String meetRoomSessionId) {
+        String url = OPENVIDU_URL + "/openvidu/api/recordings/" + meetRoomSessionId;
+        String body = getString(url);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonNode.get("url").asText();
+    }
+
 
     public List<Long> getSessionBySessionId(String sessionId) {
         String url = OPENVIDU_URL + "/openvidu/api/sessions/" + sessionId;
