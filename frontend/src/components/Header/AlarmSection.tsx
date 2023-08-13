@@ -139,7 +139,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   useEffect(() => {
     void axiosReceiveAlarm()
   },[])
-
+  
   return(
     <Container >
       <AlarmCount>{alarmInfo.length}</AlarmCount>
