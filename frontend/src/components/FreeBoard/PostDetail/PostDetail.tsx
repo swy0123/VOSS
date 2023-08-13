@@ -75,36 +75,25 @@ function PostDetail() {
   };
 
   const downloadFile = (file: PostFilesType) => {
-    // fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET',})
-    // .then(res => {
-    //   return res.blob();
-    // })
-    // .then(blob => {
-    //   const url = window.URL.createObjectURL(blob);
-    //   const a = document.createElement('a');
-    //   a.href = url;
-    //   a.download = `${file.originalFileName}`;
-    //   document.body.appendChild(a); 
-    //   a.click();  
-    //   setTimeout(
-    //     (_: any) => { window.URL.revokeObjectURL(url); }, 
-    //     60000); 
-    //   a.remove(); 
-    // })
-    // .catch(err => {
-    //   console.error('err: ', err);
-    // })
-
-    // fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET'})
-    // .then(res => {
-    //   return res.blob();
-    // })
-    // .then(blob => {
-    //   saveAs(blob, `${file.originalFileName}`);
-    // })
-    // .catch(err => {
-    //   console.error('err: ', err);
-    // })
+    fetch(`${FILE_SERVER_URL}/${file.savedFileName}`, {method: 'GET',})
+    .then(res => {
+      return res.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${file.originalFileName}`;
+      document.body.appendChild(a); 
+      a.click();  
+      setTimeout(
+        (_: any) => { window.URL.revokeObjectURL(url); }, 
+        60000); 
+      a.remove(); 
+    })
+    .catch(err => {
+      console.error('err: ', err);
+    })
   };
 
   useEffect(() => {
