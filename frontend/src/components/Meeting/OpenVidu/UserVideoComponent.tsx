@@ -5,6 +5,7 @@ import {
   ProfileImg,
   VedioHoverMenu,
   VedioInnerDiv,
+  VedioMuteIcon,
   VedioOuterDiv,
 } from "./UserVideoComponent.style";
 import React, { useCallback, MouseEvent, useState, useEffect, useRef, useContext } from "react";
@@ -15,6 +16,7 @@ import { CurrentUserAtom } from "/src/recoil/Auth";
 import { getMember } from "/src/api/meeting";
 import { postFollow } from "/src/api/profile";
 import AlertContext from "/src/context/alert/AlertContext";
+import Mute from "/src/assets/Meeting/Mute.png";
 
 const UserVideoComponent = (props: any) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
@@ -26,6 +28,7 @@ const UserVideoComponent = (props: any) => {
   const [userImgURL, setuserImgURL] = useState<string>("");
   const [userId, setUserId] = useState(0);
 
+  const anchorRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (props.streamManager !== undefined) {
       const data = props.streamManager.stream.connection.data;
@@ -36,6 +39,11 @@ const UserVideoComponent = (props: any) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(anchorRef.current?.offsetWidth || 0) // 컴포넌트의 width
+    // console.log(anchorRef.current?.offsetHeight || 0) // 컴포넌트의 height
+  }, [anchorRef.current?.offsetWidth]);
+
   const setUserData = async (email: string) => {
     setOver(false);
     const response = await getMember(email);
@@ -43,8 +51,8 @@ const UserVideoComponent = (props: any) => {
     setUserEmail(email);
     setUserNickname(response.data.nickname);
     setUserId(response.data.id);
-    setuserImgURL("https://b106-voss.s3.ap-northeast-2.amazonaws.com/"+response.data.imageUrl);
-     setSelected({
+    setuserImgURL("https://b106-voss.s3.ap-northeast-2.amazonaws.com/" + response.data.imageUrl);
+    setSelected({
       userId: userId,
       email: userEmail,
       nickname: userNickname,
@@ -53,7 +61,7 @@ const UserVideoComponent = (props: any) => {
   };
 
   const { alert: alertComp } = useContext(AlertContext);
-  const onAlertClick = async (text:string) => {
+  const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
   };
@@ -84,13 +92,17 @@ const UserVideoComponent = (props: any) => {
     props.onClickToggleModal();
   };
 
+
+
   return (
     <VedioOuterDiv
       className="streamcomponent"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      ref={anchorRef}
+      style={{fontSize:anchorRef.current?.offsetWidth}}
     >
-      {props.videoActive ? (
+      {!props.streamManager.stream.videoActive ? (
         <ProfileImg id="111">
           <img src={userImgURL} alt="이미지가 들어갈 자리입니다" />
         </ProfileImg>
@@ -100,7 +112,7 @@ const UserVideoComponent = (props: any) => {
       {props.streamManager !== undefined ? (
         <>
           {isOver && props.isOpenModal !== undefined && !props.isOpenModal ? (
-            <>
+            <div style={{fontSize:anchorRef.current?.offsetWidth}}>
               <VedioHoverMenu style={{ top: "25%" }} onClick={onClickGiveBadge}>
                 {" "}
                 뱃지주기
@@ -113,12 +125,14 @@ const UserVideoComponent = (props: any) => {
                 {" "}
                 {!isMuted ? "음소거" : "음소거 해제"}
               </VedioHoverMenu>
-            </>
+            </div>
           ) : (
             <></>
           )}
 
           <VedioInnerDiv>{userNickname} </VedioInnerDiv>
+
+          {isMuted || !props.streamManager.stream.audioActive  ? <VedioMuteIcon src={Mute} /> : <></>}
 
           <OpenViduVideoComponent streamManager={props.streamManager} isMuted={isMuted} />
         </>
