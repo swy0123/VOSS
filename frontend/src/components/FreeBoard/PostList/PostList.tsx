@@ -16,13 +16,14 @@ import {
 
 
 function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, comments, likes, createdAt, hits, page}: PostListType ) {
+  const today = new Date().toISOString();
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const goProfile = (id: number) => navigate(`/profile/${id}`);
 
   return(
     <PostListDesign>
-        <PostNumberDesign onClick={() => goPostDetail(id || 0)}>{page}</PostNumberDesign>
+        <PostNumberDesign onClick={() => goPostDetail(id || 0)}>{(page.toLocaleString())}</PostNumberDesign>
         <PostTitleDesign onClick={() => goPostDetail(id || 0)}>{title}
         { hasImageFile
         ? <PostFileDesign src={HasImageFile} alt="HasImageFile"></PostFileDesign>
@@ -34,10 +35,15 @@ function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, c
         ? <PostCommentsDesign>{comments}</PostCommentsDesign>
         : null}
         </PostTitleDesign>
-        <PostUserDesign onClick={() => goProfile(memberId ||0)}>{nickname}</PostUserDesign>
-        <PostCreatedatDesign>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 16)}`}</PostCreatedatDesign>
-        <PostHitDesign>{hits}</PostHitDesign>
-        <PostLikeDesign>{likes}</PostLikeDesign>
+        <PostUserDesign><span onClick={() => goProfile(memberId ||0)}>{nickname}</span></PostUserDesign>
+        <PostCreatedatDesign>
+          { today.slice(2, 10) === createdAt?.slice(2, 10)
+            ? createdAt?.slice(11, 16)
+            : createdAt?.slice(2, 10)
+          }
+        </PostCreatedatDesign>
+        <PostHitDesign>{(hits.toLocaleString())}</PostHitDesign>
+        <PostLikeDesign>{(likes.toLocaleString())}</PostLikeDesign>
     </PostListDesign>
   );
 };
