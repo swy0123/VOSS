@@ -10,6 +10,7 @@ import com.yukgaejang.voss.domain.freeboard.repository.PostRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.Post;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
+import com.yukgaejang.voss.domain.freeboard.repository.entity.PostLike;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostRequest;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -93,7 +95,13 @@ public class PostServiceImpl implements PostService {
         List<PostFileDetailResponse> otherFiles = postFileRepository.findAllByPostIdAndIsDeletedFalseAndContentTypeNotStartsWith(id, "image");
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
         boolean isLiked = postLikeRepository.existsByPostIdAndMemberId(post.getId(), member.getId());
-        return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles, isLiked);
+        List<PostLike> postLikes = postLikeRepository.findAllByPostId(id);
+        List<String> likeMembers = new ArrayList<>();
+        for(PostLike postLike : postLikes) {
+            likeMembers.add(postLike.getMember().getNickname() + "(" + postLike.getMember().getEmail() + ")");
+        }
+        String likeMembersString = String.join(", ", likeMembers);
+        return new PostDetailResponse(postRepository.save(post), comments, likes, imageFiles, otherFiles, isLiked, likeMembersString);
     }
 
     @Override

@@ -76,6 +76,13 @@ public class RecordboardController {
         return ResponseEntity.ok(recordLikeService.createRecordLike(email, recordId));
     }
 
+    @DeleteMapping("{recordId}/like")
+    public ResponseEntity<DeleteRecordLikeResponse> deleteRecordLike(@PathVariable Long recordId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(recordLikeService.deleteRecordLike(email, recordId));
+    }
+
     @DeleteMapping("{recordId}")
     public ResponseEntity<DeleteRecordResponse> deleteRecord(@PathVariable Long recordId) {
         return ResponseEntity.ok(recordService.deleteRecord(recordId));
