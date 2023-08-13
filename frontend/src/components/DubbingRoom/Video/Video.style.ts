@@ -6,11 +6,13 @@ export const Container = styled.div`
   width: 470px;
   margin-bottom: 0px;
 `
+
 export const HeaderSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `
+
 export const BackButton = styled.button`
   background: rgba(34, 80, 91, 0.70);
   border-radius: 20px;
@@ -34,6 +36,7 @@ export const Title = styled.h2`
   text-align: left;
   margin-bottom: 20px;
 `
+
 export const VideoBox = styled.div`
   height: 270px;
   width: 470px; 
@@ -44,6 +47,28 @@ export const Display = styled.div`
   margin-bottom: 10px;
   height: 270px;
   width: 470px;
+`
+
+export const ImgSection = styled.div`
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  height: 260px;
+  width: 470px;
+  top: 72px;
+`
+
+export const ProtectSection = styled(ImgSection)`
+  background-color: transparent;
+  cursor: pointer;
+`
+
+export const Thumbnail = styled.img`
+  position: absolute;
+  margin-bottom: 10px;
+  height: 270px;
+  width: 470px;
+  top: 65px;
 `
 
 export const RoleBox = styled.div`
