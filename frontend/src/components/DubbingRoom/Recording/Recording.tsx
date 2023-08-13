@@ -1,6 +1,7 @@
 import { useRecoilState } from "recoil"
 import { useEffect, useRef } from "react"
 import { 
+  PlayTriggerState,
   dubbingRecordState, 
   dubbingRecordTimeState } from "/src/recoil/HW_Atom"
 import { 
@@ -16,6 +17,7 @@ import {
 function Recording (){
   const [dubbingRecord] = useRecoilState(dubbingRecordState)
   const [timeList, setTimeList] = useRecoilState(dubbingRecordTimeState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
   
   const currentTime = () => {
     const date = new Date()
@@ -30,21 +32,21 @@ function Recording (){
     currentTime()
   },[dubbingRecord])
 
-  const handleAudioPlay = (index:number) => {
-    console.log(`Playing audio at index ${index}`);
-    if (audioRefs.current[index].current !== null) {
-      audioRefs.current[index].current.play();
-    }
-  };
 
-  const handleAudioPause = (index:number) => {
-    if (audioRefs.current[index].current !== null) {
-      audioRefs.current[index].current.pause();
-      audioRefs.current[index].current.currentTime = 0; // Rewind audio to the beginning
+  function handleAudioPlay(index: number): void {
+    const audioElement = document.getElementsByTagName('audio')[index];
+    if (audioElement !== undefined) {
+      audioElement.play();
     }
-  };
+  }
 
-  const audioRefs = useRef([]);
+  function handleAudioPause(index: number): void {
+    const audioElement = document.getElementsByTagName('audio')[index];
+    if (audioElement !== undefined) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+    }
+  }
 
 
   return(
