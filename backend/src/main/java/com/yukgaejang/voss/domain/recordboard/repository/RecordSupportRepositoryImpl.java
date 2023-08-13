@@ -48,7 +48,10 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        rl.count(),
+                        JPAExpressions
+                                .select(rl.id.count())
+                                .from(rl)
+                                .where(rl.record.id.eq(r.id)),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -58,9 +61,7 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .leftJoin(rl).on(r.id.eq(rl.record.id))
                 .where(r.isDeleted.eq(0))
-                .groupBy(r.id, r, r.member, rf, rl)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -74,16 +75,6 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
         return new PageImpl<>(records, pageable, countQuery.fetchCount());
     }
 
-    private String getLikeMembers(NumberPath<Long> id) {
-        return jpaQueryFactory
-                .select(rl.member.nickname)
-                .from(rl)
-                .where(rl.record.id.eq(id))
-                .fetch()
-                .stream()
-                .collect(Collectors.joining(", "));
-    }
-
     @Override
     public Page<RecordDetailResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname, Long memberId) {
         List<RecordDetailResponse> records = jpaQueryFactory
@@ -91,7 +82,10 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        rl.count(),
+                        JPAExpressions
+                                .select(rl.id.count())
+                                .from(rl)
+                                .where(rl.record.id.eq(r.id)),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -101,10 +95,8 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .leftJoin(rl).on(r.id.eq(rl.record.id))
                 .where(r.isDeleted.eq(0)
                         .and(r.member.nickname.eq(nickname)))
-                .groupBy(r.id, r, r.member, rf, rl)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -125,7 +117,10 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        rl.count(),
+                        JPAExpressions
+                                .select(rl.id.count())
+                                .from(rl)
+                                .where(rl.record.id.eq(r.id)),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -135,10 +130,8 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .leftJoin(rl).on(r.id.eq(rl.record.id))
                 .where(r.isDeleted.eq(0)
                         .and(r.description.contains(description)))
-                .groupBy(r.id, r, r.member, rf, rl)
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -159,7 +152,10 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        rl.count(),
+                        JPAExpressions
+                                .select(rl.id.count())
+                                .from(rl)
+                                .where(rl.record.id.eq(r.id)),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -169,10 +165,8 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .leftJoin(rl).on(r.id.eq(rl.record.id))
                 .where(r.isDeleted.eq(0)
                         .and(r.member.email.eq(email)))
-                .groupBy(r.id, r, r.member, rf, rl)
                 .orderBy(r.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
