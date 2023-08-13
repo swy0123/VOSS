@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
+import { PlayTriggerState, dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
 import { 
   CompleteBtn,
   NowRecording,
@@ -25,6 +25,7 @@ interface VideoProps {
 function RecordButton ({script, lines}: VideoProps) {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
@@ -65,6 +66,7 @@ function RecordButton ({script, lines}: VideoProps) {
     setIsRunning(false);
     setTime(0);
   };
+
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -83,7 +85,7 @@ function RecordButton ({script, lines}: VideoProps) {
     return param;
   }
 
-  const addRecord = async (mediaBlobUrl:string) => {
+  const addRecord = async (mediaBlobUrl:string | undefined) => {
     const response = await fetch(mediaBlobUrl);
     const blobData = await response.blob();
 
@@ -109,27 +111,23 @@ function RecordButton ({script, lines}: VideoProps) {
     }
   }
 
+  // 연습이 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
     setPracticeEnd(true)
+    setPlayTrigger(1)
   }
 
+  // 연습이 진행중 -> 정지
   const changePracticeStart = () => {
     setPracticeStart(true)
     setPracticeEnd(false)
+    setPlayTrigger(0)
   }
 
-  // // 영상 플레이
-  // const SelfPlayVideo = () => {
-  //   youtube.playVideo()
-  //   setPlayChange([1, Math.floor(youtube.getCurrentTime())]);
-  // }
-  
-  // // 영상 일시정지
-  // const SelfPauseVideo = () => {
-  //   youtube.pauseVideo()
-  //   setPlayChange([2, Math.floor(youtube.getCurrentTime())]);
-  // }
+  const changePracticeReset = () => {
+    setPlayTrigger(2)
+  }
 
   return(
     <RecordBox>
@@ -142,6 +140,7 @@ function RecordButton ({script, lines}: VideoProps) {
               onClick={() => {
                 resetTimer()
                 stopRecording()
+                changePracticeReset()
                 clearBlobUrl()}}>취소</RestartBtn> : ""}
 
             { initialBtn ? 
@@ -189,6 +188,7 @@ function RecordButton ({script, lines}: VideoProps) {
             <CompleteBtn
                 onClick={() => {
                     stopRecording()
+                    changePracticeReset()
                     addRecord(mediaBlobUrl)
                     resetTimer()
                   }}>완료</CompleteBtn> : "" }

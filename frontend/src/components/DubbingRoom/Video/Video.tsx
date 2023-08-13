@@ -9,15 +9,16 @@ import {
   RoleBox, 
   RoleButton, 
   Title } from "./Video.style";
-import { 
-  PlayChangebState, 
-  RoleSelectState, 
-  ScriptSelectState } from "../../../recoil/Training";
-import { timeState, youtubeState } from "/src/recoil/HW_Atom";
-import { useNavigate } from "react-router-dom";
-
+  import { 
+    PlayChangebState, 
+    RoleSelectState, 
+    ScriptSelectState } from "../../../recoil/Training";
+    import { PlayTriggerState, timeState, youtubeState } from "/src/recoil/HW_Atom";
+    import { useNavigate } from "react-router-dom";
+    
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<boolean>(PlayTriggerState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [youtube, setYoutube] = useState<object|undefined>("")
@@ -25,7 +26,8 @@ function Video ({script, roles, lines}: ScriptData) {
   const [time, setTime] = useRecoilState(timeState);
   const roleSelectRef = useRef<boolean[]>([])
   const scriptSelectRef = useRef<boolean[]>([])
-
+  const navigate = useNavigate() 
+  
   // 역할 선택
   const handleRoleBtn = (index: number) => {
     const newRoleSelect = Array(roles.length).fill(false)
@@ -50,9 +52,9 @@ function Video ({script, roles, lines}: ScriptData) {
   const onYouTubeIframeAPIReady = () => {
     const player = new YT.Player('player', {
       videoId: script.videoUrl.slice(-11),
-      events: {
-        'onStateChange' : onPlayStateChange,
-      },
+      // events: {
+      //   'onStateChange' : onPlayStateChange,
+      // },
       playerVars:{
         "controls" : 0,
         "disablekb" : 1,
@@ -61,16 +63,43 @@ function Video ({script, roles, lines}: ScriptData) {
     setYoutube(player)
   }
 
+  // // 영상 상태 변경
+  // const onPlayStateChange = (event) => {
+  //   const nowTime = event.target.getCurrentTime() * 10;
+  //   console.log(nowTime)
+  //   if (event.data == YT.PlayerState.PLAYING) {
+  //     setPlayChange([1, Math.floor(nowTime)]);
+  //   }
+  //   else if (event.data == YT.PlayerState.PAUSED) {
+  //     setPlayChange([2, Math.floor(nowTime)]);
+  //   }
+  // }
+
   // 영상 상태 변경
-  const onPlayStateChange = (event) => {
-    const nowTime = event.target.getCurrentTime() * 10;
-    if (event.data == YT.PlayerState.PLAYING) {
-      setPlayChange([1, Math.floor(nowTime)]);
+  const onPlayStateChange = async () => {
+
+    // 영상 시작
+    if (playTrigger === 1){
+      await youtube.playVideo()
+      setPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
     }
-    else if (event.data == YT.PlayerState.PAUSED) {
-      setPlayChange([2, Math.floor(nowTime)]);
+
+    // 영상 일시 정지
+    else if (playTrigger === 0){
+      await youtube.pauseVideo()
+      setPlayChange([2, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
+
+    // 영상 다시 시작 준비
+    else if (playTrigger === 2){
+      await youtube.seekTo(0)
+      setPlayChange([2, 0]);
     }
   }
+
+  useEffect(()=>{
+    onPlayStateChange()
+  },[playTrigger])
 
   // 영상 대사별 Mute
   const onMuteChange = () => {
@@ -97,7 +126,6 @@ function Video ({script, roles, lines}: ScriptData) {
       }
     }
   }
-  const navigate = useNavigate() 
 
   const goDubbingList = () => {
     navigate("/dubbinglist")

@@ -39,8 +39,27 @@ export const VideoBox = styled.div`
   width: 470px; 
 `
 
+export const ImgSection = styled.div`
+  position: absolute;
+  height: 270px;
+  width: 470px;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: center;
+`
+export const ProtectSection = styled(ImgSection)`
+  background-color: transparent;
+`
+
 export const Display = styled.div`
   background-color: black;
+  margin-bottom: 10px;
+  height: 270px;
+  width: 470px;
+`
+
+export const Thumbnail = styled.img`
+  position: absolute;
   margin-bottom: 10px;
   height: 270px;
   width: 470px;

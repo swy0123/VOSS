@@ -76,6 +76,12 @@ export const alarmInfoState = atom<AlarmInfoListType[]>({
   default: [],
 })
 
+// 녹음버튼 === 비디오버튼
+export const PlayTriggerState = atom<number>({
+  key: "PlayTriggerState",
+  default: 3,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
