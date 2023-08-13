@@ -31,8 +31,8 @@ export const Alarm = styled.div<{$AlarmIsShown?: boolean}>`
   align-items: center;
   border-radius: 100px;
   margin-right: 20px;
-  height: 30px;
-  width: 30px;
+  height: 39px;
+  width: 39px;
   background-color: ${props => props.$AlarmIsShown ? "#949494" : ""};
   cursor: pointer;
   
@@ -47,6 +47,7 @@ export const Profile = styled.img`
   height: 46px;
   margin-right: 30px;
   z-index: 1;
+  cursor: pointer;
 `
 export const ProfileHover =styled.img`
   border: solid 1px white;
@@ -63,9 +64,9 @@ export const ProfileHoverList = styled.div`
   justify-content: space-between;
   position: fixed;
   top: 60px;
-  right: 40px;
-  width: 68px;
-  height: 100px;
+  right: 30px;
+  width: 90px;
+  height: 140px;
   padding: 0px 5px 0px 5px;
   border-radius: 2px;
   /* border: dotted 1px yellow; */
@@ -76,9 +77,9 @@ export const ProfileHoverListItem = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 68px;
-  height: 25px;
-  font-size: 5px;
+  width: 90px;
+  height: 35px;
+  font-size: 14px;
   border-bottom: solid 1px #d9d9d9;
   // 마우스 호버 시에 작동
   
@@ -91,10 +92,10 @@ export const ProfileHoverListItem = styled.div`
 
 export const ProfileHoverTriangle = styled.div`
   position: fixed;
-  top: 52px;
-  right: 72px;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 10px solid white; 
+  top: 48px;
+  right: 70px;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 14px solid white; 
   z-index: 2;
 `

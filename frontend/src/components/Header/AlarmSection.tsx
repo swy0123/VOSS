@@ -20,6 +20,7 @@ import {
 } from "./AlarmSection.style";
 import { alarmInfoState } from "/src/recoil/HW_Atom";
 import { useRecoilState } from "recoil";
+import { CurrentUserAtom } from "/src/recoil/Auth";
 
 interface Headertype {
   AlarmIsShown : boolean,
@@ -28,6 +29,7 @@ interface Headertype {
 
 function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
+  const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom)
   const [alarmInfo, setAlarmInfo] = useState<AlarmInfoListType[]>([])
   const [test, setTest] = useState()
   const navigate = useNavigate()
@@ -86,16 +88,20 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   }
 
   // 상세 알람 확인
-  const DetailAlarmChecking = async (alarm:[string, number, string, number],a_idx:number):void => {
+  const DetailAlarmChecking = (alarm:[string, number, string, number],a_idx:number):void => {
     const [content, notiId ,type, postId] = alarm
     
-    const alarmInfoTmp = await alarmInfo.filter((alarm,index) => index !== a_idx)
-    await setAlarmInfo(alarmInfoTmp)
+    const alarmInfoTmp = alarmInfo.filter((alarm,index) => index !== a_idx)
+    setAlarmInfo(alarmInfoTmp)
 
-    await axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
+    axiosCheckDetailAlarm(notiId).then().catch(error=>console.log(error))
 
     if (type === "POST_LIKE" || type === "COMMENT"){
       navigate(`/freeboard/${postId}`)
+    }
+
+    else if (type === "FOLLOW"){
+    navigate(`/profile/${currentUser.userid}`)
     }
   }
 
@@ -142,7 +148,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
 
   return(
     <Container >
-      <AlarmCount>{alarmInfo.length}</AlarmCount>
+      {alarmInfo.length !==0 && <AlarmCount>{alarmInfo.length}</AlarmCount>}
       <AlarmListBox $IsClick={AlarmIsShown}>
         <Triangle/>
         <AlarmHeader>
