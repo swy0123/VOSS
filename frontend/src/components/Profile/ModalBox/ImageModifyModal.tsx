@@ -1,6 +1,6 @@
 import Avatar, { genConfig } from 'react-nice-avatar'
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { ModalOverlay, ModalContent, CompleteButton, ToggleButton } from "./ImageModifyModal.style"
+import { ModalOverlay, ModalContent, CompleteButton, ToggleButton, AvatarImg, AvatarImg1 } from "./ImageModifyModal.style"
 import Tabs from './Tabs';
 import Tab from './Tab';
 
@@ -73,14 +73,16 @@ const ImageModifyModal = ({ handleConfigUpdate }: PropsWithChildren<ImageModalDe
           marginTop: "15px"
         }}>
           프로필 이미지 꾸미기
-        </div>
+        </div> 
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%', textAlign: "center" }}>
-          <div style={{ position: 'relative' }}>
-            <Avatar className="avatar-bar" id="myAvatar" style={{ width: '5rem', height: '5rem', marginTop: "20px" }} {...config} />
-          </div>
-        </div>
-        
+        <Avatar 
+          className="avatar-bar" 
+          id="myAvatar" 
+          style={{ 
+            width: '8rem', 
+            height: '8rem',
+            marginTop: "10px", }} {...config} />
+s
         <ToggleButton gender={gender} onClick={handleGenderChange}>
           {gender === "man" ? "남성" : "여성"}
         </ToggleButton>

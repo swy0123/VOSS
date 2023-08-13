@@ -11,18 +11,19 @@ export const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
   z-index: 10;
 `;
 
+
 export const ModalContent = styled.div`
+  display:flex;
+  flex-direction: column;
   width: 25rem;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
   justify-content: center;
   align-items: center;
 
