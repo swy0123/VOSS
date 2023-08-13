@@ -90,18 +90,10 @@ export const BadgeBoxContent = styled.div<{$hoverActive: number}>`
   font-size: 0.9vw;
 
   ${({$hoverActive}) => $hoverActive > 0
-    ? "animation-duration: 1.5s; animation-name: fadeout;"
-    : "animation-duration: 0.1s; animation-name: fadeoutslow;"};
+    ? "animation-duration: 1s; animation-name: fadeout;"
+    : null};
 
   @keyframes fadeout {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  };
-  @keyframes fadeoutslow {
     0% {
       opacity: 0;
     }

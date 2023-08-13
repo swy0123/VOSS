@@ -27,7 +27,7 @@ function BadgeBox() {
     <BadgeBoxDesign>
       <BadgeTitleDesign>
         활동 배지
-        <BadgeTitleDetailDesign onClick={()=>setShowModal(true)} style={{cursor: 'pointer'}}>자세히 보기 〉</BadgeTitleDetailDesign>
+        <BadgeTitleDetailDesign onClick={()=>setShowModal(true)}>자세히 보기 〉</BadgeTitleDetailDesign>
       </BadgeTitleDesign>      
 
       { badges.length > 0
@@ -40,7 +40,7 @@ function BadgeBox() {
 
             { select && select === badge.id
             ? <BadgeBoxContent $hoverActive={select}>
-                <div style={{height: '2.5vw', display: 'flex', alignItems: 'center'}}>{badge.name}</div>
+                <div style={{marginBottom: '-0.2vw', height: '1.5vw', display: 'flex', alignItems: 'center'}}>{badge.name}</div>
               </BadgeBoxContent>
             : <BadgeBoxContent2>{badge.cnt}</BadgeBoxContent2>
           }
