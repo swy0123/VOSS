@@ -109,31 +109,8 @@ const MeetJoin = (props: any) => {
   useEffect(() => {
     setCurCount(subscribers.length + 1);
     setMeetDubUser(subscribers.length + 1);
-
-    if (subscribers.length > 0) {
-      session.on("signal:userChanged", (event: any) => {
-        let remoteUsers = [...subscribers];
-        console.log(remoteUsers);
-        remoteUsers.forEach((user) => {
-          if (user.stream.connection.connectionId === event.from.connectionId) {
-            const data = JSON.parse(event.data);
-            console.log("EVENTO REMOTE: ", event.data);
-            if (data.isAudioActive !== undefined) {
-              user.audioActive = (data.isAudioActive);
-            }
-            if (data.isVideoActive !== undefined) {
-              user.videoActive = (data.isVideoActive);
-            }
-          }
-        });
-
-        console.log("remoteUsers 초 비사아아아아앙2222222");
-        console.log(remoteUsers);
-        setSubscribers(remoteUsers);
-      });
-    }
-
-
+    console.log("여기선 되겠지ㅣ이이이이이이잉")
+    console.log(subscribers)
   }, [subscribers]);
 
   //뒤로가기 새로고침
@@ -169,17 +146,38 @@ const MeetJoin = (props: any) => {
     setSession(mySession);
 
     // --- 3) Specify the actions when events take place in the session ---
-    mySession.on("streamCreated", async (event) => {
+    await mySession.on("streamCreated", (event) => {
       // event.stream.streamId = currentUser.email;
       const subscriber = mySession.subscribe(event.stream, "");
-
-      console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-      console.log(subscriber);
-
-      await setSubscribers((subscribers) => [...subscribers, subscriber]);
+      // subscriber.stream.audioActive
+      setSubscribers((subscribers) => [...subscribers, subscriber]);
       setConnectionId(event.stream.connection.connectionId);
-
       console.log(subscriber);
+    });
+
+    mySession.on("signal:userChanged", (event: any) => {
+      let remoteUsers = [...subscribers];
+      console.log(subscribers);
+      console.log(remoteUsers);
+      remoteUsers.forEach((user) => {
+        if (user.getConnectionId() === event.from.connectionId) {
+          const data = JSON.parse(event.data);
+          console.log("EVENTO REMOTE: ", event.data);
+          if (data.isAudioActive !== undefined) {
+            user.setAudioActive(data.isAudioActive);
+          }
+          if (data.isVideoActive !== undefined) {
+            user.setVideoActive(data.isVideoActive);
+          }
+          // if (data.nickname !== undefined) {
+          //     user.setNickname(data.nickname);
+          // }
+        }
+      });
+
+      console.log("remoteUsers 초 비사아아아아앙");
+      console.log(remoteUsers);
+      setSubscribers(remoteUsers);
     });
 
     mySession.on("streamDestroyed", (event) => {
@@ -214,13 +212,11 @@ const MeetJoin = (props: any) => {
         mirror: false,
         // insertMode: 'APPEND',
       });
-
       newPublisher.id = currentUser.email;
       await mySession.publish(newPublisher);
       setPublisher(newPublisher);
       console.log(newPublisher);
       // console.log(publisher);
-      console.log(subscribers);
     } catch (error: any) {
       console.log("There was an error connecting to the session:", error.code, error.message);
       leaveSession();
@@ -316,8 +312,7 @@ const MeetJoin = (props: any) => {
                   streamManager={sub}
                   onClickToggleModal={onClickToggleModal}
                   isOpenModal={isOpenModal}
-                  isAudioActive={sub.audioActive}
-                  isVedioActive={sub.videoActive}
+                  // isAudioActive={sub.audioActive}
                 />
               </StreamContainer>
             ))}
