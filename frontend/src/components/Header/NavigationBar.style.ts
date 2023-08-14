@@ -122,6 +122,7 @@ export const ProfileHoverListItem = styled.div`
   height: 35px;
   font-size: 14px;
   border-bottom: solid 1px #d9d9d9;
+  cursor: pointer;
   // 마우스 호버 시에 작동
   
   &:hover {

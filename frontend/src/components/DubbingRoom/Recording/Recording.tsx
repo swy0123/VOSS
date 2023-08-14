@@ -37,9 +37,7 @@ function Recording (){
     const audioElement = document.getElementsByTagName('audio')[index];
     if (audioElement !== undefined) {
       audioElement.play();
-      setPlayTrigger(0);
       setPlayTrigger(3);
-      //setPlayTrigger(1);
     }
   }
 
@@ -47,11 +45,9 @@ function Recording (){
     const audioElement = document.getElementsByTagName('audio')[index];
     if (audioElement !== undefined) {
       audioElement.pause();
-      //audioElement.currentTime = 0;
       setPlayTrigger(2);
     }
   }
-
 
   return(
     <Container>
