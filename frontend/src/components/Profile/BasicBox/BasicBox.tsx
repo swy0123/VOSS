@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentUserAtom, ProfileState, ModalOpenState, FollowerTabState, FollowerListState, FollowingListState } from "/src/recoil/Auth";
@@ -22,6 +22,8 @@ import {
   ProfileFollowingSpaceDesign,
 } from "./BasicBox.style";
 import { ProfileHoverList, ProfileHoverListItem } from './NavigationBar.style';
+import NicknameModal from './NicknameModal';
+import PasswordModal from './PasswordModal';
 
 const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com"
 
@@ -37,6 +39,8 @@ function BasicBox() {
   const [profile, setProfile] = useRecoilState(ProfileState)
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [profileMenuShown, setProfileMenuShown] = useState(false)
+  const [isOpenNicknameModal, setOpenNicknameModal] = useState<boolean>(false);
+  const [isOpenPasswordModal, setOpenPasswordModal] = useState<boolean>(false);
 
 
   const setFollow = () => {
@@ -64,11 +68,23 @@ function BasicBox() {
     setIsImageModalOpen(false);
   };
 
+  const toggleNicknameModal = useCallback(() => {
+    setOpenNicknameModal(!isOpenNicknameModal);
+  }, [isOpenNicknameModal]);
+
+  const togglePasswordModal = useCallback(() => {
+    setOpenPasswordModal(!isOpenPasswordModal);
+  }, [isOpenPasswordModal]);
 
 
   const changeImage = (newImageUrl: string) => {
     setProfile({ ...profile, imageUrl: newImageUrl });
     setCurrentUser({ ...currentUser, imageUrl: newImageUrl });
+  }
+
+  const changeNickname = (newNickname: string) => {
+    setProfile({ ...profile, nickname: newNickname });
+    setCurrentUser({ ...currentUser, nickname: newNickname });
   }
 
   return (
@@ -105,12 +121,12 @@ function BasicBox() {
               ><img src={UpdateIcon} alt="" />
                 {profileMenuShown
                   ?
-                    <ProfileHoverList
-                      onMouseEnter={() => setProfileMenuShown(true)}
-                      onMouseLeave={() => setProfileMenuShown(false)}>
-                      <ProfileHoverListItem >닉네임 수정</ProfileHoverListItem>
-                      <ProfileHoverListItem>비밀번호 수정</ProfileHoverListItem>
-                    </ProfileHoverList>
+                  <ProfileHoverList
+                    onMouseEnter={() => setProfileMenuShown(true)}
+                    onMouseLeave={() => setProfileMenuShown(false)}>
+                    <ProfileHoverListItem onClick={() => { toggleNicknameModal(); }}>닉네임 수정</ProfileHoverListItem>
+                    <ProfileHoverListItem  onClick={() => { togglePasswordModal(); }}>비밀번호 수정</ProfileHoverListItem>
+                  </ProfileHoverList>
                   : null}
               </ProfileBtnDesign>
               : profile.isFollowing
@@ -130,10 +146,23 @@ function BasicBox() {
             </ProfileFollowingDesign>
             <ProfileFollowingSpaceDesign />
           </FollowBoxDesign>
-
         </ProfileInfoDesign>
 
         {isImageModalOpen && <ImageModifyModal closeModal={closeModal} changeImage={changeImage} />}
+
+        {isOpenNicknameModal && (
+          <NicknameModal
+            toggleNicknameModal={toggleNicknameModal} changeNickname={changeNickname}  originNickname={currentUser.nickname} originImageUrl={currentUser.imageUrl}
+          ></NicknameModal>
+        )}
+
+        {isOpenPasswordModal && (
+          <PasswordModal
+            togglePasswordModal={togglePasswordModal}
+          ></PasswordModal>
+        )}  
+
+
       </BasicBoxDesign>
       : <h3 style={{ color: 'white' }}>회원 정보가 없습니다</h3>
     } </>

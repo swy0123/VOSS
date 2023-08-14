@@ -187,3 +187,31 @@ export const ProfileFollowingSpaceDesign = styled.div`
   width: 4vw;
   height: 100%;
 `;
+
+export const InputDiv = styled.div`
+  position: relative;
+`;
+
+export const InputHeader = styled.div`
+  width: fit-content;
+  font-size: 14px;
+  color: #757575;
+  padding: 8px;
+  height: 12px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 2px;
+  left: 12%;
+`;
+
+export const Input = styled.input`
+  border: #bdbdbd;
+  border-style: solid;
+  width: 80%;
+  height: 40px;
+  padding: 0px;
+  padding-left: 5%;
+  border-width: 1px;
+  border-radius: 8px;
+  margin-top: 20px;
+`;
