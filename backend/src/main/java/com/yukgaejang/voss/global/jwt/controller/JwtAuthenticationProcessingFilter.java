@@ -37,7 +37,7 @@ public class JwtAuthenticationProcessingFilter  extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals(NO_CHECK_URL) || request.getRequestURI().equals("/auth/logout") || request.getRequestURI().equals("/auth/refresh")) {
+        if (request.getRequestURI().equals(NO_CHECK_URL) || request.getRequestURI().equals("/auth/logout")  || request.getRequestURI().equals("/auth/email/password")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -7,11 +7,14 @@ import com.yukgaejang.voss.domain.auth.repository.EmailRepository;
 import com.yukgaejang.voss.domain.auth.repository.entity.Email;
 import com.yukgaejang.voss.domain.auth.service.dto.request.ConfirmEmailRequest;
 import com.yukgaejang.voss.domain.auth.service.dto.request.SendEmailRequest;
+import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.member.repository.entity.RefreshToken;
+import com.yukgaejang.voss.domain.member.repository.entity.Role;
+import com.yukgaejang.voss.domain.member.service.MemberService;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -26,6 +29,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -36,9 +41,11 @@ import java.util.Random;
 public class AuthService implements UserDetailsService {
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
+    //private final MemberService memberService;
     private final JavaMailSender javaMailSender;
     private final EmailRepository emailRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     @Value("${SMTP_EMAIL}")
@@ -78,6 +85,24 @@ public class AuthService implements UserDetailsService {
         }
     }
 
+    public void sendPasswordEmail(SendEmailRequest sendEmailRequest) {
+        String email =sendEmailRequest.getEmail();
+        if (!memberRepository.existsByEmail(email)) {
+            throw new NoEmailException("없는 이메일");
+        }
+        String key = createKey();
+
+        MimeMessage message = null;
+        try {
+            message = createPasswordMessage(email, key);
+            updateMemberPassword(email, key);
+            javaMailSender.send(message);
+        } catch (MailException | MessagingException | UnsupportedEncodingException es) {
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+    }
+
     public void confirmEmail(ConfirmEmailRequest confirmEmailRequest) {
         Email email = emailRepository.findByEmail(confirmEmailRequest.getEmail()).orElseThrow(() ->
                 new NoEmailException("없는 사용자입니다.")
@@ -107,6 +132,50 @@ public class AuthService implements UserDetailsService {
         mmsg += "<br>";
         mmsg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
         mmsg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        mmsg += "<div style='font-size:130%'>";
+        mmsg += "CODE : <strong>";
+        mmsg += key + "</strong><div><br/> ";
+        mmsg += "</div>";
+        message.setText(mmsg, "utf-8", "html");
+        message.setFrom(new InternetAddress(smtpUserName + "@naver.com", "Voss 관리자"));
+
+        return message;
+    }
+
+    public void updateMemberPassword(String email, String newKey) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        Member newMem = Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .password(newKey)
+                .nickname(member.getNickname())
+                .imageUrl(member.getImageUrl())
+                .role(member.getRole())
+                .build();
+
+        newMem.passwordEncode(passwordEncoder);
+        memberRepository.save(newMem);
+    }
+
+    private MimeMessage createPasswordMessage(String to, String key) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.setSubject("Voss 임시 비밀번호");
+
+        String mmsg = "";
+        mmsg += "<div style='margin:100px;'>";
+        mmsg += "<h1> 안녕하세요</h1>";
+        mmsg += "<h1> 모두가 성우가 되는 Voss 입니다</h1>";
+        mmsg += "<br>";
+        mmsg += "<p>귀하의 임시 비밀번호가 아래와 같이 변경되었습니다.<p>";
+        mmsg += "<br>";
+        mmsg += "<p>많은 관심 감사합니다!<p>";
+        mmsg += "<br>";
+        mmsg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        mmsg += "<h3 style='color:blue;'>임시 비밀 번호입니다.</h3>";
         mmsg += "<div style='font-size:130%'>";
         mmsg += "CODE : <strong>";
         mmsg += key + "</strong><div><br/> ";
