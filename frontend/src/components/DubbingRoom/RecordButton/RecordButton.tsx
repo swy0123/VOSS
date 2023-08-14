@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { PlayTriggerState, dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
@@ -20,6 +20,7 @@ import { PlayChangebState, ScriptSelectState } from '/src/recoil/Training';
 import axios from "axios";
 import { Line, Script } from '/src/type/type';
 import { MoonLoader } from "react-spinners";
+import AlertContext from '/src/context/alert/AlertContext';
 
 interface VideoProps {
   script: Script
@@ -41,6 +42,11 @@ function RecordButton({ script, lines }: VideoProps) {
   const [stop, setStop] = useState(0);
 
   const [recordBtnClickable, setRecordBtnClickable] = useState<boolean>(true);
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
 
   const {
     startRecording,
@@ -215,7 +221,7 @@ function RecordButton({ script, lines }: VideoProps) {
             (<RecordBtn
               onClick={() => {
                 if (stop >= script.durationInSec * 10) {
-                  alert("녹음을 완료/취소 해주세요")
+                  onAlertClick("녹음을 완료/취소 해주세요")
                   return
                 }
                 startOrStop()
