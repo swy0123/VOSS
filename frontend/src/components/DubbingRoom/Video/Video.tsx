@@ -148,7 +148,7 @@ function Video ({script, roles, lines}: ScriptData) {
   }, [])
   
   // 로딩 페이지가 하나 더 있으면 좋겠다.
-  if (!youtube) {return <Loading/>;}
+  // if (!youtube) {return <Loading/>;}
 
   return(
     <Container>
