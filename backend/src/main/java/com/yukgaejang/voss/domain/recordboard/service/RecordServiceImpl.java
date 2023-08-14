@@ -76,39 +76,9 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Page<RecordDetailResponse> getRecordList(String email, Pageable pageable) {
+    public Page<RecordDetailResponse> getRecordList(String email, Pageable pageable, String description, String nickname) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByIsDeletedFalse(pageable, member.getId());
-        for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
-            List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
-            List<String> likeMembers = new ArrayList<>();
-            for (RecordLike recordLike : recordLikeList) {
-                likeMembers.add(recordLike.getMember().getNickname() + "(" + recordLike.getMember().getEmail() + ")");
-            }
-            recordDetailResponse.setLikeMembers(String.join(", ", likeMembers));
-        }
-        return recordDetailResponses;
-    }
-
-    @Override
-    public Page<RecordDetailResponse> getRecordListByNickname(String email, Pageable pageable, String nickname) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByMemberNicknameAndIsDeletedFalse(pageable, nickname, member.getId());
-        for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
-            List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
-            List<String> likeMembers = new ArrayList<>();
-            for (RecordLike recordLike : recordLikeList) {
-                likeMembers.add(recordLike.getMember().getNickname() + "(" + recordLike.getMember().getEmail() + ")");
-            }
-            recordDetailResponse.setLikeMembers(String.join(", ", likeMembers));
-        }
-        return recordDetailResponses;
-    }
-
-    @Override
-    public Page<RecordDetailResponse> getRecordListByDescription(String email, Pageable pageable, String description) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
-        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByDescriptionContainingAndIsDeletedFalse(pageable, description, member.getId());
+        Page<RecordDetailResponse> recordDetailResponses = recordRepository.findAllByConditionAndIsDeletedFalse(pageable, member.getId(), description, nickname);
         for (RecordDetailResponse recordDetailResponse : recordDetailResponses) {
             List<RecordLike> recordLikeList = recordLikeRepository.findByRecordId(recordDetailResponse.getRecordId());
             List<String> likeMembers = new ArrayList<>();

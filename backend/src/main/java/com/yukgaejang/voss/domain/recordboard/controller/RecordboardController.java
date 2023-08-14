@@ -60,13 +60,7 @@ public class RecordboardController {
             sortBy = Sort.by(sort, "createdAt").descending();
         }
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
-        if(nickname != null) {
-            return ResponseEntity.ok(recordService.getRecordListByNickname(email, pageable, nickname));
-        }
-        if(description != null) {
-            return ResponseEntity.ok(recordService.getRecordListByDescription(email, pageable, description));
-        }
-        return ResponseEntity.ok(recordService.getRecordList(email, pageable));
+        return ResponseEntity.ok(recordService.getRecordList(email, pageable, description, nickname));
     }
 
     @PostMapping("{recordId}/like")
