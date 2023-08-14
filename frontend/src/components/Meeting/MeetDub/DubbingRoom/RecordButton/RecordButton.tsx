@@ -93,7 +93,6 @@ function RecordButton ({meetRoomId}: number | any) {
     const file = await axiosRecording(info).then().catch(error=>console.log(error))
     // console.log("여기요~~~",file.data.url)
     setMeetDubRecord(file.data.url)
-    // (Record) 녹음 기록 갱신
     setSend(`/updaterecord${file.data.url}`)
   }
 
@@ -208,9 +207,11 @@ function RecordButton ({meetRoomId}: number | any) {
           )
         }
         </SectionBtn>
+        {meetDubRecord &&
         <FileDownload onClick={downloadVideo}>
           <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
         </FileDownload>
+        }
       </RecordBtnBox>
     </Container>
   )
