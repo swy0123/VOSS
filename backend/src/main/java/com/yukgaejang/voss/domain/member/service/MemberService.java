@@ -1,13 +1,10 @@
 package com.yukgaejang.voss.domain.member.service;
 
-import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.*;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
-import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -33,4 +30,6 @@ public interface MemberService {
     Page<GetMemberList> findMemberListByNickname(GetMemberListRequest getMemberListRequest);
 
     MemberDetailResponse getDetails(String email);
+
+    boolean modifyPassword(ModifyPasswordRequest modifyPasswordRequest, String name);
 }

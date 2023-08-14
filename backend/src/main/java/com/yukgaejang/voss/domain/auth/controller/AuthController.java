@@ -45,6 +45,14 @@ public class AuthController {
         return ResponseEntity.ok(new ConfirmEmailResponse(true));
     }
 
+    @PutMapping("/email/password")
+    public ResponseEntity<Boolean> newPassword(@RequestBody SendEmailRequest sendEmailRequest) {
+        authService.sendPasswordEmail(sendEmailRequest);
+
+        return ResponseEntity.ok(true);
+    }
+
+
     @DeleteMapping("/logout")
     public ResponseEntity<Boolean> logout(@RequestHeader("Authorization-refresh") String refreshToken) {
         authService.logout(refreshToken.replace("Bearer ", ""));
