@@ -82,6 +82,18 @@ export const PlayTriggerState = atom<number>({
   default: 0,
 })
 
+// 화상 더빙방 비디오 컨트롤
+export const VideoTriggerState = atom<number>({
+  key: "VideoTriggerState",
+  default: 0,
+})
+
+// 화상 더빙방 비디오+녹음 컨트롤
+export const RecordTriggerState = atom<number>({
+  key: "RecordTriggerState",
+  default: 0,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
