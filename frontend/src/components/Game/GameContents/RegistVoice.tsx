@@ -66,6 +66,8 @@ function RegistVoice() {
   const [ViewRecordVoice, setViewRecordVoice] = useState(true);
   const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
+  const [isFinish, setIsFinish] = useState(false);
+  const [blob, setBlob] = useState<string>("")
 
   const recordBtnToggle = () => {
     if (isRecording) {
@@ -75,17 +77,16 @@ function RegistVoice() {
     }
     setIsRecording(!isRecording);
   };
-
   const handleRecordButtonClick = () => {
     setViewRecordVoice(false);
   };
 
   const handleRecorBtnonClick = async () => {
     if (CurrentSentenceIndex < sentence.length - 1) {
-      // startRecording();
       setCurrentSentenceIndex(CurrentSentenceIndex + 1);
     } else {
-      setViewRecordVoice(true);
+      // setViewRecordVoice(true);
+      setIsFinish(true)
       setCurrentSentenceIndex(0);
     }
   };
@@ -101,7 +102,10 @@ function RegistVoice() {
             등록한 목소리는 인게임에서 랜덤하게 만나볼 수 있습니다.
           </GameExplain>
         ) : (
-          <RecordContainer>
+          <div> {isFinish ? (
+            "asdasd"
+          ) : (
+            <RecordContainer>
             <RecordExplain>
               녹음 버튼을 누르고
               <br />
@@ -142,6 +146,8 @@ function RegistVoice() {
               <NextBtn onClick={!isRecording ? () => {handleRecorBtnonClick(), clearBlobUrl()} : undefined}>넘어가기</NextBtn>
             </ButtonContainer>
           </RecordContainer>
+          ) }
+          </div>
         )}
 
         {ViewRecordVoice && (
