@@ -4,14 +4,13 @@ import com.yukgaejang.voss.domain.badge.service.BadgeService;
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
+import com.yukgaejang.voss.domain.member.exception.WrongPasswordException;
 import com.yukgaejang.voss.domain.member.repository.FollowRepository;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Follow;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.member.repository.entity.Role;
-import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.*;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
@@ -19,7 +18,6 @@ import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse
 import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
-import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -73,6 +71,30 @@ public class MemberServiceImpl implements MemberService {
                 .role(member.getRole())
                 .build();
 
+        memberRepository.save(newMem);
+        return true;
+    }
+
+    @Override
+    public boolean modifyPassword(ModifyPasswordRequest modifyPasswordRequest, String email) {
+        System.out.println(email);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+        
+        if (!passwordEncoder.matches(modifyPasswordRequest.getOriginalPassword(), member.getPassword())) {
+            throw new WrongPasswordException("잘못된 비밀번호입니다");
+        }
+
+        Member newMem = Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .password(modifyPasswordRequest.getNewPassword())
+                .nickname(member.getNickname())
+                .imageUrl(member.getImageUrl())
+                .role(member.getRole())
+                .build();
+
+        newMem.passwordEncode(passwordEncoder);
         memberRepository.save(newMem);
         return true;
     }

@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/ws/messenger").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/logout").permitAll()
+                        .requestMatchers("/auth/email/password").permitAll()
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/member", "/member/upload").permitAll()
                         .requestMatchers("/auth/email", "/auth/email/confirm").permitAll()
