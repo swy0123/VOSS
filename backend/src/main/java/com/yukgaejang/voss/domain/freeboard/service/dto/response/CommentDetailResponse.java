@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class CommentDetailResponse {
     private Long id;
     private String nickname;
+    private String profileImage;
     private Long memberId;
     private String content;
     private LocalDateTime createdAt;
@@ -18,6 +19,7 @@ public class CommentDetailResponse {
     public CommentDetailResponse(PostComment postComment) {
         this.id = postComment.getId();
         this.nickname = postComment.getMember().getNickname();
+        this.profileImage = postComment.getMember().getImageUrl();
         this.memberId = postComment.getMember().getId();
         this.content = postComment.getContent();
         this.createdAt = postComment.getCreatedAt();
