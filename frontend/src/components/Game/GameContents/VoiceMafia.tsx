@@ -4,6 +4,7 @@ import { GameExplain, GameNoticeDiv, GameTitle, StartButton, ReplayButton } from
 import GameTitleImg from "/src/assets/Game/GameTitleImg.png"
 import { getGame } from "/src/api/game";
 import GuessBoard from "./GuessBoard";
+import ResultBoard from "./ResultBoad";
 
 const sentence = [
     '(1/10)',
@@ -24,6 +25,8 @@ function VoiceMafia() {
     const [ShowResult, setShowResult] = useState(false);
     const [GameContents, setGameContents] = useState([]);
     const [CurrentScore, setCurrentScore] = useState(0);
+    const [Discreption, setDiscreption] = useState("음성을 재생하여 들어보세요");
+    const [SelectPossible, setSelectPossible] = useState(true);
 
     useEffect(() => {
         getGameContents();
@@ -53,17 +56,31 @@ function VoiceMafia() {
     };
 
     const handleScore = (input:string) => {
+        let disc = "";
         if (input === GameContents[CurrentSentenceIndex].type) {
             setCurrentScore(CurrentScore+1);
+            disc = "정답입니다!";
+
+        } else {
+            let answer = GameContents[CurrentSentenceIndex].type === "MEMBER" ? "Voss 회원" : GameContents[CurrentSentenceIndex].type === "ACTOR" ? "전문 성우" : "AI"
+            disc = "틀렸습니다. 정답은 " + answer + " 목소리입니다";
         }
-        handleOptionButtonClick();
-        console.log(CurrentSentenceIndex + "=" + CurrentScore);
+        
+        setDiscreption(disc);
+        setSelectPossible(false); 
+
+        setTimeout(() => {
+            setSelectPossible(true); 
+            handleOptionButtonClick();
+            setDiscreption("음성을 재생하여 들어보세요");
+        }, 1500);
     }
 
     return (
         <GameMainContainer>
             <GameNoticeDiv>
                 <GameTitle src={GameTitleImg} />
+                <div>
                     {StartGame ? (
                         <GameExplain>
                             다음 들려주는 목소리를 듣고,<br/>
@@ -71,7 +88,7 @@ function VoiceMafia() {
                             총 10문제이고, 각 선택 기회는 한 번입니다<br/>
                         </GameExplain>
                     ) : !ShowResult ?(
-                        <GuessBoard handleScore={handleScore} discreption={sentence[CurrentSentenceIndex]} audioUrl={GameContents[CurrentSentenceIndex].fileName}/>
+                        <GuessBoard currIdx={CurrentSentenceIndex} handleScore={handleScore} discreption={Discreption} selectPossible={SelectPossible} audioUrl={GameContents[CurrentSentenceIndex].fileName}/>
                     ) : <></>}
                     {StartGame && GameContents.length>0 ? (
                         <StartButton onClick={handleStartButtonClick}>
@@ -79,13 +96,12 @@ function VoiceMafia() {
                         </StartButton>
                     ): <></>}
                     {ShowResult && (
-                        <ReplayButton onClick={handleReplayButtonClick}>
-                            다시하기
-                        </ReplayButton>
+                        <ResultBoard score={1} handleReplayButtonClick={handleReplayButtonClick} />
                     )}
+                </div>
             </GameNoticeDiv>
         </GameMainContainer>
     )
 }
 
-export default VoiceMafia
+export default VoiceMafia;

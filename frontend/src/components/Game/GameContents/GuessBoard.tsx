@@ -1,24 +1,26 @@
 import { PropsWithChildren } from "react";
 import { PlayExplain, StyledDivWithText, OptionButton, OptionButtonContainer } from "./VoiceMafia.style"
 
-interface ModalDefaultType {
+interface GuessBoardType {
+    currIdx: number;
     handleScore: (input:string) => void;
     discreption:string;
     audioUrl: string;
+    selectPossible: boolean;
 }
 
-const GuessBoard = ({ handleScore, discreption, audioUrl }: PropsWithChildren<ModalDefaultType>) => {
+const GuessBoard = ({ currIdx, handleScore, discreption, selectPossible, audioUrl }: PropsWithChildren<GuessBoardType>) => {
     const url = "https://b106-voss.s3.ap-northeast-2.amazonaws.com/" + audioUrl;
     return (
-        <div>
+        <div style={{ justifyContent: "center", alignItems: "center", textAlign: "center"}}>
             <PlayExplain>
-                누구의 목소리일까요? {discreption}
+                누구의 목소리일까요? ({currIdx+1}/10)
             </PlayExplain>
-            <audio src={url} controls style={{width :'70%', height : '40px',}}/>
+            <audio src={url} controls style={{width :'70%', height : '40px', marginTop: '30px'}}/>
             <StyledDivWithText>
-                목소리 재생중입니다...
+                {discreption}
             </StyledDivWithText>
-            <OptionButtonContainer>
+            {selectPossible? <OptionButtonContainer>
                 <OptionButton $IsColor={false} onClick={() => handleScore("MEMBER")}>
                     Voss 사용자
                 </OptionButton>
@@ -28,7 +30,8 @@ const GuessBoard = ({ handleScore, discreption, audioUrl }: PropsWithChildren<Mo
                 <OptionButton $IsColor={false} onClick={() => handleScore("AI")}>
                     AI
                 </OptionButton>
-            </OptionButtonContainer>
+            </OptionButtonContainer> : <></>
+            }
         </div>
     )
 }
