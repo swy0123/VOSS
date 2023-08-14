@@ -15,12 +15,12 @@ public class PostListResponse {
     private String nickname;
     private Long memberId;
     private Long comments;
-    private Long likes;
+    private Integer likes;
     private boolean hasImageFile;
     private boolean hasOtherFile;
     private LocalDateTime createdAt;
 
-    public PostListResponse(Post post, Long comments, Long likes, boolean hasImageFile, boolean hasOtherFile) {
+    public PostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hits = post.getHit();

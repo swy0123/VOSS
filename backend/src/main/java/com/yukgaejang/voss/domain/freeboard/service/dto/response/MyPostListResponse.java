@@ -13,12 +13,12 @@ public class MyPostListResponse {
     private String title;
     private Long hits;
     private Long comments;
-    private Long likes;
+    private Integer likes;
     private boolean hasImageFile;
     private boolean hasOtherFile;
     private LocalDateTime createdAt;
 
-    public MyPostListResponse(Post post, Long comments, Long likes, boolean hasImageFile, boolean hasOtherFile) {
+    public MyPostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hits = post.getHit();

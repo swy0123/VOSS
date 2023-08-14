@@ -24,6 +24,9 @@ public class Post extends BaseEntity {
     @ManyToOne
     private Member member;
 
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> postLikes;
+
     private String title;
     private String content;
     private Long hit;
