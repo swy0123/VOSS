@@ -32,10 +32,10 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
   const [password, setPassword] = useState("");
   const [isChecked, setCheckBox] = useState(false);
   const [limit, setLimit] = useState(2);
-  const TagName = ["목소리 분석 연습", "더빙 연습", "기타"];
+  const TagName = ["더빙 연습", "기타"];
   const [selectedTag, setTag] = useState<boolean[]>([true, false, false]);
-  const [selectedCategory, setCategory] = useState("PRACTICE");
-  const Category = ["PRACTICE", "DUB", "FREE"];
+  const [selectedCategory, setCategory] = useState("DUB");
+  const Category = ["DUB", "FREE"];
   const [exitBtnHover, setExitBtnHover] = useState(false);
 
   const { alert: alertComp } = useContext(AlertContext);
@@ -96,7 +96,7 @@ const AddMeetModal = ({ onClickToggleModal, children }: PropsWithChildren<ModalD
       const roomData = await getToken(password, meetRoomId);
       console.log(roomData);
       navigate(`/meeting/join`, {
-        state: { password: password, meetRoomId: meetRoomId, roomData: roomData },
+        state: { password: password, meetRoomId: meetRoomId, roomData: roomData, category: selectedCategory},
       });
     } catch {
       console.log("joinMeetingRoom error");

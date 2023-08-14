@@ -30,8 +30,8 @@ function MeetingBoard() {
     title: "",
     category: "",
   };
-  const Tag = ["목소리 분석 연습", "더빙 연습", "기타"];
-  const TagCode = ["PRACTICE", "DUB", "FREE"];
+  const Tag = ["더빙 연습", "기타"];
+  const TagCode = ["DUB", "FREE"];
   const [selectedTag, setTag] = useState<string>("");
   const [searchForm, setSearch] = useState("");
   const [meetingBoardProps, setMeetingBoardProps] = useState<MeetingBoardProps>(startProps);
