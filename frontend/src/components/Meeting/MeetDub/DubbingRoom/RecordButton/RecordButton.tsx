@@ -4,13 +4,15 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 import { dubbingRecordState } from '/src/recoil/HW_Atom';
 import { 
   CompleteBtn,
+  NowRecording,
   PracticeEnd,
   PracticeStart,
   RecordBox, 
   RecordBtn, 
   RestartBtn, 
   SectionBtn, 
-  StopWatch } from './RecordButton.style';
+  StopWatch, 
+  Waves} from './RecordButton.style';
 
 function RecordButton () {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
@@ -52,8 +54,7 @@ function RecordButton () {
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
-    const centiseconds = Math.floor((milliseconds % 1000) / 10);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
   const addRecord = (mediaBlobUrl) => {
@@ -96,7 +97,8 @@ function RecordButton () {
                   setPracticeEnd(false)}}
                 src="/src/assets/Training/startbtn.png"></RecordBtn>) :
               isRunning ? 
-                (<RecordBtn
+              (<NowRecording>
+                <RecordBtn
                   onClick={() => {
                     startOrStop()
                     stopRecording()
@@ -107,7 +109,10 @@ function RecordButton () {
                   onMouseLeave={() => {
                     setPracticeStart(false)
                     setPracticeEnd(false)}}
-                  src="/src/assets/Training/stopbtn.png"></RecordBtn>) :
+                  src="/src/assets/Training/stopbtn.png">
+                </RecordBtn>
+                <Waves/>
+              </NowRecording>) :
                 (<RecordBtn
                   onClick={() => {
                     startOrStop()

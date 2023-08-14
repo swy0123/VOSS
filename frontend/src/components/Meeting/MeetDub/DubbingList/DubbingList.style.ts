@@ -2,14 +2,13 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  justify-content: center;
-  position: relative;
+  justify-content: flex-start;
   height: 90%;
-  width: 90%;
-  margin-left: 27px;
+  width: 93%;
 `
 
 export const DubbingBox = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
 `
