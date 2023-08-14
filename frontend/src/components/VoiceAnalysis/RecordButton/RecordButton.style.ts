@@ -1,4 +1,4 @@
-import { styled, keyframes } from 'styled-components';
+import { styled, keyframes } from "styled-components";
 
 export const RecordBox = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const RecordBox = styled.div`
   margin-top: 20px;
   height: 150px;
   width: 350px;
-`
+`;
 export const StopWatch = styled.div`
   display: flex;
   justify-content: space-between;
@@ -16,12 +16,12 @@ export const StopWatch = styled.div`
   margin-top: 20px;
   height: 20px;
   width: 115px;
-`
-export const State = styled.div<{$practiceStart?: boolean}>`
+`;
+export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);
   border-radius: 4px;
   border: 0.5px solid white;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-size: 14px;
   line-height: 24px;
@@ -29,18 +29,19 @@ export const State = styled.div<{$practiceStart?: boolean}>`
   height: 24px;
   width: 75px;
   color: white;
-`
-export const PracticeStart = styled(State)<{$practiceStart?: boolean}>`
-  display: ${props => props.$practiceStart ? "block": 'none'};
-`
-export const PracticeEnd = styled(State)<{$practiceEnd?: boolean}>`
-  display: ${props => props.$practiceEnd ? "block": 'none'};
-`
-export const SectionBtn = styled.div`
+`;
+export const PracticeStart = styled(State)<{ $practiceStart?: boolean }>`
+  display: ${(props) => (props.$practiceStart ? "block" : "none")};
+`;
+export const PracticeEnd = styled(State)<{ $practiceEnd?: boolean }>`
+  display: ${(props) => (props.$practiceEnd ? "block" : "none")};
+`;
+export const SectionBtn = styled.div<{ $IsRunning: boolean }>`
   display: flex;
   align-items: center;
   height: 60px;
-`
+  z-index: ${(props) => (props.$IsRunning ? 500 : 0)};
+`;
 export const Button = styled.button`
   background-color: #3a3a3a;
   border-radius: 16px;
@@ -50,19 +51,19 @@ export const Button = styled.button`
   height: 30px;
   width: 50px;
   cursor: pointer;
-`
-export const RestartBtn = styled(Button)``
-export const CompleteBtn = styled(Button)``
+`;
+export const RestartBtn = styled(Button)``;
+export const CompleteBtn = styled(Button)``;
 
 export const RecordBtn = styled.img`
   width: 100px;
   cursor: pointer;
-`
+`;
 
 export const NowRecording = styled.div`
   height: 100px;
   width: 100px;
-`
+`;
 
 const wave = keyframes`
   0% {
@@ -73,7 +74,7 @@ const wave = keyframes`
     transform: scale(3.5);
     opacity: 0;
   }
-`
+`;
 
 export const Waves = styled.div`
   position: absolute;
@@ -88,12 +89,20 @@ export const Waves = styled.div`
     height: 50px;
     border-radius: 50%;
     animation: ${wave} 3s infinite linear;
-
   }
 
-  &::after{
+  &::after {
     opacity: 0;
     -webkit-animation: ${wave} 3s 1.5s infinite linear;
-            animation: ${wave} 3s 1.5s infinite linear;
+    animation: ${wave} 3s 1.5s infinite linear;
   }
-`
+`;
+
+export const Backdrop = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+`;

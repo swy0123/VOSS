@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const AppBar = styled.div`
   position: fixed;
   width: 100%;
-  bottom: 0;
+  bottom: 10px;
   height: 5%;
 `;
 
