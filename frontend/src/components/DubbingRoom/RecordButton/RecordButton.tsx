@@ -2,51 +2,59 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { PlayTriggerState, dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
-import { 
+import {
   CompleteBtn,
+  MoonLoaderDiv,
   NowRecording,
   PracticeEnd,
   PracticeStart,
-  RecordBox, 
-  RecordBtn, 
-  RestartBtn, 
-  SectionBtn, 
-  StopWatch, 
-  Waves} from './RecordButton.style';
+  PreventClickDiv,
+  RecordBox,
+  RecordBtn,
+  RestartBtn,
+  SectionBtn,
+  StopWatch,
+  Waves
+} from './RecordButton.style';
 import { PlayChangebState, ScriptSelectState } from '/src/recoil/Training';
 import axios from "axios";
 import { Line, Script } from '/src/type/type';
+import { MoonLoader } from "react-spinners";
 
 interface VideoProps {
-  script : Script
-  lines : Line[]
+  script: Script
+  lines: Line[]
 }
 
-function RecordButton ({script, lines}: VideoProps) {
+function RecordButton({ script, lines }: VideoProps) {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
-  const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
+  const [isScriptSelect, setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [practiceStart, setPracticeStart] = useState(true)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
   const [isRunning, setIsRunning] = useState(false);
-  const intervalRef = useRef<number|null>(null);
+  const intervalRef = useRef<number | null>(null);
   const [time, setTime] = useState(0);
-  const stopRef = useRef<number|null>(null);
+  const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
 
-  const { 
-    startRecording, 
-    stopRecording, 
+  const [recordBtnClickable, setRecordBtnClickable] = useState<boolean>(true);
+
+  const {
+    startRecording,
+    stopRecording,
     clearBlobUrl,
     pauseRecording,
     resumeRecording,
-    mediaBlobUrl } = useReactMediaRecorder({ audio: true, 
+    mediaBlobUrl } = useReactMediaRecorder({
+      audio: true,
       video: false,
       mediaRecorderOptions: {
         mimeType: 'audio/webm;codecs=opus',
-      } });
+      }
+    });
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -94,30 +102,33 @@ function RecordButton ({script, lines}: VideoProps) {
     return param;
   }
 
-  const addRecord = async (mediaBlobUrl:string | undefined) => {
+  const addRecord = async (mediaBlobUrl: string | undefined) => {
+    setRecordBtnClickable(false);
+
     const response = await fetch(mediaBlobUrl);
     const blobData = await response.blob();
 
     try {
       const url = "https://courtney.reverof.p-e.kr:5000/combine?id=" + script.id + getParamStr();
       const formData = new FormData();
-      const blob = new Blob([blobData], {type: "audio/webm;codecs=opus"});
+      const blob = new Blob([blobData], { type: "audio/webm;codecs=opus" });
       formData.append("file", blob, "tmp.webm");
 
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',  
+          'Content-Type': 'multipart/form-data',
         },
         'responseType': 'blob',
       };
       const res = await axios.post(url, formData, config);
-      const newBlob = new Blob([res.data], {type: "audio/mp3"})
+      const newBlob = new Blob([res.data], { type: "audio/mp3" })
       const audioBlobURL = URL.createObjectURL(newBlob);
-  
-      setdubbingRecord([audioBlobURL,...dubbingRecord.slice(0,4)])
+
+      setdubbingRecord([audioBlobURL, ...dubbingRecord.slice(0, 4)])
     } catch (error) {
       console.error('Error fetching merged audio:', error);
     }
+    setRecordBtnClickable(true)
   }
 
   // 연습이 멈춤 -> 재시작
@@ -140,85 +151,100 @@ function RecordButton ({script, lines}: VideoProps) {
   }
 
   // 녹음 시간 영상시간 제한
-  useEffect(()=>{
-    if(stop === script.durationInSec * 10) {
+  useEffect(() => {
+    if (stop === script.durationInSec * 10) {
       startOrStop()
       stopRecording()
       setPracticeStart(true)
       setPracticeEnd(false)
-      setTimeout(()=>{setPlayTrigger(2)
-      },2500)
+      setTimeout(() => {
+        setPlayTrigger(2)
+      }, 2500)
     }
-  },[stop])
+  }, [stop])
 
-  return(
+  return (
     <RecordBox>
       <StopWatch>{formatTime(time)}</StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
-      <SectionBtn>
-      { !initialBtn && !isRunning ?
-        <RestartBtn
-          onClick={() => {
-            setStop(0)
-            resetTimer()
-            stopRecording()
-            changePracticeReset()
-            clearBlobUrl()}}>취소</RestartBtn> : ""}
+      <SectionBtn $IsClickable={recordBtnClickable}>
+        <MoonLoaderDiv>
+          {recordBtnClickable ? <></> :
+            <MoonLoader
+              color="white"
+              size={70}
+            />
+          }
+        </MoonLoaderDiv>
+        {!initialBtn && !isRunning ?
+          <RestartBtn
+            onClick={() => {
+              setStop(0)
+              resetTimer()
+              stopRecording()
+              changePracticeReset()
+              clearBlobUrl()
+            }}>취소</RestartBtn> : ""}
 
-        { initialBtn ? 
+        {initialBtn ?
           (<RecordBtn
             onClick={() => {
               startOrStop()
               startRecording()
-              changePracticeEnd()}}
-            onMouseEnter={() => 
+              changePracticeEnd()
+            }}
+            onMouseEnter={() =>
               setPracticeStart(true)}
             src="/src/assets/Training/startbtn.png"></RecordBtn>) :
-          isRunning ? 
+          isRunning ?
             (<NowRecording>
               <RecordBtn
                 onClick={() => {
                   startOrStop()
                   stopRecording()
                   pauseRecording()
-                  changePracticeStart()}}
-                onMouseEnter={() => 
+                  changePracticeStart()
+                }}
+                onMouseEnter={() =>
                   setPracticeEnd(true)}
                 src="/src/assets/Training/stopbtn.png">
-                </RecordBtn>
-                <Waves/>
-              </NowRecording>) :
+              </RecordBtn>
+              <Waves />
+            </NowRecording>) :
             (<RecordBtn
               onClick={() => {
-                if(stop >= script.durationInSec * 10){
+                if (stop >= script.durationInSec * 10) {
                   alert("녹음을 완료/취소 해주세요")
                   return
                 }
                 startOrStop()
                 resumeRecording()
-                changePracticeEnd()}}
-              onMouseEnter={() => 
+                changePracticeEnd()
+              }}
+              onMouseEnter={() =>
                 setPracticeStart(true)}
               src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
 
-        { !initialBtn && !isRunning ?
-        <CompleteBtn
-          onClick={() => {
-            setStop(0)
-            stopRecording()
-            changePracticeReset()
-            addRecord(mediaBlobUrl)
-            resetTimer()
-          }}>완료</CompleteBtn> : "" }
+        {!initialBtn && !isRunning ?
+          <CompleteBtn
+            onClick={() => {
+              setStop(0)
+              stopRecording()
+              changePracticeReset()
+              addRecord(mediaBlobUrl)
+              resetTimer()
+            }}>완료</CompleteBtn> : ""}
       </SectionBtn>
+      {recordBtnClickable ? <></> : <PreventClickDiv>잠시만 기다려 주세요</PreventClickDiv>}
+
     </RecordBox>
   )
 }
 export default RecordButton
 
 
-// 연습 시작 버튼, 연습 종료 버튼 토글 되는버전 
+// 연습 시작 버튼, 연습 종료 버튼 토글 되는버전
 
 // return(
 //   <RecordBox>
@@ -234,19 +260,19 @@ export default RecordButton
 //           changePracticeReset()
 //           clearBlobUrl()}}>취소</RestartBtn> : ""}
 
-//       { initialBtn ? 
+//       { initialBtn ?
 //         (<RecordBtn
 //           onClick={() => {
 //             startOrStop()
 //             startRecording()
 //             changePracticeEnd()}}
-//           onMouseEnter={() => 
+//           onMouseEnter={() =>
 //             setPracticeStart(true)}
 //           onMouseLeave={() => {
 //             setPracticeStart(false)
 //             setPracticeEnd(false)}}
 //           src="/src/assets/Training/startbtn.png"></RecordBtn>) :
-//         isRunning ? 
+//         isRunning ?
 //           (<NowRecording>
 //             <RecordBtn
 //               onClick={() => {
@@ -254,7 +280,7 @@ export default RecordButton
 //                 stopRecording()
 //                 pauseRecording()
 //                 changePracticeStart()}}
-//               onMouseEnter={() => 
+//               onMouseEnter={() =>
 //                 setPracticeEnd(true)}
 //               onMouseLeave={() => {
 //                 setPracticeStart(false)
@@ -268,7 +294,7 @@ export default RecordButton
 //               startOrStop()
 //               resumeRecording()
 //               changePracticeEnd()}}
-//             onMouseEnter={() => 
+//             onMouseEnter={() =>
 //               setPracticeStart(true)}
 //             onMouseLeave={() => {
 //               setPracticeStart(false)

@@ -119,12 +119,12 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
         if(password == null) return;
         const roomData = await getToken(password, data.meetRoomId);
         navigate(`/meeting/join`, {
-          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
+          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData, category: data.category },
         });
       } else if (await onConfirmClick(data.meetRoomId + "방에 입장하시겠습니까?")) {
         const roomData = await getToken(password, data.meetRoomId);
         navigate(`/meeting/join`, {
-          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData },
+          state: { password: password, meetRoomId: data.meetRoomId, roomData: roomData, category: data.category },
         });
       }
     } catch {

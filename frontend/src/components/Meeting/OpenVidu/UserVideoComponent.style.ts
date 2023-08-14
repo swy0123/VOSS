@@ -42,8 +42,8 @@ export const VedioMuteIcon = styled.img`
   right: 2%;
   bottom: 3%;
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 10%;
+  /* height: 10%; */
   z-index: 5;
 `;
 export const VedioHoverMenu = styled.div`

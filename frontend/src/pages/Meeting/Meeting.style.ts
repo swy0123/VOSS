@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
 
-export const Container = styled.div<{$isClicked?: boolean}>`
+export const Container = styled.div<{$isClicked?: boolean, $Category:string}>`
   display: flex;
   justify-content: center;
   /* background-color: gray; */
-  height: ${props => props.$isClicked ? '27%': '87%'};
+  height:${props => props.$Category=="FREE" ? '100%': props.$isClicked ? '27%': '87%'};
   overflow: hidden;
   margin: 0;
 `;
@@ -19,6 +19,7 @@ export const BottomSection = styled.div<{$isClicked?: boolean}>`
   height: 65%;
   margin: 0px 7%;
 `;
+
 export const ClosedBottomSection = styled.div<{$isClicked?: boolean}>`
   height:6%;
   display: flex;
