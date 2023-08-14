@@ -18,7 +18,6 @@ import {
   SpinnerDiv,
   Title
 } from "./Script.style";
-import Spinner from "/src/assets/Spinner/Spinner.gif";
 import { ScaleLoader } from "react-spinners";
 
 function Script() {

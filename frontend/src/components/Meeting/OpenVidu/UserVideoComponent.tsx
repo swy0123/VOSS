@@ -16,7 +16,7 @@ import { CurrentUserAtom } from "/src/recoil/Auth";
 import { getMember } from "/src/api/meeting";
 import { postFollow } from "/src/api/profile";
 import AlertContext from "/src/context/alert/AlertContext";
-import Mute from "../../../assets/Meeting/MikeOff.png";
+import Mute from "../../../assets/Meeting/MicOff.png";
 
 const UserVideoComponent = (props: any) => {
   const [selected, setSelected] = useRecoilState(selectedMember);
@@ -39,10 +39,9 @@ const UserVideoComponent = (props: any) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(anchorRef.current?.offsetWidth || 0) // 컴포넌트의 width
-    // console.log(anchorRef.current?.offsetHeight || 0) // 컴포넌트의 height
-  }, [anchorRef.current?.offsetWidth]);
+  // useEffect(() => {
+  //   console.log(anchorRef.current?.offsetWidth || 0) 
+  // }, [anchorRef.current?.offsetWidth]);
 
   const setUserData = async (email: string) => {
     setOver(false);
@@ -92,15 +91,13 @@ const UserVideoComponent = (props: any) => {
     props.onClickToggleModal();
   };
 
-
-
   return (
     <VedioOuterDiv
       className="streamcomponent"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       ref={anchorRef}
-      style={{fontSize:anchorRef.current?.offsetWidth}}
+      style={{ fontSize: anchorRef.current?.offsetWidth }}
     >
       {!props.streamManager.stream.videoActive ? (
         <ProfileImg id="111">
@@ -112,7 +109,7 @@ const UserVideoComponent = (props: any) => {
       {props.streamManager !== undefined ? (
         <>
           {isOver && props.isOpenModal !== undefined && !props.isOpenModal ? (
-            <div style={{fontSize:anchorRef.current?.offsetWidth}}>
+            <div style={{ fontSize: anchorRef.current?.offsetWidth }}>
               <VedioHoverMenu style={{ top: "25%" }} onClick={onClickGiveBadge}>
                 {" "}
                 뱃지주기
@@ -132,7 +129,7 @@ const UserVideoComponent = (props: any) => {
 
           <VedioInnerDiv>{userNickname} </VedioInnerDiv>
 
-          {isMuted || !props.streamManager.stream.audioActive  ? <VedioMuteIcon src={Mute} /> : <></>}
+          {isMuted || !props.streamManager.stream.audioActive ? <VedioMuteIcon src={Mute} /> : <></>}
 
           <OpenViduVideoComponent streamManager={props.streamManager} isMuted={isMuted} />
         </>

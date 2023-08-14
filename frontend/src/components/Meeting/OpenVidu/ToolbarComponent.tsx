@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 // import './ToolbarComponent.css';
 
-import MikeOn from "../../../assets/Meeting/MikeOn.png";
-import MikeOff from "../../../assets/Meeting/MikeOff.png";
+import MikeOn from "../../../assets/Meeting/MicOn.png";
+import MikeOff from "../../../assets/Meeting/MicOff.png";
 import VideoOff from "../../../assets/Meeting/VideoOff.png";
 import VideoOn from "../../../assets/Meeting/VideoOn.png";
 import Shutdown from "../../../assets/Meeting/Shutdown.png";
