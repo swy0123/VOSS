@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { RecordTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
+import { MeetDubRecordState, RecordTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
 import { recieveMsg, sendMsg } from '/src/recoil/MeetDub';
 import { 
   Container,
@@ -18,7 +18,7 @@ import {
   FileDownload} from './RecordButton.style';
 
 function RecordButton ({meetRoomId}: number) {
-  const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
+  const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
@@ -78,21 +78,20 @@ function RecordButton ({meetRoomId}: number) {
   };
 
   const addRecord = (mediaBlobUrl) => {
-    setdubbingRecord([mediaBlobUrl,...dubbingRecord.slice(0,4)])
+    setMeetDubRecord(mediaBlobUrl)
   }
 
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
     setPracticeEnd(true)
-    setRecordTrigger(1)
   }
 
   // 연습 진행중 -> 정지 및 종료
   const changePracticeStart = () => {
     setPracticeStart(true)
     setPracticeEnd(false)
-    setRecordTrigger(0)
+    
   }
 
   // (Record) 처음 영상 시작 
@@ -107,11 +106,14 @@ function RecordButton ({meetRoomId}: number) {
 
   useEffect(() => {
     if(recieve=="/recordstartvideo") {
-      changePracticeEnd()
+      startOrStop()
+      setRecordTrigger(1)
       setRecieve("/none");
     }
     else if(recieve=="/recordresetvideo") {
-      changePracticeStart()
+      startOrStop()
+      setRecordTrigger(0)
+      resetTimer()
       setRecieve("/none");
     }
   },[recieve])
@@ -127,9 +129,6 @@ function RecordButton ({meetRoomId}: number) {
           (<NowRecording>
             <RecordBtn
               onClick={() => {
-                startOrStop()
-                stopRecording()
-                pauseRecording()
                 changePracticeStart()
                 RecordChangeReset()}}
               onMouseEnter={() => 
@@ -145,8 +144,6 @@ function RecordButton ({meetRoomId}: number) {
             <ParcticeStartSection>
             <RecordBtn
               onClick={() => {
-                startOrStop()
-                startRecording()
                 changePracticeEnd()
                 RecordChangeReady()}}
               onMouseEnter={() => 
@@ -160,7 +157,9 @@ function RecordButton ({meetRoomId}: number) {
           )
         }
         </SectionBtn>
-        <FileDownload src="/src/assets/Meeting/download.png"></FileDownload>
+        <a href={meetDubRecord} download="my-audio-file.mp3">
+          <FileDownload src="/src/assets/Meeting/download.png"></FileDownload>
+        </a>
       </RecordBtnBox>
     </Container>
   )
