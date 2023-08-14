@@ -14,7 +14,6 @@ import PostComment from "/src/assets/FreeBoard/PostComment.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
 import downloadImg from "/src/assets/Training/download.png";
-import { saveAs } from "file-saver";
 import {
   FreeScrollDesign,
   FreeMainDesign,

@@ -1,34 +1,33 @@
-import { getPostList } from "/src/api/FreeBoard"
 import { useEffect, ChangeEvent, KeyboardEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
-import PostList from "../../components/FreeBoard/PostList/PostList";
-import { PostListType } from "/src/type/FreeBoard";
 import { useRecoilState } from "recoil";
-import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState, FreeBoardTotalElementsState } from "/src/recoil/Community";
+import { RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, RecordBoardCurrentPageState } from "/src/recoil/Community";
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
 import RecordList from "/src/components/RecordBoard/RecordList";
 import {
   RecordScrollDesign,
   RecordMainDesign,
-  OrderBoxDesign,
+  MenuBoxDesign,
+  SearchboxDesign,
+  SearchSelectDesign,
+  CreateBtnDesign,
+  InputBoxDesign,
+  InputBoxIpt,
+  InputBoxBtn,
   OrderSelectDesign,
-
 } from "./RecordBoard.style";
 
 
 function RecordBoard () {
   const navigate = useNavigate();
-  const goPostCreate = () => navigate('/freeboard/create');
-  const [input, setInput] = useRecoilState<string>(FreeBoardInputState);
-  const [sort, setSort] = useRecoilState<string>(FreeBoardSortState);
-  const [cond, setCond] = useRecoilState<string>(FreeBoardCondState);
-  const [currentPage, setCurrentPage] = useRecoilState<number>(FreeBoardCurrentPageState);
-  const [totalPages, setTotalPages] = useRecoilState<number>(FreeBoardTotalPagesState);
-  const [totalElements, setTotalElements] = useRecoilState<number>(FreeBoardTotalElementsState);
-  const [posts, setPosts] = useRecoilState<PostListType[]>(FreeBoardListState);
+  const goRecordCreate = () => navigate('/recordboard/create');
+  const [input, setInput] = useRecoilState<string>(RecordBoardInputState);
+  const [sort, setSort] = useRecoilState<string>(RecordBoardSortState);
+  const [cond, setCond] = useRecoilState<string>(RecordBoardCondState);
+  const [currentPage, setCurrentPage] = useRecoilState<number>(RecordBoardCurrentPageState);
 
 
   return(
@@ -38,13 +37,38 @@ function RecordBoard () {
       <RecordMainDesign>
         <h2 style={{ cursor: 'pointer'}}>녹음 게시판</h2>
 
-        <OrderBoxDesign>
-        <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
+        <MenuBoxDesign>
+
+          <CreateBtnDesign onClick={() =>goRecordCreate()}>
+            <img src={UpdateIcon} alt="UpdateIcon" />글 작성
+          </CreateBtnDesign>
+
+          
+          <SearchboxDesign>
+          <SearchSelectDesign id="cond-select" value={cond} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
+            <option value="1">제목</option>
+            <option value="2">작성자</option>
+          </SearchSelectDesign>
+          <InputBoxDesign>
+            <InputBoxIpt
+              value={input}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
+              // onKeyPress={enterKeyDown} 
+              type="text" 
+              placeholder="검색"/>
+            <InputBoxBtn>
+            <img src="/src/assets/MeetingBoard/SearchInput.png" alt=""/>
+            </InputBoxBtn>
+          </InputBoxDesign>
+          </SearchboxDesign>
+
+          <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
             <option value="1">최신순</option>
-            <option value="2">조회순</option>
+            <option value="2">재생순</option>
             <option value="3">좋아요순</option>
           </OrderSelectDesign>
-        </OrderBoxDesign>
+
+        </MenuBoxDesign>
 
         <RecordList></RecordList>
 
