@@ -25,8 +25,8 @@ function Script() {
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
   const [scriptClickable, setScriptClickable] = useState<boolean>(true);
 
-  const categoryOpt = ["뉴스", "날씨", "법률", "스포츠", "과학"]
-  const [isCategorySelect, setIsCategorySelect] = useState<boolean[]>([true, false, false, false, false])
+  const categoryOpt = ["뉴스", "날씨", "법률", "스포츠"]
+  const [isCategorySelect, setIsCategorySelect] = useState<boolean[]>([true, false, false, false])
   const [categorySelected, setCategorySelected] = useState<string[]>([])
 
   // useEffect(()=>{
@@ -37,13 +37,15 @@ function Script() {
   }
   const DelScripts = () => { setAccentScript("") }
 
-  const handleCategoryBtn = (index: number) => {
-    setIsCategorySelect(isCategorySelect.map((_, C_idx) => (C_idx === index)))
-    const CategorySelected = categoryOpt.filter((_, index) => (isCategorySelect[index] === true))
+  const handleCategoryBtn = (index:number) => {
+    const isCategorySelectTmp = isCategorySelect.map((_,C_idx) => (C_idx === index))
+    setIsCategorySelect(isCategorySelectTmp)
+    const CategorySelected = categoryOpt.filter((_,d_idx)=>(isCategorySelectTmp[d_idx]===true))
     setCategorySelected(CategorySelected)
   }
 
   const axiosMakeScript = async (categorySelected: string) => {
+    console.log(categorySelected+"       asd")
     setAccentScript("스크립트를 생성중입니다...")
     setScriptClickable(false);
     console.log("setScriptClickable(false)")
@@ -61,7 +63,6 @@ function Script() {
   return (
     <Container>
       <Title>스크립트</Title>
-
       <Options $IsClickable={scriptClickable}>
         <OptionSelect>
           <CategoryBox>
