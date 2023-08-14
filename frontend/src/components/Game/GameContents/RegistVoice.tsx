@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { GameMainContainer } from '../GameMain/GameMain.style';
+import { useReactMediaRecorder } from 'react-media-recorder';
+import quotes  from './ReadSentence';
 import {
   GameExplain,
   GameNoticeDiv,
@@ -10,10 +12,12 @@ import {
   StyledDivWithText,
   NextBtn,
   ButtonContainer,
+  RecordContainer,
+  RegistBtn
 } from './RegistVoice.style';
 import GameTitleImg from '/src/assets/Game/GameTitleImg.png';
 import StartBtnImg from '/src/assets/Training/restartbtn.png';
-
+import StopBtnImg from '/src/assets/Training/stopbtn.png'
 const sentence = [
   '(1/10)',
   '(2/10)',
@@ -27,22 +31,40 @@ const sentence = [
   '(10/10)',
 ];
 
-const readMessage = [
-  '11111111111',
-  '2222222222222',
-  '33333333333',
-  '4444444444444',
-  '5555555555555',
-  '6666666666666',
-  '7777777777777',
-  '8888888888888',
-  '9999999999999',
-  '10101010101010',
-];
 
 function RegistVoice() {
+  const [readMessage, setReadMessage] = useState<string[]>([]);
+
+  const handleRandomQuotes = () => {
+    const selectedQuotes: string[] = [];
+    while (selectedQuotes.length < 10) {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const randomQuote = quotes[randomIndex];
+  
+      if (!selectedQuotes.includes(randomQuote)) {
+        selectedQuotes.push(randomQuote);
+      }
+    }
+    setReadMessage(selectedQuotes);
+  };
+
+  const { 
+    startRecording, 
+    stopRecording, 
+    clearBlobUrl,
+    mediaBlobUrl } = useReactMediaRecorder({ audio: true });
   const [ViewRecordVoice, setViewRecordVoice] = useState(true);
   const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+
+  const recordBtnToggle = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+    setIsRecording(!isRecording);
+  };
 
   const handleRecordButtonClick = () => {
     setViewRecordVoice(false);
@@ -50,6 +72,7 @@ function RegistVoice() {
 
   const handleRecorBtnonClick = async () => {
     if (CurrentSentenceIndex < sentence.length - 1) {
+      startRecording();
       setCurrentSentenceIndex(CurrentSentenceIndex + 1);
     } else {
       setViewRecordVoice(true);
@@ -68,7 +91,7 @@ function RegistVoice() {
             등록한 목소리는 인게임에서 랜덤하게 만나볼 수 있습니다.
           </GameExplain>
         ) : (
-          <div>
+          <RecordContainer>
             <RecordExplain>
               녹음 버튼을 누르고
               <br />
@@ -77,17 +100,37 @@ function RegistVoice() {
             <StyledDivWithText>
               {readMessage[CurrentSentenceIndex]}
             </StyledDivWithText>
+            <audio
+              controls
+              src={mediaBlobUrl}
+              style={{
+                width: "300px",
+              }}
+            />
             <ButtonContainer>
-              <RecordBtn onClick={handleRecorBtnonClick}>
-                <img src={StartBtnImg}></img>
+              <RegistBtn>등록하기</RegistBtn>
+              <RecordBtn onClick={() => {recordBtnToggle(), clearBlobUrl()}}>
+                {!isRecording ? (
+                  <img src={StartBtnImg} style={{
+                    width: '100px'
+                  }} />
+                ) : (
+                  <img src={StopBtnImg} style={{
+                    width: '100px'
+                  }}/>
+                )}
               </RecordBtn>
-              <NextBtn onClick={handleRecorBtnonClick}>넘어가기</NextBtn>
+              <NextBtn onClick={!isRecording ? () => {handleRecorBtnonClick(), clearBlobUrl()} : undefined}>넘어가기</NextBtn>
             </ButtonContainer>
-          </div>
+          </RecordContainer>
         )}
 
         {ViewRecordVoice && (
-          <RecordButton onClick={handleRecordButtonClick}>
+          <RecordButton
+            onClick={() => {
+              handleRecordButtonClick(), handleRandomQuotes();
+            }}
+          >
             녹음하기
           </RecordButton>
         )}
