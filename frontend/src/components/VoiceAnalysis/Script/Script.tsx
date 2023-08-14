@@ -42,14 +42,16 @@ function Script() {
   }
 
   const handleGenderBtn = (index: number) => {
-    setIsGenderSelect(isGenderSelect.map((_, G_idx) => (G_idx === index)))
-    const GenderSelected = genderOpt.filter((_, index) => (isGenderSelect[index] === true))
+    const isGenderSelectTmp = isGenderSelect.map((_, G_idx) => (G_idx === index))
+    setIsGenderSelect(isGenderSelectTmp)
+    const GenderSelected = genderOpt.filter((_, d_idx) => (isGenderSelectTmp[d_idx] === true))
     setGenderSelected(GenderSelected)
   }
 
   const handleAgeBtn = (index: number) => {
-    setIsAgeSelect(isAgeSelect.map((_, G_idx) => (G_idx === index)))
-    const AgeSelected = ageOpt.filter((_, index) => (isAgeSelect[index] === true))
+    const isAgeSelectTmp = isAgeSelect.map((_, G_idx) => (G_idx === index))
+    setIsAgeSelect(isAgeSelectTmp)
+    const AgeSelected = ageOpt.filter((_, d_idx) => (isAgeSelectTmp[d_idx] === true))
     setAgeSelected(AgeSelected)
   }
 
