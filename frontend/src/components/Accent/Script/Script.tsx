@@ -96,7 +96,7 @@ function Script() {
             src="/src/assets/Training/delete.png"
             onClick={DelScripts}>
           </DelButton>
-          <PlayButton src="/src/assets/Training/play.png"></PlayButton>
+          {/* <PlayButton src="/src/assets/Training/play.png"></PlayButton> */}
         </ScriptButtons>
       </ScriptBox>
     </Container>
