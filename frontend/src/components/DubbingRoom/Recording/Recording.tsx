@@ -23,8 +23,7 @@ function Recording (){
     const date = new Date()
     const hours = String(date.getHours()).padStart(2,"0")
     const minutes = String(date.getMinutes()).padStart(2,"0")
-    const seconds = String(date.getSeconds()).padStart(2,"0")
-    const time = `${hours}-${minutes}-${seconds}`
+    const time = `${hours}:${minutes}`
     setTimeList([time,...timeList.slice(0,4)])
   }
 
@@ -55,12 +54,11 @@ function Recording (){
       <RecordBox>
         {dubbingRecord.map((file,index) => (
           <RecordItem key={index}>
-            <RecordSelect type="radio" name="record"/>
             <RecordLable>
-            "voss"{timeList[index]}.mp3
+            voss-{timeList[index]}.mp3
             </RecordLable>
             <audio src={file} controls style={{
-              width :'100px',
+              width :'40%',
               height : '28px',
             }} onPlay={() => handleAudioPlay(index)}
             onPause={() => handleAudioPause(index)}/>
