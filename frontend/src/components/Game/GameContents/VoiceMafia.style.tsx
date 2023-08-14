@@ -39,7 +39,7 @@ export const StartButton = styled.div`
 
 export const PlayExplain = styled.div`
   margin-top: 80px;
-  font-size: 25px;
+  font-size: 28px;
   color: white;
   text-align: center;
   justify-content: center;
@@ -75,7 +75,7 @@ export const OptionButton = styled.div<{ $IsColor: boolean }>`
   width: 170px;
   height: 120px;
   margin: 8px;
-  font-size: 16px;
+  font-size: 22px;
   cursor: pointer;
 
   &:hover {
@@ -84,3 +84,25 @@ export const OptionButton = styled.div<{ $IsColor: boolean }>`
   }
 `;
 
+export const ReplayButton = styled.div`
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: #107e5d;
+  width: 170px;
+  height: 31px;
+  margin: 8px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  `;
+
+export const ResultBox = styled.img`
+  width: 60%;
+  height: 40%;
+  `;
