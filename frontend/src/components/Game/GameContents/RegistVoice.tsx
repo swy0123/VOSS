@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { GameMainContainer } from '../GameMain/GameMain.style';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import quotes  from './ReadSentence';
+import { registVoiceFile } from '/src/api/game';
+import AlertContext from "/src/context/alert/AlertContext";
 import {
   GameExplain,
   GameNoticeDiv,
@@ -18,6 +20,9 @@ import {
 import GameTitleImg from '/src/assets/Game/GameTitleImg.png';
 import StartBtnImg from '/src/assets/Training/restartbtn.png';
 import StopBtnImg from '/src/assets/Training/stopbtn.png'
+
+
+
 const sentence = [
   '(1/10)',
   '(2/10)',
@@ -34,7 +39,12 @@ const sentence = [
 
 function RegistVoice() {
   const [readMessage, setReadMessage] = useState<string[]>([]);
+  const { alert: alertComp } = useContext(AlertContext);
 
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
   const handleRandomQuotes = () => {
     const selectedQuotes: string[] = [];
     while (selectedQuotes.length < 10) {
@@ -72,7 +82,7 @@ function RegistVoice() {
 
   const handleRecorBtnonClick = async () => {
     if (CurrentSentenceIndex < sentence.length - 1) {
-      startRecording();
+      // startRecording();
       setCurrentSentenceIndex(CurrentSentenceIndex + 1);
     } else {
       setViewRecordVoice(true);
@@ -108,7 +118,16 @@ function RegistVoice() {
               }}
             />
             <ButtonContainer>
-              <RegistBtn>등록하기</RegistBtn>
+              <RegistBtn onClick={() => {if(mediaBlobUrl) {registVoiceFile(mediaBlobUrl).then(response => {
+                if (response) {
+                  onAlertClick("등록에 성공했습니다.");
+                } else {
+                  onAlertClick("등록에 실패했습니다.");
+                }
+              }).catch(error => {
+                console.error("등록 실패", error);
+              })
+              }}}>등록하기</RegistBtn>
               <RecordBtn onClick={() => {recordBtnToggle(), clearBlobUrl()}}>
                 {!isRecording ? (
                   <img src={StartBtnImg} style={{
@@ -133,6 +152,7 @@ function RegistVoice() {
           >
             녹음하기
           </RecordButton>
+          
         )}
       </GameNoticeDiv>
     </GameMainContainer>
