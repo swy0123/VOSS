@@ -120,8 +120,14 @@ export const Waves = styled.div`
   }
 `
 
-export const FileDownload = styled.img`
+export const FileDownload = styled.button`
+  background-color: transparent;
+  border:none
+`
+
+export const FileDownloadImg = styled.img`
   margin-top: 10px;
   width: 25px;
   height: 25px;
+  cursor: pointer;
 `

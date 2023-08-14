@@ -1,14 +1,11 @@
+import { AxiosResponse } from "axios";
 import { privateApi } from ".";
-
-interface RecordingInfo{
-  meetRoomId: number,
-  command : string
-}
+import { RecordingInfo } from "../type/hw_type";
 
 export const postStartRecording = async (info:RecordingInfo) => {
   try{
-    const response = await privateApi.post("/meet/group-recording")
-    console.log("화상 더빙 녹음")
+    const response:AxiosResponse<string> = await privateApi.post("/meet/group-recording",info)
+    return response
   }
   catch (error){
     console.log(error)

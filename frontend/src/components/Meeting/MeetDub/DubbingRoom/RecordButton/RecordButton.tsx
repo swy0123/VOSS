@@ -15,9 +15,13 @@ import {
   SectionBtn, 
   StopWatch, 
   Waves,
-  FileDownload} from './RecordButton.style';
+  FileDownload,
+  FileDownloadImg} from './RecordButton.style';
+import { postStartRecording } from '/src/api/recoding';
+import { RecordingInfo } from '/src/type/hw_type';
+import { AxiosResponse } from 'axios';
 
-function RecordButton ({meetRoomId}: number) {
+function RecordButton ({meetRoomId}: number | any) {
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
@@ -26,22 +30,14 @@ function RecordButton ({meetRoomId}: number) {
   const [isRunning, setIsRunning] = useState(false);
   
   // 스크립트 스크롤, 영상 자동정지 를 위한 State
-  const intervalRef = useRef<number|null>(null);
+  const intervalRef = useRef<number|undefined>(undefined);
   const [time, setTime] = useState(0);
-  const stopRef = useRef<number|null>(null);
+  const stopRef = useRef<number|undefined>(undefined);
   const [stop, setStop] = useState(0);
 
   // 더빙 영상 동시제어
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
-
-  const { 
-    startRecording, 
-    stopRecording, 
-    clearBlobUrl,
-    pauseRecording,
-    resumeRecording,
-    mediaBlobUrl } = useReactMediaRecorder({ audio: true });
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -64,6 +60,11 @@ function RecordButton ({meetRoomId}: number) {
     }
     setInitialBtn(false)
   }
+  const formatTime = (milliseconds: number) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   const resetTimer = () => {
     clearInterval(intervalRef.current);
@@ -71,15 +72,41 @@ function RecordButton ({meetRoomId}: number) {
     setIsRunning(false);
     setTime(0);
   };
-  const formatTime = (milliseconds: number) => {
-    const minutes = Math.floor(milliseconds / 60000);
-    const seconds = Math.floor((milliseconds % 60000) / 1000);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
+  
   const addRecord = (mediaBlobUrl) => {
     setMeetDubRecord(mediaBlobUrl)
   }
+
+  const StartRecord = () => {
+    const info: RecordingInfo = {
+      "meetRoomId": meetRoomId,
+      "command" : "START"
+    }
+    void axiosRecording(info).then().catch(error=>console.log(error))
+  }
+  
+  const StopRecord = async() => {
+    const info: RecordingInfo = {
+      "meetRoomId": meetRoomId,
+      "command" : "STOP"
+    }
+    const file = await axiosRecording(info).then().catch(error=>console.log(error))
+    // console.log("여기요~~~",file.data.url)
+    setMeetDubRecord(file.data.url)
+    // (Record) 녹음 기록 갱신
+    setSend(`/updaterecord${file.data.url}`)
+  }
+
+  const axiosRecording = async (info:RecordingInfo):Promise<void> => {
+    try {
+      const response:AxiosResponse<string|undefined> = await postStartRecording(info);
+      // console.log("화상 더빙 녹음 ==",response)
+      return response
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
 
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
@@ -91,15 +118,14 @@ function RecordButton ({meetRoomId}: number) {
   const changePracticeStart = () => {
     setPracticeStart(true)
     setPracticeEnd(false)
-    
   }
 
-  // (Record) 처음 영상 시작 
+  // (Record) 영상/녹화 동시에 시작 
   const RecordChangeReady = () => {
     setSend("/recordstartvideo")
   }
 
-  // (Record) 영상 처음으로
+  // (Record) 영상/녹화 동시에 종료
   const RecordChangeReset = () => {
     setSend("/recordresetvideo")
   }
@@ -116,7 +142,30 @@ function RecordButton ({meetRoomId}: number) {
       resetTimer()
       setRecieve("/none");
     }
+    else if(recieve.slice(0,13)=="/updaterecord") {
+      console.log("통신이 잘 되는가",recieve.slice(13))
+      setMeetDubRecord(recieve.slice(13))
+      setRecieve("/none");
+    }
   },[recieve])
+
+  const downloadVideo = async ():Promise<void> => {
+    const videoUrl = meetDubRecord
+
+    try {
+      const response = await fetch(videoUrl);
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'downloaded-video.webm'; // 파일명 설정
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading video:', error);
+    }
+  };
 
   return(
     <Container>
@@ -130,7 +179,8 @@ function RecordButton ({meetRoomId}: number) {
             <RecordBtn
               onClick={() => {
                 changePracticeStart()
-                RecordChangeReset()}}
+                RecordChangeReset()
+                StopRecord()}}
               onMouseEnter={() => 
                 setPracticeEnd(true)}
               onMouseLeave={() => {
@@ -145,7 +195,8 @@ function RecordButton ({meetRoomId}: number) {
             <RecordBtn
               onClick={() => {
                 changePracticeEnd()
-                RecordChangeReady()}}
+                RecordChangeReady()
+                StartRecord()}}
               onMouseEnter={() => 
                 setPracticeStart(true)}
               onMouseLeave={() => {
@@ -157,9 +208,9 @@ function RecordButton ({meetRoomId}: number) {
           )
         }
         </SectionBtn>
-        <a href={meetDubRecord} download="my-audio-file.mp3">
-          <FileDownload src="/src/assets/Meeting/download.png"></FileDownload>
-        </a>
+        <FileDownload onClick={downloadVideo}>
+          <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
+        </FileDownload>
       </RecordBtnBox>
     </Container>
   )
