@@ -8,8 +8,8 @@ import MessageRoom from "../MessageRoom/MessageRoom";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { getMessageRooms, getMessages } from "/src/api/messenger";
-import { RoomType,CurrentRoomType, MessageType } from "/src/type/Auth";
-import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState, MessengerAlarmState } from "/src/recoil/Messenger";
+import { RoomType, MessageType } from "/src/type/Auth";
+import { ShowMessengerState, ShowMessageRoomState, ShowFindFriendState, RoomsState, CurrentRoomState, MessagesState, MessengerAlarmState, LiveRoomsState } from "/src/recoil/Messenger";
 import { MessegePageDiv, MessegeTitle, ExitImg, MessegeBodyDiv, MessegeList, MessageChecked, MessageTitle, MessageCardDiv, MessageAdd, } from "./MessagePage.style"
 
 
@@ -19,10 +19,11 @@ const MessagePage = () => {
   const [isOpenModal, setOpenModal] = useRecoilState<boolean>(ShowFindFriendState);
   const [rooms, setRooms] = useRecoilState(RoomsState);
   const [messages, setMessages] = useRecoilState<MessageType[]>(MessagesState);
-  const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
+  const [currentRoom, setCurrentRoom] = useRecoilState<RoomType>(CurrentRoomState);
   const [addBtnHover, setAddBtnHover] = useState(false);
   const [exitBtnHover, setExitBtnHover] = useState(false);
   const [isAlarm, setIsAlarm] = useRecoilState(MessengerAlarmState); 
+  const [liveRooms, setLiveRooms] = useRecoilState<number[]>(LiveRoomsState); 
 
   const goToRoom = (room: RoomType) => {
     getMessages(room.chatId, 0, 20).then((dataMessages) => {
@@ -32,24 +33,21 @@ const MessagePage = () => {
         setCurrentRoom(room);
         setOpenModal(false);
         setOpenRoom(true);
+        setLiveRooms((prev) => prev.filter(chatId => chatId !== room.chatId))
       }
     })
   };
 
   useEffect(() => {
     setIsAlarm(false);
-
+    
     getMessageRooms().then((dataRooms) => {
       if (dataRooms) {
         setRooms(dataRooms)
-      }
-    })
+      };
+    });
   }, [rooms.length, isOpenRoom]);
 
-  useEffect(() => {
-    console.log(123)
-  }, [rooms]);
-  
   return (
     <MessegePageDiv>
 
@@ -69,7 +67,7 @@ const MessagePage = () => {
               
             <MessageCardDiv key={index} onClick={() => goToRoom(room)}>
             <MessageTitle>{room.name}</MessageTitle>
-              { room.unReadMessage
+              { room.unReadMessage || liveRooms.includes(room.chatId)
               ? <MessageChecked src={RedDot}/>
               : null
               }
