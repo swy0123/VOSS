@@ -1,5 +1,16 @@
 import { styled } from 'styled-components';
 
+export const RecordContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const RecordControls = styled.audio`
+  display: block;
+  margin: 0 auto;
+`
+
 export const GameNoticeDiv = styled.div`
   width: 90%;
   height: 90%;
@@ -16,6 +27,17 @@ export const RecordBtn = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+export const RegistBtn = styled.button`
+  display: block;
+  background: none;
+  border: 2px solid white;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin: 20px;
+  padding: 6px 12px;
+`
 
 export const NextBtn = styled.button`
   display: block;
