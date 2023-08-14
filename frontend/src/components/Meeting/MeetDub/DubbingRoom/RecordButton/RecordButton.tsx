@@ -4,7 +4,6 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 import { RecordTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
 import { recieveMsg, sendMsg } from '/src/recoil/MeetDub';
 import { 
-  CompleteBtn,
   Container,
   NowRecording,
   ParcticeInfo,
@@ -13,12 +12,12 @@ import {
   PracticeStart,
   RecordBtn, 
   RecordBtnBox, 
-  RestartBtn, 
   SectionBtn, 
   StopWatch, 
-  Waves} from './RecordButton.style';
+  Waves,
+  FileDownload} from './RecordButton.style';
 
-function RecordButton () {
+function RecordButton ({meetRoomId}: number) {
   const [dubbingRecord, setdubbingRecord] = useRecoilState(dubbingRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
@@ -121,72 +120,50 @@ function RecordButton () {
     <Container>
       <RecordBtnBox>
         <StopWatch>{formatTime(time)}</StopWatch>
+        <SectionBtn>
         <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
         <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
-        <SectionBtn>
-        { !initialBtn && !isRunning ?
-              <RestartBtn
-                onClick={() => {
-                  resetTimer()
-                  stopRecording()
-                  clearBlobUrl()}}>취소</RestartBtn> : ""}
-
-              { initialBtn ? 
-                (<ParcticeStartSection>
-                  <RecordBtn
-                    onClick={() => {
-                      startOrStop()
-                      startRecording()
-                      changePracticeEnd()
-                      RecordChangeReady()}}
-                    onMouseEnter={() => 
-                      setPracticeStart(true)}
-                    onMouseLeave={() => {
-                      setPracticeStart(false)
-                      setPracticeEnd(false)}}
-                    src="/src/assets/Training/startbtn.png"></RecordBtn>
-                  <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
-                </ParcticeStartSection>) :
-                isRunning ? 
-                (<NowRecording>
-                  <RecordBtn
-                    onClick={() => {
-                      startOrStop()
-                      stopRecording()
-                      pauseRecording()
-                      changePracticeStart()
-                      RecordChangeReset()}}
-                    onMouseEnter={() => 
-                      setPracticeEnd(true)}
-                    onMouseLeave={() => {
-                      setPracticeStart(false)
-                      setPracticeEnd(false)}}
-                    src="/src/assets/Training/stopbtn.png">
-                  </RecordBtn>
-                  <Waves/>
-                </NowRecording>) :
-                  (<RecordBtn
-                    onClick={() => {
-                      startOrStop()
-                      resumeRecording()
-                      changePracticeEnd()}}
-                    onMouseEnter={() => 
-                      setPracticeStart(true)}
-                    onMouseLeave={() => {
-                      setPracticeStart(false)
-                      setPracticeEnd(false)}}
-                    src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
-
-              { !initialBtn && !isRunning ?
-              <CompleteBtn
-                  onClick={() => {
-                      stopRecording()
-                      addRecord(mediaBlobUrl)
-                      resetTimer()
-                    }}>완료</CompleteBtn> : "" }
+        { isRunning ? 
+          (<NowRecording>
+            <RecordBtn
+              onClick={() => {
+                startOrStop()
+                stopRecording()
+                pauseRecording()
+                changePracticeStart()
+                RecordChangeReset()}}
+              onMouseEnter={() => 
+                setPracticeEnd(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/stopbtn.png">
+            </RecordBtn>
+            <Waves/>
+          </NowRecording>
+          ) : (
+            <ParcticeStartSection>
+            <RecordBtn
+              onClick={() => {
+                startOrStop()
+                startRecording()
+                changePracticeEnd()
+                RecordChangeReady()}}
+              onMouseEnter={() => 
+                setPracticeStart(true)}
+              onMouseLeave={() => {
+                setPracticeStart(false)
+                setPracticeEnd(false)}}
+              src="/src/assets/Training/startbtn.png"></RecordBtn>
+            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
+          </ParcticeStartSection>
+          )
+        }
         </SectionBtn>
+        <FileDownload src="/src/assets/Meeting/download.png"></FileDownload>
       </RecordBtnBox>
     </Container>
   )
 }
 export default RecordButton
+
