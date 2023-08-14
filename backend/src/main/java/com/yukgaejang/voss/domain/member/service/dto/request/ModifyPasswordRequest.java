@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
-@NoArgsConstructor
 public class ModifyPasswordRequest {
     private String originalPassword;
     private String newPassword;

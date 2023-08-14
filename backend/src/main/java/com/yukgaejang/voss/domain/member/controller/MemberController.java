@@ -48,7 +48,6 @@ public class MemberController {
 
     @PutMapping("/password")
     public ResponseEntity<Boolean> newPassword(@RequestBody ModifyPasswordRequest modifyPasswordRequest) {
-        System.out.println("============controller");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return ResponseEntity.ok(memberService.modifyPassword(modifyPasswordRequest, authentication.getName()));
