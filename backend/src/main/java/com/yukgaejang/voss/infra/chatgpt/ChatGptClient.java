@@ -48,7 +48,6 @@ public class ChatGptClient {
             } catch (Exception e) {
                 System.out.println("에러 발생: " + e.getMessage());
                 if (retryCount < maxRetries - 1) {
-                    System.out.println("재시도 중... " + (retryCount + 2) + "번째 시도");
                     long delayInMillis = 7000;
                     try {
                         Thread.sleep(delayInMillis);
@@ -56,7 +55,6 @@ public class ChatGptClient {
                         throw new RuntimeException(ex);
                     }
                 } else {
-                    System.out.println("최대 재시도 횟수 도달, 포기합니다.");
                     throw e;
                 }
             }
