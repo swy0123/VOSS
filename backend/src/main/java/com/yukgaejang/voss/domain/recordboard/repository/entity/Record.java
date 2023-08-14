@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,6 +24,9 @@ public class Record extends BaseEntity {
     @ManyToOne
     @JsonIgnore
     private Member member;
+
+    @OneToMany(mappedBy = "record")
+    private List<RecordLike> recordLikes;
 
     private String description;
     private Long hit;

@@ -18,6 +18,7 @@ public class RecordLike extends BaseEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "record_id")
     private Record record;
 
     @ManyToOne
