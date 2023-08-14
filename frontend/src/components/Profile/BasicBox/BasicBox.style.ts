@@ -56,6 +56,7 @@ export const ProfileInfoDesign = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
+  margin-left: 10%;
   width: 18vw;
   height: 80%;
 `;
@@ -73,7 +74,7 @@ export const ProfileNameDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.4vw;
+  font-size: 1.6vw;
   font-weight: bold;
   width: 14vw;
   height: 100%;
@@ -81,6 +82,7 @@ export const ProfileNameDesign = styled.div`
 
 export const ProfileBtnDesign = styled.div`
   /* border: solid 2px yellow; */
+  position: relative;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -151,7 +153,7 @@ export const ProfileFollowerDesign = styled.div`
   align-items: center;
   width: 7vw;
   height: 80%;
-  font-size: 10px;
+  font-size: 14px;
   cursor: pointer;
   p {
     margin: 0vw;
@@ -170,7 +172,7 @@ export const ProfileFollowingDesign = styled.div`
   align-items: center;
   width: 7vw;
   height: 80%;
-  font-size: 10px;
+  font-size: 14px;
   cursor: pointer;
   p {
     margin: 0vw;
