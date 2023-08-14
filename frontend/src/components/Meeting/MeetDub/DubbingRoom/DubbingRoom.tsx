@@ -13,9 +13,9 @@ import {
   LeftSection,
   RightSection} from "./DubbingRoom.style"
 import Video from "./Video/Video"
-import RecordButton from "/src/components/DubbingRoom/RecordButton/RecordButton"
 import Role from "./Role/Role"
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
+import RecordButton from "./RecordButton/RecordButton"
 
 function DubbingRoom () {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)

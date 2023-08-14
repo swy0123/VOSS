@@ -15,8 +15,9 @@ export const BottomSection = styled.div<{$isClicked?: boolean}>`
   align-items: center;
   background-color: rgb(68, 68, 68,0.5);
   border-radius: 20px;
-  height:65%;
-  margin: 0px 5%;
+  width: 86%;
+  height: 65%;
+  margin: 0px 7%;
 `;
 export const ClosedBottomSection = styled.div<{$isClicked?: boolean}>`
   height:6%;

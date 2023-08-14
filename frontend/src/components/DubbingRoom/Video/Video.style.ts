@@ -53,14 +53,13 @@ export const ImgSection = styled.div`
   position: absolute;
   align-items: center;
   justify-content: center;
-  height: 260px;
+  height: 270px;
   width: 470px;
-  top: 72px;
+  top: 138px;
 `
 
 export const ProtectSection = styled(ImgSection)`
   background-color: transparent;
-  cursor: pointer;
 `
 
 export const Thumbnail = styled.img`
@@ -68,7 +67,6 @@ export const Thumbnail = styled.img`
   margin-bottom: 10px;
   height: 270px;
   width: 470px;
-  top: 65px;
 `
 
 export const RoleBox = styled.div`
@@ -86,7 +84,8 @@ export const OptionButton = styled.button`
   padding: 0px 7px 0px 7px;
   margin-right: 8px;
   font-size: 13px;
-  
+  cursor: pointer;
+
   &:hover{
     transform: scale(1.1);
     transition: .3s;

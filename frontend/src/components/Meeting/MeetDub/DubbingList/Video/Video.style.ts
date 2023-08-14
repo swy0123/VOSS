@@ -23,10 +23,29 @@ export const VideoItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  margin: 0px 20px 20px 0px;
+  margin: 0px 1.6% 1.3% 0px;
   height: 240px;
   width: 275px;
   cursor: pointer;
+
+  @media only screen and (max-width: 10000px) {
+    height: 240px;
+  }
+  @media only screen and (max-width: 2100px) {
+    width: 18%
+  }
+  @media only screen and (max-width: 1600px) {
+    width: 23%
+  }
+  @media only screen and (max-width: 1250px) {
+    width: 31%
+  }
+  @media only screen and (max-width: 860px) {
+    width: 47%
+  }
+  @media only screen and (max-width: 560px) {
+    width: 90%
+  }
 
   &:hover {
     background-color: #132B31;
@@ -40,43 +59,43 @@ export const VideoItem = styled.div`
 // `
 
 export const Thumbnail = styled.img`
-  margin: 25px 0px 6px 0px;
+  margin: 20px 0px 6px 0px;
   height: 160px;
-  width: 275px;
+  width: 100%;
 `
 
 export const Infos = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
-  width: 260px;
+  width: 100%;
 `
 const Info = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #ffffff;
-  font-size: 11px;
-  margin-right: 15px;
+  font-size: 12px;
+  margin-right: 5%;
   margin-top: 3px;
 `
 export const Count = styled(Info)``
 export const Time = styled(Info)``
 
 const Icon = styled.img`
-  height: 11px;
-  width: 11px;
-  margin-right: 5px;
+  height: 12px;
+  width: 12px;
+  margin-right: 6px;
 `
 
 export const CountImg = styled(Icon)``
 export const TimeImg = styled(Icon)``
 
 export const Description = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   text-align: left;
-  height: 50px;
-  width: 260px;
   color: white;
-  margin-left: 20px;
+  height: 50px;
+  width: 100%;
+  margin-left: 12%;
 `

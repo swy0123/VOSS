@@ -24,6 +24,7 @@ export const GenreBox = styled.div`
 `
 
 export const GenreButton = styled(OptionButton)<{$IsClick:boolean}>`
+  cursor: pointer;
   color: ${props => props.$IsClick ? "white" : "#999999"};
   border: solid ${props => props.$IsClick ? "1px white" : "1px #999999"};
 `

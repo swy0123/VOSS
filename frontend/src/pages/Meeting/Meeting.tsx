@@ -70,7 +70,6 @@ function Meeting() {
 
   const isBottomOn = (order: string) => {
     console.log("isBottomOn : " + order);
-    setMeetDubSelect(0);
     // setSend("open");
     setSend(order);
   };

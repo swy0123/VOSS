@@ -98,7 +98,6 @@ function Video ({script, roles, lines}: ScriptData) {
   
   return(
     <Container>
-
       <Title>{script.title}</Title>
       <VideoBox>
       <Display id="player"></Display>
