@@ -32,6 +32,8 @@ function Script() {
   // useEffect(()=>{
   // },[scriptClickable])
 
+  const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setAccentScript(e.target.value)
   }
@@ -51,7 +53,8 @@ function Script() {
     console.log("setScriptClickable(false)")
     try {
       const makeScriptData: string = await makeAccentScript(categorySelected);
-      setAccentScript(makeScriptData.script)
+      const scriptDate = makeScriptData.script.replace(reg,'');
+      setAccentScript(scriptDate)
       setScriptClickable(true);
       console.log("setScriptClickable(true)")
     }
