@@ -26,3 +26,27 @@ export const getRecords = async ( sort: string, cond: string, input: string, pag
   }
   return false
 };
+
+export const recordLike = async ( recordId: number ) => {
+    const res = await privateApi.post(`/recordboard/${recordId}/like`, )
+    .catch(err => {
+        console.log("recordLike catch: ", err)
+    })
+    if (res) {
+        console.log("recordLike then: ", res.data)
+        return(res.data)
+    }
+    return false
+};
+
+export const deleteLike = async ( recordId: number ) => {
+    const res = await privateApi.delete(`/recordboard/${recordId}/like`, )
+    .catch(err => {
+        console.log("deleteLike catch: ", err)
+    })
+    if (res) {
+        console.log("deleteLike then: ", res.data)
+        return(res.data)
+    }
+    return false
+};

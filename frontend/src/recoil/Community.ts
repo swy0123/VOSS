@@ -64,3 +64,40 @@ export const FreeBoardCommentCountState = atom<number>({
   key: "FreeBoardCommentCountState",
   default: 0,
 });
+
+
+// // 녹음게시판 글 목록 20개
+// export const RecordsState = atom({
+//   key: "RecordsState",
+//   default: [],
+//   effects_UNSTABLE: [persistAtom],
+// });
+
+
+// 녹음게시판 검색어
+export const RecordBoardInputState = atom<string>({
+  key: "RecordBoardInputState",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+
+// 녹음게시판 정렬 조건
+export const RecordBoardSortState = atom<string>({
+  key:  "RecordBoardSortState",
+  default: "1",
+});
+
+
+// 녹음게시판 검색 조건
+export const RecordBoardCondState = atom<string>({
+  key:  "RecordBoardCondState",
+  default: "1",
+});
+
+
+// 녹음게시판 현재 페이지 수
+export const RecordBoardCurrentPageState = atom<number>({
+  key:  "RecordBoardCurrentPageState",
+  default: 1,
+});
