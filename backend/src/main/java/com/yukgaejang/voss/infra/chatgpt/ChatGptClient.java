@@ -46,7 +46,6 @@ public class ChatGptClient {
 
                 return parseChatGptResponse(responseBody);
             } catch (Exception e) {
-                System.out.println("에러 발생: " + e.getMessage());
                 if (retryCount < maxRetries - 1) {
                     long delayInMillis = 7000;
                     try {
