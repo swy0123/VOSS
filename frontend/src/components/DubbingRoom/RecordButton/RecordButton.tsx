@@ -120,14 +120,14 @@ function RecordButton ({script, lines}: VideoProps) {
     }
   }
 
-  // 연습이 멈춤 -> 재시작
+  // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
     setPracticeEnd(true)
     setPlayTrigger(1)
   }
 
-  // 연습이 진행중 -> 정지
+  // 연습 진행중 -> 정지
   const changePracticeStart = () => {
     setPracticeStart(true)
     setPracticeEnd(false)
