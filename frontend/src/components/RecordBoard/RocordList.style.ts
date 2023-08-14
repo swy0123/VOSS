@@ -4,40 +4,47 @@ export const RecordContentDesign = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  width: 1000px;
+  margin-top: 20px;
+  width: 1005px;
   border: solid 1px green;
 `;
 
 export const RecordItemDesign = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-evenly; */
   margin: 10px;
   width: 230px;
   height: 330px;
   border: solid 1px green;
-  /* cursor: pointer; */
 `;
 
 export const RecordTitleDesign = styled.div`
-  width: 230px;
-  height: 115px;
+  padding: 20px 20px 25px 20px;
+  width: 190px;
+  height: 70px;
+  font-size: 14px;
   border: solid 1px orange;
-  /* cursor: pointer; */
 `;
 
 export const RecordPlayerDesign = styled.div`
+  display: flex;
+  justify-content: center;
   width: 230px;
   height: 30px;
   border: solid 1px orange;
-  /* cursor: pointer; */
+  cursor: pointer;
+  audio {
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #EFEFEF;
+  }
 `;
 
 export const RecordSpace1Design = styled.div`
   width: 230px;
   height: 25px;
   border: solid 1px blue;
-  /* cursor: pointer; */
 `;
 
 
@@ -60,43 +67,58 @@ export const RecordLikeNumDesign = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 18px;
-  font-size: 13px;
+  height: 20px;
+  font-size: 11px;
   border: solid 1px orange;
   `;
 
 export const RecordSpace2Design = styled.div`
   width: 230px;
-  height: 35px;
+  height: 20px;
   border: solid 1px blue;
   /* cursor: pointer; */
 `;
 
 export const RecordDateHitsDesign = styled.div`
 display: flex;
-width: 230px;
+padding: 0 10px;
+width: 210px;
 height: 30px;
+font-size: 11px;
+line-height: 30px;
 border: solid 1px orange;
 /* cursor: pointer; */
 `;
 
 export const RecordDateDesign = styled.div`
-width: 115px;
+width: 110px;
 height: 30px;
 border: solid 1px white;
-/* cursor: pointer; */
 `;
 
 export const RecordHitsDesign = styled.div`
-width: 115px;
+width: 110px;
 height: 30px;
+text-align: end;
 border: solid 1px white;
-/* cursor: pointer; */
 `;
 
 export const RecordUsersDesign = styled.div`
-width: 230px;
+display: flex;
+align-items: center;
+padding: 0 10px;
+width: 210px;
 height: 40px;
 border: solid 1px white;
-/* cursor: pointer; */
+img {
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+span {
+  cursor: pointer;
+  margin-left: 10px;
+  text-align: end;
+  line-height: 40px;
+}
 `;

@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef, ChangeEvent } from "react";
-import { MessageType, CurrentRoomType } from "/src/type/Auth";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { MessageType, RoomType } from "/src/type/Auth";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShowMessageRoomState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
 import { CurrentUserAtom } from "/src/recoil/Auth";
@@ -25,7 +25,7 @@ import {
   const MessageRoom = () => {
     const me = useRecoilValue(CurrentUserAtom).userid;
     const [isOpenRoom, setOpenRoom] = useRecoilState<boolean>(ShowMessageRoomState);
-    const [currentRoom, setCurrentRoom] = useRecoilState<CurrentRoomType>(CurrentRoomState);
+    const [currentRoom, setCurrentRoom] = useRecoilState<RoomType>(CurrentRoomState);
     const [messages, setMessages] = useRecoilState<MessageType[]>(MessagesState);
     const [message, setMessage] = useState<string>("");
     const socketRef = useRef<WebSocket | null>(null);

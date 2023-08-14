@@ -27,6 +27,13 @@ export const RoomsState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+// 실시간 메시지 받은 채팅방 목록
+export const LiveRoomsState = atom({
+  key: "LiveRoomsState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 // 현재 입장한 채팅방
 export const CurrentRoomState = atom({
   key: "CurrentRoomState",
