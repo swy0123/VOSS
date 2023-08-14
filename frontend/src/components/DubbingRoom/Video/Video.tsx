@@ -76,17 +76,24 @@ function Video ({script, roles, lines}: ScriptData) {
       await youtube.playVideo()
       setPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
     }
-
+    
     // 영상 일시 정지
     else if (playTrigger === 2){
       await youtube.pauseVideo()
       setPlayChange([2, Math.floor(youtube.getCurrentTime() * 10)]);
     }
-
+    
     // 영상 다시 시작 준비
     else if (playTrigger === 0){
       await youtube.seekTo(0)
       setPlayChange([2, 0]);
+    }
+
+    // 뮤트 시키고 영상 재생
+    else if (playTrigger === 3){
+      await youtube.mute()
+      await youtube.playVideo();
+      setPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
     }
   }
 
@@ -109,6 +116,7 @@ function Video ({script, roles, lines}: ScriptData) {
       else if (scriptSelectRef.current[index] === false) {
         if( time >= line.startSec && time <= line.endSec) {
           // console.log("end,unmute",time)
+          if(playTrigger===3){ return }
           youtube.unMute()
           return
         }
