@@ -44,6 +44,12 @@ public class RecordboardController {
         return ResponseEntity.ok(recordService.createRecord(email, createRecordRequest));
     }
 
+    @PutMapping("/{recordId}/play")
+    public ResponseEntity<UpdateHitResponse> updateHitRecord(@PathVariable Long recordId) {
+        return ResponseEntity.ok(recordService.updateHitRecord(recordId));
+    }
+
+
     @PutMapping("/{recordId}")
     public  ResponseEntity<UpdateRecordResponse> updateRecord(@PathVariable Long recordId, @RequestBody UpdateRecordRequest updateRecordRequest) {
         return ResponseEntity.ok(recordService.updateRecord(recordId, updateRecordRequest));
