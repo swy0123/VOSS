@@ -91,7 +91,7 @@ function Meeting() {
               isBottomOn("/close");
             }}
           />
-          {meetDubSelect ? <DubbingRoom /> : <DubbingList />}
+          {meetDubSelect ? <DubbingRoom meetRoomId={state.meetRoomId} /> : <DubbingList />}
         </BottomSection>
       ) :  state.category=="DUB" ? (
         <ClosedBottomSection>
