@@ -19,11 +19,11 @@ public class RecordDetailResponse {
     private String originalFileName;
     private String savedFileName;
     private LocalDateTime createdAt;
-    private Long likes;
+    private Integer likes;
     private boolean isLiked;
     private String likeMembers;
 
-    public RecordDetailResponse(Record record, String originalFileName, String savedFileName, Long likes, Integer isLiked) {
+    public RecordDetailResponse(Record record, String originalFileName, String savedFileName, Integer likes, Integer isLiked) {
         this.recordId = record.getId();
         this.description = record.getDescription();
         this.nickname = record.getMember().getNickname();

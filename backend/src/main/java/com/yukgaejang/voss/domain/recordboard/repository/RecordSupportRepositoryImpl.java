@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.recordboard.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberPath;
@@ -42,16 +43,21 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
     }
 
     @Override
-    public Page<RecordDetailResponse> findAllByIsDeletedFalse(Pageable pageable, Long memberId) {
+    public Page<RecordDetailResponse> findAllByConditionAndIsDeletedFalse(Pageable pageable, Long memberId, String description, String nickname) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if(description != null) {
+            builder.and(r.description.contains(description));
+        }
+        if(nickname != null) {
+            builder.and(r.member.nickname.eq(nickname));
+        }
+
         List<RecordDetailResponse> records = jpaQueryFactory
                 .selectDistinct(Projections.constructor(RecordDetailResponse.class,
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        JPAExpressions
-                                .select(rl.id.count())
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)),
+                        r.recordLikes.size(),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -61,7 +67,7 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .where(r.isDeleted.eq(0))
+                .where(r.isDeleted.eq(0).and(builder))
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -70,78 +76,8 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
         JPAQuery<Long> countQuery = jpaQueryFactory
                 .select(r.id)
                 .from(r)
-                .where(r.isDeleted.eq(0));
+                .where(r.isDeleted.eq(0).and(builder));
 
-        return new PageImpl<>(records, pageable, countQuery.fetchCount());
-    }
-
-    @Override
-    public Page<RecordDetailResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname, Long memberId) {
-        List<RecordDetailResponse> records = jpaQueryFactory
-                .selectDistinct(Projections.constructor(RecordDetailResponse.class,
-                        r,
-                        rf.originalFileName,
-                        rf.savedFileName,
-                        JPAExpressions
-                                .select(rl.id.count())
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)),
-                        JPAExpressions
-                                .selectOne()
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)
-                                        .and(rl.member.id.eq(memberId)))
-                ))
-                .from(r)
-                .leftJoin(r.member).fetchJoin()
-                .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .where(r.isDeleted.eq(0)
-                        .and(r.member.nickname.eq(nickname)))
-                .orderBy(createOrderSpecifier(pageable))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(r.id)
-                .from(r)
-                .where(r.isDeleted.eq(0)
-                        .and(r.member.nickname.eq(nickname)));
-        return new PageImpl<>(records, pageable, countQuery.fetchCount());
-    }
-
-    @Override
-    public Page<RecordDetailResponse> findAllByDescriptionContainingAndIsDeletedFalse(Pageable pageable, String description, Long memberId) {
-        List<RecordDetailResponse> records = jpaQueryFactory
-                .selectDistinct(Projections.constructor(RecordDetailResponse.class,
-                        r,
-                        rf.originalFileName,
-                        rf.savedFileName,
-                        JPAExpressions
-                                .select(rl.id.count())
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)),
-                        JPAExpressions
-                                .selectOne()
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)
-                                        .and(rl.member.id.eq(memberId)))
-                ))
-                .from(r)
-                .leftJoin(r.member).fetchJoin()
-                .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
-                .where(r.isDeleted.eq(0)
-                        .and(r.description.contains(description)))
-                .orderBy(createOrderSpecifier(pageable))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(r.id)
-                .from(r)
-                .where(r.isDeleted.eq(0)
-                        .and(r.description.contains(description)));
         return new PageImpl<>(records, pageable, countQuery.fetchCount());
     }
 
@@ -152,10 +88,7 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
-                        JPAExpressions
-                                .select(rl.id.count())
-                                .from(rl)
-                                .where(rl.record.id.eq(r.id)),
+                        r.recordLikes.size(),
                         JPAExpressions
                                 .selectOne()
                                 .from(rl)
@@ -181,15 +114,14 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
     }
 
     private OrderSpecifier[] createOrderSpecifier(Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = pageable.getSort().stream().map(order -> {
+        return pageable.getSort().stream().map(order -> {
             if(order.getProperty().equals("hit")) {
                 return r.hit.desc();
             } else if(order.getProperty().equals("like")) {
-                return rl.id.count().desc();
+                return r.recordLikes.size().desc();
             } else {
                 return r.createdAt.desc();
             }
         }).toArray(OrderSpecifier[]::new);
-        return orderSpecifiers;
     }
 }
