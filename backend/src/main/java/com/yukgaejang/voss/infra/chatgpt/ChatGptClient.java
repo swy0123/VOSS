@@ -33,15 +33,35 @@ public class ChatGptClient {
                 "    \"messages\": [{\"role\": \"user\", \"content\": \"" + cmd + "\"}]\n" +
                 "}";
 
-        String responseBody = WebClient.create().post()
-                .uri(url)
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromValue(requestBody))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        int maxRetries = 5;
+        for (int retryCount = 0; retryCount < maxRetries; retryCount++) {
+            try {
+                String responseBody = WebClient.create().post()
+                        .uri(url)
+                        .headers(httpHeaders -> httpHeaders.addAll(headers))
+                        .body(BodyInserters.fromValue(requestBody))
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
-        return parseChatGptResponse(responseBody);
+                return parseChatGptResponse(responseBody);
+            } catch (Exception e) {
+                System.out.println("에러 발생: " + e.getMessage());
+                if (retryCount < maxRetries - 1) {
+                    System.out.println("재시도 중... " + (retryCount + 2) + "번째 시도");
+                    long delayInMillis = 7000;
+                    try {
+                        Thread.sleep(delayInMillis);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    System.out.println("최대 재시도 횟수 도달, 포기합니다.");
+                    throw e;
+                }
+            }
+        }
+        throw new RuntimeException("재시도 횟수 내에서 성공하지 못했습니다.");
     }
 
     private String parseChatGptResponse(String body) {
@@ -56,5 +76,6 @@ public class ChatGptClient {
         String content = jsonNode.get("choices").get(0).get("message").get("content").asText();
         return content;
     }
+
 
 }
