@@ -26,7 +26,7 @@ export const H2 = styled.h2`
 `;
 
 export const Title = styled.div`
-position: relative;
+  position: relative;
   width: 80%;
   height: auto;
   margin: 10% auto;
@@ -35,29 +35,28 @@ position: relative;
 `;
 
 export const UnderText = styled.div`
-display: flex;
-position: absolute;
-width: max-content;
-left: 50%;
-bottom: 10px;
-transform: translate(-50%, 0);
-font-size: 14px;
+  display: flex;
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  font-size: 14px;
 
-
-.first-text {
-  margin-right: 8px;
-  text-decoration: none;
-  cursor: default;
-}
-
-.second-text {
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    color: #7a8091;
+  .first-text {
+    margin-right: 8px;
+    text-decoration: none;
+    cursor: default;
   }
-}
+
+  .second-text {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #7a8091;
+    }
+  }
 `;
 
 export const InputDiv = styled.div`
@@ -78,10 +77,11 @@ export const InputHeader = styled.div`
 
 export const ShowPswd = styled.div`
   position: absolute;
-  top: 50%;
-  right: 12%;
+  
+  top: 52%;
+  right: 11%;
   cursor: pointer;
-`
+`;
 
 export const Input = styled.input`
   border: #bdbdbd;
@@ -96,14 +96,17 @@ export const Input = styled.input`
 `;
 
 export const CheckBoxDiv = styled.div`
+  display: flex;
   margin: 0 auto;
   position: relative;
   width: 85%;
-  height: 40px; 
+  height: 40px;
   font-size: 14px;
 `;
 
 export const CheckBox = styled.div`
+  display: flex;
+  align-items: center;
   position: absolute;
   top: 10px;
   left: 0px;
@@ -154,5 +157,5 @@ export const Icon = styled.span`
   position: relative;
   top: 20px;
   /* cursor: pointer; */
-  cursor: not-allowed
+  cursor: not-allowed;
 `;
