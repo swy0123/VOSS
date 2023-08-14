@@ -62,12 +62,12 @@ function Meeting() {
   //뒤로가기 새로고침
   const onbeforeunload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
-    alert("onbeforeunload");
+    // alert("onbeforeunload");
     navigate("/meeting");
   };
   //뒤로가기 새로고침
   const popstateHandler = () => {
-    alert("popstateHandler");
+    // alert("popstateHandler");
     navigate("/meeting");
   };
 
