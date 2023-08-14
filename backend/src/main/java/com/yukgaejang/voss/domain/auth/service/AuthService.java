@@ -142,23 +142,6 @@ public class AuthService implements UserDetailsService {
         return message;
     }
 
-    public void updateMemberPassword(String email, String newKey) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
-
-        Member newMem = Member.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .password(newKey)
-                .nickname(member.getNickname())
-                .imageUrl(member.getImageUrl())
-                .role(member.getRole())
-                .build();
-
-        newMem.passwordEncode(passwordEncoder);
-        memberRepository.save(newMem);
-    }
-
     private MimeMessage createPasswordMessage(String to, String key) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -221,5 +204,22 @@ public class AuthService implements UserDetailsService {
         refreshTokenRepository.save(new RefreshToken(newRefreshToken, email));
 
         return headers;
+    }
+
+    private void updateMemberPassword(String email, String newKey) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        Member newMem = Member.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .password(newKey)
+                .nickname(member.getNickname())
+                .imageUrl(member.getImageUrl())
+                .role(member.getRole())
+                .build();
+
+        newMem.passwordEncode(passwordEncoder);
+        memberRepository.save(newMem);
     }
 }
