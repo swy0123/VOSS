@@ -1,32 +1,37 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { makeAnalysisScript } from "../../../api/script";
-import { 
+import {
   AgeBox,
   AgeButton,
-  Container, 
-  DelButton, 
-  DelButtonActive, 
-  GenderBox, 
-  GenderButton, 
-  OptionCreate, 
-  OptionSelect, 
-  Options, 
-  PlayButton, 
-  PlayButtonActive, 
-  ScriptBox, 
-  ScriptButtons, 
-  ScriptInput, 
-  Title } from "./Script.style";
+  Container,
+  DelButton,
+  DelButtonActive,
+  GenderBox,
+  GenderButton,
+  OptionCreate,
+  OptionSelect,
+  Options,
+  PlayButton,
+  PlayButtonActive,
+  ScriptBox,
+  ScriptButtons,
+  ScriptInput,
+  SpinnerDiv,
+  Title
+} from "./Script.style";
+import { ScriptDiv } from "../../Accent/Script/Script.style";
+import { ScaleLoader } from "react-spinners";
 
 function Script() {
   const [isHovered, setIsHovered] = useState(false);
   const [inputScripts, setInputSctipts] = useState("")
+  const [scriptClickable, setScriptClickable] = useState<boolean>(true);
   const genderOpt = ["남성", "여성"]
-  const ageOpt = ["어린이", "청소년","청년","중년","장년"]
-  const [isGenderSelect,setIsGenderSelect] = useState<boolean[]>([true,false])
-  const [isAgeSelect,setIsAgeSelect] = useState<boolean[]>([true,false,false,false,false])
-  const [genderSelected,setGenderSelected] = useState<string[]>([])
-  const [ageSelected,setAgeSelected] = useState<string[]>([])
+  const ageOpt = ["어린이", "청소년", "청년", "중년", "장년"]
+  const [isGenderSelect, setIsGenderSelect] = useState<boolean[]>([true, false])
+  const [isAgeSelect, setIsAgeSelect] = useState<boolean[]>([true, false, false, false, false])
+  const [genderSelected, setGenderSelected] = useState<string[]>([])
+  const [ageSelected, setAgeSelected] = useState<string[]>([])
 
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
@@ -36,15 +41,15 @@ function Script() {
     setIsHovered(false);
   }
 
-  const handleGenderBtn = (index:number) => {
-    setIsGenderSelect(isGenderSelect.map((_,G_idx)=>(G_idx === index)))
-    const GenderSelected = genderOpt.filter((_,index)=>(isGenderSelect[index]===true))
+  const handleGenderBtn = (index: number) => {
+    setIsGenderSelect(isGenderSelect.map((_, G_idx) => (G_idx === index)))
+    const GenderSelected = genderOpt.filter((_, index) => (isGenderSelect[index] === true))
     setGenderSelected(GenderSelected)
   }
-  
-  const handleAgeBtn = (index:number) => {
-    setIsAgeSelect(isAgeSelect.map((_,G_idx)=>(G_idx === index)))
-    const AgeSelected = ageOpt.filter((_,index)=>(isAgeSelect[index]===true))
+
+  const handleAgeBtn = (index: number) => {
+    setIsAgeSelect(isAgeSelect.map((_, G_idx) => (G_idx === index)))
+    const AgeSelected = ageOpt.filter((_, index) => (isAgeSelect[index] === true))
     setAgeSelected(AgeSelected)
   }
 
@@ -57,73 +62,81 @@ function Script() {
   };
 
 
-  const axiosMakeScript = async (genderSelected:string, ageSelected:string) => {
+  const axiosMakeScript = async (genderSelected: string, ageSelected: string) => {
     setInputSctipts("스크립트를 생성중입니다...")
+    setScriptClickable(false);
     try {
-      const makeScriptData: string = await makeAnalysisScript(genderSelected,ageSelected);
+      const makeScriptData: string = await makeAnalysisScript(genderSelected, ageSelected);
       setInputSctipts(makeScriptData.script)
-    } 
+      setScriptClickable(true);
+    }
     catch (error) {
       console.log(error);
     }
   };
 
-  return(
+  return (
     <Container>
       <Title>스크립트</Title>
-      
-      <Options>
+
+      <Options $IsClickable={scriptClickable}>
         <OptionSelect>
           <GenderBox>
-            성별 : {genderOpt.map((data,index) => (
+            성별 : {genderOpt.map((data, index) => (
               <GenderButton
                 key={index}
                 $IsClick={isGenderSelect[index]}
-                onClick={()=>handleGenderBtn(index)}
-                >{data}
+                onClick={() => handleGenderBtn(index)}
+              >{data}
               </GenderButton>
             ))}
           </GenderBox>
-          
+
           <AgeBox>
-            연령대 : {ageOpt.map((data,index) => (
-              <AgeButton 
+            연령대 : {ageOpt.map((data, index) => (
+              <AgeButton
                 key={index}
                 $IsClick={isAgeSelect[index]}
-                onClick={()=>handleAgeBtn(index)}
-                >{data}
+                onClick={() => handleAgeBtn(index)}
+              >{data}
               </AgeButton>
             ))}
           </AgeBox>
         </OptionSelect>
-        <OptionCreate 
+        <OptionCreate
           onClick={() => axiosMakeScript(
-            genderSelected,ageSelected
+            genderSelected, ageSelected
           )}>생성</OptionCreate>
       </Options>
-      
+
       <ScriptBox>
-        <ScriptInput 
-          value={inputScripts}
-          onChange={ChagneScripts} 
-          placeholder="대사를 입력해주세요.">
-        </ScriptInput>
+        <ScriptDiv>
+          <ScriptInput
+            value={inputScripts}
+            onChange={ChagneScripts}
+            placeholder="대사를 입력해주세요.">
+          </ScriptInput>
+          <SpinnerDiv $IsClickable={scriptClickable}>
+            <ScaleLoader color="rgba(220, 220, 220, 1)" />
+          </SpinnerDiv>
+
+        </ScriptDiv >
         {inputScripts ? (
-          <ScriptButtons>
+          <ScriptButtons $IsClickable={scriptClickable}>
             <DelButtonActive
               src={isHovered ? "/src/assets/Training/trashcan(del).png" :
-              "/src/assets/Training/trashcan(active).png" } 
+                "/src/assets/Training/trashcan(active).png"}
               onClick={DelScripts}
               onMouseEnter={handleHover}
               onMouseLeave={handleMouseLeave}></DelButtonActive>
-            <PlayButtonActive 
+            <PlayButtonActive
               src="/src/assets/Training/play(active).png"></PlayButtonActive>
           </ScriptButtons>
         ) : (
-          <ScriptButtons>
-            <DelButton 
+          <ScriptButtons $IsClickable={scriptClickable}>
+            <DelButton
               src="/src/assets/Training/trashcan.png"></DelButton>
-            <PlayButton 
+            <PlayButton
               src="/src/assets/Training/play.png"></PlayButton>
           </ScriptButtons>
         )}
