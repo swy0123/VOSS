@@ -112,4 +112,15 @@ public class RecordServiceImpl implements RecordService {
     public Page<MyRecordListResponse> getMyRecordList(Pageable pageable, String email) {
         return recordRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
     }
+
+    @Override
+    public UpdateHitResponse updateHitRecord(Long id) {
+        Record record = recordRepository.findByIdAndIsDeletedFalse(id);
+        if (record == null) {
+            throw new NoRecordException("존재하지 않는 글입니다.");
+        }
+        record.updateHit();
+        recordRepository.save(record);
+        return new UpdateHitResponse(true);
+    }
 }
