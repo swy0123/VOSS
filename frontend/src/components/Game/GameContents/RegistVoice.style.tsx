@@ -60,6 +60,12 @@ export const GameExplain = styled.div`
   color: white;
 `;
 
+export const FinishExplain = styled.div`
+  margin-top: 30px;
+  font-size: 25px;
+  color: white;
+`
+
 export const RecordButton = styled.div`
   position: absolute;
   bottom: 10%;
