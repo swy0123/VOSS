@@ -18,7 +18,7 @@ import {
   RightSection } from './DubbingRoom.style';
 
 function Dubbing() {
-  const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
+  const [video, setVideo] = useRecoilState<ScriptData | null>(videoState);
   const id = parseInt(useParams().id || "");
 
   const axiosVideo = async (id:number):Promise<void> => {
@@ -32,6 +32,7 @@ function Dubbing() {
   };
 
   useEffect(() => {
+    setVideo(null);
     void axiosVideo(id);
   }, []);
 
