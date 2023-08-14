@@ -9,6 +9,7 @@ export const Navbar = styled.div`
   border-bottom: 0.25px solid grey;
   height: 65px;
   width: 100vw;
+  background-color: rgba(34, 34, 34, 0.3);
 `
 export const LeftSection = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ export const MenuList = styled.ul`
   line-height: 65px;
   height: 65px;
   width: 400px;
+  z-index: 5;
 `
 
 export const Menu = styled.li`
