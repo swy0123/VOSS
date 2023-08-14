@@ -15,6 +15,7 @@ public class RecordDetailResponse {
     private String description;
     private String nickname;
     private Long memberId;
+    private String profileImage;
     private Long hits;
     private String originalFileName;
     private String savedFileName;
@@ -28,6 +29,7 @@ public class RecordDetailResponse {
         this.description = record.getDescription();
         this.nickname = record.getMember().getNickname();
         this.memberId = record.getMember().getId();
+        this.profileImage = record.getMember().getImageUrl();
         this.hits = record.getHit();
         this.createdAt = record.getCreatedAt();
         this.originalFileName = originalFileName;
