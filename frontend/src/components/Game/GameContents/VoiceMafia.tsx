@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { GameMainContainer } from "../GameMain/GameMain.style"
-import { GameExplain, GameNoticeDiv, GameTitle, StartButton, PlayExplain, StyledDivWithText, OptionButton, OptionButtonContainer } from "./VoiceMafia.style"
+import { GameExplain, GameNoticeDiv, GameTitle, StartButton, PlayExplain, StyledDivWithText, OptionButton, OptionButtonContainer, ReplayButton } from "./VoiceMafia.style"
 import GameTitleImg from "/src/assets/Game/GameTitleImg.png"
+import { P } from "../../Home/Login/Login.style";
+import { ResultBox } from "../../Accent/AccentResult/AccentResult.style";
 
 const sentence = [
     '(1/10)',
@@ -25,31 +27,38 @@ const option = [
 function VoiceMafia() {
     const [StartGame, setStartGame] = useState(true);
     const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+    const [ShowResult, setShowResult] = useState(false);
 
     const handleStartButtonClick = () => {
         setStartGame(false);
     };
 
-    const handleOptionButtonClick = () => {
-        // 정답 체크
-
+    const handleOptionButtonClick = async () => {
+        // 정답 체크 
         if (CurrentSentenceIndex < sentence.length - 1) {
             setCurrentSentenceIndex(CurrentSentenceIndex + 1);
+        } else {
+            setShowResult(true);
         }
+    };
+
+    const handleReplayButtonClick = () => {
+        setStartGame(true);
+        setShowResult(false);
+        setCurrentSentenceIndex(0);
     };
 
     return (
         <GameMainContainer>
             <GameNoticeDiv>
                 <GameTitle src={GameTitleImg} />
-                {StartGame ? (
-                    <GameExplain>
-                        다음 들려주는 목소리를 듣고,<br/>
-                        전문 성우 목소리, 생성 AI 목소리, Voss 사용자 목소리인지 맞혀주세요!<br/>
-                        총 10문제이고, 각 선택 기회는 한 번입니다<br/>
-    
-                    </GameExplain>
-                    ) : (
+                    {StartGame ? (
+                        <GameExplain>
+                            다음 들려주는 목소리를 듣고,<br/>
+                            전문 성우 목소리, 생성 AI 목소리, Voss 사용자 목소리인지 맞혀주세요!<br/>
+                            총 10문제이고, 각 선택 기회는 한 번입니다<br/>
+                        </GameExplain>
+                        ) : (
                         <div>
                             <PlayExplain>
                                 누구의 목소리일까요? {sentence[CurrentSentenceIndex]}
@@ -74,6 +83,11 @@ function VoiceMafia() {
                         <StartButton onClick={handleStartButtonClick}>
                             시작하기
                         </StartButton>
+                    )}
+                    {ShowResult && (
+                        <ReplayButton onClick={handleReplayButtonClick}>
+                            다시하기
+                        </ReplayButton>
                     )}
 
             </GameNoticeDiv>
