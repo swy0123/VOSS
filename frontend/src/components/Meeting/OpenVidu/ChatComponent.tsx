@@ -103,6 +103,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/pausevideo");
     }
+    else if (send == "/resetvideo") {
+      setSend("/none");
+      sendMessage("/resetvideo");
+    }
+    else if (send == "/recordstartvideo") {
+      setSend("/none");
+      sendMessage("/recordstartvideo");
+    }
+    else if (send == "/recordresetvideo") {
+      setSend("/none");
+      sendMessage("/recordresetvideo");
+    }
     else if (send == "/golist") {
       setSend("/none");
       sendMessage("/golist");
@@ -154,6 +166,18 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       }
       else if (messageList[messageList.length - 1].message === "/pausevideo") {
         setRecieve("/pausevideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/resetvideo") {
+        setRecieve("/resetvideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/recordstartvideo") {
+        setRecieve("/recordstartvideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
+        setRecieve("/recordresetvideo");
         messageList.pop();
       }
       else if (messageList[messageList.length - 1].message === "/golist") {

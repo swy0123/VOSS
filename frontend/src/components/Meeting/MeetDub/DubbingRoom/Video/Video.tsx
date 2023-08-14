@@ -52,6 +52,26 @@ function Video ({script, roles, lines}: ScriptData) {
     setYoutube(player)
   }
 
+  // 영상 상태 변경  
+  const onPlayStateChange = async () => {
+    // 영상 시작
+    if (recordTrigger === 1){
+      await onYouTubeIframeAPIReady()
+      await youtube.playVideo()
+      setMeetDubPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
+    
+    // 영상 정지
+    else if (recordTrigger === 0){
+      await youtube.pauseVideo()
+      await youtube.seekTo(0)
+      setMeetDubPlayChange([2, 0]);
+    }
+  }
+
+  useEffect(()=>{
+    void onPlayStateChange()
+  },[recordTrigger])
 
   //=====================Video로 영상 제어=======================
   // 처음 영상 시작
