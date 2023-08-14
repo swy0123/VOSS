@@ -106,18 +106,23 @@ export const InputHeader = styled.div`
 
 export const Img = styled.img`
   width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+    /* transform: translate(-50%, -50%); */
+
 `;
 
 export const ShowIcon = styled.div`
   position: absolute;
   cursor: pointer;
-  top: 50%;
-  transform: translate(-50%, 0%);
-  right: 10%;
+  top: 52%;
+  right: 11%;
 `;
 export const CheckDiv = styled.div<{ $isEmailChecked: boolean; $isChecked?: boolean }>`
   cursor: pointer;
-  transform: translate(50%, -10%);
+  transform: translate(25%, -11%);
   width: 34px;
   height: 24px;
   border-radius: 8px;
@@ -136,6 +141,7 @@ export const CheckDiv = styled.div<{ $isEmailChecked: boolean; $isChecked?: bool
 `;
 
 export const Input = styled.input<{ $isChecked: boolean }>`
+  
   outline: none;
   border-style: solid;
   border-color: black;

@@ -67,7 +67,7 @@ const Login = () => {
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
 
-    if (nickName.trim().length && isEmailChecked && isPwdChecked && nickName.length > 3) {
+    if (nickName.trim().length > 3 && isEmailChecked && isPwdChecked) {
       setButtonActive(true);
     } else setButtonActive(false);
   }, [nickName.trim().length, isEmailChecked, repassword, password, nickName]);
@@ -140,9 +140,8 @@ const Login = () => {
       const blob = await domtoimage.toBlob(node, {
         height: node.offsetHeight * scale,
         style: {
-          transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${
-            node.offsetHeight / 2 / scale
-          }px)`,
+          transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale
+            }px)`,
           "border-radius": 0,
         },
         width: node.offsetWidth * scale,
@@ -155,7 +154,7 @@ const Login = () => {
     return new Blob();
   }
 
-  const onAlertClick = async (text:string) => {
+  const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
   };
@@ -165,7 +164,9 @@ const Login = () => {
 
     // nickName 이 비어있으면 알람
     if (!nickName.trim().length) {
-      onAlertClick("유저네임이 비어있습니다");
+      onAlertClick("닉네임이 비어있습니다");
+    } else if (nickName.trim().length < 4) {
+      onAlertClick("닉네임을 4글자 이상 입력해주세요");
     } else if (!isEmailChecked) {
       onAlertClick("이메일을 인증해주세요");
     } else if (!isPwdChecked) {
