@@ -10,7 +10,7 @@ import EmailModal from "./EmailModal";
 import ImageModifyModal from "./ImageModifyModal";
 
 import modifyImage from "../../../assets/main/Modify.png";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+// import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import {
   Button,
   Container,
@@ -67,7 +67,7 @@ const Login = () => {
   useEffect(() => {
     password.length > 3 && repassword === password ? setPwdCheck(true) : setPwdCheck(false);
 
-    if (nickName.trim().length && isEmailChecked && isPwdChecked && nickName.length > 3) {
+    if (nickName.trim().length && isEmailChecked && password.length > 3 && repassword === password && nickName.length > 3) {
       setButtonActive(true);
     } else setButtonActive(false);
   }, [nickName.trim().length, isEmailChecked, repassword, password, nickName]);

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { postLogin, headerTest, testLogin } from "../../../api/login";
@@ -29,6 +29,7 @@ import {
 } from "./Login.style";
 import { useCookies } from "react-cookie";
 import EmailModal from "./EmailModal";
+import AlertContext from "/src/context/alert/AlertContext";
 
 interface LoginProps {
   email: string;
@@ -49,6 +50,12 @@ const Login = () => {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const MAX_LENGTH = 50;
+
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
 
   useEffect(() => {
     if (cookies.rememberEmail !== undefined) {
@@ -104,7 +111,7 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email === "" || password === "") {
-      window.alert("아이디와 비밀번호를 입력해주세요.");
+      onAlertClick("아이디와 비밀번호를 입력해주세요.");
       return;
     }
     const LoginProps: LoginProps = {
@@ -123,7 +130,7 @@ const Login = () => {
       navigate("category");
     } else {
       console.log("fail");
-      alert("로그인이 실패하였습니다");
+      onAlertClick("로그인이 실패하였습니다");
     }
   };
 
