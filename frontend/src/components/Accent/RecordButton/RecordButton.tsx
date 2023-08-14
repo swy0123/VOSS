@@ -2,7 +2,7 @@ import { useRef, useState, useContext } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { accentRecordState } from '../../../recoil/Training';
-import { accentSttState } from '/src/recoil/HW_Atom';
+import { accentScriptState, accentSttState } from '/src/recoil/HW_Atom';
 import SoundToText from '../AccentResult/SoundToText';
 import {
   Backdrop,
@@ -21,6 +21,7 @@ import ConfirmContext from '/src/context/confirm/ConfirmContext';
 
 function RecordButton() {
   const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState)
+  const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
   const [accentText, setAccentText] = useRecoilState(accentSttState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)

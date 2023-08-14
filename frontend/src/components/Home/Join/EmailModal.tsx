@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState, ChangeEvent, useEffect } from "react";
+import React, { PropsWithChildren, useState, ChangeEvent, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ExitBox from "/src/assets/Messenger/ExitBox.png";
 import ExitBoxHover from "/src/assets/Messenger/ExitBoxHover.png";
@@ -20,6 +20,7 @@ import {
   Timer,
 } from "./Join.style";
 import { authEmailConfirm } from "/src/api/join";
+import AlertContext from "/src/context/alert/AlertContext";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -129,6 +130,13 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
   const [isActivate, setActivate] = useState(true);
   const [exitBtnHover, setExitBtnHover] = useState(false);
 
+
+  const { alert: alertComp } = useContext(AlertContext);
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
+
   useEffect(() => {
     const id = setInterval(() => {
       setCount((count) => count - 1);
@@ -152,9 +160,12 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
     };
     const emailCheck = await authEmailConfirm(props);
     if (emailCheck) {
-      alert("통과");
+      onAlertClick("인증 완료");
       isEmailCheckd();
       toggleModal();
+    }
+    else{
+      onAlertClick("인증 코드를 확인해주세요");
     }
   };
 
