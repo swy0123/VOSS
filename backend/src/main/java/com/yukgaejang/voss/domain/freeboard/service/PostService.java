@@ -10,10 +10,7 @@ public interface PostService {
     CreatePostResponse createPost(String email, CreatePostRequest createPostRequest);
     UpdatePostResponse updatePost(Long id, UpdatePostRequest updatePostRequest);
     PostDetailResponse getPostDetail(String email, Long id);
-    Page<PostListResponse> getPostList(Pageable pageable);
-    Page<PostListResponse> getPostListByNickname(Pageable pageable, String nickname);
-    Page<PostListResponse> getPostListByContent(Pageable pageable, String content);
-    Page<PostListResponse> getPostListByTitle(Pageable pageable, String title);
+    Page<PostListResponse> getPostList(Pageable pageable, String title, String content, String nickname);
     DeletePostResponse deletePost(Long id);
     Page<MyPostListResponse> getMyPostList(Pageable pageable, String email);
 }

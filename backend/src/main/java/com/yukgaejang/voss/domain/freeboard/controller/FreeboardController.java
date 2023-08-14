@@ -66,16 +66,7 @@ public class FreeboardController {
             sortBy = Sort.by(sort, "createdAt").descending();
         }
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
-        if(nickname != null) {
-            return ResponseEntity.ok(postService.getPostListByNickname(pageable, nickname));
-        }
-        if(content != null) {
-            return ResponseEntity.ok(postService.getPostListByContent(pageable, content));
-        }
-        if(title != null) {
-            return ResponseEntity.ok(postService.getPostListByTitle(pageable, title));
-        }
-        return ResponseEntity.ok(postService.getPostList(pageable));
+        return ResponseEntity.ok(postService.getPostList(pageable, title, content, nickname));
     }
 
     @DeleteMapping("/{postId}")
