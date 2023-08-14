@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GameMainContainer } from "../GameMain/GameMain.style"
-import { GameExplain, GameNoticeDiv, GameTitle, StartButton, PlayExplain, StyledDivWithText, OptionButton, OptionButtonContainer, ReplayButton } from "./VoiceMafia.style"
+import { GameExplain, GameNoticeDiv, GameTitle, StartButton, ReplayButton } from "./VoiceMafia.style"
 import GameTitleImg from "/src/assets/Game/GameTitleImg.png"
-import { P } from "../../Home/Login/Login.style";
-import { ResultBox } from "../../Accent/AccentResult/AccentResult.style";
+import { getGame } from "/src/api/game";
+import GuessBoard from "./GuessBoard";
 
 const sentence = [
     '(1/10)',
@@ -18,23 +18,26 @@ const sentence = [
     '(10/10)',
   ];
 
-const option = [
-    '전문 성우',
-    'AI',
-    'Voss 사용자',
-];
-
 function VoiceMafia() {
     const [StartGame, setStartGame] = useState(true);
     const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [ShowResult, setShowResult] = useState(false);
+    const [GameContents, setGameContents] = useState([]);
+
+    useEffect(() => {
+        getGameContents();
+    }, [])
+
+    const getGameContents = async () => {
+        const gameContents = await getGame();
+        setGameContents(gameContents);
+    }
 
     const handleStartButtonClick = () => {
         setStartGame(false);
     };
 
     const handleOptionButtonClick = async () => {
-        // 정답 체크 
         if (CurrentSentenceIndex < sentence.length - 1) {
             setCurrentSentenceIndex(CurrentSentenceIndex + 1);
         } else {
@@ -48,6 +51,15 @@ function VoiceMafia() {
         setCurrentSentenceIndex(0);
     };
 
+    const handleScore = (input:string) => {
+        if (input === GameContents[CurrentSentenceIndex].type) {
+            console.log("=====");
+        }
+        handleOptionButtonClick();
+        console.log(input);
+        return;
+    }
+
     return (
         <GameMainContainer>
             <GameNoticeDiv>
@@ -58,47 +70,22 @@ function VoiceMafia() {
                             전문 성우 목소리, 생성 AI 목소리, Voss 사용자 목소리인지 맞혀주세요!<br/>
                             총 10문제이고, 각 선택 기회는 한 번입니다<br/>
                         </GameExplain>
-                        ) : (
-                        <div>
-                            <PlayExplain>
-                                누구의 목소리일까요? {sentence[CurrentSentenceIndex]}
-                            </PlayExplain>
-                            <StyledDivWithText>
-                                목소리 재생중입니다...
-                            </StyledDivWithText>
-                            <OptionButtonContainer>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[0]}
-                                </OptionButton>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[1]}
-                                </OptionButton>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[2]}
-                                </OptionButton>
-                            </OptionButtonContainer>
-                        </div>
-                    )}
-                    {StartGame && (
+                    ) : !ShowResult ?(
+                        <GuessBoard handleScore={handleScore} discreption={sentence[CurrentSentenceIndex]} audioUrl={GameContents[CurrentSentenceIndex].fileName}/>
+                    ) : <></>}
+                    {StartGame && GameContents.length>0 ? (
                         <StartButton onClick={handleStartButtonClick}>
                             시작하기
                         </StartButton>
-                    )}
+                    ): <></>}
                     {ShowResult && (
                         <ReplayButton onClick={handleReplayButtonClick}>
                             다시하기
                         </ReplayButton>
                     )}
-
             </GameNoticeDiv>
-
-
         </GameMainContainer>
-
     )
-
-
-
 }
 
 export default VoiceMafia
