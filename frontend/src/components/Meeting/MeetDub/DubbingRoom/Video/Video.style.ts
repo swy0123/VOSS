@@ -52,6 +52,15 @@ export const VideoControl = styled.img`
 
 export const VideoPlay = styled(VideoControl)``
 export const VideoPause = styled(VideoControl)``
+export const VideoReset = styled(VideoControl)`
+  width: 60px;
+`
+
+export const ButtonBox = styled.div`
+  display: flex;
+  width: 150px;
+  justify-content: space-between;
+`
 
 export const Thumbnail = styled.img`
   position: absolute;
@@ -61,8 +70,6 @@ export const Thumbnail = styled.img`
 `
 export const YoutubeIcon =styled.img`
   position: absolute;
-  height: 100px;
-  width: 100px;
 `
 
 export const RoleBox = styled.div`

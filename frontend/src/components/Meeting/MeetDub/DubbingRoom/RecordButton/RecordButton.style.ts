@@ -1,13 +1,20 @@
 import { styled, keyframes } from 'styled-components';
 
-export const RecordBox = styled.div`
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 250px;
+  width: 570px;
+` 
+
+export const RecordBtnBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
   height: 150px;
-  width: 350px;
+  width: 200px;
 `
 export const StopWatch = styled.p`
   color: white;
@@ -50,6 +57,17 @@ export const Button = styled.button`
 `
 export const RestartBtn = styled(Button)``
 export const CompleteBtn = styled(Button)``
+
+export const ParcticeStartSection = styled.div`
+  display: flex;
+  padding-top: 18px;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const ParcticeInfo = styled.div`
+  color: #BABABA;
+`
 
 export const RecordBtn = styled.img`
   width: 100px;
