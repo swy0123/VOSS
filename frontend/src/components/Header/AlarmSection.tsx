@@ -17,6 +17,8 @@ import {
   AlarmListItem,
   AlarmBox,
   AlarmCount,
+  AlarmEraseBtn,
+  EraseText,
 } from "./AlarmSection.style";
 import { alarmInfoState } from "/src/recoil/HW_Atom";
 import { useRecoilState } from "recoil";
@@ -127,6 +129,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
         <Triangle/>
         <AlarmHeader>
           <AlarmWord><b>알림</b></AlarmWord>
+          <AlarmEraseBtn onClick={AllAlarmChecking}><EraseText><p><b>지우기</b></p></EraseText></AlarmEraseBtn>
           <AlarmExitBtn 
             onClick={AlarmToggle} 
             src="/src/assets/Header/exit_btn.png" ></AlarmExitBtn>

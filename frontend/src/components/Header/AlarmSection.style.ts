@@ -67,6 +67,28 @@ export const AlarmExitBtn = styled.img`
   cursor: pointer;
 `
 
+export const AlarmEraseBtn = styled.button`
+  margin-left: 120px;
+  width: 40px;
+  height: 15px;
+  border-radius: 10px;
+  background: #EFEFEF;
+  border: none;
+  color: black;
+  font-size: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Center text vertically */
+`;
+
+export const EraseText = styled.span`
+  white-space: nowrap; /* Prevent line breaks */
+  transform: rotate(0deg); /* No rotation */
+  transform: scale(0.9);
+`;
+
+
+
 export const AlarmBox = styled.div`
   display: flex;
   justify-content: center;
