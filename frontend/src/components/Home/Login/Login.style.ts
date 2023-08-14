@@ -108,12 +108,12 @@ export const CheckBox = styled.div`
   top: 10px;
   left: 0px;
 `;
+
 export const Forgot = styled.div`
   position: absolute;
   top: 13px;
   right: 0px;
-  /* cursor: pointer; */
-  cursor: not-allowed
+  cursor: pointer;
 `;
 
 export const Button = styled.button`
@@ -126,7 +126,7 @@ export const Button = styled.button`
   height: 40px;
   border-width: 1px;
   border-radius: 8px;
-  margin-top: 0px;
+  margin-top: 50px;
   cursor: pointer;
 `;
 

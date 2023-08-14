@@ -73,7 +73,11 @@ export const postLogin = async (user: LoginProps) => {
   else return false
 }
 
-
+export const putEmailPassword = async (email:string) => {
+  const user = {email:email};
+  const response = await publicApi.put("/auth/email/password", user);
+  return response.data;
+}
 
 
 export const testLogin = () => {

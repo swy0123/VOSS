@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { postLogin, headerTest, testLogin } from "../../../api/login";
@@ -28,6 +28,7 @@ import {
   UnderText,
 } from "./Login.style";
 import { useCookies } from "react-cookie";
+import EmailModal from "./EmailModal";
 
 interface LoginProps {
   email: string;
@@ -46,6 +47,7 @@ const Login = () => {
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const MAX_LENGTH = 50;
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const Login = () => {
     console.log(cookies.rememberEmail);
   }, [checkbox]);
 
+
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
@@ -74,6 +77,8 @@ const Login = () => {
     console.log(checkbox)
     if (checkbox) setCookie("rememberEmail", email);
   };
+
+
   const handlePasswordField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
@@ -81,18 +86,20 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const toggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   const handleCheckboxField = () => {
     if (checkbox) setCheckbox(false);
     else setCheckbox(true);
-    console.log("setCheckbox " + checkbox);
-
-    
   };
 
   const ShowPassword = () => {
     if (showPswd) setShowPswd(false);
     else setShowPswd(true);
   };
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -158,42 +165,16 @@ const Login = () => {
             </CheckBox>
             <Forgot
               onClick={() => {
-                console.log("Forgot");
+                toggleModal();
               }}
               style={{ textDecoration: "none" }}
             >
-              비밀번호 찾기
+              비밀번호 재발급
             </Forgot>
           </CheckBoxDiv>
           <Button type="submit">로그인</Button>
         </form>
       </div>
-
-      <OAuthDiv>
-        <LineText>간편 로그인</LineText>
-        <hr />
-        <Icon
-          onClick={() => {
-            console.log("GoogleIcon");
-          }}
-        >
-          <img src={GoogleIcon} />
-        </Icon>
-        <Icon
-          onClick={() => {
-            console.log("NaverIcon");
-          }}
-        >
-          <img src={NaverIcon} />
-        </Icon>
-        <Icon
-          onClick={() => {
-            console.log("KakaoIcon");
-          }}
-        >
-          <img src={KakaoIcon} />
-        </Icon>
-      </OAuthDiv>
 
       <UnderText>
         <div className="first-text">아직 회원이 아니신가요?</div>
@@ -201,6 +182,13 @@ const Login = () => {
           회원가입
         </div>
       </UnderText>
+
+      {isOpenModal && (
+        <EmailModal
+          toggleModal={toggleModal}
+        ></EmailModal>
+      )}
+
     </Container>
   );
 };
