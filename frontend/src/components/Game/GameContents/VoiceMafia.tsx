@@ -23,6 +23,7 @@ function VoiceMafia() {
     const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [ShowResult, setShowResult] = useState(false);
     const [GameContents, setGameContents] = useState([]);
+    const [CurrentScore, setCurrentScore] = useState(0);
 
     useEffect(() => {
         getGameContents();
@@ -53,11 +54,10 @@ function VoiceMafia() {
 
     const handleScore = (input:string) => {
         if (input === GameContents[CurrentSentenceIndex].type) {
-            console.log("=====");
+            setCurrentScore(CurrentScore+1);
         }
         handleOptionButtonClick();
-        console.log(input);
-        return;
+        console.log(CurrentSentenceIndex + "=" + CurrentScore);
     }
 
     return (
