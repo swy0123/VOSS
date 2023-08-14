@@ -14,13 +14,16 @@ import { authEmailConfirm } from "/src/api/join";
 import { AssistWalker } from "@mui/icons-material";
 import { putEmailPassword } from "/src/api/login";
 import AlertContext from "/src/context/alert/AlertContext";
+import { putPassword } from "/src/api/profile";
 
 interface ModalDefaultType {
   togglePasswordModal: () => void;
 }
 
 const PasswordModal = ({ togglePasswordModal }: PropsWithChildren<ModalDefaultType>) => {
-  const [email, setEmail] = useState("");
+  const [originalPassword, setOriginalPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
   const { alert: alertComp } = useContext(AlertContext);
   const [count, setCount] = useState(298);
   const [min, setMin] = useState(4);
@@ -45,24 +48,43 @@ const PasswordModal = ({ togglePasswordModal }: PropsWithChildren<ModalDefaultTy
     };
   }, [count]);
 
-  const onAlertClick = async (text:string) => {
+  const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
   };
 
   const onClickButton = async () => {
-    const emailCheck = await putEmailPassword(email);
-
-    if (emailCheck.message && emailCheck.message =="이메일이 존재하지 않습니다") {
-      onAlertClick("잘못된 이메일입니다");
+    if (newPassword.length < 4) {
+      onAlertClick("비밀번호가 너무 짧습니다");
       return;
     }
 
-    onAlertClick("임시 비밀번호를 이메일로 전송하였습니다");
+    if (newPassword !== checkPassword) {
+      onAlertClick("비밀번호 확인이 잘못되었습니다");
+      return;
+    }
+
+    const updateMemberRes = await putPassword(originalPassword, newPassword);
+
+    if (!updateMemberRes) {
+      onAlertClick("잘못된 요청입니다");
+      return;
+    }
+
+    onAlertClick("비밀번호가 수정되었습니다");
+    togglePasswordModal();
+  };
+
+  const handleOriginField = (e: ChangeEvent<HTMLInputElement>) => {
+    setOriginalPassword(e.target.value);
+  };
+
+  const handleNewField = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(e.target.value);
   };
 
   const handleCheckField = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    setCheckPassword(e.target.value);
   };
 
   const handleActivate = () => {
@@ -87,14 +109,20 @@ const PasswordModal = ({ togglePasswordModal }: PropsWithChildren<ModalDefaultTy
         </div>
         <div>
           <InputDiv>
-            <InputHeader>Email</InputHeader>
-            <Input type="text" onChange={handleCheckField} placeholder="기존 비밀번호를 입력해주세요"/>
-            <Input type="text" onChange={handleCheckField} placeholder="새로운 비밀번호를 입력해주세요"/>
-            <Input type="text" onChange={handleCheckField} placeholder="새로운 비밀번호를 확인해주세요"/>
-            <TagButton onClick={onClickButton}>
-              <ButtonText>비밀번호 재발급</ButtonText>
-            </TagButton>
+            <InputHeader>Password</InputHeader>
+            <Input type="password" onChange={handleOriginField} placeholder="기존 비밀번호를 입력해주세요" />
           </InputDiv>
+          <InputDiv>
+            <InputHeader>New Password</InputHeader>
+            <Input type="password" onChange={handleNewField} placeholder="새로운 비밀번호를 입력해주세요" />
+          </InputDiv>
+          <InputDiv>
+            <InputHeader>Check New Password</InputHeader>
+            <Input type="password" onChange={handleCheckField} placeholder="비밀번호를 확인해주세요" />
+          </InputDiv>
+          <TagButton onClick={onClickButton}>
+              <ButtonText>비밀번호 변경</ButtonText>
+            </TagButton>
         </div>
       </DialogBox>
       <Backdrop />
@@ -118,7 +146,7 @@ const ModalContainer = styled.div`
 
 const DialogBox = styled.dialog`
   width: 300px;
-  height: 200px;
+  height: 300px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -162,6 +190,7 @@ const TagButton = styled.div`
   width: 80%;
   height: 40px;
   margin: 8px auto;
+  margin-top: 30px;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;

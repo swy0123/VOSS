@@ -49,6 +49,23 @@ export const postFollow = async (targetId: number ) => {
     return false
 };
 
+export const putPassword = async (originalPassword:string, newPassword:string) => {
+    const body = {
+        "originalPassword" : originalPassword,
+        "newPassword" : newPassword
+    };
+    const res = await privateApi.put("/member/password", body)
+    .catch((err: Error) => {
+        console.log("putPassword catch: ", err)
+        return false;
+    })
+    if (res) {
+        console.log("putPassword then: ", res.data)
+        return res.data
+    }
+    return res
+};
+
 export const deleteUnfollow = async (id: number ) => {
     const res = await privateApi.delete(`/member/unfollow/${id}`)
     .catch((err: Error) => {
