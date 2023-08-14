@@ -10,9 +10,10 @@ export const Title = styled.h2`
   color: white;
   text-align: center;
 `
-export const Options = styled.div`
+export const Options = styled.div<{ $IsClickable: boolean }>`
   display: flex;
   justify-content: space-between;
+  pointer-events: ${(props) => (props.$IsClickable ? "auto" : "none")};
 `
 export const OptionSelect = styled.div`
   display: flex;
@@ -104,10 +105,20 @@ export const ScriptInput = styled.textarea`
   }
 `
 
-export const ScriptButtons = styled.div`
+export const SpinnerDiv = styled.div<{ $IsClickable: boolean }>`
+  width: 90px;
+  position: absolute;
+  top: 60%;
+  left: 55%;
+  display : ${(props) => (props.$IsClickable ? "none" : "block")};;
+  /* transform: translate(-50%, -50%); */
+`;
+
+export const ScriptButtons = styled.div<{ $IsClickable: boolean }>`
   display: flex;
   justify-content: flex-end; 
   align-items: flex-end;
+  pointer-events: ${(props) => (props.$IsClickable ? "auto" : "none")};
 `
 
 export const DelButton = styled.img`
