@@ -8,14 +8,14 @@ export const Container = styled.div`
 export const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
+  margin-left: 20px;
 `
 
 export const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 40px;
   margin-top: 0px;
 `
 

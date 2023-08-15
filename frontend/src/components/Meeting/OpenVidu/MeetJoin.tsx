@@ -23,7 +23,7 @@ import {
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
 import BadgeModal from "./BadgeModal";
-import { meetDubSelectState, meetDubUserState } from "/src/recoil/HW_Atom";
+import { MeetDubRecordState, meetDubSelectState, meetDubUserState } from "/src/recoil/HW_Atom";
 // import { VedioInnerDiv } from "./UserVideoComponent.style";
 
 export interface streamContainerProps {
@@ -76,6 +76,7 @@ const MeetJoin = (props: any) => {
   const [sec, setSec] = useState(0);
 
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState);
+  const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
 
   //뒤로가기 새로고침
   useEffect(() => {
@@ -248,6 +249,7 @@ const MeetJoin = (props: any) => {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     if (session) {
       setMeetDubSelect(0)
+      setMeetDubRecord("")
       session.disconnect();
     }
 

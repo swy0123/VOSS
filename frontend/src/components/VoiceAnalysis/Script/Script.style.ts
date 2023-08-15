@@ -81,21 +81,29 @@ export const ScriptBox = styled.div`
   border-radius: 8px;
   height: 225px;
 `
+
+export const ScriptDiv = styled.div`
+  height: 125px;
+  width: 450px;
+  display: flex;
+  position: relative;
+`;
+
 export const ScriptInput = styled.textarea`
   background-color: transparent;
   font-size: 18px;
   color: white;
   margin-top: 20px;
-  padding: 0px 0px 25px 20px;
-  height: 130px;
-  width: 440px;
+  padding: 0px 0px 24px 20px;
+  height: 135px;
+  width: 450px;
   border: none;
   resize: none;
   outline: none;
 
   &::-webkit-scrollbar {
     width: 8px;
-    margin-right: 20px;
+    margin-right: 10px;
   }
 
   &::-webkit-scrollbar-thumb {

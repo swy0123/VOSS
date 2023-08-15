@@ -15,11 +15,11 @@ import {
   PlayButtonActive,
   ScriptBox,
   ScriptButtons,
+  ScriptDiv,
   ScriptInput,
   SpinnerDiv,
   Title
 } from "./Script.style";
-import { ScriptDiv } from "../../Accent/Script/Script.style";
 import { ScaleLoader } from "react-spinners";
 
 function Script() {
@@ -131,15 +131,11 @@ function Script() {
               onClick={DelScripts}
               onMouseEnter={handleHover}
               onMouseLeave={handleMouseLeave}></DelButtonActive>
-            <PlayButtonActive
-              src="/src/assets/Training/play(active).png"></PlayButtonActive>
           </ScriptButtons>
         ) : (
           <ScriptButtons $IsClickable={scriptClickable}>
             <DelButton
               src="/src/assets/Training/trashcan.png"></DelButton>
-            <PlayButton
-              src="/src/assets/Training/play.png"></PlayButton>
           </ScriptButtons>
         )}
       </ScriptBox>

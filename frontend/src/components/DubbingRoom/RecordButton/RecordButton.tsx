@@ -6,6 +6,8 @@ import {
   CompleteBtn,
   MoonLoaderDiv,
   NowRecording,
+  ParcticeInfo,
+  ParcticeStartSection,
   PracticeEnd,
   PracticeStart,
   PreventClickDiv,
@@ -32,7 +34,7 @@ function RecordButton({ script, lines }: VideoProps) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
   const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
   const [isScriptSelect, setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
-  const [practiceStart, setPracticeStart] = useState(true)
+  const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
   const [isRunning, setIsRunning] = useState(false);
@@ -91,11 +93,17 @@ function RecordButton({ script, lines }: VideoProps) {
     setTime(0);
   };
 
-  const formatTime = (milliseconds: number) => {
+  const formatTimeLeft = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  const formatTimeRight = (durationInSec: number) => {
+    const minutes = Math.floor(durationInSec / 60)
+    const second = Math.floor(durationInSec % 60)
+    return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+  }
 
   const getParamStr = () => {
     let param = ""
@@ -171,7 +179,7 @@ function RecordButton({ script, lines }: VideoProps) {
 
   return (
     <RecordBox>
-      <StopWatch>{formatTime(time)}</StopWatch>
+      <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
       <SectionBtn $IsClickable={recordBtnClickable}>
@@ -194,7 +202,9 @@ function RecordButton({ script, lines }: VideoProps) {
             }}>취소</RestartBtn> : ""}
 
         {initialBtn ?
-          (<RecordBtn
+          (
+          <ParcticeStartSection>
+            <RecordBtn
             onClick={() => {
               startOrStop()
               startRecording()
@@ -202,7 +212,12 @@ function RecordButton({ script, lines }: VideoProps) {
             }}
             onMouseEnter={() =>
               setPracticeStart(true)}
-            src="/src/assets/Training/startbtn.png"></RecordBtn>) :
+            onMouseLeave={() => {
+              setPracticeStart(false)
+              setPracticeEnd(false)}}
+            src="/src/assets/Training/startbtn.png"></RecordBtn>
+            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
+          </ParcticeStartSection>) :
           isRunning ?
             (<NowRecording>
               <RecordBtn
@@ -214,24 +229,32 @@ function RecordButton({ script, lines }: VideoProps) {
                 }}
                 onMouseEnter={() =>
                   setPracticeEnd(true)}
+                onMouseLeave={() => {
+                  setPracticeStart(false)
+                  setPracticeEnd(false)}}
                 src="/src/assets/Training/stopbtn.png">
               </RecordBtn>
               <Waves />
-            </NowRecording>) :
-            (<RecordBtn
-              onClick={() => {
-                if (stop >= script.durationInSec * 10) {
-                  onAlertClick("녹음을 완료/취소 해주세요")
-                  return
-                }
-                startOrStop()
-                resumeRecording()
-                changePracticeEnd()
-              }}
-              onMouseEnter={() =>
-                setPracticeStart(true)}
-              src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
-
+            </NowRecording>
+            ) : (
+                <RecordBtn
+                onClick={() => {
+                  if (stop >= script.durationInSec * 10) {
+                    onAlertClick("녹음을 완료/취소 해주세요")
+                    return
+                  }
+                  startOrStop()
+                  resumeRecording()
+                  changePracticeEnd()
+                }}
+                onMouseEnter={() =>
+                  setPracticeStart(true)}
+                onMouseLeave={() => {
+                  setPracticeStart(false)
+                  setPracticeEnd(false)}}
+                src="/src/assets/Training/restartbtn.png"></RecordBtn>
+              )
+            }
         {!initialBtn && !isRunning ?
           <CompleteBtn
             onClick={() => {
@@ -248,73 +271,3 @@ function RecordButton({ script, lines }: VideoProps) {
   )
 }
 export default RecordButton
-
-
-// 연습 시작 버튼, 연습 종료 버튼 토글 되는버전
-
-// return(
-//   <RecordBox>
-//     <StopWatch>{formatTime(time)}</StopWatch>
-//     <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
-//     <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
-//     <SectionBtn>
-//     { !initialBtn && !isRunning ?
-//       <RestartBtn
-//         onClick={() => {
-//           resetTimer()
-//           stopRecording()
-//           changePracticeReset()
-//           clearBlobUrl()}}>취소</RestartBtn> : ""}
-
-//       { initialBtn ?
-//         (<RecordBtn
-//           onClick={() => {
-//             startOrStop()
-//             startRecording()
-//             changePracticeEnd()}}
-//           onMouseEnter={() =>
-//             setPracticeStart(true)}
-//           onMouseLeave={() => {
-//             setPracticeStart(false)
-//             setPracticeEnd(false)}}
-//           src="/src/assets/Training/startbtn.png"></RecordBtn>) :
-//         isRunning ?
-//           (<NowRecording>
-//             <RecordBtn
-//               onClick={() => {
-//                 startOrStop()
-//                 stopRecording()
-//                 pauseRecording()
-//                 changePracticeStart()}}
-//               onMouseEnter={() =>
-//                 setPracticeEnd(true)}
-//               onMouseLeave={() => {
-//                 setPracticeStart(false)
-//                 setPracticeEnd(false)}}
-//               src="/src/assets/Training/stopbtn.png">
-//               </RecordBtn>
-//               <Waves/>
-//             </NowRecording>) :
-//           (<RecordBtn
-//             onClick={() => {
-//               startOrStop()
-//               resumeRecording()
-//               changePracticeEnd()}}
-//             onMouseEnter={() =>
-//               setPracticeStart(true)}
-//             onMouseLeave={() => {
-//               setPracticeStart(false)
-//               setPracticeEnd(false)}}
-//             src="/src/assets/Training/restartbtn.png"></RecordBtn>)}
-
-//       { !initialBtn && !isRunning ?
-//       <CompleteBtn
-//           onClick={() => {
-//               stopRecording()
-//               changePracticeReset()
-//               addRecord(mediaBlobUrl)
-//               resetTimer()
-//             }}>완료</CompleteBtn> : "" }
-//     </SectionBtn>
-//   </RecordBox>
-// )
