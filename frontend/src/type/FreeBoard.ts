@@ -39,7 +39,7 @@ export interface PostFilesType {
   originalFileName?: string,
   savedFileName?: string,
   contentType?: string,
-  size: number,
+  size?: number,
 };
 
 
@@ -67,5 +67,5 @@ export interface RecordType {
   likes: number,
   likeMembers: string,
   liked: boolean,
-  imageUrl : string,
+  profileImage : string,
 };

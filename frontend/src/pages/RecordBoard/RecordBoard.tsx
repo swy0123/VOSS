@@ -1,12 +1,13 @@
-import { useEffect, ChangeEvent, KeyboardEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import { useRecoilState } from "recoil";
-import { RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, RecordBoardCurrentPageState } from "/src/recoil/Community";
-import UpdateIcon from "/src/assets/Profile/UpdateIcon.png";
+import { RecordsState, RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, RecordBoardCurrentPageState, ShowRecordCreateModalState } from "/src/recoil/Community";
+import { getRecords } from "/src/api/recordBoard";
 import RecordList from "/src/components/RecordBoard/RecordList";
+import RecordCreateModal from "/src/components/RecordBoard/RecordCreateModal";
 import {
   RecordScrollDesign,
   RecordMainDesign,
@@ -18,17 +19,43 @@ import {
   InputBoxIpt,
   InputBoxBtn,
   OrderSelectDesign,
+  RecordContentDesign,
 } from "./RecordBoard.style";
+import { RecordType } from "/src/type/FreeBoard";
 
 
 function RecordBoard () {
   const navigate = useNavigate();
-  const goRecordCreate = () => navigate('/recordboard/create');
-  const [input, setInput] = useRecoilState<string>(RecordBoardInputState);
-  const [sort, setSort] = useRecoilState<string>(RecordBoardSortState);
-  const [cond, setCond] = useRecoilState<string>(RecordBoardCondState);
-  const [currentPage, setCurrentPage] = useRecoilState<number>(RecordBoardCurrentPageState);
+  const [input, setInput] = useRecoilState(RecordBoardInputState);
+  const [sort, setSort] = useRecoilState(RecordBoardSortState);
+  const [cond, setCond] = useRecoilState(RecordBoardCondState);
+  const [currentPage, setCurrentPage] = useRecoilState(RecordBoardCurrentPageState);
+  const [records, setRecords] = useRecoilState(RecordsState);
+  const [showCreateModal, setShowCreateModal] = useRecoilState(ShowRecordCreateModalState);
 
+  const clickSearchBtn = (event: FormEvent) => {
+    event.preventDefault();
+    searchPost(sort, cond, input, 1);
+  };
+
+  const enterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") { // 이걸 안하면 모든 키 입력을 못 받음
+      event.preventDefault();
+      searchPost(sort, cond, input, 1);
+    }
+  };
+
+  const searchPost = (sort: string, cond: string, input:string, page: number) => {
+    getRecords(sort, cond, input, page).then((dataRecords) => {
+      if (dataRecords) {
+        setRecords(dataRecords.content)
+      }
+    });
+  }
+
+  useEffect(() => {
+    searchPost("1", "1", "", 1);
+  }, [])
 
   return(
     <BackGroundImg>
@@ -39,21 +66,22 @@ function RecordBoard () {
 
         <MenuBoxDesign>
 
-          <CreateBtnDesign onClick={() =>goRecordCreate()}>
-            <img src={UpdateIcon} alt="UpdateIcon" />글 작성
+          <CreateBtnDesign onClick={() =>setShowCreateModal(true)}>
+            <img src="/src/assets/Profile/UpdateIcon.png" alt="UpdateIcon" />글 작성
           </CreateBtnDesign>
 
           
           <SearchboxDesign>
           <SearchSelectDesign id="cond-select" value={cond} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
-            <option value="1">제목</option>
+            <option value="1">내용</option>
             <option value="2">작성자</option>
           </SearchSelectDesign>
-          <InputBoxDesign>
+
+          <InputBoxDesign onSubmit={clickSearchBtn}>
             <InputBoxIpt
               value={input}
               onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
-              // onKeyPress={enterKeyDown} 
+              onKeyPress={enterKeyDown} 
               type="text" 
               placeholder="검색"/>
             <InputBoxBtn>
@@ -70,9 +98,16 @@ function RecordBoard () {
 
         </MenuBoxDesign>
 
-        <RecordList></RecordList>
+        <RecordContentDesign>
+        {records.map((record) => (
+          <RecordList key={record.recordId} record={record} />
+        ))}
+        </RecordContentDesign>
 
       </RecordMainDesign>
+
+      { showCreateModal ? <RecordCreateModal/> : null }
+
       </RecordScrollDesign>
       <Messenger/>
     </BackGroundImg>

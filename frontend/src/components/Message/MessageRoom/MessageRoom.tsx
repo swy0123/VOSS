@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { MessageType, RoomType } from "/src/type/Auth";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShowMessageRoomState, CurrentRoomState, MessagesState } from "/src/recoil/Messenger";
@@ -34,7 +35,9 @@ import {
     const [firstRender, setFirstRender] = useState(false);
     const chatContainerRef = useRef<HTMLDivElement | null>(null);
     const [unReadIndex, setUnReadIndex] = useState<number>(-1);
-  
+    const navigate = useNavigate();
+    const goProfile = (memberId: number) => (navigate(`/profile/${memberId}`));
+
     const sendMessage = () => {
       if (message.trim() !== "") {
         const sentMessage = {
@@ -174,7 +177,7 @@ useEffect(() => {
     <MessegeListDiv>
 
       <div>
-        <MessegeTitle>{currentRoom.name}</MessegeTitle>
+        <MessegeTitle onClick={()=>goProfile(currentRoom.memberId)}><span>{currentRoom.name}</span></MessegeTitle>
         <ExitImg
             src={exitBtnHover ? ExitBoxHover : ExitBox}
             onClickCapture={()=>setOpenRoom(false)}
@@ -215,11 +218,9 @@ useEffect(() => {
           sendMessage();
         }}> 
           <Input 
-          className="input"
           type="text" 
           onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
           value={message}
-          autoFocus
           />
           <Send
           src={ sendHover ? ArrowHover : Arrow}
