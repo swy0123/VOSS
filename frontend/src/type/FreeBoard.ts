@@ -50,7 +50,7 @@ export interface CommentType {
   nickname?: string,
   content?: string,
   createdAt?: string,
-  imageUrl? : string,
+  profileImage? : string,
 };
 
 

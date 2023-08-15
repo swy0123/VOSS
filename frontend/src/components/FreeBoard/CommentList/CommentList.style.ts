@@ -37,7 +37,6 @@ export const CommentDesign = styled.div`
   width: 1000px;
   border-bottom: solid 1px #7d7d7d;
   /* border: solid 1px pink; */
-
 `;
 
 export const CommentInfoDesign = styled.div`
@@ -48,6 +47,13 @@ export const CommentInfoDesign = styled.div`
   height: 35px;
   color: #a4a4a4;
   /* border: solid 1px pink; */
+  img {
+    cursor: pointer;
+    margin-right: 14px; 
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+  }
 `;
 
 export const CommentUpdateDesign = styled.div`
