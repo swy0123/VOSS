@@ -122,7 +122,7 @@ export const Waves = styled.div`
 
 export const FileDownload = styled.button`
   background-color: transparent;
-  border:none
+  border:none;
 `
 
 export const FileDownloadImg = styled.img`
