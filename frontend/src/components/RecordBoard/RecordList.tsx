@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { RecordsState } from "/src/recoil/Community";
-import {recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
+import { CurrentUserAtom } from "/src/recoil/Auth";
+import { recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
 import { RecordType } from "/src/type/FreeBoard";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
@@ -26,11 +27,12 @@ const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
 
 const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
   const today = new Date().toISOString();
+  const me = useRecoilValue(CurrentUserAtom).userid
   const [records, setRecords] = useRecoilState(RecordsState);
   const [isTrash, setTrash] = useState(false);
   
   const navigate = useNavigate();
-  const goProfile = (id: number) => navigate(`/profile=/${id}`)
+  const goProfile = (id: number) => navigate(`/profile/${id}`)
 
   const likeRecord = (recordId: number, liked: boolean) => {
     if (!liked) {
@@ -95,12 +97,16 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
 
   return(
     <RecordItemDesign>
+
       <RecordDeleteDesign>
-        <img src={ isTrash ? "/src/assets/Training/trashcan(del).png" : "/src/assets/Training/trashcan.png" } alt=""
+        { me == record.memberId
+        ? <img src={ isTrash ? "/src/assets/Training/trashcan(del).png" : "/src/assets/Training/trashcan.png" } alt=""
           onMouseEnter={()=>setTrash(true)}
           onMouseLeave={()=>setTrash(false)}
           onClick={()=>recordDelete(record.recordId)}
         />
+        : <div style={{ height: '18px'}}></div>
+        }
       </RecordDeleteDesign>
 
       <RecordTitleDesign>{record.description}</RecordTitleDesign>
@@ -132,7 +138,7 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
       </RecordDateHitsDesign>
 
       <RecordUsersDesign>
-        <img src={ record.profileImage ? `${FILE_SERVER_URL}/${record.profileImage}` : ProfileNull} alt="" />
+        <img onClick={()=>goProfile(record.memberId)} src={ record.profileImage ? `${FILE_SERVER_URL}/${record.profileImage}` : ProfileNull} alt="" />
         <span onClick={()=>goProfile(record.memberId)}>{record.nickname}</span>
       </RecordUsersDesign>
     </RecordItemDesign>

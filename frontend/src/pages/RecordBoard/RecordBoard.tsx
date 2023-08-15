@@ -21,7 +21,6 @@ import {
   OrderSelectDesign,
   RecordContentDesign,
 } from "./RecordBoard.style";
-import { RecordType } from "/src/type/FreeBoard";
 
 
 function RecordBoard () {
@@ -38,13 +37,6 @@ function RecordBoard () {
     searchPost(sort, cond, input, 1);
   };
 
-  const enterKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") { // 이걸 안하면 모든 키 입력을 못 받음
-      event.preventDefault();
-      searchPost(sort, cond, input, 1);
-    }
-  };
-
   const searchPost = (sort: string, cond: string, input:string, page: number) => {
     getRecords(sort, cond, input, page).then((dataRecords) => {
       if (dataRecords) {
@@ -56,6 +48,10 @@ function RecordBoard () {
   useEffect(() => {
     searchPost("1", "1", "", 1);
   }, [])
+
+  useEffect(() => {
+    searchPost(sort, cond, input, 1);
+  },[sort])
 
   return(
     <BackGroundImg>
@@ -80,8 +76,7 @@ function RecordBoard () {
           <InputBoxDesign onSubmit={clickSearchBtn}>
             <InputBoxIpt
               value={input}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)}
-              onKeyPress={enterKeyDown} 
+              onChange={(event: ChangeEvent<HTMLInputElement>) => setInput(event.target.value)} 
               type="text" 
               placeholder="검색"/>
             <InputBoxBtn>
