@@ -44,6 +44,7 @@ function PostUpdate() {
   const [firstFiles, setFirstFiles] = useState<any>([]);
 
   const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value.length > 1000) return;
     event.target.style.height = 'auto';
     event.target.style.height =  event.target.scrollHeight + 'px';
     setContent(event.target.value);
@@ -64,7 +65,16 @@ function PostUpdate() {
   
   const goProfile = () => (navigate(`/profile/${post.memberId}`));
   const goFreeBoard = () => navigate("/freeboard");
+
   const UpdatePost = () => {
+    if (!title.trim()) {
+      alert('제목이 비어있습니다')
+      return;
+    }
+    if (!content.trim()) {
+      alert('내용이 비어있습니다')
+      return;
+    }
     const deleteFileIds = firstFiles.filter(((file: PostFilesType) => !files.includes(file))).map((file: PostFilesType) => file.id);
     const newFiles = files.filter((file: PostFilesType) => !('id' in file));
     console.log("deleteFileIds: ", deleteFileIds)
@@ -97,7 +107,7 @@ function PostUpdate() {
 
       <FreeTitleUserDesign>
         <FreeTitleInputDesign
-          placeholder="제목"
+          placeholder="제목 (40자 이내)"
           onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}>
         </FreeTitleInputDesign>
@@ -119,7 +129,7 @@ function PostUpdate() {
 
       <FreeContentTextAreaDesign
         className="textarea"
-        placeholder="내용을 입력하세요"
+        placeholder="내용을 입력하세요 (1000자 이내)"
         onChange={changeContent}
         value={content}
         autoFocus

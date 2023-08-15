@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { useRecoilState } from 'recoil';
-import { CurrentUserAtom, LoginState } from '../recoil/Auth';
-import { useNavigate } from 'react-router-dom';
+
+
 //수정
 const BASE_URL = 'https://i9b106.p.ssafy.io:8080';
 // const navigate = useNavigate();
@@ -69,17 +68,9 @@ privateApi.interceptors.response.use(
           originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axios(originRequest);
         } catch {
-          // alert("다시 로그인하세요");
-          // setLoginState(false);
-          // setCurrentUser({
-          //   userid: 0,
-          //   email: "",
-          //   nickname: "",
-          //   accessToken: "",
-          //   refreshToken: ""});
-          // localStorage.removeItem('access_token');
-          // localStorage.removeItem('refresh_token');
-          // navigate("/");
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.href = ("/");
         }
       }
     }

@@ -122,7 +122,9 @@ function FreeBoard () {
           <PostCategoryHitDesign>조회수</PostCategoryHitDesign>
           <PostCategoryLikeDesign>좋아요</PostCategoryLikeDesign>
         </PostCategoryDesign>
-
+        
+        { posts.length 
+        ? <> 
         {posts?.map((post, index) => (
           <PostList
             key={post.id}
@@ -139,6 +141,9 @@ function FreeBoard () {
             hits={post.hits}
           />
         ))}
+        </>
+        : <div style={{ height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
+        }
 
         <SearchboxDesign style={{borderTop: "solid 1px white"}}>
           <SearchSelectDesign id="cond-select" value={cond} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
