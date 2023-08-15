@@ -5,9 +5,9 @@ import com.yukgaejang.voss.domain.meet.service.dto.request.MeetSearchCondition;
 import com.yukgaejang.voss.domain.meet.service.dto.request.SelectScriptRequest;
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 
 public interface MeetSupportRepository {
@@ -18,5 +18,5 @@ public interface MeetSupportRepository {
 
     void leaveMeetRoom(Long meetId);
 
-    List<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList);
+    Stream<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList, String scriptCondition);
 }

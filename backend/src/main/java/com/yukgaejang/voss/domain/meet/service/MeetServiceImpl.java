@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +45,9 @@ public class MeetServiceImpl implements MeetService{
     public List<ViewAllMeetRoomResponse> getMeetList(MeetSearchCondition condition) {
         HashMap<String, List<Long>> map = openViduClient.getSession();
         Set<String> sessionIdList = map.keySet();
-        List<ViewAllMeetRoomResponse> collect = meetRepository.getMeetListBySessionId(condition, sessionIdList)
-                .stream()
+        Stream<Meet> notNullMeetList = meetRepository.getMeetListBySessionId(condition, sessionIdList, "script");
+        Stream<Meet> nullMeetList = meetRepository.getMeetListBySessionId(condition, sessionIdList, null);
+        List<ViewAllMeetRoomResponse> collect = Stream.concat(notNullMeetList, nullMeetList)
                 .map(o -> new ViewAllMeetRoomResponse(o))
                 .collect(Collectors.toList());
         for (ViewAllMeetRoomResponse response: collect) {
@@ -92,8 +94,12 @@ public class MeetServiceImpl implements MeetService{
 
     @Override
     public GetStatusResponse selectScript(SelectScriptRequest selectScriptRequest) {
-        Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
-        long l = meetRepository.setScript(selectScriptRequest, script);
+        if (selectScriptRequest.getScriptId() == 0) {
+            meetRepository.setScript(selectScriptRequest, null);
+        } else {
+            Script script = scriptRepository.findById(selectScriptRequest.getScriptId()).orElseThrow();
+            long l = meetRepository.setScript(selectScriptRequest, script);
+        }
         return new GetStatusResponse("선택 완료");
     }
 

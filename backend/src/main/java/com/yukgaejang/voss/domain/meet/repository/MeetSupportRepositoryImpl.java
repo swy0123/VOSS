@@ -10,9 +10,9 @@ import com.yukgaejang.voss.domain.practice.repository.entity.Script;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 
@@ -58,18 +58,19 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
     }
 
     @Override
-    public List<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList) {
+    public Stream<Meet> getMeetListBySessionId(MeetSearchCondition condition, Set<String> sessionIdList, String scriptCondition) {
         return queryFactory
                 .selectDistinct(meet)
                 .from(meet)
                 .where(
                         meet.sessionId.in(sessionIdList),
                         titleContains(condition.getTitle()),
-                        categoryEq(condition.getCategory())
+                        categoryEq(condition.getCategory()),
+                        scriptIsNull(scriptCondition)
                 )
-                .fetch();
+                .orderBy(meet.id.desc())
+                .stream();
     }
-
     private BooleanExpression titleContains(String title) {
         return title == null ? null : meet.title.contains(title);
     }
@@ -78,5 +79,7 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
         return category == null ? null : meet.category.eq(category);
     }
 
-
+    private BooleanExpression scriptIsNull(String scriptCondition) {
+        return scriptCondition == null ? meet.script.isNull() : meet.script.isNotNull();
+    }
 }
