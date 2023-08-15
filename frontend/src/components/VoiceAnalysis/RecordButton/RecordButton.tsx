@@ -16,6 +16,7 @@ import {
   Waves
 } from './RecordButton.style';
 import ConfirmContext from '/src/context/confirm/ConfirmContext';
+import AlertContext from '/src/context/alert/AlertContext';
 
 function RecordButton() {
   const [analysisRecord, setAnalysisRecord] = useRecoilState(analysisRecordState)
@@ -27,6 +28,7 @@ function RecordButton() {
   const [time, setTime] = useState(0);
   const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
+  const { alert: alertComp } = useContext(AlertContext);
 
   const {
     startRecording,
@@ -108,6 +110,11 @@ function RecordButton() {
     }
   }, [stop])
 
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
+
   const openAlert = async () => {
     const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
     if (nextAction) {
@@ -174,7 +181,7 @@ function RecordButton() {
             (<RecordBtn
               onClick={() => {
                 if (stop >= 200) {
-                  alert("녹음을 완료/취소 해주세요")
+                  onAlertClick("녹음을 취소/완료 해주세요")
                   return
                 }
                 startOrStop()

@@ -2,7 +2,7 @@ import { useRef, useState, useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { accentRecordState } from "../../../recoil/Training";
-import { accentScriptState, accentSttState } from "/src/recoil/HW_Atom";
+import { accentScriptState, accentSttState, initialBtnState } from "/src/recoil/HW_Atom";
 import SoundToText from "../AccentResult/SoundToText";
 import {
   Backdrop,
@@ -18,6 +18,7 @@ import {
   Waves,
 } from "./RecordButton.style";
 import ConfirmContext from "/src/context/confirm/ConfirmContext";
+import AlertContext from "/src/context/alert/AlertContext";
 
 function RecordButton() {
   const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState);
@@ -25,12 +26,13 @@ function RecordButton() {
   const [accentText, setAccentText] = useRecoilState(accentSttState);
   const [practiceStart, setPracticeStart] = useState(false);
   const [practiceEnd, setPracticeEnd] = useState(false);
-  const [initialBtn, setInitialBtn] = useState(true);
+  const [initialBtn, setInitialBtn] = useRecoilState(initialBtnState);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const [time, setTime] = useState(0);
   const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
+  const { alert: alertComp } = useContext(AlertContext);
   const {
     startRecording,
     stopRecording,
@@ -45,6 +47,11 @@ function RecordButton() {
     const result = await confirmComp(text);
     console.log("custom", result);
     return result;
+  };
+
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
   };
 
   // 녹음 시간 20초 제한
@@ -146,6 +153,11 @@ function RecordButton() {
           {initialBtn ? (
             <RecordBtn
               onClick={() => {
+                if(!accentScript){
+                  onAlertClick("스크립트를 생성해주세요.")
+                  return;
+                }
+                setStop(0)
                 startOrStop();
                 startRecording();
                 startListening();
@@ -181,7 +193,7 @@ function RecordButton() {
             <RecordBtn
               onClick={() => {
                 if (stop >= 200) {
-                  alert("녹음을 완료/취소 해주세요");
+                  onAlertClick("녹음을 완료/취소 해주세요")
                   return;
                 }
                 startOrStop();
@@ -201,6 +213,7 @@ function RecordButton() {
           {!initialBtn && !isRunning ? (
             <CompleteBtn
               onClick={() => {
+                setStop(0)
                 stopRecording();
                 addRecord(mediaBlobUrl);
                 resetTimer();

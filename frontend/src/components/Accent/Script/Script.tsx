@@ -1,7 +1,7 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { makeAccentScript } from "../../../api/script";
-import { accentScriptState } from "/src/recoil/HW_Atom";
+import { accentScriptState, initialBtnState } from "/src/recoil/HW_Atom";
 import {
   CategoryBox,
   CategoryButton,
@@ -20,25 +20,37 @@ import {
   Title,
 } from "./Script.style";
 import { ScaleLoader } from "react-spinners";
+import AlertContext from "/src/context/alert/AlertContext";
 
 function Script() {
   const [isHovered, setIsHovered] = useState(false);
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
   const [scriptClickable, setScriptClickable] = useState<boolean>(true);
-
+  const [initialBtn, setInitialBtn] = useRecoilState(initialBtnState);
   const categoryOpt = ["뉴스", "날씨", "법률", "스포츠"];
   const [isCategorySelect, setIsCategorySelect] = useState<boolean[]>([true, false, false, false]);
   const [categorySelected, setCategorySelected] = useState<string[]>([]);
+  const { alert: alertComp } = useContext(AlertContext);
 
-  // useEffect(()=>{
-  // },[scriptClickable])
+  const onAlertClick = async (text:string) => {
+    const result = await alertComp(text);
+    console.log("custom", result);
+  };
 
   const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if(!initialBtn) {
+      onAlertClick("녹음을 취소/완료 해주세요")
+      return
+    }
     setAccentScript(e.target.value);
   };
   const DelScripts = () => {
+    if(!initialBtn) {
+      onAlertClick("녹음을 취소/완료 해주세요")
+      return
+    }
     setAccentScript("");
     setIsHovered(false);
   };
