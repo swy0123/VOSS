@@ -16,3 +16,9 @@ export interface AlarmInfoType {
 export interface AlarmInfoListType {
   AlarmInfo : Promise<AlarmInfoType[]>
 }
+
+// 화상방 녹은 시작/종료 요청
+export interface RecordingInfo{
+  meetRoomId: number | any,
+  command : string
+}

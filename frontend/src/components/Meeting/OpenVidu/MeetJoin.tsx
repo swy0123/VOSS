@@ -23,7 +23,7 @@ import {
 import ChatComponent, { ChatProps } from "./ChatComponent";
 import ToolbarComponent from "./ToolbarComponent";
 import BadgeModal from "./BadgeModal";
-import { meetDubUserState } from "/src/recoil/HW_Atom";
+import { meetDubSelectState, meetDubUserState } from "/src/recoil/HW_Atom";
 // import { VedioInnerDiv } from "./UserVideoComponent.style";
 
 export interface streamContainerProps {
@@ -74,6 +74,8 @@ const MeetJoin = (props: any) => {
   const [hour, setHour] = useState(0);
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(0);
+
+  const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState);
 
   //뒤로가기 새로고침
   useEffect(() => {
@@ -245,6 +247,7 @@ const MeetJoin = (props: any) => {
   const leaveSession = () => {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     if (session) {
+      setMeetDubSelect(0)
       session.disconnect();
     }
 

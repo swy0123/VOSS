@@ -17,7 +17,7 @@ import Role from "./Role/Role"
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
 import RecordButton from "./RecordButton/RecordButton"
 
-function DubbingRoom () {
+function DubbingRoom ({meetRoomId}:number) {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
   const [meetDubUser] = useRecoilState<number>(meetDubUserState);
   const [userSelectRole, setUserSelectRole] = useState<string[]>(Array(meetDubUser).fill(""))
@@ -74,7 +74,7 @@ function DubbingRoom () {
           onClick={goDubbingList}>목록으로</GoDubbingListBtn>
         <Script 
           lines={video.lines}></Script>
-        <RecordButton/>
+        <RecordButton meetRoomId={meetRoomId}/>
       </RightSection>
     </Container>
   ) 

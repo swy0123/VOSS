@@ -3,22 +3,23 @@ import { styled, keyframes } from 'styled-components';
 export const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 250px;
+  align-items: center;
+  height: 150px;
   width: 570px;
+  /* border: 1px solid red; */
 ` 
 
 export const RecordBtnBox = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
-  height: 150px;
+  justify-content: space-between;
+  height: 130px;
   width: 200px;
+  /* border: 1px solid blue; */
 `
 export const StopWatch = styled.p`
   color: white;
-  margin: 20px 0px 20px 0px;
+  font-size: 20px;
   height: 1px;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
@@ -42,8 +43,12 @@ export const PracticeEnd = styled(State)<{$practiceEnd?: boolean}>`
 `
 export const SectionBtn = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  height: 60px;
+  justify-content: flex-end;
+  height: 115px;
+  /* border: 1px solid pink; */
+
 `
 export const Button = styled.button`
   background-color: #3a3a3a;
@@ -60,13 +65,16 @@ export const CompleteBtn = styled(Button)``
 
 export const ParcticeStartSection = styled.div`
   display: flex;
-  padding-top: 18px;
   flex-direction: column;
   align-items: center;
+  height: 100px;
+  width: 100px;
 `
 
 export const ParcticeInfo = styled.div`
   color: #BABABA;
+  width: 150px;
+  text-align: center;
 `
 
 export const RecordBtn = styled.img`
@@ -103,7 +111,6 @@ export const Waves = styled.div`
     height: 50px;
     border-radius: 50%;
     animation: ${wave} 3s infinite linear;
-
   }
 
   &::after{
@@ -111,4 +118,16 @@ export const Waves = styled.div`
     -webkit-animation: ${wave} 3s 1.5s infinite linear;
             animation: ${wave} 3s 1.5s infinite linear;
   }
+`
+
+export const FileDownload = styled.button`
+  background-color: transparent;
+  border:none;
+`
+
+export const FileDownloadImg = styled.img`
+  margin-top: 10px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 `
