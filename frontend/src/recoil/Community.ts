@@ -1,10 +1,12 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
+import { RecordType } from "../type/FreeBoard";
+import { PostListType } from "../type/FreeBoard";
 const { persistAtom } = recoilPersist();
 
 
 // 자유게시판 글 목록 10개
-export const FreeBoardListState = atom({
+export const FreeBoardListState = atom<PostListType[]>({
   key: "FreeBoardListState",
   default: [],
   effects_UNSTABLE: [persistAtom],
@@ -66,12 +68,12 @@ export const FreeBoardCommentCountState = atom<number>({
 });
 
 
-// // 녹음게시판 글 목록 20개
-// export const RecordsState = atom({
-//   key: "RecordsState",
-//   default: [],
-//   effects_UNSTABLE: [persistAtom],
-// });
+// 녹음게시판 글 목록
+export const RecordsState = atom<RecordType[]>({
+  key: "RecordsState",
+  default: [],
+  // effects_UNSTABLE: [persistAtom],
+});
 
 
 // 녹음게시판 검색어
@@ -100,4 +102,10 @@ export const RecordBoardCondState = atom<string>({
 export const RecordBoardCurrentPageState = atom<number>({
   key:  "RecordBoardCurrentPageState",
   default: 1,
+});
+
+// 녹음게시판 작성하기 모달
+export const ShowRecordCreateModalState = atom<boolean>({
+  key:  "ShowRecordCreateModalState",
+  default: false,
 });

@@ -49,6 +49,7 @@ export const FriendTitleDesign = styled.div`
 
 
 export const ExitImg = styled.img`
+  cursor: pointer;
   position: absolute;
   right: 10px;
   top: 12px;
@@ -102,6 +103,7 @@ export const FriendListItem1 = styled.div`
   align-items: center;
   width: 10%;
   img {
+    cursor: pointer;
     width: 35px;
     height: 35px;
   };
@@ -113,6 +115,7 @@ export const FriendListItem1 = styled.div`
   align-items: center;
   width: 58%;
   span{
+    cursor: pointer;
     &:hover{
       text-decoration: underline;
     }
@@ -125,6 +128,7 @@ export const FriendListItem1 = styled.div`
   align-items: center;
   width: 8%;
   img {
+    cursor: pointer;
     width: 32px;
     height: 30px;
   }

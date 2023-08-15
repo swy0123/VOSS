@@ -9,7 +9,6 @@ const BackDrop = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(1, 1, 1, 0.2);
-  border: solid 5px yellow;
   `;
 
 const ModalContainer = styled.div`
@@ -66,7 +65,7 @@ const ModalNoBtn = styled.div`
   background-color: white;
   border: solid 2px blue;
   `;
-const ModalYesBtns = styled.div`
+const ModalYesBtn = styled.div`
   width: 70px;
   height: 40px;
   font-size: 18px;
@@ -93,7 +92,7 @@ function SmallWarningModal() {
 
       <ModalBtns>
         <ModalNoBtn>취소</ModalNoBtn>
-        <ModalYesBtns>확인</ModalYesBtns>
+        <ModalYesBtn>확인</ModalYesBtn>
       </ModalBtns>
 
     </ModalContainer>

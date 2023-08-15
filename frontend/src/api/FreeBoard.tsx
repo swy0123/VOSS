@@ -43,7 +43,6 @@ export const getPost = async ( id: number ) => {
 
 
 export const createPost = async ( title: string, content: string, files: PostFilesType[] ) => {
-    console.log("postFiles: ", files)
     const res = await privateApi.post(`/freeboard`, {title, content, files})
     .catch(err => {
         console.log("createPost catch: ", err)
@@ -57,7 +56,6 @@ export const createPost = async ( title: string, content: string, files: PostFil
 
 
 export const updatePost = async ( id: number, title: string, content: string, deleteFileIds: number[], newFiles: PostFilesType[] ) => {
-    console.log(id, title, content, deleteFileIds, newFiles)
     const res = await privateApi.put(`/freeboard/${id}`, {title, content, deleteFileIds, newFiles})
     .catch(err => {
         console.log("updatePost catch: ", err)
@@ -123,6 +121,7 @@ export const postLike = async ( id: number ) => {
     }
     return false
 };
+
 
 export const deleteLike = async ( id: number ) => {
     const res = await privateApi.delete(`/freeboard/${id}/like`, )

@@ -13,6 +13,12 @@ export const MessegeListDiv = styled.div`
   right: 25px;
   bottom: 25px;
   opacity: 97%;
+  span {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 export const MessegeTitle = styled.div`
@@ -23,6 +29,7 @@ export const MessegeTitle = styled.div`
   `;
 
 export const ExitImg = styled.img`
+  cursor: pointer;
   position: absolute;
   right: 10px;
   top: 9px;
@@ -89,10 +96,13 @@ export const Input = styled.input`
   margin: 11px;
   padding: 7px;
   border-radius: 5px;
-  border-width: 0px;
+  border: none;
+  text-decoration: none;
+  outline: none;
 `;
 
 export const Send = styled.img`
+  cursor: pointer;
   position: absolute;
   right: 11px;
   bottom: 14px;
