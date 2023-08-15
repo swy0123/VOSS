@@ -28,7 +28,7 @@ import {
     
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
-  const [playTrigger, setPlayTrigger] = useRecoilState<boolean>(PlayTriggerState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [youtube, setYoutube] = useState<object|undefined>(undefined)
