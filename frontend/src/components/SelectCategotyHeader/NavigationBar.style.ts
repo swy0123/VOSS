@@ -58,6 +58,16 @@ export const ProfileHover =styled.img`
 
 export const EmptySpace = styled.div`
 `
+
+export const DivForHover = styled.div`
+  position: fixed;
+  top: 45px;
+  right: 30px;
+  width: 100px;
+  height: 15px;
+  /* border: solid 1px red; */
+`;
+
 export const ProfileHoverList = styled.div`
   display: flex;
   background-color: white;

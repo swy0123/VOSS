@@ -14,6 +14,7 @@ import {
   AlarmIcon,
   Profile,
   EmptySpace,
+  DivForHover,
   ProfileHoverList,
   ProfileHoverListItem,
   ProfileHoverTriangle,
@@ -37,9 +38,10 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
   const navigate = useNavigate()  
   const goSelectCategory = () => {navigate("/category")}
   const AlarmToggle = () => {setAlarmIsshown((IsShown) => !IsShown)}
-  const goProfile = (id: number) => {
-    navigate(`/profile/${id}`);
-  }
+  const goProfile = (id: number) => {navigate(`/profile/${id}`)}
+  const goBoardData = (id: number) => {navigate(`/boarddata/${id}`)}
+  const goCommentData = (id: number) => {navigate(`/commentdata/${id}`)}
+
   const setLogout = () => {
     setLoginState(false);
     setCurrentUser({
@@ -81,12 +83,16 @@ function NavigationBar({AlarmIsShown, setAlarmIsshown, setMenuIsShown }: Headert
         
         {profileMenuShown
         ? <div>
+          <DivForHover
+            onMouseEnter={() => setProfileMenuShown(true)}
+            onMouseLeave={() => setProfileMenuShown(false)}
+          />
           <ProfileHoverList 
             onMouseEnter={() => setProfileMenuShown(true)} 
             onMouseLeave={() => setProfileMenuShown(false)}>
             <ProfileHoverListItem onClick={() => goProfile(currentUser.userid)}>{currentUser.nickname}</ProfileHoverListItem>
-            <ProfileHoverListItem >내가 쓴 글</ProfileHoverListItem>
-            <ProfileHoverListItem>내가 쓴 댓글</ProfileHoverListItem>
+            <ProfileHoverListItem onClick={()=> goBoardData(currentUser.userid)}>내가 쓴 글</ProfileHoverListItem>
+            <ProfileHoverListItem onClick={()=> goCommentData(currentUser.userid)}>내가 쓴 댓글</ProfileHoverListItem>
             <ProfileHoverListItem onClick={() => setLogout()}>로그아웃</ProfileHoverListItem>
           </ProfileHoverList>
           <ProfileHoverTriangle

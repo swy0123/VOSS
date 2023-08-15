@@ -18,6 +18,9 @@ import Profile from "./pages/Profile/Profile";
 import Game from "./pages/Game/Game";
 import Avatar from "./pages/Avatar/Avatar";
 import RecordBoard from "./pages/RecordBoard/RecordBoard";
+import BoardData from "./pages/CommunityData/BoardData";
+import CommentData from "./pages/CommunityData/CommentData";
+
 
 const router = createBrowserRouter([
     {
@@ -102,6 +105,16 @@ const router = createBrowserRouter([
             {
                 path: "recordboard",
                 element: <RecordBoard />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "boarddata/:id",
+                element: <BoardData />,
+                errorElement: <ErrorComponent />,
+            },
+            {
+                path: "commentdata/:id",
+                element: <CommentData />,
                 errorElement: <ErrorComponent />,
             },
         ],

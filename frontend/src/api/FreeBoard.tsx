@@ -186,3 +186,29 @@ export const deleteComment = async ( postId: number, commentId: number ) => {
     }
     return false
 };
+
+
+export const getMyPostList = async (memberId: number, page: number) => {
+    const res = await privateApi.get(`/freeboard/user-post/${memberId}?page=${page-1}`)
+    .catch(err => {
+        console.log("getMyPostList catch: ", err)
+    })
+    if (res) {
+        console.log("getMyPostList then: ", res.data)
+        return(res.data)
+    }
+    return false
+};
+
+
+export const getMyComments = async (memberId: number, page: number) => {
+    const res = await privateApi.get(`/freeboard/user-comment/${memberId}?page=${page-1}`)
+    .catch(err => {
+        console.log("getMyComments catch: ", err)
+    })
+    if (res) {
+        console.log("getMyComments then: ", res.data)
+        return(res.data)
+    }
+    return false
+};
