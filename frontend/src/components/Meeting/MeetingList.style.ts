@@ -19,20 +19,23 @@ export const ListBox = styled.div`
   }
 `;
 
-export const MeetingRoom = styled.div`
+export const MeetingRoom = styled.div<{ $IsOnAir: boolean }>`
   position: relative;
   width: 48%;
   height: 18%;
-  background-color: #efefef;
+  background-color: ${(props) => (props.$IsOnAir ? "#ABABAB" : "#efefef")};
   /* border-style: solid; */
   border-radius: 10px;
   margin-left: 1%;
   margin-bottom: 1%;
-  cursor: pointer;
+  cursor: ${(props) => (props.$IsOnAir ? "" : "pointer")};
+  pointer-events: ${(props) => (props.$IsOnAir ? "none" : "")};
 
   &:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    ${(props) =>
+      props.$IsOnAir
+        ? ""
+        : "box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;"}
   }
 `;
 
@@ -69,13 +72,19 @@ export const Count = styled.p`
 export const LockImg = styled.img`
   height: 17px;
   width: 17px;
-  margin-right: 20%;
+  margin-right: 10%;
+`;
+
+export const OnAirImg = styled.img`
+  height: 20px;
+  width: 50px;
+  margin-right: 5%;
 `;
 
 export const CountImg = styled.img`
   height: 17px;
   width: 17px;
-  margin-left: 20%;
+  margin-left: 10%;
 `;
 
 export const PagingDiv = styled.div`
@@ -87,21 +96,20 @@ export const PageMoveBtnImg = styled.img`
   width: 17px;
   margin: 10px;
   cursor: pointer;
-  &:hover{
-    filter: drop-shadow(1px 1px 1px white)
+  &:hover {
+    filter: drop-shadow(1px 1px 1px white);
   }
 `;
 
-
 export const PaginationWrapper = styled.ul`
-width: fit-content;
-display: flex;
-list-style: none;
-/* justify-content: center; */
-align-items: center;
-color: white;
-margin: 0 auto;
-padding: 0;
-position: relative;
-left: -1%;
+  width: fit-content;
+  display: flex;
+  list-style: none;
+  /* justify-content: center; */
+  align-items: center;
+  color: white;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  left: -1%;
 `;

@@ -11,7 +11,7 @@ import {
   Container, 
   DubbingBox } from "./DubbingList.style"
 
-function DubbingList() {
+function DubbingList({meetRoomId}:number) {
   const [videoList, setVideoList] = useRecoilState<VideosType[]>(videoListState)
   const [videoFilter, setVideoFilter] = useRecoilState<VideosType[]>(videoFilterState)
 
@@ -34,7 +34,7 @@ function DubbingList() {
     <Container>
       <DubbingBox>
         <Genre/>
-        <Video/>
+        <Video meetRoomId={meetRoomId}/>
       </DubbingBox>
     </Container>
   )
