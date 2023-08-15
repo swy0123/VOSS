@@ -111,8 +111,14 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public Page<MyRecordListResponse> getMyRecordList(Pageable pageable, String email) {
-        return recordRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
+    public Page<UserRecordListResponse> getMyRecordList(Pageable pageable, String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return recordRepository.findAllByMemberIdAndIsDeletedFalse(pageable, member.getId());
+    }
+
+    @Override
+    public Page<UserRecordListResponse> getUserRecordList(Pageable pageable, Long memberId) {
+        return recordRepository.findAllByMemberIdAndIsDeletedFalse(pageable, memberId);
     }
 
     @Override

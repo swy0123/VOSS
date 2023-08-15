@@ -3,8 +3,6 @@ package com.yukgaejang.voss.domain.recordboard.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,15 +10,14 @@ import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecord;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecordFile;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.QRecordLike;
 import com.yukgaejang.voss.domain.recordboard.repository.entity.Record;
-import com.yukgaejang.voss.domain.recordboard.service.dto.response.MyRecordListResponse;
 import com.yukgaejang.voss.domain.recordboard.service.dto.response.RecordDetailResponse;
+import com.yukgaejang.voss.domain.recordboard.service.dto.response.UserRecordListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class RecordSupportRepositoryImpl implements RecordSupportRepository {
@@ -82,9 +79,9 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
     }
 
     @Override
-    public Page<MyRecordListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
-        List<MyRecordListResponse> records = jpaQueryFactory
-                .selectDistinct(Projections.constructor(MyRecordListResponse.class,
+    public Page<UserRecordListResponse> findAllByMemberIdAndIsDeletedFalse(Pageable pageable, Long memberId) {
+        List<UserRecordListResponse> records = jpaQueryFactory
+                .selectDistinct(Projections.constructor(UserRecordListResponse.class,
                         r,
                         rf.originalFileName,
                         rf.savedFileName,
@@ -93,13 +90,13 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                                 .selectOne()
                                 .from(rl)
                                 .where(rl.record.id.eq(r.id)
-                                        .and(rl.member.email.eq(email)))
+                                        .and(rl.member.id.eq(memberId)))
                 ))
                 .from(r)
                 .leftJoin(r.member).fetchJoin()
                 .leftJoin(rf).on(r.id.eq(rf.record.id).and(rf.isDeleted.eq(0)))
                 .where(r.isDeleted.eq(0)
-                        .and(r.member.email.eq(email)))
+                        .and(r.member.id.eq(memberId)))
                 .orderBy(r.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -109,7 +106,7 @@ public class RecordSupportRepositoryImpl implements RecordSupportRepository {
                 .select(r.id)
                 .from(r)
                 .where(r.isDeleted.eq(0)
-                        .and(r.member.email.eq(email)));
+                        .and(r.member.id.eq(memberId)));
         return new PageImpl<>(records, pageable, countQuery.fetchCount());
     }
 
