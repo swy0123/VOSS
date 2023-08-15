@@ -16,15 +16,21 @@ import {
   VideoBox, 
   VideoItem } from "./Video.style"
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
+import { meetScriptData, postMeetScript } from "/src/api/meeting"
 
-function Video () {
+function Video ({meetRoomId}:number) {
   const [videoFilter] = useRecoilState<VideosType[]>(videoFilterState)
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
   const [meetDubPlayChange, setMeetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   
-  const meetDubSelecting = (id:number) => {
+  const meetDubSelecting = async (id:number) => {
+    const scriptData:meetScriptData = {
+      meetRoomId : meetRoomId,
+      scriptId : id
+    }
+    await postMeetScript(scriptData);
     setSend(`/govideo${id}`)
     // void postRractice("DUB")
   }

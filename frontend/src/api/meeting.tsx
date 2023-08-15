@@ -80,6 +80,17 @@ export interface MeetRoomData {
   title: string;
 }
 
+export interface meetScriptData {
+  meetRoomId : number;
+  scriptId : number;
+}
+
+export const postMeetScript = async (meetScriptData: meetScriptData) => {
+  const res = await privateApi.post("/meet/script", meetScriptData);
+  console.log(res.data);
+  return res.data.status;
+};
+
 export interface addRoomData {
   title: string;
   maxCount: number;
