@@ -83,7 +83,7 @@ export const ScriptBox = styled.div`
 `
 
 export const ScriptDiv = styled.div`
-  height: 125px;
+  height: 155px;
   width: 450px;
   display: flex;
   position: relative;
@@ -117,7 +117,7 @@ export const SpinnerDiv = styled.div<{ $IsClickable: boolean }>`
   width: 90px;
   position: absolute;
   top: 60%;
-  left: 55%;
+  left: 50%;
   display : ${(props) => (props.$IsClickable ? "none" : "block")};;
   /* transform: translate(-50%, -50%); */
 `;

@@ -96,7 +96,7 @@ function VoiceMafia() {
                         </StartButton>
                     ): <></>}
                     {ShowResult && (
-                        <ResultBoard score={1} handleReplayButtonClick={handleReplayButtonClick} />
+                        <ResultBoard score={CurrentScore} handleReplayButtonClick={handleReplayButtonClick} />
                     )}
                 </div>
             </GameNoticeDiv>
