@@ -100,6 +100,12 @@ export const RecordTriggerState = atom<number>({
   default: 0,
 })
 
+// 발음교정 방 녹음 초기상태 표시
+export const initialBtnState = atom<boolean>({
+  key: "initialBtnState",
+  default: true,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
