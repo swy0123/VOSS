@@ -98,6 +98,8 @@ public class RecordServiceImpl implements RecordService {
         }
         record.delete();
         recordRepository.save(record);
+        List<RecordLike> recordLikes = recordLikeRepository.findByRecordId(id);
+        recordLikeRepository.deleteAll(recordLikes);
         RecordFile recordFile = recordFileRepository.findByRecordIdAndIsDeletedFalse(id);
         if(recordFile == null) {
             throw new NoRecordFileException("존재하지 않는 파일입니다.");

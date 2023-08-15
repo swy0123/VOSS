@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -123,6 +124,8 @@ public class PostServiceImpl implements PostService {
             postComment.delete();
             postCommentRepository.save(postComment);
         }
+        List<PostLike> likes = postLikeRepository.findAllByPostId(id);
+        postLikeRepository.deleteAll(likes);
         List<PostFileDetailResponse> files = postFileRepository.findAllByPostIdAndIsDeletedFalse(id);
         for(PostFileDetailResponse file : files) {
             PostFile postFile = postFileRepository.findById(file.getId()).orElseThrow(() -> new NoPostFileException("존재하지 않는 파일입니다."));
