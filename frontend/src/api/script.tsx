@@ -8,7 +8,7 @@ type AsyncFunction = (
 export const makeAnalysisScript: AsyncFunction = async(genderSelected,ageSelected) => {
   try{
     const response: AxiosResponse<string> = await privateApi.get<string>(
-      `/practice/diction/script?cmd=성별이${ageSelected}이고 ${genderSelected}인 스크립트를 15초 내외 분량으로 무조건 특수기호 없이 그리고 무조건 스크립트라는 설명없이 작성해줘`
+      `/practice/diction/script?cmd=${genderSelected} ${ageSelected} 배역의 영화, 드라마, tv 프로그램 등에서 나왔던 30초 분량의 대사 한 개 만들어줘.`
     )
     console.log(genderSelected)
     console.log(ageSelected)
@@ -24,7 +24,7 @@ export const makeAccentScript: AsyncFunction = async(categorySelected) => {
   try{
     console.log(categorySelected+"    api")
     const response: AxiosResponse<string> = await privateApi.get<string>(
-      `/practice/diction/script?cmd=${categorySelected} 와 관련된 스크립트를 꼭 15초 이내 분량으로 무조건 특수기호 없이 그리고 무조건 스크립트라는 설명없이 작성해줘. 실제 대본처럼 작성해줘`
+      `/practice/diction/script?cmd=${categorySelected} 분야에서 사용하는 30초 분량의 문장이나 대사 또는 해설 한 개 만들어줘.`
     )
     return response.data
   }
