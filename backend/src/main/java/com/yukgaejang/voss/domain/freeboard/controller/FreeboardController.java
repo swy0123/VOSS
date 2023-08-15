@@ -118,7 +118,7 @@ public class FreeboardController {
     }
 
     @GetMapping("/my-comment")
-    public ResponseEntity<Page<MyCommentListResponse>> getMyCommentList(@PageableDefault(size = 6) Pageable pageable) {
+    public ResponseEntity<Page<UserCommentListResponse>> getMyCommentList(@PageableDefault(size = 6) Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(postCommentService.getMyCommentList(pageable, email));
@@ -129,4 +129,8 @@ public class FreeboardController {
         return ResponseEntity.ok(postService.getUserPostList(pageable, memberId));
     }
 
+    @GetMapping("/user-comment/{memberId}")
+    public ResponseEntity<Page<UserCommentListResponse>> getUserCommentList(@PageableDefault Pageable pageable, @PathVariable Long memberId) {
+        return ResponseEntity.ok(postCommentService.getUserCommentList(pageable, memberId));
+    }
 }

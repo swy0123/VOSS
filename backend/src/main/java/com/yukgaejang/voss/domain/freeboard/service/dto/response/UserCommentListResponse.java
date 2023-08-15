@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class MyCommentListResponse {
+public class UserCommentListResponse {
     private Long postId;
     private String postTitle;
     private Long commentId;
     private String commentContent;
     private LocalDateTime commentCreatedAt;
 
-    public MyCommentListResponse(Post post, PostComment postComment) {
+    public UserCommentListResponse(Post post, PostComment postComment) {
         this.postId = post.getId();
         this.postTitle = post.getTitle();
         this.commentId = postComment.getId();

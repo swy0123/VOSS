@@ -11,6 +11,7 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentReq
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
 import com.yukgaejang.voss.domain.member.exception.NoMemberException;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
+import com.yukgaejang.voss.domain.member.repository.entity.Member;
 import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -88,7 +89,13 @@ public class PostCommentServiceImpl implements PostCommentService {
     }
 
     @Override
-    public Page<MyCommentListResponse> getMyCommentList(Pageable pageable, String email) {
-        return postCommentRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
+    public Page<UserCommentListResponse> getMyCommentList(Pageable pageable, String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return postCommentRepository.findAllByMemberIdAndIsDeletedFalse(pageable, member.getId());
+    }
+
+    @Override
+    public Page<UserCommentListResponse> getUserCommentList(Pageable pageable, Long memberId) {
+        return postCommentRepository.findAllByMemberIdAndIsDeletedFalse(pageable, memberId);
     }
 }

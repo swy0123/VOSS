@@ -13,5 +13,6 @@ public interface PostCommentService {
     UpdateCommentResponse updateComment(Long postId, Long commentId, UpdateCommentRequest updateCommentRequest);
     List<CommentDetailResponse> getComments(Long postId);
     DeleteCommentResponse deleteComment(Long postId, Long commentId);
-    Page<MyCommentListResponse> getMyCommentList(Pageable pageable, String email);
+    Page<UserCommentListResponse> getMyCommentList(Pageable pageable, String email);
+    Page<UserCommentListResponse> getUserCommentList(Pageable pageable, Long memberId);
 }
