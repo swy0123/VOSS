@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class MyRecordListResponse {
+public class UserRecordListResponse {
     private Long id;
     private String description;
     private Long hits;
@@ -18,7 +18,7 @@ public class MyRecordListResponse {
     private boolean isLiked;
     private LocalDateTime createdAt;
 
-    public MyRecordListResponse(Record record, String originalFileName, String savedFileName, Integer likes, Integer isLiked) {
+    public UserRecordListResponse(Record record, String originalFileName, String savedFileName, Integer likes, Integer isLiked) {
         this.id = record.getId();
         this.description = record.getDescription();
         this.hits = record.getHit();

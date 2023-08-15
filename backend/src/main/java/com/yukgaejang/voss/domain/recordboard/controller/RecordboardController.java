@@ -89,9 +89,15 @@ public class RecordboardController {
     }
 
     @GetMapping("my-record")
-    public ResponseEntity<Page<MyRecordListResponse>> getMyRecordList(@PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<Page<UserRecordListResponse>> getMyRecordList(@PageableDefault(size = 20) Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(recordService.getMyRecordList(pageable, email));
     }
+
+    @GetMapping("user-record/{memberId}")
+    public ResponseEntity<Page<UserRecordListResponse>> getUserRecordList(@PageableDefault(size = 20) Pageable pageable, @PathVariable Long memberId) {
+        return ResponseEntity.ok(recordService.getUserRecordList(pageable, memberId));
+    }
+
 }
