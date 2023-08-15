@@ -13,6 +13,7 @@ import {
   LockImg,
   MeetingListDiv,
   MeetingRoom,
+  OnAirImg,
   PageMoveBtnImg,
   PaginationWrapper,
   PagingDiv,
@@ -148,10 +149,11 @@ function MeetingList({ meetingBoardProps }: { meetingBoardProps: MeetingBoardPro
     <MeetingListDiv>
       <ListBox>
         {rooms.map((data, index) => (
-          <MeetingRoom key={index} onClick={() => goPostDetail(data)}>
+          <MeetingRoom key={index} $IsOnAir={data.scriptId!==0} onClick={() => goPostDetail(data)}>
             <Category>{data.category}</Category>
             <Title>{data.title}</Title>
             <CountSection>
+              {data.scriptId !== 0 ? <OnAirImg src="/src/assets/MeetingBoard/OnAir.png"></OnAirImg> : <></>}
               {data.password ? <LockImg src="/src/assets/MeetingBoard/Lock.png"></LockImg> : <></>}
               <Count>
                 {data.currentCount}/{data.maxCount}

@@ -17,6 +17,7 @@ import Video from "./Video/Video"
 import Role from "./Role/Role"
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub"
 import RecordButton from "./RecordButton/RecordButton"
+import { meetScriptData, postMeetScript } from "/src/api/meeting"
 
 function DubbingRoom ({meetRoomId}:number) {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
@@ -27,10 +28,16 @@ function DubbingRoom ({meetRoomId}:number) {
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   
-  const goDubbingList = () => {
+  const goDubbingList = async () => {
     setMeetDubSelect(0)
     setMeetDubRecord("")
     setUserSelectRole(Array(meetDubUser).fill(""))
+    
+    const scriptData:meetScriptData = {
+      meetRoomId : meetRoomId,
+      scriptId : 0
+    }
+    await postMeetScript(scriptData);
     setSend("/golist")
   }
 
