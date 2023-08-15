@@ -96,8 +96,7 @@ function CommentList() {
           <CommentInfoDesign>
           <img 
             onClick={()=>goProfile(comment.memberId || me)}
-            style={{marginRight: '14px', width: '27px', height: '27px', cursor: 'pointer'}}
-            src={ comment.imageUrl ? `${FILE_SERVER_URL}/${comment.imageUrl}` : ProfileNull } alt="profileImg"/>
+            src={ comment.profileImage ? `${FILE_SERVER_URL}/${comment.profileImage}` : ProfileNull } alt="profileImg"/>
           <span style={{cursor: 'pointer'}} onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
 
           { comment.memberId === me

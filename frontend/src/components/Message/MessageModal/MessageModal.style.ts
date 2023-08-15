@@ -104,6 +104,7 @@ export const FriendListItem1 = styled.div`
   width: 10%;
   img {
     cursor: pointer;
+    border-radius: 50%;
     width: 35px;
     height: 35px;
   };
