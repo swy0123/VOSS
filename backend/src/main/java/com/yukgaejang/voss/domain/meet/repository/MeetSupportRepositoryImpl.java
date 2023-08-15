@@ -7,6 +7,7 @@ import com.yukgaejang.voss.domain.meet.repository.entity.Meet;
 import com.yukgaejang.voss.domain.meet.service.dto.request.MeetSearchCondition;
 import com.yukgaejang.voss.domain.meet.service.dto.request.SelectScriptRequest;
 import com.yukgaejang.voss.domain.practice.repository.entity.Script;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,9 +19,11 @@ import static com.yukgaejang.voss.domain.meet.repository.entity.QMeet.*;
 @Repository
 public class MeetSupportRepositoryImpl implements MeetSupportRepository{
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
 
-    public MeetSupportRepositoryImpl(JPAQueryFactory queryFactory) {
+    public MeetSupportRepositoryImpl(JPAQueryFactory queryFactory, EntityManager em) {
         this.queryFactory = queryFactory;
+        this.em = em;
     }
 
 
@@ -35,11 +38,14 @@ public class MeetSupportRepositoryImpl implements MeetSupportRepository{
 
     @Override
     public long setScript(SelectScriptRequest selectScriptRequest, Script script) {
-        return queryFactory
+        long execute = queryFactory
                 .update(meet)
                 .set(meet.script, script)
                 .where(meet.id.eq(selectScriptRequest.getMeetRoomId()))
                 .execute();
+        em.flush();
+        em.clear();
+        return execute;
     }
 
     @Override
