@@ -13,7 +13,7 @@ export const FreeScrollDesign = styled.div`
   `;
 
 export const FreeMainDesign = styled.div`
-  margin: 100px auto 0 auto;
+  margin: 6px auto 0 auto;
   width: 1000px;
   color: white;
   /* border: solid 1px white; */
@@ -31,7 +31,7 @@ export const FreeTitleDesign = styled.div`
   align-items: center;
   width: 850px;
   height: 60px;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   /* border: solid 1px red; */
   `;
