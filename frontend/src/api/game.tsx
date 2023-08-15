@@ -1,4 +1,5 @@
 import axios from "axios";
+import { privateApi } from ".";
 
 const BASE_URL = "https://i9b106.p.ssafy.io:8080";
 
@@ -30,3 +31,15 @@ export const registVoiceFile = async ( blobURL: string ) => {
     }
     return false;
 }
+
+export const getGame = async () => {
+    const res = await privateApi.get(`/game/10`)
+    .catch(err => {
+        console.log("getProfile catch: ", err)
+    })
+    if (res) {
+        console.log("getProfile then: ", res.data)
+        return res.data
+    };
+    return false
+};
