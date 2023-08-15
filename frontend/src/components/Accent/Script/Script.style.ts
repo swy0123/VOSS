@@ -73,7 +73,7 @@ export const ScriptBox = styled.div`
 export const ScriptInput = styled.textarea`
   display: flex;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 18px;
   color: white;
   padding: 25px 0px 25px 20px;
   height: 125px;

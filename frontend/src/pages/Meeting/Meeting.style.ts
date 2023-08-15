@@ -45,13 +45,14 @@ export const BottomBar = styled.div`
   justify-content: center;
   align-items: center;
   text-align:center;
-
+  cursor: pointer;
 `;
 
 export const CloseSectionBtn = styled.img`
   margin: 0 auto;
   width: 60px;
   height: 30px;
+  cursor: pointer;
 `;
 
 export const UnderBack = styled.div`

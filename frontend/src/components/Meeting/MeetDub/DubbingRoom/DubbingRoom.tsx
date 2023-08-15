@@ -5,6 +5,7 @@ import { getVideo } from "/src/api/video"
 import { ScriptData } from "/src/type/type"
 import Script from "./Script/Script"
 import { 
+  MeetDubRecordState,
   meetDubSelectState, 
   meetDubUserState } from "/src/recoil/HW_Atom"
 import { 
@@ -19,6 +20,7 @@ import RecordButton from "./RecordButton/RecordButton"
 
 function DubbingRoom ({meetRoomId}:number) {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState)
+  const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [meetDubUser] = useRecoilState<number>(meetDubUserState);
   const [userSelectRole, setUserSelectRole] = useState<string[]>(Array(meetDubUser).fill(""))
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
@@ -27,6 +29,7 @@ function DubbingRoom ({meetRoomId}:number) {
   
   const goDubbingList = () => {
     setMeetDubSelect(0)
+    setMeetDubRecord("")
     setUserSelectRole(Array(meetDubUser).fill(""))
     setSend("/golist")
   }

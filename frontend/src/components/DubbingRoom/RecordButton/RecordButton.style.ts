@@ -10,10 +10,11 @@ export const RecordBox = styled.div`
   height: 150px;
   width: 350px;
 `;
-export const StopWatch = styled.p`
+export const StopWatch = styled.div`
   color: white;
-  margin: 20px 0px 20px 0px;
-  height: 1px;
+  margin: 20px 0px 5px 0px;
+  height: 20px;
+
 `;
 export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);
@@ -35,7 +36,6 @@ export const PracticeEnd = styled(State)<{ $practiceEnd?: boolean }>`
   display: ${(props) => (props.$practiceEnd ? "block" : "none")};
 `;
 export const SectionBtn = styled.div<{ $IsClickable: boolean }>`
-  margin-top: 30px;
   display: flex;
   align-items: center;
   height: 60px;
@@ -124,3 +124,17 @@ export const MoonLoaderDiv = styled.div`
   left: 50%;
   transform: translate(-50%, 0); */
 `;
+
+export const ParcticeStartSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+`
+
+export const ParcticeInfo = styled.div`
+  color: #BABABA;
+  width: 150px;
+  text-align: center;
+`
