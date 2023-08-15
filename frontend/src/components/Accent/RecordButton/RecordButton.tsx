@@ -50,12 +50,12 @@ function RecordButton() {
   // 녹음 시간 20초 제한
   useEffect(() => {
     if (stop === 200) {
-      startOrStop()
-      stopRecording()
-      setPracticeStart(false)
-      setPracticeEnd(false)
+      startOrStop();
+      stopRecording();
+      setPracticeStart(false);
+      setPracticeEnd(false);
     }
-  }, [stop])
+  }, [stop]);
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -68,7 +68,6 @@ function RecordButton() {
       stopRef.current = setInterval(() => {
         setStop((prevTime) => prevTime + 1);
       }, 100);
-
     } else if (isRunning && intervalRef.current) {
       clearInterval(intervalRef.current);
       clearInterval(stopRef.current);
@@ -88,7 +87,7 @@ function RecordButton() {
   const formatTime = (milliseconds: number) => {
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     const centiseconds = Math.floor((milliseconds % 1000) / 10);
-    return `${seconds.toString().padStart(2, '0')} : ${centiseconds.toString().padStart(2, '0')}`;
+    return `${seconds.toString().padStart(2, "0")} : ${centiseconds.toString().padStart(2, "0")}`;
   };
 
   const addRecord = (mediaBlobUrl) => {
@@ -181,6 +180,10 @@ function RecordButton() {
           ) : (
             <RecordBtn
               onClick={() => {
+                if (stop >= 200) {
+                  alert("녹음을 완료/취소 해주세요");
+                  return;
+                }
                 startOrStop();
                 startListening();
                 resumeRecording();
