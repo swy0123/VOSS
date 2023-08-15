@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled, keyframes, css } from 'styled-components';
 
 export const ImgDiv = styled.div`
     width: 300px;
@@ -11,17 +11,51 @@ export const Img = styled.img`
   object-fit: contain;
 `;
 
-export const Logo = styled.div`
-    margin: 0 auto;
-    position: absolute;
-    left: 30%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+const fadeIn = keyframes`
+    from { opacity: 0; }
+    to { opacity: 1; }
+`;
+const moveLeft = keyframes`
+    from { left: 50%; }
+    to { left: 30%; }
 `;
 
-export const TextWhite = styled.div`
+export const Logo = styled.div<{ $isScroll:number }>`
+    margin: 0 auto;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    animation: ${fadeIn} 2.6s ease-in-out;
+    left: ${({ $isScroll }) => ($isScroll >= 1800 ? "30%" : "50%")};
+    ${({ $isScroll }) =>
+    $isScroll >= 1800
+        ? css `
+            animation: ${moveLeft} 1.4s ease-in-out;
+        `
+        : css `
+            left: 50%;
+        `}
+`;
+
+const fadeInUp = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
+export const TextWhite = styled.div<{ $isScroll:number }>`
     margin: 0 auto; 
     color: #FFFFFF;
+    opacity: ${({ $isScroll }) => ($isScroll >= 600 ? 1 : 0)};
+    transform: translateY(${({ $isScroll }) => ($isScroll >= 600 ? 0 : '50%')});
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    animation: ${({ $isScroll }) => ($isScroll >= 600 ? fadeInUp : 'none')};
 `;
 
 export const Catchphrase = styled.div`
