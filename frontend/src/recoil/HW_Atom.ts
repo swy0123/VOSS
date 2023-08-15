@@ -3,6 +3,12 @@ import { recoilPersist } from 'recoil-persist';
 import { AlarmInfoListType } from "../type/hw_type";
 const { persistAtom } = recoilPersist();
 
+// 화상 더빙 연습 녹음 기록
+export const MeetDubRecordState = atom<string>({
+  key: 'MeetDubRecordState',
+  default: "",
+})
+
 // 더빙 연습 녹음 기록
 export const dubbingRecordState = atom({
   key: 'dubbingRecordState',

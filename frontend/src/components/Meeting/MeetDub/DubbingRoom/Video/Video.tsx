@@ -47,16 +47,21 @@ function Video ({script, roles, lines}: ScriptData) {
       playerVars:{
         'controls' : 0,
         'autoplay' : 1,
+        'mute' : recordTrigger ? 1 : 0,
       },
     });
     setYoutube(player)
   }
 
+  //================Record 버튼으로 영상제어================
   // 영상 상태 변경  
   const onPlayStateChange = async () => {
     // 영상 시작
     if (recordTrigger === 1){
-      await onYouTubeIframeAPIReady()
+      if(!youtube){ 
+        await onYouTubeIframeAPIReady()
+      }
+      await youtube.mute()
       await youtube.playVideo()
       setMeetDubPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
     }
@@ -97,7 +102,9 @@ function Video ({script, roles, lines}: ScriptData) {
   // 이벤트 수신 감지
   useEffect(()=>{
     if(recieve=="/startvideo") {
-      onYouTubeIframeAPIReady()
+      if(!youtube) {
+        onYouTubeIframeAPIReady()
+      }
       setMeetDubPlayChange([1, 0]) // 로딩떄문에 0 부적절, 개선 필요
       setRecieve("/none");
     }
@@ -105,6 +112,7 @@ function Video ({script, roles, lines}: ScriptData) {
     else if(recieve=="/playvideo") {
       const nowTime = youtube.getCurrentTime() % script.durationInSec
       setMeetDubPlayChange([1, Math.floor(nowTime)])
+      youtube.unMute()
       youtube.playVideo()
       setRecieve("/none");
     }
@@ -133,6 +141,7 @@ function Video ({script, roles, lines}: ScriptData) {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
     // window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
+    // onYouTubeIframeAPIReady()
   }, [])
   
   return(
