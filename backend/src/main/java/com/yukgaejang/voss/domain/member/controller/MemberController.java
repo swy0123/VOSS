@@ -2,11 +2,8 @@ package com.yukgaejang.voss.domain.member.controller;
 
 import com.yukgaejang.voss.domain.member.repository.RefreshTokenRepository;
 import com.yukgaejang.voss.domain.member.service.MemberService;
-import com.yukgaejang.voss.domain.member.service.dto.request.FollowRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.JoinRequest;
-import com.yukgaejang.voss.domain.member.service.dto.request.ModifyMemberRequest;
+import com.yukgaejang.voss.domain.member.service.dto.request.*;
 import com.yukgaejang.voss.domain.member.service.dto.response.*;
-import com.yukgaejang.voss.domain.member.service.dto.request.GetMemberListRequest;
 import com.yukgaejang.voss.global.file.service.AwsS3Service;
 import com.yukgaejang.voss.global.file.service.dto.CreateFileRequest;
 import com.yukgaejang.voss.global.jwt.service.JwtService;
@@ -47,6 +44,13 @@ public class MemberController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return ResponseEntity.ok(memberService.modifyMember(modifyMemberRequest, authentication.getName()));
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Boolean> newPassword(@RequestBody ModifyPasswordRequest modifyPasswordRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return ResponseEntity.ok(memberService.modifyPassword(modifyPasswordRequest, authentication.getName()));
     }
 
     @GetMapping("/{email}")

@@ -33,15 +33,32 @@ public class ChatGptClient {
                 "    \"messages\": [{\"role\": \"user\", \"content\": \"" + cmd + "\"}]\n" +
                 "}";
 
-        String responseBody = WebClient.create().post()
-                .uri(url)
-                .headers(httpHeaders -> httpHeaders.addAll(headers))
-                .body(BodyInserters.fromValue(requestBody))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        int maxRetries = 5;
+        for (int retryCount = 0; retryCount < maxRetries; retryCount++) {
+            try {
+                String responseBody = WebClient.create().post()
+                        .uri(url)
+                        .headers(httpHeaders -> httpHeaders.addAll(headers))
+                        .body(BodyInserters.fromValue(requestBody))
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
-        return parseChatGptResponse(responseBody);
+                return parseChatGptResponse(responseBody);
+            } catch (Exception e) {
+                if (retryCount < maxRetries - 1) {
+                    long delayInMillis = 7000;
+                    try {
+                        Thread.sleep(delayInMillis);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    throw e;
+                }
+            }
+        }
+        throw new RuntimeException("재시도 횟수 내에서 성공하지 못했습니다.");
     }
 
     private String parseChatGptResponse(String body) {
@@ -56,5 +73,6 @@ public class ChatGptClient {
         String content = jsonNode.get("choices").get(0).get("message").get("content").asText();
         return content;
     }
+
 
 }

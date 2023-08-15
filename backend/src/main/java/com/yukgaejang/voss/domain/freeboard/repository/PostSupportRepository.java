@@ -8,13 +8,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostSupportRepository {
 
-    Page<PostListResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname);
+    Page<PostListResponse> findAllByConditionAndIsDeletedFalse(Pageable pageable, String title, String content, String nickname);
 
-    Page<PostListResponse> findAllByTitleContainingAndIsDeletedFalse(Pageable pageable, String title);
-
-    Page<PostListResponse> findAllByContentContainingAndIsDeletedFalse(Pageable pageable, String content);
-
-    Page<PostListResponse> findAllByIsDeletedFalse(Pageable pageable);
+//    Page<PostListResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname);
+//
+//    Page<PostListResponse> findAllByTitleContainingAndIsDeletedFalse(Pageable pageable, String title);
+//
+//    Page<PostListResponse> findAllByContentContainingAndIsDeletedFalse(Pageable pageable, String content);
+//
+//    Page<PostListResponse> findAllByIsDeletedFalse(Pageable pageable);
 
     Post findByIdAndIsDeletedFalse(Long id);
 

@@ -44,6 +44,12 @@ public class RecordboardController {
         return ResponseEntity.ok(recordService.createRecord(email, createRecordRequest));
     }
 
+    @PutMapping("/{recordId}/play")
+    public ResponseEntity<UpdateHitResponse> updateHitRecord(@PathVariable Long recordId) {
+        return ResponseEntity.ok(recordService.updateHitRecord(recordId));
+    }
+
+
     @PutMapping("/{recordId}")
     public  ResponseEntity<UpdateRecordResponse> updateRecord(@PathVariable Long recordId, @RequestBody UpdateRecordRequest updateRecordRequest) {
         return ResponseEntity.ok(recordService.updateRecord(recordId, updateRecordRequest));
@@ -60,13 +66,7 @@ public class RecordboardController {
             sortBy = Sort.by(sort, "createdAt").descending();
         }
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
-        if(nickname != null) {
-            return ResponseEntity.ok(recordService.getRecordListByNickname(email, pageable, nickname));
-        }
-        if(description != null) {
-            return ResponseEntity.ok(recordService.getRecordListByDescription(email, pageable, description));
-        }
-        return ResponseEntity.ok(recordService.getRecordList(email, pageable));
+        return ResponseEntity.ok(recordService.getRecordList(email, pageable, description, nickname));
     }
 
     @PostMapping("{recordId}/like")
@@ -74,6 +74,13 @@ public class RecordboardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(recordLikeService.createRecordLike(email, recordId));
+    }
+
+    @DeleteMapping("{recordId}/like")
+    public ResponseEntity<DeleteRecordLikeResponse> deleteRecordLike(@PathVariable Long recordId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(recordLikeService.deleteRecordLike(email, recordId));
     }
 
     @DeleteMapping("{recordId}")

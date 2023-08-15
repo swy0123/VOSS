@@ -66,16 +66,7 @@ public class FreeboardController {
             sortBy = Sort.by(sort, "createdAt").descending();
         }
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortBy);
-        if(nickname != null) {
-            return ResponseEntity.ok(postService.getPostListByNickname(pageable, nickname));
-        }
-        if(content != null) {
-            return ResponseEntity.ok(postService.getPostListByContent(pageable, content));
-        }
-        if(title != null) {
-            return ResponseEntity.ok(postService.getPostListByTitle(pageable, title));
-        }
-        return ResponseEntity.ok(postService.getPostList(pageable));
+        return ResponseEntity.ok(postService.getPostList(pageable, title, content, nickname));
     }
 
     @DeleteMapping("/{postId}")
@@ -110,6 +101,13 @@ public class FreeboardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(postLikeService.createPostLike(postId, email));
+    }
+
+    @DeleteMapping("/{postId}/like")
+    public ResponseEntity<DeletePostLikeResponse> deletePostLike(@PathVariable Long postId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return ResponseEntity.ok(postLikeService.deletePostLike(postId, email));
     }
 
     @GetMapping("/my-post")

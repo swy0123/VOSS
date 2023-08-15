@@ -14,11 +14,11 @@ public class MyRecordListResponse {
     private Long hits;
     private String originalFileName;
     private String savedFileName;
-    private Long likes;
+    private Integer likes;
     private boolean isLiked;
     private LocalDateTime createdAt;
 
-    public MyRecordListResponse(Record record, String originalFileName, String savedFileName, Long likes, Integer isLiked) {
+    public MyRecordListResponse(Record record, String originalFileName, String savedFileName, Integer likes, Integer isLiked) {
         this.id = record.getId();
         this.description = record.getDescription();
         this.hits = record.getHit();

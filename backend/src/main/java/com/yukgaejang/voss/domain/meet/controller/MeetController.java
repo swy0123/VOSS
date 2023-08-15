@@ -57,4 +57,9 @@ public class MeetController {
     public ResponseEntity<List<ViewScriptLineResponse>> selectCasting(@RequestBody List<SelectCastingRequest> selectCastingRequestList) {
         return ResponseEntity.ok(meetService.selectCasting(selectCastingRequestList));
     }
+
+    @PostMapping("/group-recording")
+    public ResponseEntity<GroupRecordResponse> meetRoomRecord(@RequestBody GroupRecordRequest groupRecordRequest) {
+        return ResponseEntity.ok(meetService.meetRoomRecord(groupRecordRequest));
+    }
 }

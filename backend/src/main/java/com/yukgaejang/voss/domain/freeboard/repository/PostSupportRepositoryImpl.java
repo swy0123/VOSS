@@ -1,8 +1,12 @@
 package com.yukgaejang.voss.domain.freeboard.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.*;
@@ -36,52 +40,33 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
     }
 
     @Override
-    public Page<PostListResponse> findAllByIsDeletedFalse(Pageable pageable) {
+    public Page<PostListResponse> findAllByConditionAndIsDeletedFalse(Pageable pageable, String title, String content, String nickname) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if(title != null) {
+            builder.and(p.title.contains(title));
+        }
+        if(content != null) {
+            builder.and(p.content.contains(content).or(p.title.contains(content)));
+        }
+        if(nickname != null) {
+            builder.and(p.member.nickname.eq(nickname));
+        }
+
         List<PostListResponse> posts = jpaQueryFactory
                 .selectDistinct(Projections.constructor(PostListResponse.class,
                         p,
-                        pc.count(),
-                        pl.count(),
+                        JPAExpressions
+                                .select(pc.id.count())
+                                .from(pc)
+                                .where(pc.post.id.eq(p.id)
+                                        .and(pc.isDeleted.eq(0))),
+                        p.postLikes.size(),
                         pf.contentType.like("image%"),
                         pf.contentType.notLike("image%")))
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
-                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
                 .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
-                .where(p.isDeleted.eq(0))
-                .groupBy(p.id, p, p.member, pl, pf)
-                .orderBy(createOrderSpecifier(pageable))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(p.id)
-                .from(p)
-                .where(p.isDeleted.eq(0));
-
-        return new PageImpl<>(posts, pageable, countQuery.fetchCount());
-    }
-
-    @Override
-    public Page<PostListResponse> findAllByMemberNicknameAndIsDeletedFalse(Pageable pageable, String nickname) {
-        List<PostListResponse> posts = jpaQueryFactory
-                .selectDistinct(Projections.constructor(PostListResponse.class,
-                        p,
-                        pc.count(),
-                        pl.count(),
-                        pf.contentType.like("image%"),
-                        pf.contentType.notLike("image%")))
-                .from(p)
-                .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
-                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
-                .where(
-                    p.isDeleted.eq(0).and(p.member.nickname.eq(nickname))
-                )
-                .groupBy(p.id, p, p.member, pl, pf)
+                .where(p.isDeleted.eq(0).and(builder))
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -90,73 +75,10 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
         JPAQuery<Long> countQuery = jpaQueryFactory
                 .select(p.id.count())
                 .from(p)
-                .where(p.isDeleted.eq(0).and(p.member.nickname.eq(nickname)));
+                .where(p.isDeleted.eq(0).and(builder));
 
         return new PageImpl<>(posts, pageable, countQuery.fetchOne());
     }
-
-    @Override
-    public Page<PostListResponse> findAllByTitleContainingAndIsDeletedFalse(Pageable pageable, String title) {
-        List<PostListResponse> posts = jpaQueryFactory
-                .selectDistinct(Projections.constructor(PostListResponse.class,
-                        p,
-                        pc.count(),
-                        pl.count(),
-                        pf.contentType.like("image%"),
-                        pf.contentType.notLike("image%")))
-                .from(p)
-                .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
-                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
-                .where(
-                        p.isDeleted.eq(0).and(p.title.contains(title))
-                )
-                .groupBy(p.id, p, p.member, pl, pf)
-                .orderBy(createOrderSpecifier(pageable))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(p.id.count())
-                .from(p)
-                .where(p.isDeleted.eq(0).and(p.title.contains(title)));
-
-        return new PageImpl<>(posts, pageable, countQuery.fetchOne());
-    }
-
-    @Override
-    public Page<PostListResponse> findAllByContentContainingAndIsDeletedFalse(Pageable pageable, String content) {
-        List<PostListResponse> posts = jpaQueryFactory
-                .selectDistinct(Projections.constructor(PostListResponse.class,
-                        p,
-                        pc.count(),
-                        pl.count(),
-                        pf.contentType.like("image%"),
-                        pf.contentType.notLike("image%")))
-                .from(p)
-                .leftJoin(p.member).fetchJoin()
-                .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0)))
-                .leftJoin(pl).on(p.id.eq(pl.post.id))
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0)))
-                .where(
-                        p.isDeleted.eq(0).and((p.content.contains(content)).or(p.title.contains(content)))
-                )
-                .groupBy(p.id, p, p.member, pl, pf)
-                .orderBy(createOrderSpecifier(pageable))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(p.id.count())
-                .from(p)
-                .where(p.isDeleted.eq(0).and((p.content.contains(content)).or(p.title.contains(content))));
-
-        return new PageImpl<>(posts, pageable, countQuery.fetchOne());
-    }
-
 
     @Override
     public Post findByIdAndIsDeletedFalse(Long id) {
@@ -168,22 +90,26 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
 
     @Override
     public Page<MyPostListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
+
         List<MyPostListResponse> posts = jpaQueryFactory
                 .selectDistinct(Projections.constructor(MyPostListResponse.class,
                         p,
-                        pc.count(),
-                        pl.count(),
+                        JPAExpressions
+                                .select(pc.id.count())
+                                .from(pc)
+                                .where(pc.post.id.eq(p.id)
+                                        .and(pc.isDeleted.eq(0))),
+                        p.postLikes.size(),
                         pf.contentType.like("image%"),
                         pf.contentType.notLike("image%")))
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
                 .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
-                .leftJoin(pl).on(p.id.eq(pl.post.id)).fetchJoin()
                 .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(
                         p.isDeleted.eq(0).and(p.member.email.eq(email))
                 )
-                .groupBy(p.id, p, p.member, pl, pf)
+                .groupBy(p.id)
                 .orderBy(p.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -198,17 +124,15 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
     }
 
     private OrderSpecifier[] createOrderSpecifier(Pageable pageable) {
-        OrderSpecifier[] orderSpecifiers = pageable.getSort().stream().map(order -> {
+        return pageable.getSort().stream().map(order -> {
             if(order.getProperty().equals("hit")) {
                 return p.hit.desc();
             } else if(order.getProperty().equals("like")) {
-                return pl.id.count().desc();
+                return p.postLikes.size().desc();
             } else {
                 return p.createdAt.desc();
             }
         }).toArray(OrderSpecifier[]::new);
-
-        return orderSpecifiers;
     }
 
 }
