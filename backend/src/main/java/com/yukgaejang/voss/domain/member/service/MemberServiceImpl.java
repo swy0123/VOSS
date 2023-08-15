@@ -104,7 +104,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
         return MemberDetailResponse.builder()
-                .id(40000L)
+                .id(member.getId())
                 .nickname(member.getNickname())
                 .imageUrl(member.getImageUrl())
                 .build();
