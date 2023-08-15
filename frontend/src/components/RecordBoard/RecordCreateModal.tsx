@@ -1,4 +1,4 @@
-import styled from "styled-components"
+  import styled from "styled-components"
 import { useState, ChangeEvent } from "react";
 import { VscClose } from 'react-icons/vsc';
 import { uploadRecord, createRecord } from "/src/api/recordBoard";
@@ -38,7 +38,7 @@ const RecordItemDesign = styled.div`
   margin: 10px;
   margin-top: 0px;
   width: 230px;
-  height: 350px;
+  height: 290px;
   color: #313131;
   /* border: solid 1px green; */
 `;
@@ -52,11 +52,15 @@ const RecordTitleDesign = styled.textarea`
   overflow-wrap: break-word;
   border-radius: 8px;
   border: solid 2px #313131;
+  font-family: "Pretendard-Regular, sans-serif";
+  &::placeholder {
+    font-size: 12px;
+  }
 `;
 
 const RecordSpaceDesign = styled.div`
   width: 230px;
-  height: 25px;
+  height: 20px;
   /* border: 1px solid red; */
 `
 
