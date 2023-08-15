@@ -41,7 +41,7 @@ export const VideoItem = styled.div`
   @media only screen and (max-width: 2100px) {
     width: 18%
   }
-  @media only screen and (max-width: 1500px) {
+  @media only screen and (max-width: 1600px) {
     width: 23%
   }
   @media only screen and (max-width: 1250px) {
