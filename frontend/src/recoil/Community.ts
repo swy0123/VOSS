@@ -80,7 +80,7 @@ export const RecordsState = atom<RecordType[]>({
 export const RecordBoardInputState = atom<string>({
   key: "RecordBoardInputState",
   default: "",
-  effects_UNSTABLE: [persistAtom],
+  // effects_UNSTABLE: [persistAtom],
 });
 
 
@@ -108,4 +108,11 @@ export const RecordBoardCurrentPageState = atom<number>({
 export const ShowRecordCreateModalState = atom<boolean>({
   key:  "ShowRecordCreateModalState",
   default: false,
+});
+
+
+// 내가 쓴 댓글 개수 
+export const MyCommentCountState = atom<number>({
+  key:  "MyCommentCountState",
+  default: 0,
 });

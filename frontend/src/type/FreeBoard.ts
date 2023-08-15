@@ -69,3 +69,14 @@ export interface RecordType {
   liked: boolean,
   profileImage : string,
 };
+
+
+// 내가 쓴 댓글 타입
+export interface MyCommentType {
+  postId?: number,
+  postTitle?: string,
+  postCreatedAt?: string,
+  commentId?: number,
+  commentContent?: string,
+  commentCreatedAt?: string,
+};

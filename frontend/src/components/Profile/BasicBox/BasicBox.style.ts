@@ -16,6 +16,7 @@ export const ProfileImgDesign = styled.div`
   justify-content: center;
   height: 100%;
   aspect-ratio: 1/1;
+  cursor: pointer;
   `;
 
 export const ProfileImgDesign2 = styled.div`
