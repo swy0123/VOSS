@@ -24,10 +24,6 @@ import GameTitleImg from '/src/assets/Game/GameTitleImg.png';
 import StartBtnImg from '/src/assets/Training/restartbtn.png';
 import StopBtnImg from '/src/assets/Training/stopbtn.png';
 
-interface RegistVoiceProps {
-  HandlePageState: (page: number) => void;
-}
-
 const sentence = [
   '(1/10)',
   '(2/10)',
@@ -41,7 +37,7 @@ const sentence = [
   '(10/10)',
 ];
 
-function RegistVoice({ HandlePageState }: RegistVoiceProps) {
+function RegistVoice() {
   const navigate = useNavigate();
   const goGame = () => {
     navigate('/game');
@@ -73,13 +69,16 @@ function RegistVoice({ HandlePageState }: RegistVoiceProps) {
   const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
+  const [isShown, setIsShown] = useState(false);
   const [blob, setBlob] = useState<string>('');
 
   const recordBtnToggle = () => {
     if (isRecording) {
       stopRecording();
+      setIsShown(true);
     } else {
       startRecording();
+      setIsShown(false);
     }
     setIsRecording(!isRecording);
   };
@@ -95,6 +94,7 @@ function RegistVoice({ HandlePageState }: RegistVoiceProps) {
       setIsFinish(true);
       setCurrentSentenceIndex(0);
     }
+    setIsShown(false);
   };
 
   return (
@@ -130,21 +130,35 @@ function RegistVoice({ HandlePageState }: RegistVoiceProps) {
                 <StyledDivWithText>
                   {readMessage[CurrentSentenceIndex]}
                 </StyledDivWithText>
-                <audio
-                  controls
-                  src={mediaBlobUrl}
-                  style={{
-                    width: '300px',
-                  }}
-                />
+                {isShown ? (
+                  <audio
+                    controls
+                    src={mediaBlobUrl}
+                    style={{
+                      width: '300px',
+                    }}
+                  />
+                ) : (
+                  <audio
+                    controls
+                    src={''}
+                    style={{
+                      width: '300px',
+                    }}
+                  />
+                )}
+
                 <ButtonContainer>
                   <RegistBtn
                     onClick={() => {
                       if (mediaBlobUrl) {
+                        console.log(mediaBlobUrl);
                         registVoiceFile(mediaBlobUrl)
                           .then((response) => {
                             if (response) {
                               onAlertClick('등록에 성공했습니다.');
+                              clearBlobUrl();
+                              setIsShown(false);
                             } else {
                               onAlertClick('등록에 실패했습니다.');
                             }
@@ -152,6 +166,8 @@ function RegistVoice({ HandlePageState }: RegistVoiceProps) {
                           .catch((error) => {
                             console.error('등록 실패', error);
                           });
+                      } else {
+                        onAlertClick('목소리를 녹음해 주세요.');
                       }
                     }}
                   >
@@ -182,7 +198,8 @@ function RegistVoice({ HandlePageState }: RegistVoiceProps) {
                     onClick={
                       !isRecording
                         ? () => {
-                            handleRecorBtnonClick(), clearBlobUrl();
+                            handleRecorBtnonClick();
+                            clearBlobUrl();
                           }
                         : undefined
                     }
