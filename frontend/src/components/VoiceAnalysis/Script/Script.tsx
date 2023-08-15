@@ -121,7 +121,6 @@ function Script() {
           <SpinnerDiv $IsClickable={scriptClickable}>
             <ScaleLoader color="rgba(220, 220, 220, 1)" />
           </SpinnerDiv>
-
         </ScriptDiv >
         {inputScripts ? (
           <ScriptButtons $IsClickable={scriptClickable}>
