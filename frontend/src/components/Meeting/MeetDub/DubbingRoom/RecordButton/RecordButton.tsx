@@ -21,11 +21,7 @@ import { postStartRecording } from '/src/api/recoding';
 import { RecordingInfo } from '/src/type/hw_type';
 import { AxiosResponse } from 'axios';
 
-<<<<<<< HEAD
 function RecordButton ({meetRoomId}: number | any) {
-=======
-function RecordButton ({meetRoomId}: number) {
->>>>>>> f4ae63ef (feat: 녹음버튼 동시제어 구현 S09P12B106-497)
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
@@ -212,9 +208,9 @@ function RecordButton ({meetRoomId}: number) {
         }
         </SectionBtn>
         {meetDubRecord &&
-        <FileDownload onClick={downloadVideo}>
-          <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
-        </FileDownload>
+          <FileDownload onClick={downloadVideo}>
+            <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
+          </FileDownload>
         }
       </RecordBtnBox>
     </Container>
