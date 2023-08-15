@@ -35,7 +35,23 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   const [alarmInfo, setAlarmInfo] = useState<AlarmInfoListType[]>([])
   const [test, setTest] = useState()
   const navigate = useNavigate()
-  // const [alarmInfo, setAlarmInfo] = useRecoilState<AlarmInfoListType[]>(alarmInfoState)
+  const node = useRef();
+
+  useEffect(() => {
+    const clickOutside = (e) => {
+      // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
+      if (AlarmIsShown && node.current && !node.current.contains(e.target)) {
+        setAlarmIsshown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [AlarmIsShown]);
 
   const WriteAlarmContent = (alarmList:AlarmType[]) => {
     const alarmInfoTmp: AlarmInfoListType[] = []
@@ -49,22 +65,22 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
 
       if (type === "FOLLOW") {
         const content = `${senderNickname}님이 회원님을 팔로우 했습니다.`
-        alarmInfoTmp.push([content,notiId,type,contentId,createdAt])
+        alarmInfoTmp.unshift([content,notiId,type,contentId,createdAt])
       }
 
       else if (type === "POST_LIKE") {
         const content = `${senderNickname}님이 내 게시글을 좋아합니다.`
-        alarmInfoTmp.push([content,notiId,type,contentId,createdAt])
+        alarmInfoTmp.unshift([content,notiId,type,contentId,createdAt])
       }
 
       else if (type=== "COMMENT") {
         const content = `${senderNickname}님이 내 게시글에 댓글을 달았습니다.`
-        alarmInfoTmp.push([content,notiId,type,contentId,createdAt])
+        alarmInfoTmp.unshift([content,notiId,type,contentId,createdAt])
       }
       // 녹게 완성되면 바로 작업
       else if (type === "RECORD_LIKE") {
         const content = `${senderNickname}님이 내 녹음게시물을 좋아합니다.`
-        alarmInfoTmp.push([content,notiId,type,contentId,createdAt])
+        alarmInfoTmp.unshift([content,notiId,type,contentId,createdAt])
       }
     })
     setAlarmInfo(alarmInfoTmp)
@@ -73,6 +89,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   // 전체 알람 확인
   const AllAlarmChecking = () => {
     axiosCheckAllAlarm().then().catch(error=>console.log(error))
+    setAlarmIsshown(false)
     setAlarmInfo([])
   }
 
@@ -155,7 +172,7 @@ function AlarmSection({ AlarmIsShown, setAlarmIsshown }: Headertype) {
   };
 
   return(
-    <Container >
+    <Container ref={node}>
       {alarmInfo.length !==0 && <AlarmCount>{alarmInfo.length}</AlarmCount>}
       <AlarmListBox $IsClick={AlarmIsShown}>
         <Triangle/>
