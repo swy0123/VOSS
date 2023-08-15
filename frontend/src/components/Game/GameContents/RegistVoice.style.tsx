@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled,keyframes } from 'styled-components';
 
 export const RecordContainer = styled.div`
   display: flex;
@@ -153,4 +153,37 @@ export const StyledDivWithText = styled.div`
   color: white;
   width: 60%;
   margin: 60px auto;
+`;
+
+const wave = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+`;
+
+export const Waves = styled.div`
+  position: absolute;
+  z-index: -1;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: white;
+    margin: -78.2px 0px 0px 25.2px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    animation: ${wave} 3s infinite linear;
+  }
+
+  &::after {
+    opacity: 0;
+    -webkit-animation: ${wave} 3s 1.5s infinite linear;
+    animation: ${wave} 3s 1.5s infinite linear;
+  }
 `;

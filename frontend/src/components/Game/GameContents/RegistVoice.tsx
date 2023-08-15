@@ -19,6 +19,7 @@ import {
   RegistBtn,
   FinishExplain,
   FinishBtn,
+  Waves,
 } from './RegistVoice.style';
 import GameTitleImg from '/src/assets/Game/GameTitleImg.png';
 import StartBtnImg from '/src/assets/Training/restartbtn.png';
@@ -37,7 +38,11 @@ const sentence = [
   '(10/10)',
 ];
 
-function RegistVoice() {
+export interface GameMainProps {
+  SetPageMain: () => void;
+}
+
+function RegistVoice(props:GameMainProps) {
   const navigate = useNavigate();
   const goGame = () => {
     navigate('/game');
@@ -118,7 +123,10 @@ function RegistVoice() {
                   등록된 목소리는 Voss 사용자의 목소리로 사용됩니다.
                 </FinishExplain>
                 {/* <FinishBtn onClick={() => HandlePageState(0)}> */}
-                <FinishBtn onClick={() => goGame()}>메인으로</FinishBtn>
+                <FinishBtn 
+                  // onClick={() => goGame()}>메인으로
+                  onClick={props.SetPageMain}>메인으로
+                </FinishBtn>
               </div>
             ) : (
               <RecordContainer>
@@ -186,12 +194,15 @@ function RegistVoice() {
                         }}
                       />
                     ) : (
-                      <img
-                        src={StopBtnImg}
-                        style={{
-                          width: '100px',
-                        }}
-                      />
+                      <>
+                        <img
+                          src={StopBtnImg}
+                          style={{
+                            width: '100px',
+                          }}
+                        />
+                        <Waves />
+                      </>
                     )}
                   </RecordBtn>
                   <NextBtn
