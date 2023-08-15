@@ -120,7 +120,7 @@ export const AlarmListItem = styled.div`
 export const AlarmItem = styled.div`
   background-color: #efefef;
   border-radius: 4px;
-  margin: 0px 10px 8px 6px;
+  margin: 0px 10px 4px 6px;
   padding: 10px;
   font-size: 12px;
   cursor: pointer;
@@ -142,7 +142,7 @@ export const AlarmItem = styled.div`
 
 export const AlarmTime = styled.div`
   font-size: 1px;
-  margin-right: 10px;
+  margin: 0px 10px 4px 0px;
   text-align: right;
   color: #797979;
 `
