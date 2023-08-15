@@ -41,6 +41,7 @@ const GameMain = (props: GameMainProps) => {
         />
         <GameMainIcon
           src={GameBoy}
+          style={{width:"80px", height:"90px"}}
           $Top={'90%'}
           $Left={'104%'}
           $Animation={true}

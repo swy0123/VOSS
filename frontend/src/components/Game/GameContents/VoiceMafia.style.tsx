@@ -56,7 +56,7 @@ export const StyledDivWithText = styled.div`
   color: white;
   padding: 20px;
   width: 60%;
-  margin: 60px auto;
+  margin: 30px auto;
 `;
 
 export const OptionButtonContainer = styled.div`

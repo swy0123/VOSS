@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GameMainContainer } from "../GameMain/GameMain.style"
-import { GameExplain, GameNoticeDiv, GameTitle, StartButton, PlayExplain, StyledDivWithText, OptionButton, OptionButtonContainer, ReplayButton } from "./VoiceMafia.style"
+import { GameExplain, GameNoticeDiv, GameTitle, StartButton, ReplayButton } from "./VoiceMafia.style"
 import GameTitleImg from "/src/assets/Game/GameTitleImg.png"
-import { P } from "../../Home/Login/Login.style";
-import { ResultBox } from "../../Accent/AccentResult/AccentResult.style";
+import { getGame } from "/src/api/game";
+import GuessBoard from "./GuessBoard";
+import ResultBoard from "./ResultBoad";
 
 const sentence = [
     '(1/10)',
@@ -18,23 +19,29 @@ const sentence = [
     '(10/10)',
   ];
 
-const option = [
-    '전문 성우',
-    'AI',
-    'Voss 사용자',
-];
-
 function VoiceMafia() {
     const [StartGame, setStartGame] = useState(true);
     const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [ShowResult, setShowResult] = useState(false);
+    const [GameContents, setGameContents] = useState([]);
+    const [CurrentScore, setCurrentScore] = useState(0);
+    const [Discreption, setDiscreption] = useState("음성을 재생하여 들어보세요");
+    const [SelectPossible, setSelectPossible] = useState(true);
+
+    useEffect(() => {
+        getGameContents();
+    }, [])
+
+    const getGameContents = async () => {
+        const gameContents = await getGame();
+        setGameContents(gameContents);
+    }
 
     const handleStartButtonClick = () => {
         setStartGame(false);
     };
 
     const handleOptionButtonClick = async () => {
-        // 정답 체크 
         if (CurrentSentenceIndex < sentence.length - 1) {
             setCurrentSentenceIndex(CurrentSentenceIndex + 1);
         } else {
@@ -48,57 +55,53 @@ function VoiceMafia() {
         setCurrentSentenceIndex(0);
     };
 
+    const handleScore = (input:string) => {
+        let disc = "";
+        if (input === GameContents[CurrentSentenceIndex].type) {
+            setCurrentScore(CurrentScore+1);
+            disc = "정답입니다!";
+
+        } else {
+            let answer = GameContents[CurrentSentenceIndex].type === "MEMBER" ? "Voss 회원" : GameContents[CurrentSentenceIndex].type === "ACTOR" ? "전문 성우" : "AI"
+            disc = "틀렸습니다. 정답은 " + answer + " 목소리입니다";
+        }
+        
+        setDiscreption(disc);
+        setSelectPossible(false); 
+
+        setTimeout(() => {
+            setSelectPossible(true); 
+            handleOptionButtonClick();
+            setDiscreption("음성을 재생하여 들어보세요");
+        }, 1500);
+    }
+
     return (
         <GameMainContainer>
             <GameNoticeDiv>
                 <GameTitle src={GameTitleImg} />
+                <div>
                     {StartGame ? (
                         <GameExplain>
                             다음 들려주는 목소리를 듣고,<br/>
                             전문 성우 목소리, 생성 AI 목소리, Voss 사용자 목소리인지 맞혀주세요!<br/>
                             총 10문제이고, 각 선택 기회는 한 번입니다<br/>
                         </GameExplain>
-                        ) : (
-                        <div>
-                            <PlayExplain>
-                                누구의 목소리일까요? {sentence[CurrentSentenceIndex]}
-                            </PlayExplain>
-                            <StyledDivWithText>
-                                목소리 재생중입니다...
-                            </StyledDivWithText>
-                            <OptionButtonContainer>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[0]}
-                                </OptionButton>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[1]}
-                                </OptionButton>
-                                <OptionButton $IsColor={false} onClick={handleOptionButtonClick}>
-                                    {option[2]}
-                                </OptionButton>
-                            </OptionButtonContainer>
-                        </div>
-                    )}
-                    {StartGame && (
+                    ) : !ShowResult ?(
+                        <GuessBoard currIdx={CurrentSentenceIndex} handleScore={handleScore} discreption={Discreption} selectPossible={SelectPossible} audioUrl={GameContents[CurrentSentenceIndex].fileName}/>
+                    ) : <></>}
+                    {StartGame && GameContents.length>0 ? (
                         <StartButton onClick={handleStartButtonClick}>
                             시작하기
                         </StartButton>
-                    )}
+                    ): <></>}
                     {ShowResult && (
-                        <ReplayButton onClick={handleReplayButtonClick}>
-                            다시하기
-                        </ReplayButton>
+                        <ResultBoard score={1} handleReplayButtonClick={handleReplayButtonClick} />
                     )}
-
+                </div>
             </GameNoticeDiv>
-
-
         </GameMainContainer>
-
     )
-
-
-
 }
 
-export default VoiceMafia
+export default VoiceMafia;
