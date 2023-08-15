@@ -29,7 +29,7 @@ const SoundToText = () => {
   },[])
 
   const startListening = () => {
-    setAccentText("대사를 읽어보아요")
+    setAccentText("");
     setIsListening(true)
     recognition.start() 
   }

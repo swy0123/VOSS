@@ -65,57 +65,65 @@ export const CategoryButton = styled(OptionButton)<{ $IsClick: boolean }>`
 `;
 export const ScriptBox = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
-  height: 210px;
+  height: 225px;
 `;
 export const ScriptInput = styled.textarea`
-  display: flex;
   background-color: transparent;
   font-size: 18px;
   color: white;
-  padding: 25px 0px 25px 20px;
-  height: 125px;
-  width: 400px;
+  margin-top: 20px;
+  padding: 0px 0px 24px 20px;
+  height: 135px;
+  width: 450px;
   border: none;
   resize: none;
+  outline: none;
+  z-index: 20;
 
-  &:focus {
-    outline: none;
+  &::-webkit-scrollbar {
+    width: 8px;
+    margin-right: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 20px; /* 스크롤바의 길이 */
+    background: #535353; /* 스크롤바의 색상 */
+    border-radius: 10px;
   }
 `;
 
 export const ScriptButtons = styled.div<{ $IsClickable: boolean }>`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  align-items: flex-end;
   pointer-events: ${(props) => (props.$IsClickable ? "auto" : "none")};
 `;
 
 export const ScriptDiv = styled.div`
-  height: 125px;
-  width: 400px;
+  height: 155px;
+  width: 450px;
   display: flex;
   position: relative;
-  /* align-items: center; */
-  /* transform: translate(-50%, -50%); */
 `;
+
 export const SpinnerDiv = styled.div<{ $IsClickable: boolean }>`
   width: 90px;
   position: absolute;
   top: 60%;
-  left: 55%;
-  display : ${(props) => (props.$IsClickable ? "none" : "block")};;
+  left: 50%;
+  display: ${(props) => (props.$IsClickable ? "none" : "block")};
   /* transform: translate(-50%, -50%); */
 `;
+
 export const DelButton = styled.img`
-  margin: 6px;
-  width: 23px;
+  width: 24px;
+  height: 24px;
+  margin: 0px 10px 14px 0px;
   cursor: pointer;
 `;
-export const PlayButton = styled.img`
-  margin: 6px;
-  width: 23px;
-  cursor: pointer;
-`;
+
+export const DelButtonActive = styled(DelButton)``;

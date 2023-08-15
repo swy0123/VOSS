@@ -61,7 +61,7 @@ function AccentResult() {
   
   return (
     <ResultBox>
-      <Text>{accentStt}</Text>
+      <Text placeholder="대사를 읽어보아요">{accentStt}</Text>
       <Section>
         <Warning>발음 교정은 한국어만 가능합니다.</Warning>
         {accentScript !== "" ? (
