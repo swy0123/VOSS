@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -123,6 +124,8 @@ public class PostServiceImpl implements PostService {
             postComment.delete();
             postCommentRepository.save(postComment);
         }
+        List<PostLike> likes = postLikeRepository.findAllByPostId(id);
+        postLikeRepository.deleteAll(likes);
         List<PostFileDetailResponse> files = postFileRepository.findAllByPostIdAndIsDeletedFalse(id);
         for(PostFileDetailResponse file : files) {
             PostFile postFile = postFileRepository.findById(file.getId()).orElseThrow(() -> new NoPostFileException("존재하지 않는 파일입니다."));
@@ -133,8 +136,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<MyPostListResponse> getMyPostList(Pageable pageable, String email) {
-        return postRepository.findAllByMemberEmailAndIsDeletedFalse(pageable, email);
+    public Page<UserPostListResponse> getMyPostList(Pageable pageable, String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoMemberException("존재하지 않는 사용자입니다."));
+        return postRepository.findAllByMemberIdAndIsDeletedFalse(pageable, member.getId());
     }
 
+    @Override
+    public Page<UserPostListResponse> getUserPostList(Pageable pageable, Long memberId) {
+        return postRepository.findAllByMemberIdAndIsDeletedFalse(pageable, memberId);
+    }
 }

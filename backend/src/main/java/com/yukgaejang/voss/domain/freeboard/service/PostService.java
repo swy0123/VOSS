@@ -12,5 +12,6 @@ public interface PostService {
     PostDetailResponse getPostDetail(String email, Long id);
     Page<PostListResponse> getPostList(Pageable pageable, String title, String content, String nickname);
     DeletePostResponse deletePost(Long id);
-    Page<MyPostListResponse> getMyPostList(Pageable pageable, String email);
+    Page<UserPostListResponse> getMyPostList(Pageable pageable, String email);
+    Page<UserPostListResponse> getUserPostList(Pageable pageable, Long memberId);
 }

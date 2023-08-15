@@ -10,8 +10,8 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.*;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyPostListResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.PostListResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.UserPostListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -89,10 +89,9 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
     }
 
     @Override
-    public Page<MyPostListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
-
-        List<MyPostListResponse> posts = jpaQueryFactory
-                .selectDistinct(Projections.constructor(MyPostListResponse.class,
+    public Page<UserPostListResponse> findAllByMemberIdAndIsDeletedFalse(Pageable pageable, Long memberId) {
+        List<UserPostListResponse> posts = jpaQueryFactory
+                .selectDistinct(Projections.constructor(UserPostListResponse.class,
                         p,
                         JPAExpressions
                                 .select(pc.id.count())
@@ -107,7 +106,7 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                 .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
                 .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(
-                        p.isDeleted.eq(0).and(p.member.email.eq(email))
+                        p.isDeleted.eq(0).and(p.member.id.eq(memberId))
                 )
                 .groupBy(p.id)
                 .orderBy(p.createdAt.desc())
@@ -118,7 +117,7 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
         JPAQuery<Long> countQuery = jpaQueryFactory
                 .select(p.id.count())
                 .from(p)
-                .where(p.isDeleted.eq(0).and(p.member.email.eq(email)));
+                .where(p.isDeleted.eq(0).and(p.member.id.eq(memberId)));
 
         return new PageImpl<>(posts, pageable, countQuery.fetchOne());
     }

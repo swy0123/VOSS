@@ -7,8 +7,7 @@ import com.yukgaejang.voss.domain.freeboard.repository.entity.PostComment;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.QPost;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.QPostComment;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyCommentListResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyPostListResponse;
+import com.yukgaejang.voss.domain.freeboard.service.dto.response.UserCommentListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -48,24 +47,23 @@ public class PostCommentSupportRepositoryImpl implements PostCommentSupportRepos
     }
 
     @Override
-    public Page<MyCommentListResponse> findAllByMemberEmailAndIsDeletedFalse(Pageable pageable, String email) {
-        List<MyCommentListResponse> comments = jpaQueryFactory
-                .select(Projections.constructor(MyCommentListResponse.class,
+    public Page<UserCommentListResponse> findAllByMemberIdAndIsDeletedFalse(Pageable pageable, Long memberId) {
+        List<UserCommentListResponse> comments = jpaQueryFactory
+                .select(Projections.constructor(UserCommentListResponse.class,
                         p,
                         pc))
                 .from(pc)
                 .leftJoin(pc.post, p)
-                .where(pc.member.email.eq(email).and(pc.isDeleted.eq(0)))
+                .where(pc.member.id.eq(memberId).and(pc.isDeleted.eq(0)))
                 .orderBy(pc.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(pc.post.id.count())
+                .select(pc.id.count())
                 .from(pc)
-                .where(pc.member.email.eq(email).and(pc.isDeleted.eq(0)))
-                .groupBy(pc.post);
+                .where(pc.member.id.eq(memberId).and(pc.isDeleted.eq(0)));
 
         return new PageImpl<>(comments, pageable, countQuery.fetchOne());
     }
