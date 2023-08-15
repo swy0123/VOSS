@@ -7,6 +7,7 @@ import {
   CategoryButton,
   Container,
   DelButton,
+  DelButtonActive,
   OptionCreate,
   OptionSelect,
   Options,
@@ -16,17 +17,18 @@ import {
   ScriptDiv,
   ScriptInput,
   SpinnerDiv,
-  Title
+  Title,
 } from "./Script.style";
 import { ScaleLoader } from "react-spinners";
 
 function Script() {
+  const [isHovered, setIsHovered] = useState(false);
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
   const [scriptClickable, setScriptClickable] = useState<boolean>(true);
 
-  const categoryOpt = ["뉴스", "날씨", "법률", "스포츠"]
-  const [isCategorySelect, setIsCategorySelect] = useState<boolean[]>([true, false, false, false])
-  const [categorySelected, setCategorySelected] = useState<string[]>([])
+  const categoryOpt = ["뉴스", "날씨", "법률", "스포츠"];
+  const [isCategorySelect, setIsCategorySelect] = useState<boolean[]>([true, false, false, false]);
+  const [categorySelected, setCategorySelected] = useState<string[]>([]);
 
   // useEffect(()=>{
   // },[scriptClickable])
@@ -34,30 +36,40 @@ function Script() {
   const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setAccentScript(e.target.value)
-  }
-  const DelScripts = () => { setAccentScript("") }
+    setAccentScript(e.target.value);
+  };
+  const DelScripts = () => {
+    setAccentScript("");
+    setIsHovered(false);
+  };
+  
+  const handleHover = () => {
+    setIsHovered(true);
+  };
 
-  const handleCategoryBtn = (index:number) => {
-    const isCategorySelectTmp = isCategorySelect.map((_,C_idx) => (C_idx === index))
-    setIsCategorySelect(isCategorySelectTmp)
-    const CategorySelected = categoryOpt.filter((_,d_idx)=>(isCategorySelectTmp[d_idx]===true))
-    setCategorySelected(CategorySelected)
-  }
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleCategoryBtn = (index: number) => {
+    const isCategorySelectTmp = isCategorySelect.map((_, C_idx) => C_idx === index);
+    setIsCategorySelect(isCategorySelectTmp);
+    const CategorySelected = categoryOpt.filter((_, d_idx) => isCategorySelectTmp[d_idx] === true);
+    setCategorySelected(CategorySelected);
+  };
 
   const axiosMakeScript = async (categorySelected: string) => {
-    console.log(categorySelected+"       asd")
-    setAccentScript("스크립트를 생성중입니다...")
+    console.log(categorySelected + "       asd");
+    setAccentScript("스크립트를 생성중입니다...");
     setScriptClickable(false);
-    console.log("setScriptClickable(false)")
+    console.log("setScriptClickable(false)");
     try {
       const makeScriptData: string = await makeAccentScript(categorySelected);
-      const scriptDate = makeScriptData.script.replace(reg,'');
-      setAccentScript(scriptDate)
+      const scriptDate = makeScriptData.script.replace(reg, "");
+      setAccentScript(scriptDate);
       setScriptClickable(true);
-      console.log("setScriptClickable(true)")
-    }
-    catch (error) {
+      console.log("setScriptClickable(true)");
+    } catch (error) {
       console.log(error);
     }
   };
@@ -68,19 +80,19 @@ function Script() {
       <Options $IsClickable={scriptClickable}>
         <OptionSelect>
           <CategoryBox>
-            카테고리 : {categoryOpt.map((data, index) => (
+            카테고리 :{" "}
+            {categoryOpt.map((data, index) => (
               <CategoryButton
                 key={index}
                 $IsClick={isCategorySelect[index]}
                 onClick={() => handleCategoryBtn(index)}
-              >{data}
+              >
+                {data}
               </CategoryButton>
             ))}
           </CategoryBox>
         </OptionSelect>
-        <OptionCreate
-          onClick={() => axiosMakeScript(categorySelected)}>생성
-        </OptionCreate>
+        <OptionCreate onClick={() => axiosMakeScript(categorySelected)}>생성</OptionCreate>
       </Options>
 
       <ScriptBox>
@@ -88,22 +100,38 @@ function Script() {
           <ScriptInput
             value={accentScript}
             onChange={ChagneScripts}
-            placeholder="대사를 입력해주세요.">
-          </ScriptInput>
+            placeholder="대사를 입력해주세요."
+          ></ScriptInput>
           <SpinnerDiv $IsClickable={scriptClickable}>
             <ScaleLoader color="rgba(220, 220, 220, 1)" />
           </SpinnerDiv>
-        </ScriptDiv >
-        <ScriptButtons $IsClickable={scriptClickable}>
+        </ScriptDiv>
+        {/* <ScriptButtons $IsClickable={scriptClickable}>
           <DelButton
             src="/src/assets/Training/delete.png"
             onClick={DelScripts}>
           </DelButton>
-          {/* <PlayButton src="/src/assets/Training/play.png"></PlayButton> */}
-        </ScriptButtons>
+        </ScriptButtons> */}
+        {accentScript ? (
+          <ScriptButtons $IsClickable={scriptClickable}>
+            <DelButtonActive
+              src={isHovered
+                  ? "/src/assets/Training/trashcan(del).png"
+                  : "/src/assets/Training/trashcan(active).png"
+              }
+              onClick={DelScripts}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleMouseLeave}
+            ></DelButtonActive>
+          </ScriptButtons>
+        ) : (
+          <ScriptButtons $IsClickable={scriptClickable}>
+            <DelButton src="/src/assets/Training/trashcan.png"></DelButton>
+          </ScriptButtons>
+        )}
       </ScriptBox>
     </Container>
-  )
+  );
 }
 
-export default Script
+export default Script;

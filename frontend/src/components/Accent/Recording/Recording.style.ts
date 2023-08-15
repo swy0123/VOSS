@@ -16,7 +16,7 @@ export const Title = styled.h2`
 export const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   padding: 6px 0px 6px 0px;
