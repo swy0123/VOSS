@@ -8,6 +8,7 @@ export const RecordItemDesign = styled.div`
   width: 230px;
   height: 330px;
   background-color: rgba(100, 100, 100, 0.1);
+  border-radius: 10px;
   /* border: solid 1px green; */
 `;
 
@@ -123,19 +124,20 @@ text-align: end;
 export const RecordUsersDesign = styled.div`
 display: flex;
 align-items: center;
-padding: 0 10px;
+padding: 0 13px;
 width: 210px;
 height: 30px;
-font-size: 13px;
+font-size: 12px;
 /* border: solid 1px white; */
 img {
   cursor: pointer;
-  height: 25px;
-  width: 25px;
+  border-radius: 50%;
+  height: 23px;
+  width: 23px;
 }
 span {
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 13px;
   text-align: end;
   line-height: 30px;
 }

@@ -191,15 +191,17 @@ cursor: pointer;
 font-size: 1.1vw;
 margin: 0 6px;
 padding: 5px 5px;
-color: #ffffff;
+color: rgba(193, 193, 193, 0.8);
 background-color: transparent;
 transition: background-color 0.3s ease;
 
 &:hover {
-  background-color: #ccc;
+  font-weight: bold;
+  color: white;
 }
 
 &.active {
-  background-color: #007bff;
+  font-weight: bold;
+  color: white;
 }
 `;
