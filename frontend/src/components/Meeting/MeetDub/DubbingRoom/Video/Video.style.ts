@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 450px;
+  width: 420px;
   margin-bottom: 0px;
 `
 export const Title = styled.h2`
@@ -70,6 +70,7 @@ export const Thumbnail = styled.img`
 `
 export const YoutubeIcon =styled.img`
   position: absolute;
+  cursor: pointer;
 `
 
 export const RoleBox = styled.div`

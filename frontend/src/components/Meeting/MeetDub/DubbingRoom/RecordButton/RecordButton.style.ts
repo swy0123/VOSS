@@ -6,7 +6,6 @@ export const Container = styled.div`
   align-items: center;
   height: 150px;
   width: 570px;
-  /* border: 1px solid red; */
 ` 
 
 export const RecordBtnBox = styled.div`
@@ -15,12 +14,12 @@ export const RecordBtnBox = styled.div`
   justify-content: space-between;
   height: 130px;
   width: 200px;
-  /* border: 1px solid blue; */
 `
-export const StopWatch = styled.p`
+export const StopWatch = styled.div`
   color: white;
   font-size: 20px;
-  height: 1px;
+  height: 10px;
+  width: 52px;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
   background-color: rgba(58, 58, 58, 0.7);
@@ -47,7 +46,6 @@ export const SectionBtn = styled.div`
   align-items: center;
   justify-content: flex-end;
   height: 115px;
-  /* border: 1px solid pink; */
 
 `
 export const Button = styled.button`
@@ -120,14 +118,15 @@ export const Waves = styled.div`
   }
 `
 
-export const FileDownload = styled.button`
+export const FileDownload = styled.button<{$meetDubRecord:string}>`
+  opacity: ${(props) => (props.$meetDubRecord ? 1:0)};
   background-color: transparent;
   border:none;
 `
 
 export const FileDownloadImg = styled.img`
   margin-top: 10px;
-  width: 25px;
-  height: 25px;
+  width: 21px;
+  height: 21px;
   cursor: pointer;
 `

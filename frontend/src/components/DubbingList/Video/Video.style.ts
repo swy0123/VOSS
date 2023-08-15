@@ -35,6 +35,12 @@ export const VideoItem = styled.div`
   width: 280px;
   cursor: pointer;
 
+  @media only screen and (max-width: 10000px) {
+    height: 240px;
+  }
+  @media only screen and (max-width: 2100px) {
+    width: 18%
+  }
   @media only screen and (max-width: 1500px) {
     width: 23%
   }
