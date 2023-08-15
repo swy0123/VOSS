@@ -68,6 +68,7 @@ function Video ({script, roles, lines}: ScriptData) {
     
     // 영상 정지
     else if (recordTrigger === 0){
+      if(!youtube) return;
       await youtube.pauseVideo()
       await youtube.seekTo(0)
       setMeetDubPlayChange([2, 0]);
