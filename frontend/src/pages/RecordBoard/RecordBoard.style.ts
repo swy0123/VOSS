@@ -10,7 +10,7 @@ export const RecordScrollDesign = styled.div`
   &::-webkit-scrollbar {
     display: none;
   };
-  border: solid 1px red;
+  /* border: solid 1px red; */
   `;
 
 export const RecordMainDesign = styled.div`
@@ -120,4 +120,13 @@ export const OrderSelectDesign = styled.select`
   border-radius: 5px;
   border: none;
   cursor: pointer;
+`;
+
+export const RecordContentDesign = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  margin-top: 20px;
+  width: 1005px;
+  /* border: solid 1px green;  */
 `;

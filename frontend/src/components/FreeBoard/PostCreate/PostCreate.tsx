@@ -101,8 +101,8 @@ function PostCreate() {
       {files.length
         ? files.map((file: any, index: number) => (
           <FreeFileDesign key={index}>
-            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="PostHit" />
             {file.originalFileName}
+            <img style={{height: '2vh', marginLeft: '1vw'}} src={downloadImg} alt="downloadimg" />
             <button style={{marginLeft: '1vw'}} onClick={() => removeFile(index)}>
               <VscClose size='10'/>
             </button>

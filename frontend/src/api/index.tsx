@@ -68,7 +68,7 @@ privateApi.interceptors.response.use(
           return axios(originRequest);
 
         } catch {
-          alert("다시 로그인하세요");
+          // alert("다시 로그인하세요");
           // setLoginState(false);
           // setCurrentUser({
           //   userid: 0,

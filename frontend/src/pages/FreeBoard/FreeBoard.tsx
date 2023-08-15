@@ -104,7 +104,7 @@ function FreeBoard () {
     <BackGroundImg>
       <Header/>
       <FreeBoardDesign>
-        <h2 onClick={pageReset} style={{ cursor: 'pointer'}}>자유 게시판</h2>
+        <h2 onClick={pageReset}><span style={{ cursor: 'pointer'}}>자유 게시판</span></h2>
 
         <OrderBoxDesign>
           <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>

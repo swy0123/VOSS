@@ -7,8 +7,9 @@ export const MessegeDiv = styled.div`
 `;
 
 export const MessageIcon = styled.img`
-    width: 60px;
-    height: 60px;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
 `;
 
 export const MessageChecked = styled.img`
