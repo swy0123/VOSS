@@ -9,10 +9,11 @@ export const RecordBox = styled.div`
   margin-top: 42px;
   height: 150px;
   width: 350px;
+
 `;
 export const StopWatch = styled.div`
   color: white;
-  margin: 20px 0px 5px 0px;
+  margin: 15px 0px 0px 0px;
   height: 20px;
 
 `;
@@ -83,7 +84,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -79.2px 0px 0px 24.2px;
+    margin: -79.2px 0px 0px 25.2px;
     width: 50px;
     height: 50px;
     border-radius: 50%;

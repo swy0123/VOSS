@@ -6,16 +6,18 @@ export const RecordBox = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 42px;
-  height: 150px;
+  height: 145px;
   width: 350px;
+
 `;
 export const StopWatch = styled.p`
   display: flex;
   justify-content: space-between;
   color: white;
-  margin-top: 20px;
   height: 20px;
   width: 115px;
+  margin: 0px;
+
 `;
 export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);
@@ -36,13 +38,15 @@ export const PracticeStart = styled(State)<{ $practiceStart?: boolean }>`
 export const PracticeEnd = styled(State)<{ $practiceEnd?: boolean }>`
   display: ${(props) => (props.$practiceEnd ? "block" : "none")};
 `;
+
 export const SectionBtn = styled.div<{ $IsRunning: boolean }>`
   display: flex;
   align-items: center;
-  height: 60px;
+  height: 70px;
   z-index: ${(props) => (props.$IsRunning ? 500 : 0)};
   /* pointer-events: ${(props) => (props.$IsRunning ? "auto" : "none")}; */
 `;
+
 export const Button = styled.button`
   background-color: #3a3a3a;
   border-radius: 16px;
@@ -85,7 +89,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -79.2px 0px 0px 24.2px;
+    margin: -79px 0px 0px 24.8px;
     width: 50px;
     height: 50px;
     border-radius: 50%;

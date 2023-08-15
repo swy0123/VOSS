@@ -216,7 +216,7 @@ function RecordButton({ script, lines }: VideoProps) {
               setPracticeStart(false)
               setPracticeEnd(false)}}
             src="/src/assets/Training/startbtn.png"></RecordBtn>
-            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
+            {/* <ParcticeInfo>녹음과함께 재생</ParcticeInfo>/ */}
           </ParcticeStartSection>) :
           isRunning ?
             (<NowRecording>
