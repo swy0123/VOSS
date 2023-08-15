@@ -154,8 +154,14 @@ function RecordCreateModal() {
   };
 
   const recordCreate = () => {
-    if (files.length < 1) return;
-    if (description.trim().length < 1) return; 
+    if (files.length < 1) {
+      alert('파일이 없습니다')
+      return;
+    }
+    if (description.trim().length < 1) {
+      alert('내용이 없습니다')
+      return;
+    } 
     createRecord(description, files[0]).then((data) => {
       if (data) {
         window.location.reload();
@@ -171,10 +177,10 @@ function RecordCreateModal() {
         <RecordTitleDesign
           className="textarea"
           placeholder="내용을 입력하세요 (40자 이내)"
-          onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value)}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>  {if (event.target.value.length < 41) setDescription(event.target.value)}}
           value={description}
         >
-        </RecordTitleDesign>
+        </RecordTitleDesign> 
 
         <RecordSpaceDesign/>
 

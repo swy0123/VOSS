@@ -49,8 +49,8 @@ function CommentList() {
   };
   const commentCreate = () => {
     if (!content.trim()) {
-      setContent("")
-      return
+      alert('댓글 내용이 비어있습니다')
+      return;
     }
     createComment(id, content).then((res)=>{
       if (res) {commentsGet(); window.scrollTo(0, document.body.scrollHeight)}
@@ -58,8 +58,8 @@ function CommentList() {
   };
   const commentUpdate = (commentId: number) => {
     if (!editContent.trim()) {
-      setEditContent("")
-      return
+      alert('댓글 내용이 비어있습니다')
+      return;
     }
     updateComment(id, commentId, editContent).then((res)=>{
       if (res) {commentsGet()}
@@ -83,7 +83,7 @@ function CommentList() {
 
       <CommentInputDesign
         id="target-textarea"
-        placeholder="댓글을 입력하세요"
+        placeholder="댓글을 입력하세요 (500자 이내)"
         onChange={contentChange}
         value={content}
       />
@@ -119,7 +119,7 @@ function CommentList() {
 
           { comment.id === editId
             ? <CommentContentTextArea 
-                onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setEditContent(event.target.value)}
+                onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {if (event.target.value.length < 500) setEditContent(event.target.value)}}
                 value={editContent}
                 autoFocus
               />
