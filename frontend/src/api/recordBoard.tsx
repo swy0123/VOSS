@@ -119,3 +119,16 @@ export const deleteLike = async ( recordId: number ) => {
     }
     return false
 };
+
+
+export const getMyRecords = async (memberId: number, page: number) => {
+    const res = await privateApi.get(`/recordboard/user-record/${memberId}?page=${page-1}`)
+    .catch(err => {
+        console.log("getMyRecords catch: ", err)
+    })
+    if (res) {
+        console.log("getMyRecords then: ", res.data)
+        return(res.data)
+    }
+    return false
+};

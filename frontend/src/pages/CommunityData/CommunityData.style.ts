@@ -1,0 +1,110 @@
+import styled from "styled-components";
+
+
+export const DataScrollDesign = styled.div`
+  margin-top: -2px;
+  width: 100vw;
+  height: 90vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  };
+  /* border: solid 1px red; */
+  `;
+
+export const DataMainDesign = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 6px auto 0 auto;
+  width: 1005px;
+  color: white;
+  /* border: solid 1px white; */
+  `;
+
+
+export const DataTitleSelectDesign = styled.div`
+  display: flex;
+  width: 1000px;
+  height: 70px;
+  /* border: solid 1px red; */
+  `;
+
+export const DataTitleDesign = styled.div`
+  display: flex;
+  padding-right: 70px;
+  height: 70px;
+  /* border: solid 1px red; */
+  h2{
+    span{
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline
+      }
+    }
+  };
+  `;
+
+export const DataSelectDesign = styled.label`
+display: flex;
+width: 120px;
+height: 70px;
+/* border: solid 1px red; */
+div {
+  margin-left: 10px;
+  font-size: 12px;
+  line-height: 70px;
+  /* border: solid 1px red; */
+};
+`;
+
+export const DataContentDesign = styled.div`
+  display: flex;
+  width: 1000px;
+  /* border: solid 1px green; */
+  `;
+
+export const CommentListDesign = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1000px;
+  padding: 0 5px;
+  height: 110px;
+  border-bottom: solid 1px #6c6c6c;
+  border-top: solid 1px #6c6c6c;
+  &:hover {
+    background-color: rgba(1, 1, 1, 0.5);
+  }
+  `;
+
+export const TitleCommentDesign = styled.div`
+  display: flex;
+  align-items: center;
+  width: 1000px;
+  /* border: solid 1px green; */
+  `;
+
+export const TitleDesign = styled.div`
+display: flex;
+align-items: center;
+padding-left: 20px;
+width: 900px;
+height: 40px;
+/* border: solid 1px green; */
+img {
+  height: 20px;
+  margin-left: 5px;
+}
+div {
+  margin-left: 10px;
+}
+`;
+
+export const TitleDateDesign = styled.div`
+display: flex;
+justify-content: center;
+/* align-items: center; */
+width: 100px;
+height: 40px;
+/* border: solid 1px green; */
+`;
