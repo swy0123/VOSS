@@ -73,10 +73,6 @@ function RecordButton ({meetRoomId}: number | any) {
     setTime(0);
   };
   
-  const addRecord = (mediaBlobUrl) => {
-    setMeetDubRecord(mediaBlobUrl)
-  }
-
   const StartRecord = () => {
     const info: RecordingInfo = {
       "meetRoomId": meetRoomId,
@@ -207,11 +203,11 @@ function RecordButton ({meetRoomId}: number | any) {
           )
         }
         </SectionBtn>
-        {meetDubRecord &&
-          <FileDownload onClick={downloadVideo}>
-            <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
-          </FileDownload>
-        }
+        <FileDownload 
+          onClick={downloadVideo}
+          $meetDubRecord={meetDubRecord}>
+          <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
+        </FileDownload>
       </RecordBtnBox>
     </Container>
   )

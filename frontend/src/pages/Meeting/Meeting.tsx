@@ -100,7 +100,7 @@ function Meeting() {
               isBottomOn("/open");
             }}
           >
-            <img src={Vector} />
+            <img style={{cursor:"pointer"}} src={Vector} />
             더빙연습
           </BottomBar>
         </ClosedBottomSection>

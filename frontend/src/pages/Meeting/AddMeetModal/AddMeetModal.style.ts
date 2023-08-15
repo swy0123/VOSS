@@ -180,6 +180,8 @@ export const TmpButton = styled.div`
   border-style: solid;
   border-radius: 25px;
   border-color: white;
+  cursor: pointer;
+  
   &:hover {
     color: black;
     background-color: white;
