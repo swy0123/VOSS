@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class MyPostListResponse {
+public class UserPostListResponse {
     private Long id;
     private String title;
     private Long hits;
@@ -18,7 +18,7 @@ public class MyPostListResponse {
     private boolean hasOtherFile;
     private LocalDateTime createdAt;
 
-    public MyPostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
+    public UserPostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hits = post.getHit();

@@ -8,7 +8,6 @@ import com.yukgaejang.voss.domain.freeboard.repository.entity.QPost;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.QPostComment;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.CommentDetailResponse;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyCommentListResponse;
-import com.yukgaejang.voss.domain.freeboard.service.dto.response.MyPostListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
