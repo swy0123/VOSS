@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-export const RecordContentDesign = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  margin-top: 20px;
-  width: 1005px;
-  border: solid 1px green;
-`;
 
 export const RecordItemDesign = styled.div`
   display: flex;
@@ -15,38 +7,64 @@ export const RecordItemDesign = styled.div`
   margin: 10px;
   width: 230px;
   height: 330px;
-  border: solid 1px green;
+  background-color: rgba(100, 100, 100, 0.1);
+  /* border: solid 1px green; */
+`;
+
+export const RecordDeleteDesign = styled.div`
+  margin-left: auto;
+  margin-right: 10px;
+  margin-top: 10px;
+  /* border: solid 1px orange; */
+  img {
+    cursor: pointer;
+    height: 18px;
+    width : 18px;
+  }
 `;
 
 export const RecordTitleDesign = styled.div`
-  padding: 20px 20px 25px 20px;
-  width: 190px;
-  height: 70px;
+  padding: 15px 25px 25px 25px;
+  width: 180px;
+  height: 55px;
   font-size: 14px;
-  border: solid 1px orange;
+  overflow-wrap: break-word;
+  /* border: solid 1px orange; */
 `;
 
 export const RecordPlayerDesign = styled.div`
   display: flex;
   justify-content: center;
   width: 230px;
-  height: 30px;
-  border: solid 1px orange;
-  cursor: pointer;
+  height: 28px;
+  /* border: solid 1px orange; */
   audio {
-    width: 200px;
-    height: 30px;
+    cursor: pointer;
+    width: 190px;
+    height: 28px;
+    color: red;
+  };
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display {
+    display: none;
+  };
+  audio::-webkit-media-controls-timeline {
+    padding: 10px 1px;
+  };
+  audio::-webkit-media-controls {
+    background-color: white;
     border-radius: 5px;
-    background-color: #EFEFEF;
+  };
+  ::-webkit-media-controls-mute-button{
+    margin-right: -5px
   }
 `;
 
 export const RecordSpace1Design = styled.div`
   width: 230px;
-  height: 25px;
-  border: solid 1px blue;
+  height: 40px;
+  /* border: solid 1px blue; */
 `;
-
 
 export const RecordLikeImageDesign = styled.div`
 display: flex;
@@ -56,10 +74,10 @@ width: 100%;
 height: 25px;
 cursor: pointer;
 img {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 }
-border: solid 1px orange;
+/* border: solid 1px orange; */
 `;
 
 export const RecordLikeNumDesign = styled.div`
@@ -69,14 +87,13 @@ export const RecordLikeNumDesign = styled.div`
   width: 100%;
   height: 20px;
   font-size: 11px;
-  border: solid 1px orange;
+  /* border: solid 1px orange; */
   `;
 
 export const RecordSpace2Design = styled.div`
   width: 230px;
-  height: 20px;
-  border: solid 1px blue;
-  /* cursor: pointer; */
+  height: 30px;
+  /* border: solid 1px blue; */
 `;
 
 export const RecordDateHitsDesign = styled.div`
@@ -86,21 +103,21 @@ width: 210px;
 height: 30px;
 font-size: 11px;
 line-height: 30px;
-border: solid 1px orange;
-/* cursor: pointer; */
+border-bottom: solid 1px #6c6c6c;
+/* border: solid 1px orange; */
 `;
 
 export const RecordDateDesign = styled.div`
 width: 110px;
 height: 30px;
-border: solid 1px white;
+/* border: solid 1px white; */
 `;
 
 export const RecordHitsDesign = styled.div`
 width: 110px;
 height: 30px;
 text-align: end;
-border: solid 1px white;
+/* border: solid 1px white; */
 `;
 
 export const RecordUsersDesign = styled.div`
@@ -108,17 +125,18 @@ display: flex;
 align-items: center;
 padding: 0 10px;
 width: 210px;
-height: 40px;
-border: solid 1px white;
+height: 30px;
+font-size: 13px;
+/* border: solid 1px white; */
 img {
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
 }
 span {
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 15px;
   text-align: end;
-  line-height: 40px;
+  line-height: 30px;
 }
 `;

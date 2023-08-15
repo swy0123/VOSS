@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import {  } from "/src/recoil/Community";
-import { getRecords, recordLike, deleteLike } from "/src/api/recordBoard";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { RecordsState } from "/src/recoil/Community";
+import {recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
 import { RecordType } from "/src/type/FreeBoard";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
 import {
-  RecordContentDesign,
+  RecordDeleteDesign,
   RecordItemDesign,
   RecordTitleDesign,
   RecordPlayerDesign,
@@ -19,18 +21,18 @@ import {
   RecordHitsDesign,
   RecordUsersDesign,
 } from "./RocordList.style";
-import { useNavigate } from "react-router-dom";
 
 const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
 
-function RecordList () {
+const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
   const today = new Date().toISOString();
-  const [records, setRecords] = useState<RecordType[]>([]);
+  const [records, setRecords] = useRecoilState(RecordsState);
+  const [isTrash, setTrash] = useState(false);
   
   const navigate = useNavigate();
-  const goProfile = (id: number) => navigate(`/profile/${id}`)
+  const goProfile = (id: number) => navigate(`/profile=/${id}`)
 
-  const LikeRecord = (recordId: number, liked: boolean) => {
+  const likeRecord = (recordId: number, liked: boolean) => {
     if (!liked) {
       recordLike(recordId).then(dataLike => {
         if (dataLike) {
@@ -58,6 +60,31 @@ function RecordList () {
     };
   }
 
+  const recordPlay = (recordId: number) => {
+    playRecord(recordId).then((data) => {
+      if (data) {
+        setRecords((prevRecords) => {
+          return prevRecords.map((record) => {
+            if (record.recordId === recordId) {
+              return { ...record, hits: record.hits + 1 };
+            }
+            return record;
+          });
+        });
+      }
+    });
+  };
+
+  const recordDelete = (recordId: number) => {
+    deleteRecord(recordId).then((data) => {
+      if (data) {
+        setRecords((prevRecords) => (
+          prevRecords.filter((record) => record.recordId !== recordId)
+        ));
+      }
+    })
+  };
+
   const DateDisplay = ( dateString: string ) => {
     const dateObject = new Date(dateString);
     const year = dateObject.getFullYear();
@@ -66,52 +93,49 @@ function RecordList () {
     return (`${year}년 ${month}월 ${day}일`)
   };
 
-  useEffect(() => {
-    getRecords("1", "1", "", 1).then((dataRecords) => {
-      if (dataRecords) {
-        setRecords(dataRecords.content)
-      }
-    });
-  }, [])
-
   return(
-    <RecordContentDesign>
+    <RecordItemDesign>
+      <RecordDeleteDesign>
+        <img src={ isTrash ? "/src/assets/Training/trashcan(del).png" : "/src/assets/Training/trashcan.png" } alt=""
+          onMouseEnter={()=>setTrash(true)}
+          onMouseLeave={()=>setTrash(false)}
+          onClick={()=>recordDelete(record.recordId)}
+        />
+      </RecordDeleteDesign>
 
-      { records.map((record) => (
-        <RecordItemDesign key={record.recordId}>
-          <RecordTitleDesign>{record.description}</RecordTitleDesign>
-          <RecordPlayerDesign>
-            {record.savedFileName.slice(-4)}
-          </RecordPlayerDesign>
+      <RecordTitleDesign>{record.description}</RecordTitleDesign>
+      
+      <RecordPlayerDesign>
+        <audio controls onPlay={()=>(recordPlay(record.recordId))}>
+          <source src={`${FILE_SERVER_URL}/${record.savedFileName}`} type="audio/ogg" />
+          <source src={`${FILE_SERVER_URL}/${record.savedFileName}`} type="audio/mpeg" />
+        </audio>
+      </RecordPlayerDesign>
 
-          <RecordSpace1Design/>
-          <RecordLikeImageDesign onClick={()=>LikeRecord(record.recordId, record.liked)}>
-          { record.liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}
-          </RecordLikeImageDesign>
-          <RecordLikeNumDesign>{record.likes}</RecordLikeNumDesign>
-          <RecordSpace2Design/>
+      <RecordSpace1Design/>
+      <RecordLikeImageDesign onClick={()=>likeRecord(record.recordId, record.liked)}>
+        { record.liked ? <img src={LikeItImg} alt="LikeIT"/> : <img src={PostLikeImg} alt="PostLikeimg"/>}
+      </RecordLikeImageDesign>
+      <RecordLikeNumDesign>{record.likes}</RecordLikeNumDesign>
+      <RecordSpace2Design/>
 
-          <RecordDateHitsDesign>
-            <RecordDateDesign>
-            { today.slice(2, 10) === record.createdAt?.slice(2, 10)
-            ? record.createdAt?.slice(11, 16)
-            : DateDisplay(record.createdAt)
-            }
-            </RecordDateDesign>
-            <RecordHitsDesign>
-              재생수 {(record.hits.toLocaleString())}회
-            </RecordHitsDesign>
-          </RecordDateHitsDesign>
+      <RecordDateHitsDesign>
+        <RecordDateDesign>
+        { today.slice(2, 10) === record.createdAt?.slice(2, 10)
+        ? record.createdAt?.slice(11, 16)
+        : DateDisplay(record.createdAt)
+        }
+        </RecordDateDesign>
+        <RecordHitsDesign>
+          재생수 {(record.hits.toLocaleString())}회
+        </RecordHitsDesign>
+      </RecordDateHitsDesign>
 
-          <RecordUsersDesign>
-            <img src={ record.imageUrl ? `${FILE_SERVER_URL}/${record.imageUrl}` : ProfileNull} alt="" />
-            <span onClick={()=>goProfile(record.memberId)}>{record.nickname}</span>
-          </RecordUsersDesign>
-        </RecordItemDesign>
-      ))}
-
-
-    </RecordContentDesign>
+      <RecordUsersDesign>
+        <img src={ record.profileImage ? `${FILE_SERVER_URL}/${record.profileImage}` : ProfileNull} alt="" />
+        <span onClick={()=>goProfile(record.memberId)}>{record.nickname}</span>
+      </RecordUsersDesign>
+    </RecordItemDesign>
   )
 }
 

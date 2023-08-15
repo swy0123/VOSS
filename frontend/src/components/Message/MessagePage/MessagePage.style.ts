@@ -23,6 +23,7 @@ export const MessegeTitle = styled.div`
   `;
 
 export const ExitImg = styled.img`
+  cursor: pointer;
   position: absolute;
   right: 10px;
   top: 9px;
@@ -35,6 +36,7 @@ export const MessegeBodyDiv = styled.div`
   `;
 
 export const MessegeList = styled.div`
+  cursor: pointer;
   height: 340px;
   position: relative;
   top: -9px;
@@ -51,6 +53,7 @@ export const MessegeList = styled.div`
 
 export const MessageCardDiv = styled.div`
   /* border: solid 1px red; */
+  border-bottom: solid 0.5px rgba(100, 100, 100, 0.2);
   width: 95%;
   height: 60px;
   display: flex;
@@ -64,7 +67,7 @@ export const MessageCardDiv = styled.div`
 
 export const MessageTitle = styled.div`
   font-size: 15px;
-  margin: 3%;
+  margin-left: 11.5px;
 `;
 
 export const MessageChecked = styled.img`
@@ -74,6 +77,7 @@ export const MessageChecked = styled.img`
 `;
 
 export const MessageAdd = styled.img`
+  cursor: pointer;
   position: absolute;
   right: 10px;
   bottom: 9px;
