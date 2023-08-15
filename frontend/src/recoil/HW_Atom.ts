@@ -106,6 +106,18 @@ export const initialBtnState = atom<boolean>({
   default: true,
 })
 
+// 메인페이지 스크롤이벤트
+export const scrollEventState = atom<number>({
+  key: "scrollEventState",
+  default: 0,
+})
+
+// 메인페이지 회원창 스크롤이벤트
+export const scrollUserState = atom<boolean>({
+  key: "scrollUserState",
+  default: false,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
