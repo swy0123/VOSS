@@ -15,6 +15,7 @@ public class ViewAllMeetRoomResponse {
     private Long createdAt;
     private String sessionId;
     private boolean isPassword;
+    private Long scriptId;
 
     public ViewAllMeetRoomResponse(Meet meet) {
         meetRoomId = meet.getId();
@@ -23,5 +24,6 @@ public class ViewAllMeetRoomResponse {
         maxCount = meet.getMaxCount();
         sessionId = meet.getSessionId();
         isPassword = meet.isPassword();
+        scriptId = meet.getScript() == null ? 0L : meet.getScript().getId();
     }
 }
