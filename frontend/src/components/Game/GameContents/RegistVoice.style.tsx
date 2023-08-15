@@ -33,7 +33,7 @@ export const RegistBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #27ae60;
+  background-color: #219653;
   border: none;
   border-radius: 25px;
   color: white;
@@ -44,7 +44,7 @@ export const RegistBtn = styled.button`
   transition: background-color 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: #219653;
+    background-color: #27ae60;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 `;
@@ -53,7 +53,7 @@ export const NextBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffc000;
+  background-color: #ffae00;
   border: none;
   border-radius: 25px;
   color: white;
@@ -64,7 +64,7 @@ export const NextBtn = styled.button`
   transition: background-color 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: #ffae00;
+    background-color: #ffc000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 `;
