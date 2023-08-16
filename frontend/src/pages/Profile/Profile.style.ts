@@ -2,9 +2,8 @@ import { styled } from "styled-components";
 
 
 export const ProfileScrollDesign = styled.div`
-  margin-top: -2px;
   width: 100vw;
-  height: 90vh;
+  height: calc(100vh - 65px);
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -20,7 +19,7 @@ export const ProfileDesign = styled.div`
   margin-top: 4vh;
   margin-left: 15vw;
   margin-right: 15vw;
-  height: 75vh;
+  height: 90vh;
   width: 70vw;
 `;
 
@@ -38,4 +37,39 @@ export const ProfileSpace2 = styled.div`
   justify-content: space-evenly;
   height: 42vh;
   width: 100%;
+`;
+
+export const ProfileSpace3 = styled.div`
+  /* border: dotted 1px white; */
+  display: flex;
+  justify-content: space-evenly;
+  height: 3vh;
+  width: 100%;
+`;
+
+export const BoardDataDesign = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 2.5vw;
+  width: 24.5vw;
+  height: 3.5vw;
+  color: white;
+  font-size: 1.1vw;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+`;
+
+export const BadgeTitleDetailDesign = styled.div`
+  /* border: solid 1px red; */
+  margin-left: auto;
+  padding-right: 3vw; 
+  font-size: 0.8vw;
+  text-align: end;
+  line-height: 3.5vw;
+  opacity: 0.6;
+  width: 5vw;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { MyCommentCountState } from "/src/recoil/Community";
+import { MyCommentsState } from "/src/recoil/Community";
 import { MyCommentType } from "/src/type/FreeBoard";
 import { getMyComments } from "/src/api/FreeBoard";
 import ReplyIcon from "/src/assets/FreeBoard/ReplyIcon.png";
@@ -23,8 +23,7 @@ function CommentListData () {
   const id = parseInt(useParams().id || "0");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [comments, setComments] = useState<MyCommentType[]>([]);
-  const [, setCommentCount] = useRecoilState(MyCommentCountState);
+  const [comments, setComments] = useRecoilState(MyCommentsState);
 
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
@@ -39,7 +38,6 @@ function CommentListData () {
       if(dataComments) {
         setComments(dataComments.content)
         setTotalPages(dataComments.totalPages)
-        setCommentCount(dataComments.totalElements)
       };
     });
   };
@@ -71,6 +69,7 @@ function CommentListData () {
 
   return(
     <div style={{ marginTop: '20px'}}>
+
     {comments?.map((comment) => (
       <CommentListDesign key={comment.commentId} onClick={() => goPostDetail(comment.postId || 0)}>
 

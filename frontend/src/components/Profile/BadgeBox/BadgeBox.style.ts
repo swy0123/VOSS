@@ -26,7 +26,7 @@ export const BadgeTitleDesign = styled.div`
 
 export const BadgeTitleDetailDesign = styled.div`
   /* border: dotted 1px white; */
-  font-size: 1vh;
+  font-size: 0.8vw;
   /* display: 'flex'; */
   text-align: end;
   position: absolute;

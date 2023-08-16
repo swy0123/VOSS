@@ -14,7 +14,6 @@ import {
   DataTitleSelectDesign,
   DataTitleDesign,
   DataSelectDesign,
-  DataContentDesign,
 } from "./CommunityData.style";
 
 function BoardData () {
@@ -66,12 +65,10 @@ function BoardData () {
         </DataSelectDesign>
       </DataTitleSelectDesign>
 
-      <DataContentDesign>
       { selectedOption === "1" 
       ? <FreeBoardData/>
       : <RecordBoardData/>
       }
-      </DataContentDesign>
 
     </DataMainDesign>
     </DataScrollDesign>
