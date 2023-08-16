@@ -88,7 +88,6 @@ export const ScriptDiv = styled.div`
   display: flex;
   position: relative;
 `;
-
 export const ScriptInput = styled.textarea`
   background-color: transparent;
   font-size: 18px;

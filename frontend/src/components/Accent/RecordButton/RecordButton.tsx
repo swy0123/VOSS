@@ -23,6 +23,7 @@ import AlertContext from "/src/context/alert/AlertContext";
 function RecordButton() {
   const [accentRecord, setAccentRecord] = useRecoilState(accentRecordState);
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
+  const [accentClickable, setaccentClickable] = useRecoilState<boolean>(accentClickableState);
   const [accentText, setAccentText] = useRecoilState(accentSttState);
   const [practiceStart, setPracticeStart] = useState(false);
   const [practiceEnd, setPracticeEnd] = useState(false);
@@ -112,7 +113,11 @@ function RecordButton() {
     setPracticeEnd(false);
   };
 
-  const { startListening, stopListening, hasRecognitionSupport } = SoundToText();
+  const { 
+    startListening, 
+    stopListening,
+    accenting, 
+    hasRecognitionSupport } = SoundToText();
 
   const openAlert = async () => {
     const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
@@ -142,6 +147,7 @@ function RecordButton() {
                 resetTimer();
                 stopRecording();
                 clearBlobUrl();
+                stopListening()
               }}
             >
               취소
@@ -177,7 +183,7 @@ function RecordButton() {
                   startOrStop();
                   stopRecording();
                   pauseRecording();
-                  stopListening();
+                  accenting();
                   changePracticeStart();
                 }}
                 onMouseEnter={() => setPracticeEnd(true)}
@@ -192,6 +198,10 @@ function RecordButton() {
           ) : (
             <RecordBtn
               onClick={() => {
+                if ( !accentClickable ) {
+                  onAlertClick("발음을 분석중이니 잠시만 기다려주세요")
+                  return;
+                }
                 if (stop >= 200) {
                   onAlertClick("녹음을 완료/취소 해주세요")
                   return;
@@ -217,6 +227,7 @@ function RecordButton() {
                 stopRecording();
                 addRecord(mediaBlobUrl);
                 resetTimer();
+                stopListening()
               }}
             >
               완료
