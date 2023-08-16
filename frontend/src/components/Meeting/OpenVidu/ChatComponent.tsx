@@ -115,6 +115,14 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/recordresetvideo");
     }
+    else if (send == "/audiopaly") {
+      setSend("/none");
+      sendMessage("/audiopaly");
+    }
+    else if (send == "/audioPause") {
+      setSend("/none");
+      sendMessage("/audioPause");
+    }
     else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
       setSend("/none");
       sendMessage(send);
@@ -182,6 +190,14 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       }
       else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
         setRecieve("/recordresetvideo");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/audiopaly") {
+        setRecieve("/audiopaly");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/audioPause") {
+        setRecieve("/audioPause");
         messageList.pop();
       }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {

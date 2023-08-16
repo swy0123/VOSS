@@ -84,7 +84,9 @@ function DubbingRoom ({meetRoomId}:number) {
           onClick={goDubbingList}>목록으로</GoDubbingListBtn>
         <Script 
           lines={video.lines}></Script>
-        <RecordButton meetRoomId={meetRoomId}/>
+        <RecordButton 
+          meetRoomId={meetRoomId}
+          script={video.script}/>
       </RightSection>
     </Container>
   ) 
