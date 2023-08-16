@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 // 리코일
 import { useRecoilState } from "recoil";
-import { MeetDubPlayChangebState, RecordTriggerState } from "/src/recoil/HW_Atom";
+import { MeetDubPlayChangebState, RecordTriggerState, VideoAudioTriggerState } from "/src/recoil/HW_Atom";
 import { ScriptData } from "/src/type/type";
 import { 
   ButtonBox,
@@ -34,6 +34,7 @@ declare global {
 
 function Video ({script, roles, lines}: ScriptData) {
   const [meetDubPlayChange, setMeetDubPlayChange] = useRecoilState<number[]>(MeetDubPlayChangebState)
+  const [recordVideoTrigger,setRecordVideoTrigger] = useRecoilState<number>(VideoAudioTriggerState)
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   const [youtube, setYoutube] = useState<object|undefined>("")
@@ -55,7 +56,7 @@ function Video ({script, roles, lines}: ScriptData) {
 
   //================Record 버튼으로 영상제어================
   // 영상 상태 변경  
-  const onPlayStateChange = async () => {
+  const onPlayStateChangeByRecord = async () => {
     // 영상 시작
     if (recordTrigger === 1){
       if(!youtube){ 
@@ -76,8 +77,30 @@ function Video ({script, roles, lines}: ScriptData) {
   }
 
   useEffect(()=>{
-    void onPlayStateChange()
+    void onPlayStateChangeByRecord()
   },[recordTrigger])
+
+  //================audio 버튼으로 영상제어================
+  // 영상 상태 변경  
+  const onPlayStateChangeByAudio = async () => {
+    // 영상 시작
+    if (recordVideoTrigger === 1){
+      await youtube.playVideo()
+      setMeetDubPlayChange([1, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
+    
+    // 영상 정지
+    else if (recordVideoTrigger === 0){
+      if(!youtube) return;
+      await youtube.pauseVideo()
+      setMeetDubPlayChange([2, Math.floor(youtube.getCurrentTime() * 10)]);
+    }
+  }
+
+  useEffect(()=>{
+    void onPlayStateChangeByAudio()
+  },[recordVideoTrigger])
+
 
   //=====================Video로 영상 제어=======================
   // 처음 영상 시작
@@ -130,7 +153,6 @@ function Video ({script, roles, lines}: ScriptData) {
       youtube.seekTo(0)
       setRecieve("/none");
     }
-
   }, [recieve])
 
   // index.html에 CDN을 동적으로 추가해주는 과정

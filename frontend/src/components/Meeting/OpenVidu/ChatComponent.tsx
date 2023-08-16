@@ -119,9 +119,9 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/audiopaly");
     }
-    else if (send == "/audioPause") {
+    else if (send == "/audiopause") {
       setSend("/none");
-      sendMessage("/audioPause");
+      sendMessage("/audiopause");
     }
     else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
       setSend("/none");
@@ -196,8 +196,8 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         setRecieve("/audiopaly");
         messageList.pop();
       }
-      else if (messageList[messageList.length - 1].message === "/audioPause") {
-        setRecieve("/audioPause");
+      else if (messageList[messageList.length - 1].message === "/audiopause") {
+        setRecieve("/audiopause");
         messageList.pop();
       }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
