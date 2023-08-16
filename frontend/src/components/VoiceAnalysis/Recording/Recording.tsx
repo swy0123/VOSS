@@ -67,16 +67,17 @@ function Recording (){
     <Container>
       <Title>녹음 기록</Title>
       <RecordBox>
-        {analysisRecord.map((file,index) => (
+        {analysisRecord.map(([file, recordedAge, recordedGender] ,index) => (
           <RecordItem key={index}>
             <RecordLable>
-            voss-{timeList[index]}.wav
+            voss-{timeList[index]}-<br/>
+            {recordedAge}-{recordedGender}.wav
             </RecordLable>
             <audio src={file} controls style={{
               width :'40%',
               height : '28px',
             }}/>
-            <a href={file} download="my-audio-file.wav">
+            <a href={file} download={`voss-${timeList[index]}-${recordedAge}-${recordedGender}.wav`}>
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a>
             <DownloadImg src="/src/assets/Dubbing/Analisis.png" onClick={()=>startVoiceAnalysis(file)}/>

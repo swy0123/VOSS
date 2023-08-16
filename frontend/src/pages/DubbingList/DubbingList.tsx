@@ -12,6 +12,7 @@ import {
   videoFilterState, 
   videoListState } from "../../recoil/Training"
 import { 
+  OverflowHeaderHidden,
   Container,
   DubbingBox,} from "./DubbingList.style" 
 import Loading from "/src/components/Loading"
@@ -41,6 +42,7 @@ function DubbingList() {
   return(
     <BackGroundImg>
       <Header/>
+      <OverflowHeaderHidden>
       <Container>
         <DubbingBox>
           <Title/>
@@ -48,6 +50,7 @@ function DubbingList() {
           <Video/>
         </DubbingBox>
       </Container>
+      </OverflowHeaderHidden>
       <Messenger/>
     </BackGroundImg>
   )

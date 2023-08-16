@@ -60,6 +60,9 @@ color: #a4a4a4;
 span {
   color: #a4a4a4;
   cursor: pointer;
+  &:hover{
+    font-weight: bold;
+  }
 }
 /* border: solid 1px red; */
 `;

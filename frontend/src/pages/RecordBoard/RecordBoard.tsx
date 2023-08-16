@@ -88,7 +88,7 @@ function RecordBoard () {
           <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
             <option value="1">최신순</option>
             <option value="2">재생순</option>
-            <option value="3">좋아요순</option>
+            <option value="3">추천순</option>
           </OrderSelectDesign>
 
         </MenuBoxDesign>

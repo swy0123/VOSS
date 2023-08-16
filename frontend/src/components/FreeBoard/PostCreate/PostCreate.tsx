@@ -86,7 +86,7 @@ function PostCreate() {
       <FreeTitleUserDesign>
         <FreeTitleInputDesign
           placeholder="제목 (40자 이내)"
-          onChange={(event: ChangeEvent<HTMLInputElement>)=>{if (event.target.value.length < 41) {setTitle(event.target.value)}}}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {if (event.target.value.length < 41) {setTitle(event.target.value)}}}
           value={title}
           // autoFocus
         />

@@ -112,7 +112,7 @@ function FreeBoard () {
           <OrderSelectDesign id="sort-select" value={sort} onChange={(event: ChangeEvent<HTMLSelectElement>) => setSort(event.target.value)}>
             <option value="1">최신순</option>
             <option value="2">조회순</option>
-            <option value="3">좋아요순</option>
+            <option value="3">추천순</option>
           </OrderSelectDesign>
         </OrderBoxDesign>
 
@@ -122,7 +122,7 @@ function FreeBoard () {
           <PostCategoryUserDesign>작성자</PostCategoryUserDesign>
           <PostCategoryCreatedatDesign>작성일</PostCategoryCreatedatDesign>
           <PostCategoryHitDesign>조회수</PostCategoryHitDesign>
-          <PostCategoryLikeDesign>좋아요</PostCategoryLikeDesign>
+          <PostCategoryLikeDesign>추천</PostCategoryLikeDesign>
         </PostCategoryDesign>
         
         { posts.length 
