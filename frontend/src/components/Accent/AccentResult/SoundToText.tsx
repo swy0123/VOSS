@@ -25,10 +25,10 @@ const SoundToText = () => {
     setaccentClickable(false)
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       setAccentText(event.results[0][0].transcript)
-      setIsListening(false)
-      recognition.stop()
-      setaccentClickable(true)
     }
+    setIsListening(false)
+    recognition.stop()
+    setaccentClickable(true)
   }
 
   const stopListening = () => {
