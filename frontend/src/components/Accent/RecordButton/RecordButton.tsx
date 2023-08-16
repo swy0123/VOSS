@@ -96,7 +96,7 @@ function RecordButton() {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     const centiseconds = Math.floor((milliseconds % 1000) / 10);
-    return `0 : ${seconds.toString().padStart(2, "0")}.${centiseconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
   };
 
   const addRecord = (mediaBlobUrl) => {
@@ -136,7 +136,7 @@ function RecordButton() {
     <RecordBox>
       <StopWatch>
         <span>{formatTime(time)}</span>
-        <span> / 0 : 20.00</span>
+        <span> / 00 : 20</span>
       </StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>

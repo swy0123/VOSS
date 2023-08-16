@@ -100,13 +100,13 @@ function RecordButton({ script, lines }: VideoProps) {
   const formatTimeLeft = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
   };
 
   const formatTimeRight = (durationInSec: number) => {
     const minutes = Math.floor(durationInSec / 60)
     const second = Math.floor(durationInSec % 60)
-    return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+    return `${minutes.toString().padStart(2, '0')} : ${second.toString().padStart(2, '0')}`
   }
 
   const getParamStr = () => {
