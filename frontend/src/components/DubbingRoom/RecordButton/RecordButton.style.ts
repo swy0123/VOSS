@@ -1,6 +1,6 @@
 import { styled, keyframes } from "styled-components";
 
-export const RecordBox = styled.div`
+export const RecordBox = styled.div<{$recordActive:boolean}>`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -9,7 +9,7 @@ export const RecordBox = styled.div`
   margin-top: 42px;
   height: 150px;
   width: 350px;
-
+  opacity : ${({ $recordActive }) => ($recordActive ? "1" : "0")};
 `;
 export const StopWatch = styled.div`
   color: white;

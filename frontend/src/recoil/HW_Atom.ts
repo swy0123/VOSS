@@ -85,7 +85,7 @@ export const alarmInfoState = atom<AlarmInfoListType[]>({
 // 녹음버튼 === 비디오버튼
 export const PlayTriggerState = atom<number>({
   key: "PlayTriggerState",
-  default: 0,
+  default: "",
 })
 
 // 화상 더빙방 비디오 컨트롤
