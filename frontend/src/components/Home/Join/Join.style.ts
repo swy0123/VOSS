@@ -161,9 +161,9 @@ export const Input = styled.input<{ $isChecked: boolean }>`
   border-radius: 8px;
   margin-top: 20px;
   &:focus {
-    border-width: 2px;
+    border-width: 1px;
     border-color: ${(props) => (props.$isChecked ? "black" : "#DD0013")};
-    height: 38px;
+    height: 40px;
   }
 `;
 

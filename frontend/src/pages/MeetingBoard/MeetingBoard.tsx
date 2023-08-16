@@ -48,19 +48,18 @@ function MeetingBoard() {
     setSearch(e.target.value);
   };
 
-
-  const handleCategory = (index:number) => {
-    if(selectedTag==TagCode[index]) setTag("");
+  const handleCategory = (index: number) => {
+    if (selectedTag == TagCode[index]) setTag("");
     else setTag(TagCode[index]);
   };
 
-  const handleOnKeyPress = (e : KeyboardEvent<HTMLInputElement>)=>{
-  console.log("키 입력");
-  console.log(e.key);
-    if (e.key === 'Enter') {
+  const handleOnKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    console.log("키 입력");
+    console.log(e.key);
+    if (e.key === "Enter") {
       onClickSearchButton();
     }
-  }
+  };
 
   const onClickSearchButton = () => {
     const newKeyWord = {
@@ -81,25 +80,26 @@ function MeetingBoard() {
           <h4>방 목록</h4>
         </Title>
         <SearchDiv>
-          <CreateRoom onClick={onClickToggleModal}>+ 방 만들기</CreateRoom>
           {/* <form> */}
-            <SearchInput
-              type="text"
-              onChange={handleSearchForm}
-              onKeyPress={handleOnKeyPress}
-              value={searchForm}
-              placeholder="검색"
-            />
-            <SearchInputButton
-              src={SearchInputImg}
-              onClick={onClickSearchButton}
-            ></SearchInputButton>
+          <SearchInput
+            type="text"
+            onChange={handleSearchForm}
+            onKeyPress={handleOnKeyPress}
+            value={searchForm}
+            placeholder="검색"
+          />
+          <SearchInputButton src={SearchInputImg} onClick={onClickSearchButton}></SearchInputButton>
+          <CreateRoom onClick={onClickToggleModal}>+ 방 만들기</CreateRoom>
           {/* </form> */}
         </SearchDiv>
 
         <LeftDiv>
           {Tag.map((data, index) => (
-            <TagButton key={index} $IsClick={selectedTag == TagCode[index]} onClick={() => handleCategory(index)}>
+            <TagButton
+              key={index}
+              $IsClick={selectedTag == TagCode[index]}
+              onClick={() => handleCategory(index)}
+            >
               {data}
             </TagButton>
           ))}
