@@ -71,11 +71,19 @@ const Messenger = () =>{
         if ( recieveMessage.memberId == me && recieveMessage.sessionId == "init") {
           setIsAlarm(true)
           const roomId = recieveMessage.chatId;
+          console.log("roomId: ", roomId)
           if (!liveRooms.includes(roomId)) {
             setLiveRooms(prev => [...prev, roomId]);
           }
-          const roomIndex = rooms.findIndex(room => room.chatId === roomId);
-          setRooms([rooms[roomIndex], ...rooms.slice(0, roomIndex), ...rooms.slice(roomIndex + 1)]);
+          const roomIndex = rooms.findIndex((room: RoomType) => room.chatId === roomId);
+          console.log("roomIndex: ", roomIndex)
+          if (roomIndex === -1) {
+            getMessageRooms().then((dataRooms) => {
+              if (dataRooms) { setRooms(dataRooms) }
+            })
+          } else {
+            setRooms([rooms[roomIndex], ...rooms.slice(0, roomIndex), ...rooms.slice(roomIndex + 1)]);
+          }
         };
       };
 

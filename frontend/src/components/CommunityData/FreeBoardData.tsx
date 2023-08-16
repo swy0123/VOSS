@@ -26,7 +26,9 @@ import {
 
 function FreeBoardData () {
   const id = parseInt(useParams().id || "0");
-  const today = new Date().toISOString();
+  let rawday = new Date();
+  rawday.setHours(rawday.getUTCHours() + 9);
+  const today = rawday.toISOString();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalElements, setTotalElements] = useState<number>(1);
