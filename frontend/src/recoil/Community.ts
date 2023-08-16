@@ -1,7 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
-import { RecordType } from "../type/FreeBoard";
-import { PostListType } from "../type/FreeBoard";
+import { MyCommentType, RecordType, PostListType } from "../type/FreeBoard";
 const { persistAtom } = recoilPersist();
 
 
@@ -80,7 +79,6 @@ export const RecordsState = atom<RecordType[]>({
 export const RecordBoardInputState = atom<string>({
   key: "RecordBoardInputState",
   default: "",
-  // effects_UNSTABLE: [persistAtom],
 });
 
 
@@ -111,8 +109,8 @@ export const ShowRecordCreateModalState = atom<boolean>({
 });
 
 
-// 내가 쓴 댓글 개수 
-export const MyCommentCountState = atom<number>({
-  key:  "MyCommentCountState",
-  default: 0,
+// 내가 쓴 댓글
+export const MyCommentsState = atom<MyCommentType[]>({
+  key:  "MyCommentsState",
+  default: [],
 });

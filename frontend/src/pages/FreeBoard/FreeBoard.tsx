@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil";
 import { FreeBoardListState, FreeBoardInputState, FreeBoardSortState, FreeBoardCondState, FreeBoardCurrentPageState, FreeBoardTotalPagesState, FreeBoardTotalElementsState } from "/src/recoil/Community";
 import UpdateIcon from "/src/assets/Profile/UpdateIcon.png"
 import {
+  FreeScrollDesign,
   FreeBoardDesign,
   OrderBoxDesign,
   OrderSelectDesign,
@@ -103,6 +104,7 @@ function FreeBoard () {
   return(
     <BackGroundImg>
       <Header/>
+      <FreeScrollDesign>
       <FreeBoardDesign>
         <h2 onClick={pageReset}><span style={{ cursor: 'pointer'}}>자유 게시판</span></h2>
 
@@ -142,10 +144,10 @@ function FreeBoard () {
           />
         ))}
         </>
-        : <div style={{ height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
+        : <div style={{ height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
         }
 
-        <SearchboxDesign style={{borderTop: "solid 1px white"}}>
+        <SearchboxDesign>
           <SearchSelectDesign id="cond-select" value={cond} onChange={(event: ChangeEvent<HTMLSelectElement>) => setCond(event.target.value)}>
             <option value="1">제목</option>
             <option value="2">제목+내용</option>
@@ -186,7 +188,8 @@ function FreeBoard () {
       : <PaginationItem style={{visibility: "hidden"}}>다음</PaginationItem>
       }
       </PaginationWrapper>
-
+      
+      </FreeScrollDesign>
       <Messenger/>
     </BackGroundImg>
   )
