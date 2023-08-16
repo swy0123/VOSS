@@ -1,6 +1,6 @@
 import { styled, keyframes } from "styled-components";
 
-export const RecordBox = styled.div<{$recordActive:boolean}>`
+export const RecordBox = styled.div<{ $recordActive: boolean }>`
   display: flex;
   position: relative;
   flex-direction: column;
@@ -9,13 +9,12 @@ export const RecordBox = styled.div<{$recordActive:boolean}>`
   margin-top: 42px;
   height: 150px;
   width: 350px;
-  opacity : ${({ $recordActive }) => ($recordActive ? "1" : "0")};
+  opacity: ${({ $recordActive }) => ($recordActive ? "1" : "0")};
 `;
 export const StopWatch = styled.div`
   color: white;
   margin: 15px 0px 0px 0px;
   height: 20px;
-
 `;
 export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);
@@ -36,7 +35,7 @@ export const PracticeStart = styled(State)<{ $practiceStart?: boolean }>`
 export const PracticeEnd = styled(State)<{ $practiceEnd?: boolean }>`
   display: ${(props) => (props.$practiceEnd ? "block" : "none")};
 `;
-export const SectionBtn = styled.div<{ $IsClickable: boolean ,$IsRunning: boolean }>`
+export const SectionBtn = styled.div<{ $IsClickable: boolean; $IsRunning: boolean }>`
   display: flex;
   align-items: center;
   height: 60px;
@@ -53,8 +52,16 @@ export const Button = styled.button`
   width: 50px;
   cursor: pointer;
 `;
-export const RestartBtn = styled(Button)``;
-export const CompleteBtn = styled(Button)``;
+export const RestartBtn = styled.img`
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+`;
+export const CompleteBtn = styled.img`
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+`;
 
 export const RecordBtn = styled.img`
   width: 100px;
@@ -122,7 +129,7 @@ export const MoonLoaderDiv = styled.div`
   height: 100px;
   z-index: -1;
 
-  top:48%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, 0);
 `;
@@ -133,14 +140,13 @@ export const ParcticeStartSection = styled.div<{ $IsClickable: boolean }>`
   align-items: center;
   width: 100px;
   height: 100px;
-  margin-top : ${(props) => (props.$IsClickable ? "" : "116px")};
-
-`
+  margin-top: ${(props) => (props.$IsClickable ? "" : "116px")};
+`;
 export const ParcticeInfo = styled.div`
-  color: #BABABA;
+  color: #bababa;
   width: 150px;
   text-align: center;
-`
+`;
 
 export const Backdrop = styled.div`
   position: fixed;

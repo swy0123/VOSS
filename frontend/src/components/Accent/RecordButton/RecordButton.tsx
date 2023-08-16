@@ -2,7 +2,12 @@ import { useRef, useState, useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { accentRecordState } from "../../../recoil/Training";
-import { accentClickableState, accentScriptState, accentSttState, initialBtnState } from "/src/recoil/HW_Atom";
+import {
+  accentClickableState,
+  accentScriptState,
+  accentSttState,
+  initialBtnState,
+} from "/src/recoil/HW_Atom";
 import SoundToText from "../AccentResult/SoundToText";
 import {
   Backdrop,
@@ -50,7 +55,7 @@ function RecordButton() {
     return result;
   };
 
-  const onAlertClick = async (text:string) => {
+  const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
   };
@@ -113,11 +118,7 @@ function RecordButton() {
     setPracticeEnd(false);
   };
 
-  const { 
-    startListening, 
-    stopListening,
-    accenting, 
-    hasRecognitionSupport } = SoundToText();
+  const { startListening, stopListening, accenting, hasRecognitionSupport } = SoundToText();
 
   const openAlert = async () => {
     const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
@@ -143,15 +144,14 @@ function RecordButton() {
         <SectionBtn $IsRunning={isRunning}>
           {!initialBtn && !isRunning ? (
             <RestartBtn
+              src="/src/assets/Training/Cancel.png"
               onClick={() => {
                 resetTimer();
                 stopRecording();
                 clearBlobUrl();
-                stopListening()
+                stopListening();
               }}
-            >
-              취소
-            </RestartBtn>
+            />
           ) : (
             ""
           )}
@@ -159,11 +159,11 @@ function RecordButton() {
           {initialBtn ? (
             <RecordBtn
               onClick={() => {
-                if(!accentScript){
-                  onAlertClick("스크립트를 생성해주세요.")
+                if (!accentScript) {
+                  onAlertClick("스크립트를 생성해주세요.");
                   return;
                 }
-                setStop(0)
+                setStop(0);
                 startOrStop();
                 startRecording();
                 startListening();
@@ -198,12 +198,12 @@ function RecordButton() {
           ) : (
             <RecordBtn
               onClick={() => {
-                if ( !accentClickable ) {
-                  onAlertClick("발음을 분석중이니 잠시만 기다려주세요")
+                if (!accentClickable) {
+                  onAlertClick("발음을 분석중이니 잠시만 기다려주세요");
                   return;
                 }
                 if (stop >= 200) {
-                  onAlertClick("녹음을 완료/취소 해주세요")
+                  onAlertClick("녹음을 완료/취소 해주세요");
                   return;
                 }
                 startOrStop();
@@ -222,16 +222,15 @@ function RecordButton() {
 
           {!initialBtn && !isRunning ? (
             <CompleteBtn
+              src="/src/assets/Training/Add.png"
               onClick={() => {
-                setStop(0)
+                setStop(0);
                 stopRecording();
                 addRecord(mediaBlobUrl);
                 resetTimer();
-                stopListening()
+                stopListening();
               }}
-            >
-              완료
-            </CompleteBtn>
+            />
           ) : (
             ""
           )}

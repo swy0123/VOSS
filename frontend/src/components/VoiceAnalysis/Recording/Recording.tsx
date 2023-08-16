@@ -13,6 +13,7 @@ import {
   Warning} from "./Recording.style";
   
 import axios from "axios";
+import { Dubbing } from './../../../pages/SelectCategory/SelectCategory.style';
 
 function Recording (){
   const [analysisRecord] = useRecoilState(analysisRecordState)
@@ -78,7 +79,7 @@ function Recording (){
             <a href={file} download="my-audio-file.wav">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a>
-            <button onClick={()=>startVoiceAnalysis(file)}>분석</button>
+            <DownloadImg src="/src/assets/Dubbing/Analisis.png" onClick={()=>startVoiceAnalysis(file)}/>
           </RecordItem>
         ))}
       </RecordBox>

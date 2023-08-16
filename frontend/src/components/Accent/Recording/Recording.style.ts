@@ -46,6 +46,7 @@ export const RecordLable = styled.label`
 
 export const DownloadImg = styled.img`
   height: 16px;
+  cursor: pointer;
 `
 
 export const Warning = styled.div`
