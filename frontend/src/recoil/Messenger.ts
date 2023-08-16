@@ -24,7 +24,6 @@ export const ShowFindFriendState = atom({
 export const RoomsState = atom({
   key: "RoomsState",
   default: [],
-  effects_UNSTABLE: [persistAtom],
 });
 
 // 실시간 메시지 받은 채팅방 목록

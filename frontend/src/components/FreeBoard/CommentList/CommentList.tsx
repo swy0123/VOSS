@@ -32,10 +32,23 @@ function CommentList() {
   const goProfile = (memberId: number) => (navigate(`/profile/${memberId}`));
 
   const contentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value.length > 500) {
+      alert('500자를 초과합니다')
+      return;
+    }
     event.target.style.height = 'auto';
     event.target.style.height =  event.target.scrollHeight + 'px';
     setContent(event.target.value);
-  }
+  };
+
+  const EditContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value.length > 500) {
+      alert('500자를 초과합니다')
+      return;
+    }
+    setEditContent(event.target.value);
+  };
+
   const commentsGet = () => {
     getComments(id).then((dataComment) => {
       if (dataComment) {
@@ -47,19 +60,17 @@ function CommentList() {
       }
     });
   };
+
   const commentCreate = () => {
     if (!content.trim()) {
       alert('댓글 내용이 비어있습니다')
-      return;
-    }
-    if (content.trim().length > 500) {
-      alert('500자를 초과하였습니다')
       return;
     }
     createComment(id, content).then((res)=>{
       if (res) {commentsGet(); window.scrollTo(0, document.body.scrollHeight)}
     })
   };
+
   const commentUpdate = (commentId: number) => {
     if (!editContent.trim()) {
       alert('댓글 내용이 비어있습니다')
@@ -73,6 +84,7 @@ function CommentList() {
       if (res) {commentsGet()}
     })
   };
+
   const commentDelete = (commentId: number) => {
     deleteComment(id, commentId).then((res)=>{
       if (res) {commentsGet()}
@@ -126,7 +138,7 @@ function CommentList() {
 
           { comment.id === editId
             ? <CommentContentTextArea 
-                onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {if (event.target.value.length < 500) setEditContent(event.target.value)}}
+                onChange={EditContentChange}
                 value={editContent}
                 autoFocus
               />

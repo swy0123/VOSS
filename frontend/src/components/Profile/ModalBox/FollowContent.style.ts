@@ -46,7 +46,7 @@ export const FollowButton = styled.button`
   line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
-  border-radius: 10px;
+  border-radius: 0.8vw;
   cursor: pointer;
   font-size: 1vw;
   `;
@@ -61,7 +61,7 @@ export const FollowingButton = styled.button`
   line-height: 50%;
   font-weight: bold;
   border: solid 1px #132B31;
-  border-radius: 10px;
+  border-radius: 0.8vw;
   cursor: pointer;
   font-size: 1vw;
   `;
