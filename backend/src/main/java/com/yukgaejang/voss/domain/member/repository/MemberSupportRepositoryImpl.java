@@ -36,7 +36,7 @@ public class MemberSupportRepositoryImpl implements MemberSupportRepository{
     public Page<GetMemberList> findMemberListByNickname(String keyword, Pageable pageable) {
         List<GetMemberList> content = queryFactory
                 .selectFrom(member)
-                .where(nicknameContains(keyword))
+                .where(nicknameContains(keyword).and(member.isDeleted.eq(false)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(member.nickname.length().asc())

@@ -80,6 +80,15 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
 
+        // 팔로우 삭제
+        // 뱃지 삭제
+        // 채팅 삭제
+        // 자유 좋아요 삭제
+        // 녹음 좋아요 삭제
+        // 게시글 삭제
+        // 녹음 게시글 삭제
+        // 댓글 삭제
+
         return false;
     }
 
