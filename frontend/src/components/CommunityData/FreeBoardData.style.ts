@@ -106,8 +106,9 @@ export const PostListDesign = styled.div`
   height: 40px;
   font-size: 0.8vw;
   font-size: 11px;
+  cursor: pointer;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.25);
   }
   `;
 

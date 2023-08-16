@@ -8,7 +8,7 @@ export const PostListDesign = styled.div`
   height: 5.6vh;
   font-size: 0.8vw;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.25);
   }
   `;
 

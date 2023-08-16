@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { MyCommentsState } from "/src/recoil/Community";
-import { MyCommentType } from "/src/type/FreeBoard";
 import { getMyComments } from "/src/api/FreeBoard";
 import ReplyIcon from "/src/assets/FreeBoard/ReplyIcon.png";
 import {
@@ -69,8 +68,9 @@ function CommentListData () {
 
   return(
     <div style={{ marginTop: '20px'}}>
-
-    {comments?.map((comment) => (
+    { comments.length
+    ?
+    <>{comments?.map((comment) => (
       <CommentListDesign key={comment.commentId} onClick={() => goPostDetail(comment.postId || 0)}>
 
         <TitleCommentDesign style={{color: '#bababa'}}>
@@ -96,22 +96,25 @@ function CommentListData () {
       </CommentListDesign>
     ))}
     
-    <br/>
-    <PaginationWrapper>
-    {currentPage > 1
-    ? <PaginationItem onClick={() => clickPageChange(currentPage - 1)}>이전</PaginationItem>
-    : <PaginationItem>이전</PaginationItem>
+      <br/>
+      <PaginationWrapper>
+        {currentPage > 1
+        ? <PaginationItem onClick={() => clickPageChange(currentPage - 1)}>이전</PaginationItem>
+        : <PaginationItem>이전</PaginationItem>
+        }
+      {pages.slice(startPage - 1, endPage).map((page) => (
+        <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
+          {(page.toLocaleString())}
+        </PaginationItem>
+      ))}
+        {currentPage < totalPages
+        ? <PaginationItem onClick={() => clickPageChange(currentPage + 1)}>다음</PaginationItem>
+        : <PaginationItem>다음</PaginationItem>
+        }
+      </PaginationWrapper>
+    </>
+    :  <div style={{ margin: '0 auto',  width: '1000px', height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 댓글이 없습니다</div>
     }
-    {pages.slice(startPage - 1, endPage).map((page) => (
-      <PaginationItem key={page} className={page === currentPage ? "active" : ""} onClick={() => clickPageChange(page)}>
-        {(page.toLocaleString())}
-      </PaginationItem>
-    ))}
-    {currentPage < totalPages
-    ? <PaginationItem onClick={() => clickPageChange(currentPage + 1)}>다음</PaginationItem>
-    : <PaginationItem>다음</PaginationItem>
-    }
-    </PaginationWrapper>
    </div>
   )
 }
