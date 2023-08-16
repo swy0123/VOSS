@@ -79,6 +79,11 @@ export const putEmailPassword = async (email:string) => {
   return response.data;
 }
 
+export const deleteMember = async (password:string) => {
+  const response = await publicApi.delete("/member");
+  return response.data;
+}
+
 
 export const testLogin = () => {
   console.log("testLogin");

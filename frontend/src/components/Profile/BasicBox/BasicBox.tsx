@@ -24,6 +24,7 @@ import {
 import { ProfileHoverList, ProfileHoverListItem } from './NavigationBar.style';
 import NicknameModal from './NicknameModal';
 import PasswordModal from './PasswordModal';
+import MemberDeleteModal from './MemberDeleteModal';
 
 const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com"
 
@@ -40,6 +41,7 @@ function BasicBox() {
   const [profileMenuShown, setProfileMenuShown] = useState(false)
   const [isOpenNicknameModal, setOpenNicknameModal] = useState<boolean>(false);
   const [isOpenPasswordModal, setOpenPasswordModal] = useState<boolean>(false);
+  const [isOpenDeleteMemberModal, setOpenDeleteMemberModal] = useState<boolean>(false);
   const [showImgUpdate, setImgUpdate] = useState(false)
 
 
@@ -87,6 +89,10 @@ function BasicBox() {
   const togglePasswordModal = useCallback(() => {
     setOpenPasswordModal(!isOpenPasswordModal);
   }, [isOpenPasswordModal]);
+
+  const toggleDeleteMemberModal = useCallback(() => {
+    setOpenDeleteMemberModal(!isOpenDeleteMemberModal);
+  }, [isOpenDeleteMemberModal]);
 
 
   const changeImage = (newImageUrl: string) => {
@@ -138,6 +144,7 @@ function BasicBox() {
                     onMouseLeave={() => setProfileMenuShown(false)}>
                     <ProfileHoverListItem onClick={() => { toggleNicknameModal(); }}>닉네임 수정</ProfileHoverListItem>
                     <ProfileHoverListItem  onClick={() => { togglePasswordModal(); }}>비밀번호 수정</ProfileHoverListItem>
+                    <ProfileHoverListItem  onClick={() => { toggleDeleteMemberModal(); }}>회원 탈퇴</ProfileHoverListItem>
                   </ProfileHoverList>
                   : null}
               </ProfileBtnDesign>
@@ -172,7 +179,13 @@ function BasicBox() {
           <PasswordModal
             togglePasswordModal={togglePasswordModal}
           ></PasswordModal>
-        )}  
+        )} 
+
+        {isOpenDeleteMemberModal && (
+          <MemberDeleteModal
+          toggleDeleteMemberModal={toggleDeleteMemberModal}
+          ></MemberDeleteModal>
+        )} 
 
 
       </BasicBoxDesign>
