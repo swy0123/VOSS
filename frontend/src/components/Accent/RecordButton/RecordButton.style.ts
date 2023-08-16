@@ -15,7 +15,7 @@ export const StopWatch = styled.p`
   justify-content: space-between;
   color: white;
   height: 20px;
-  width: 115px;
+  width: 140px;
   margin: 0px;
 
 `;
