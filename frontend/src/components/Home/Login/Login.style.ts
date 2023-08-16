@@ -1,11 +1,11 @@
-import { styled, keyframes, css  } from "styled-components";
+import { styled, keyframes, css } from "styled-components";
 
 const moveUp = keyframes`
     from { bottom: -300vh; }
     to { bottom: 0; }
 `;
 
-export const Container = styled.div<{ $isScroll:number , isScrollUser:boolean }>`
+export const Container = styled.div<{ $isScroll: number; isScrollUser: boolean }>`
   background-color: #ffffff;
   width: 380px;
   height: 600px;
@@ -18,13 +18,13 @@ export const Container = styled.div<{ $isScroll:number , isScrollUser:boolean }>
   right: 15%;
   bottom: ${({ $isScroll }) => ($isScroll >= 1700 ? "0" : "-300vh")};
   ${({ $isScroll }) =>
-  $isScroll >= 1700
-    ? css `
-        animation: ${moveUp} 1.2s ease-in-out;
-    `
-    : css `
-        left: 50%;
-    `} */
+    $isScroll >= 1700
+      ? css`
+          animation: ${moveUp} 1.2s ease-in-out;
+        `
+      : css`
+          left: 50%;
+        `} */
 `;
 
 export const P = styled.p`
@@ -39,7 +39,7 @@ export const H2 = styled.h2`
 `;
 
 export const Title = styled.div`
-position: relative;
+  position: relative;
   width: 80%;
   height: auto;
   margin: 10% auto;
@@ -48,29 +48,28 @@ position: relative;
 `;
 
 export const UnderText = styled.div`
-display: flex;
-position: absolute;
-width: max-content;
-left: 50%;
-bottom: 10px;
-transform: translate(-50%, 0);
-font-size: 14px;
+  display: flex;
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  font-size: 14px;
 
-
-.first-text {
-  margin-right: 8px;
-  text-decoration: none;
-  cursor: default;
-}
-
-.second-text {
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    color: #7a8091;
+  .first-text {
+    margin-right: 8px;
+    text-decoration: none;
+    cursor: default;
   }
-}
+
+  .second-text {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: #7a8091;
+    }
+  }
 `;
 
 export const InputDiv = styled.div`
@@ -94,7 +93,7 @@ export const ShowPswd = styled.div`
   top: 50%;
   right: 12%;
   cursor: pointer;
-`
+`;
 
 export const Input = styled.input`
   border: #bdbdbd;
@@ -112,20 +111,27 @@ export const CheckBoxDiv = styled.div`
   margin: 0 auto;
   position: relative;
   width: 85%;
-  height: 40px; 
+  height: 40px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 `;
 
 export const CheckBox = styled.div`
   position: absolute;
-  top: 10px;
   left: 0px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 `;
 
 export const Forgot = styled.div`
   position: absolute;
-  top: 13px;
   right: 0px;
+  display: flex;
+  align-items: center;
+  text-align: center;
   cursor: pointer;
 `;
 
@@ -167,5 +173,5 @@ export const Icon = styled.span`
   position: relative;
   top: 20px;
   /* cursor: pointer; */
-  cursor: not-allowed
+  cursor: not-allowed;
 `;

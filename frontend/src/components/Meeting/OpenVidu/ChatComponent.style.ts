@@ -4,15 +4,18 @@ export const ChatContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  z-index: 15;
 `;
 
 export const Chat = styled.div`
   background-color: #3F3F3F;
   height: 98%;
   width: 100%;
+  background-color: rgb(70, 70, 70, 0.9);
   position: relative;
   border-radius: 10px;
   padding-top: 2%;
+  z-index: 15;
 `;
 
 export const ChatScroll = styled.div`
@@ -51,6 +54,7 @@ export const ChatScroll = styled.div`
 export const Chatting = styled.div`
   font-size: 12px;
   margin-top: 5px;
+  white-space:normal;
 `;
 
 // export const MyChatting = styled.div`
@@ -87,7 +91,7 @@ export const ChattingLabel = styled.div`
 `;
 
 export const MessageInput = styled.div`
-  height: 40px;
+  height: 70px;
   width: 100%;
   // background-color: red;
   position: relative;
@@ -107,9 +111,10 @@ export const MessageInput = styled.div`
 
 export const StyledInput = styled.input`
   all: unset;
-  width: 100%;
+  width: 90%;
   height: 100%;
   padding: auto;
   padding-left: 20px;
   font-size: 16px;
+  white-space:normal;
 `;
