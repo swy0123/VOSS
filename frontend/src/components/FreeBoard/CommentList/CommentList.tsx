@@ -52,6 +52,10 @@ function CommentList() {
       alert('댓글 내용이 비어있습니다')
       return;
     }
+    if (content.trim().length > 500) {
+      alert('500자를 초과하였습니다')
+      return;
+    }
     createComment(id, content).then((res)=>{
       if (res) {commentsGet(); window.scrollTo(0, document.body.scrollHeight)}
     })
@@ -59,6 +63,10 @@ function CommentList() {
   const commentUpdate = (commentId: number) => {
     if (!editContent.trim()) {
       alert('댓글 내용이 비어있습니다')
+      return;
+    }
+    if (editContent.trim().length > 500) {
+      alert('500자를 초과하였습니다')
       return;
     }
     updateComment(id, commentId, editContent).then((res)=>{

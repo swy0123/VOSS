@@ -44,7 +44,10 @@ function PostUpdate() {
   const [firstFiles, setFirstFiles] = useState<any>([]);
 
   const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if (event.target.value.length > 1000) return;
+    if (event.target.value.length > 1000) {
+      alert('1000자를 초과하였습니다')
+      return;
+    }
     event.target.style.height = 'auto';
     event.target.style.height =  event.target.scrollHeight + 'px';
     setContent(event.target.value);

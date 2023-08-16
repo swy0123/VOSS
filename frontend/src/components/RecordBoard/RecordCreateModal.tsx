@@ -142,6 +142,14 @@ function RecordCreateModal() {
   const [description, setDescription] = useState<string>("");
   const [files, setFiles] = useState<PostFilesType[]>([]);
 
+  const changeContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value.length > 50) {
+      alert('50자를 초과하였습니다')
+      return;
+    }
+    setDescription(event.target.value)
+  };
+
   const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const newFile = Array.from(e.target.files);
@@ -176,8 +184,8 @@ function RecordCreateModal() {
       <RecordItemDesign>
         <RecordTitleDesign
           className="textarea"
-          placeholder="내용을 입력하세요 (40자 이내)"
-          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>  {if (event.target.value.length < 41) setDescription(event.target.value)}}
+          placeholder="내용을 입력하세요 (50자 이내)"
+          onChange={changeContent}
           value={description}
         >
         </RecordTitleDesign> 
