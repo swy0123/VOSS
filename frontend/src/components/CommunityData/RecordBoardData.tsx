@@ -108,7 +108,9 @@ function RecordBoardData () {
 
   return(
     <RecordContentDesign>
-    {records.map((record) => (
+    { records.length
+    ?
+    <>{records.map((record) => (
       <RecordItemDesign key={record.recordId}>
         <RecordDeleteDesign>
           { me == record.memberId
@@ -152,7 +154,9 @@ function RecordBoardData () {
         <RecordUsersDesign>
         </RecordUsersDesign>
     </RecordItemDesign>
-    ))}
+    ))}</>
+    : <div style={{ margin: '0 auto', height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
+    }
     </RecordContentDesign>
   )
 }

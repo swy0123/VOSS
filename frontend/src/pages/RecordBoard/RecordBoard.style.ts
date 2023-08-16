@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 
 export const RecordScrollDesign = styled.div`
-  margin-top: -2px;
   width: 100vw;
-  height: 90vh;
+  height: calc(100vh - 65px);
   color: white;
   overflow-y: auto;
   &::-webkit-scrollbar {

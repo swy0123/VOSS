@@ -1,5 +1,15 @@
 import { styled } from "styled-components";
 
+export const FreeScrollDesign = styled.div`
+  width: 100vw;
+  height: calc(100vh - 65px);
+  color: white;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  };
+  /* border: solid 1px red; */
+  `;
 
 export const FreeBoardDesign = styled.div`
   margin-left: 15vw;
@@ -34,7 +44,7 @@ export const PostCategoryDesign = styled.div`
   width: 70vw;
   height: 5.3vh;
   font-size: 0.8vh;
-  border-bottom: solid 1px white;
+  border-bottom: solid 1px #6c6c6c;
   /* border: solid 1px white; */
 `;
 
@@ -93,6 +103,7 @@ export const SearchboxDesign = styled.div`
   justify-content: end;
   width: 70vw;
   height: 9vh;
+  border-top: solid 1px #6c6c6c;
   /* border: solid 1px white; */
   `;
 
