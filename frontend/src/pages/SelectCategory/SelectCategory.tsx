@@ -70,8 +70,7 @@ function SelectCategory() {
               <Icon src="/src/assets/Category/Training.png" />
               <Title>Training</Title>
               <Description>
-                더빙 연습, 목소리 나이대 및 성별 분석, 발음교정 연습이 가능한
-                Private 연습공간
+                더빙 연습, 목소리 연령 및 성별 분석, 발음 교정 연습이 가능한 개인 연습 공간
               </Description>
             </Cartegory_units>
 
@@ -92,11 +91,11 @@ function SelectCategory() {
             onMouseEnter={() => setMeetIsShown(true)}
             onMouseLeave={() => setMeetIsShown(false)}
           >
-            <Cartegory_units>
+            <Cartegory_units onClick={goMeetingBoard}>
               <Icon src="/src/assets/Category/Meeting.png" />
               <Title>Meeting</Title>
               <Description>
-                다른 유저들과 함께 연습 할 수 있는 Meeting Room
+                다른 유저들과 함께 더빙 연습을 할 수 있는 화상 공간
               </Description>
             </Cartegory_units>
 
@@ -116,9 +115,9 @@ function SelectCategory() {
           >
             <Cartegory_units>
               <Icon src="/src/assets/Category/Community.png" />
-              <Title>Community</Title>
+              <Title>Playground</Title>
               <Description>
-                나만의 연습 방법을 공유하고, 연습 기록을 공유하는 게시판
+                다른 유저들과 자유롭게 정보를 공유하고 소통하거나 게임을 즐길 수 있는 공간
               </Description>
             </Cartegory_units>
 

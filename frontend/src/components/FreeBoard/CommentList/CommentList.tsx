@@ -131,7 +131,9 @@ function CommentList() {
                 autoFocus
               />
             : <CommentContentDiv>
-              {comment.content}
+              {comment.content?.split("\n").map((line) => {
+                return (<span>{line}<br /></span>);
+              })}
               </CommentContentDiv>
           }
 
