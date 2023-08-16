@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { ReplayButton } from "./VoiceMafia.style"
+import { FinishButton, ReplayButton } from "./VoiceMafia.style"
 import Pencil from '/src/assets/Game/Pencil.png';
 import ResultBackground from '/src/assets/Game/ResultBackground.png';
 import { GameMainIcon } from "../GameMain/GameMain.style";
@@ -7,9 +7,10 @@ import { GameMainIcon } from "../GameMain/GameMain.style";
 interface ResultBoardType {
     handleReplayButtonClick: () => void;
     score: number;
+    SetPageMain: () => void;
 }
 
-const ResultBoard = ({ handleReplayButtonClick, score }: PropsWithChildren<ResultBoardType>) => {
+const ResultBoard = ({ handleReplayButtonClick, score ,SetPageMain}: PropsWithChildren<ResultBoardType>) => {
     return (
         <div style={{ marginTop: "10px", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
             <div
@@ -57,6 +58,9 @@ const ResultBoard = ({ handleReplayButtonClick, score }: PropsWithChildren<Resul
             <ReplayButton onClick={handleReplayButtonClick}>
                 다시하기
             </ReplayButton>
+            <FinishButton onClick={SetPageMain}>
+                메인으로
+            </FinishButton>
             <style>
                 {`
           @keyframes rotate {
