@@ -21,7 +21,7 @@ import { postStartRecording } from '/src/api/recoding';
 import { RecordingInfo } from '/src/type/hw_type';
 import { AxiosResponse } from 'axios';
 
-function RecordButton ({meetRoomId}: number | any) {
+function RecordButton ({meetRoomId, script}: number | any) {
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
@@ -60,11 +60,17 @@ function RecordButton ({meetRoomId}: number | any) {
     }
     setInitialBtn(false)
   }
-  const formatTime = (milliseconds: number) => {
+  const formatTimeLeft = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  const formatTimeRight = (durationInSec: number) => {
+    const minutes = Math.floor(durationInSec / 60)
+    const second = Math.floor(durationInSec % 60)
+    return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+  }
 
   const resetTimer = () => {
     clearInterval(intervalRef.current);
@@ -103,6 +109,8 @@ function RecordButton ({meetRoomId}: number | any) {
     }
   };
 
+  
+
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
@@ -125,6 +133,16 @@ function RecordButton ({meetRoomId}: number | any) {
     setSend("/recordresetvideo")
   }
 
+  // 녹음파일 재생 
+  const handleAudioPlay = () => {
+    setSend("/audiopaly")
+  }
+
+  // 녹음파일 일시정지
+  const handleAudioPause = () => {
+    setSend("/audioPause")
+  }
+
   useEffect(() => {
     if(recieve=="/recordstartvideo") {
       startOrStop()
@@ -138,8 +156,21 @@ function RecordButton ({meetRoomId}: number | any) {
       setRecieve("/none");
     }
     else if(recieve.slice(0,13)=="/updaterecord") {
-      console.log("통신이 잘 되는가",recieve.slice(13))
       setMeetDubRecord(recieve.slice(13))
+      setRecieve("/none");
+    }
+    else if(recieve=="/audiopaly"){
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.play();
+      }
+      setRecieve("/none");
+    }
+    else if(recieve=="/audioPause"){
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.pause();
+      }
       setRecieve("/none");
     }
   },[recieve])
@@ -165,7 +196,7 @@ function RecordButton ({meetRoomId}: number | any) {
   return(
     <Container>
       <RecordBtnBox>
-        <StopWatch>{formatTime(time)}</StopWatch>
+        <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
         <SectionBtn>
         <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
         <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
@@ -198,19 +229,27 @@ function RecordButton ({meetRoomId}: number | any) {
                 setPracticeStart(false)
                 setPracticeEnd(false)}}
               src="/src/assets/Training/startbtn.png"></RecordBtn>
-            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
           </ParcticeStartSection>
           )
         }
         </SectionBtn>
-        <FileDownload 
-          onClick={downloadVideo}
-          $meetDubRecord={meetDubRecord}>
-          <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
-        </FileDownload>
       </RecordBtnBox>
+      {/* <FileDownload 
+        onClick={downloadVideo}
+        $meetDubRecord={meetDubRecord}>
+        <FileDownloadImg 
+          src="/src/assets/Meeting/download.png">
+        </FileDownloadImg>
+      </FileDownload> */}
+      <audio src={meetDubRecord} controls style={{
+        width :'200px',
+        height : '50px'}}
+        onPlay={() => handleAudioPlay()}
+        onPause={() => handleAudioPause()}
+        ></audio>
     </Container>
   )
 }
+
 export default RecordButton
 
