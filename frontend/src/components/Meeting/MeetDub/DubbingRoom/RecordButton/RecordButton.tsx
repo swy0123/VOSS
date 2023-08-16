@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { MeetDubRecordState, RecordTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
+import { MeetDubRecordState, RecordTriggerState, VideoAudioTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
 import { recieveMsg, sendMsg } from '/src/recoil/MeetDub';
 import { 
   Container,
@@ -24,6 +24,7 @@ import { AxiosResponse } from 'axios';
 function RecordButton ({meetRoomId, script}: number | any) {
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
+  const [recordVideoTrigger,setRecordVideoTrigger] = useRecoilState<number>(VideoAudioTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
@@ -38,6 +39,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
   // 더빙 영상 동시제어
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -85,6 +87,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
       "command" : "START"
     }
     void axiosRecording(info).then().catch(error=>console.log(error))
+    setMeetDubRecord("")
   }
   
   const StopRecord = async() => {
@@ -93,8 +96,8 @@ function RecordButton ({meetRoomId, script}: number | any) {
       "command" : "STOP"
     }
     const file = await axiosRecording(info).then().catch(error=>console.log(error))
-    // console.log("여기요~~~",file.data.url)
     setMeetDubRecord(file.data.url)
+    console.log("파일이 나와야해",file.data.url)
     setSend(`/updaterecord${file.data.url}`)
   }
 
@@ -140,7 +143,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
 
   // 녹음파일 일시정지
   const handleAudioPause = () => {
-    setSend("/audioPause")
+    setSend("/audiopause")
   }
 
   useEffect(() => {
@@ -160,17 +163,25 @@ function RecordButton ({meetRoomId, script}: number | any) {
       setRecieve("/none");
     }
     else if(recieve=="/audiopaly"){
-      const audioElement = document.getElementsByTagName('audio')[0];
-      if (audioElement !== undefined) {
-        audioElement.play();
+      if (audioRef.current) {
+        audioRef.current.play(); // useRef로 audio 요소에 접근
       }
+      // const audioElement = document.getElementsByTagName('audio');
+      // if (audioElement !== undefined) {
+      //   audioElement.play();
+      // }
+      // setRecordVideoTrigger(1)
       setRecieve("/none");
     }
-    else if(recieve=="/audioPause"){
-      const audioElement = document.getElementsByTagName('audio')[0];
-      if (audioElement !== undefined) {
-        audioElement.pause();
+    else if(recieve=="/audiopause"){
+      if (audioRef.current) {
+        audioRef.current.pause(); // useRef로 audio 요소에 접근
       }
+      // const audioElement = document.getElementsByTagName('audio');
+      // if (audioElement !== undefined) {
+      //   audioElement.pause();
+      // }
+      // setRecordVideoTrigger(0)
       setRecieve("/none");
     }
   },[recieve])
@@ -241,7 +252,9 @@ function RecordButton ({meetRoomId, script}: number | any) {
           src="/src/assets/Meeting/download.png">
         </FileDownloadImg>
       </FileDownload> */}
-      <audio src={meetDubRecord} controls style={{
+      <audio 
+        ref={audioRef}
+        src={meetDubRecord} controls style={{
         width :'200px',
         height : '50px'}}
         onPlay={() => handleAudioPlay()}
