@@ -319,7 +319,7 @@ const MeetJoin = (props: any) => {
         </HeaderText>
       </Header>
       {session !== undefined ? (
-        <Session id="session" $chatActive={chatActive}>
+        <Session id="session">
           <VideoContainer>
             {publisher !== undefined ? (
               <StreamContainer $streamContainerProps={streamContainerProps}>
