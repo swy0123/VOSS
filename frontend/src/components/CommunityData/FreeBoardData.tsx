@@ -90,9 +90,9 @@ function FreeBoardData () {
       { posts.length 
       ? <> 
       {posts?.map((post, index: number) => (
-        <PostListDesign key={post.id}>
-          <PostNumberDesign onClick={() => goPostDetail(post.id || 0)}>{((totalElements - 10 * (currentPage - 1) - index).toLocaleString())}</PostNumberDesign>
-          <PostTitleDesign style={{ width: '54%' }} onClick={() => goPostDetail(post.id || 0)}>{post.title}
+        <PostListDesign key={post.id} onClick={() => goPostDetail(post.id || 0)}>
+          <PostNumberDesign>{((totalElements - 10 * (currentPage - 1) - index).toLocaleString())}</PostNumberDesign>
+          <PostTitleDesign style={{ width: '54%' }}>{post.title}
           { post.hasImageFile
           ? <PostFileDesign src={HasImageFile} alt="HasImageFile"></PostFileDesign>
           : null}

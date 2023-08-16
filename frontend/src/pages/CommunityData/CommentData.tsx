@@ -47,10 +47,7 @@ function CommentData () {
     </DataTitleSelectDesign>
       
     <DataContentDesign>
-      { comments.length 
-      ? <CommentListData/>
-      : <div style={{ margin: '0 auto', height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 댓글이 없습니다</div>
-      }
+      <CommentListData/>
     </DataContentDesign>
 
     </DataMainDesign>
