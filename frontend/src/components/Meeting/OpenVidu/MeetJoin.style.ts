@@ -23,14 +23,21 @@ export const HeaderText = styled.span`
   margin-left: 20px;
 `;
 
-export const Session = styled.div<{ $chatActive: boolean }>`
+export const Session = styled.div`
   position: relative;
-  ${(props) =>
-    props.$chatActive
-      ? "width: 75%; height: 90%;"
-      : "width: 98%; height: 90%;"};
+  width: 98%;
+  height: 90%;
   float: left;
 `;
+
+// export const Session = styled.div<{ $chatActive: boolean }>`
+//   position: relative;
+//   ${(props) =>
+//     props.$chatActive
+//       ? "width: 75%; height: 90%;"
+//       : "width: 98%; height: 90%;"};
+//   float: left;
+// `;
 
 export const VideoContainer = styled.div`
   width: 100%;
@@ -74,7 +81,7 @@ export const ChatBox = styled.div<{ $chatActive: boolean }>`
   color: white;
   ${(props) =>
     props.$chatActive
-      ? "width: 25%; height: 90%; overflow:hidden;"
+      ? "position:fixed; right: 0; width: 25%; height: 90%; overflow:hidden;"
       : "width: 0%; height: 0%; overflow:hidden;"};
 `;
 

@@ -208,7 +208,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   return (
     <ChatContainer>
       <Chat>
-        <ChatScroll className="message-wrap" $bottomOn={chatProps.bottomOn}>
+        <ChatScroll className="message-wrap">
           {messageList.map((data, i) => (
             <div key={i}>
               <ChattingDetail className="msg-detail">
@@ -229,7 +229,7 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
           <div ref={chatScroll}></div>
         </ChatScroll>
 
-        <MessageInput id="messageInput" $bottomOn={chatProps.bottomOn}>
+        <MessageInput id="messageInput">
           <StyledInput
             className="msg-input"
             type="text"

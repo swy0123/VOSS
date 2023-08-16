@@ -15,10 +15,8 @@ export const Chat = styled.div`
   padding-top: 2%;
 `;
 
-export const ChatScroll = styled.div<{$bottomOn:boolean}>`
-  height: ${(props) =>
-    props.$bottomOn ? "80%"
-      : "90%"};
+export const ChatScroll = styled.div`
+  height: 90%;
   width: 95%;
   margin: 1px auto;
   position: relative;
@@ -32,6 +30,23 @@ export const ChatScroll = styled.div<{$bottomOn:boolean}>`
     background: #ccc;
   }
 `;
+// export const ChatScroll = styled.div<{$bottomOn:boolean}>`
+//   height: ${(props) =>
+//     props.$bottomOn ? "80%"
+//       : "90%"};
+//   width: 95%;
+//   margin: 1px auto;
+//   position: relative;
+//   overflow-y: scroll;
+//   overflow-x: hidden;
+//   &::-webkit-scrollbar {
+//     width: 4px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     border-radius: 2px;
+//     background: #ccc;
+//   }
+// `;
 
 export const Chatting = styled.div`
   font-size: 12px;
@@ -71,17 +86,24 @@ export const ChattingLabel = styled.div`
   }
 `;
 
-export const MessageInput = styled.div<{$bottomOn:boolean}>`
-
-  height: ${(props) =>
-    props.$bottomOn ? "20%"
-      : "40px"};
+export const MessageInput = styled.div`
+  height: 40px;
   width: 100%;
   // background-color: red;
   position: relative;
   bottom: 0;
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
 `;
+// export const MessageInput = styled.div<{$bottomOn:boolean}>`
+//   height: ${(props) =>
+//     props.$bottomOn ? "20%"
+//       : "40px"};
+//   width: 100%;
+//   // background-color: red;
+//   position: relative;
+//   bottom: 0;
+//   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+// `;
 
 export const StyledInput = styled.input`
   all: unset;
