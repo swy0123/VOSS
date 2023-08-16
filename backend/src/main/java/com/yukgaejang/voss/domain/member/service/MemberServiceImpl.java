@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.member.service;
 
+import com.yukgaejang.voss.domain.badge.repository.BadgeRepository;
 import com.yukgaejang.voss.domain.badge.service.BadgeService;
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
@@ -80,8 +81,10 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
 
-        // 팔로우 삭제
-        // 뱃지 삭제
+        memberRepository.markAsDeleted(member.getId());
+        followRepository.deleteFollowByMemberId(member.getId());
+        badgeService.deleteAttachBySenderIdOrReceiverId(member.getId());
+        notificationService.readAll(email);
         // 채팅 삭제
         // 자유 좋아요 삭제
         // 녹음 좋아요 삭제

@@ -14,4 +14,6 @@ public interface BadgeService {
     List<ViewBadgeResponse> getBadges(Member me);
 
     List<BadgeListResponse> getBadgeList();
+
+    void deleteAttachBySenderIdOrReceiverId(Long memberId);
 }
