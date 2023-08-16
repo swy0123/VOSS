@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.freeboard.controller;
 
+import com.yukgaejang.voss.domain.freeboard.exception.NoPostFileException;
 import com.yukgaejang.voss.domain.freeboard.repository.PostFileRepository;
 import com.yukgaejang.voss.domain.freeboard.repository.entity.PostFile;
 import com.yukgaejang.voss.domain.freeboard.service.*;
@@ -10,15 +11,18 @@ import com.yukgaejang.voss.domain.freeboard.service.dto.request.CreatePostReques
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdateCommentRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.request.UpdatePostRequest;
 import com.yukgaejang.voss.domain.freeboard.service.dto.response.*;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class FreeboardController {
     private final PostService postService;
     private final PostCommentService postCommentService;
     private final PostLikeService postLikeService;
+    private final PostFileRepository postFileRepository;
     private final AwsS3Service awsS3Service;
 
     private static String dirName = "post-file";
@@ -37,6 +42,30 @@ public class FreeboardController {
     public ResponseEntity<List<CreateFileRequest>> uploadMultipleFile(@RequestPart(required = false) List<MultipartFile> files) {
         return ResponseEntity.ok(awsS3Service.uploadMultiFile(files, dirName));
     }
+
+//    @GetMapping("/download/{fileId}")
+//    public void downloadBoardFile(@PathVariable Long fileId, HttpServletResponse response){
+//        try {
+//            PostFile postFile = postFileRepository.findByPostFileIdAndIsDeletedFalse(fileId);
+//            if (ObjectUtils.isEmpty(postFile) == false){
+//                String fileName = postFile.getOriginalFileName();
+//                byte[] files = postFile.readFileToByteArray(new File(postFile.getStoredFilePath()));
+//
+//                response.setContentType("application/octet-stream");
+//                response.setContentLength(files.length);
+//                response.setHeader("Content-Disposition","attachment; fileName=\""+ URLEncoder.encode(fileName,StandardCharsets.UTF_8)+"\";");
+//                response.setHeader("Content-Transfer-Encoding","binary");
+//
+//                response.getOutputStream().write(files);
+//                response.getOutputStream().flush();
+//                response.getOutputStream().close();
+//
+//            }
+//        } catch (IOException e){
+//            log.error(e.getMessage());
+//            e.getStackTrace();
+//        }
+//    }
 
     @PostMapping
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest createPostRequest) {
