@@ -47,7 +47,7 @@ public class MeetServiceImpl implements MeetService{
         Set<String> sessionIdList = map.keySet();
         Stream<Meet> notNullMeetList = meetRepository.getMeetListBySessionId(condition, sessionIdList, "script");
         Stream<Meet> nullMeetList = meetRepository.getMeetListBySessionId(condition, sessionIdList, null);
-        List<ViewAllMeetRoomResponse> collect = Stream.concat(notNullMeetList, nullMeetList)
+        List<ViewAllMeetRoomResponse> collect = Stream.concat(nullMeetList, notNullMeetList)
                 .map(o -> new ViewAllMeetRoomResponse(o))
                 .collect(Collectors.toList());
         for (ViewAllMeetRoomResponse response: collect) {
