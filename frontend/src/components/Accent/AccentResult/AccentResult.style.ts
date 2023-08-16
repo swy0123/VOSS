@@ -5,6 +5,8 @@ export const ResultBox = styled.div`
   border-radius: 8px;
   width: 470px;
   height: 200px;
+  position: relative;
+
 `
 
 export const Section = styled.div`
@@ -26,6 +28,17 @@ export const Text = styled.div`
     display: none;
   }
 `
+
+export const SpinnerDiv = styled.div<{ $IsClickable: boolean }>`
+  width: 90px;
+  position: absolute;
+  top: 41%;
+  left: 47%;
+  display: ${(props) => (props.$IsClickable ? "none" : "block")};
+  /* transform: translate(-50%, -50%); */
+`;
+
+
 export const Warning = styled.div`
   color: #BABABA;
   font-size: 14px;
