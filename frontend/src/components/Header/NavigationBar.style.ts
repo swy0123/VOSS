@@ -74,7 +74,7 @@ export const Alarm = styled.div<{$AlarmIsShown?: boolean}>`
   width: 39px;
   background-color: ${props => props.$AlarmIsShown ? "#949494" : ""};
   cursor: pointer;
-  
+
   &:hover {
     background-color: #949494;
   }
