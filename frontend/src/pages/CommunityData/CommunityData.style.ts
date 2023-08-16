@@ -91,7 +91,7 @@ export const TitleDesign = styled.div`
 display: flex;
 align-items: center;
 padding-left: 20px;
-width: 900px;
+width: 800px;
 height: 30px;
 /* border: solid 1px green; */
 img {
@@ -106,8 +106,8 @@ div {
 export const TitleDateDesign = styled.div`
 display: flex;
 justify-content: center;
-/* align-items: center; */
-width: 100px;
-height: 40px;
+align-items: center;
+width: 200px;
+height: 30px;
 /* border: solid 1px green; */
 `;

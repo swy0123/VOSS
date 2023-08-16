@@ -27,7 +27,9 @@ import {
 const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
 
 function RecordBoardData () {
-  const today = new Date().toISOString();
+  let rawday = new Date();
+  rawday.setHours(rawday.getUTCHours() + 9);
+  const today = rawday.toISOString();
   const id = parseInt(useParams().id || "");
   const me = useRecoilValue(CurrentUserAtom).userid;
   const [records, setRecords] = useRecoilState(RecordsState);

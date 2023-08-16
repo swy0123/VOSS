@@ -177,7 +177,7 @@ useEffect(() => {
     <MessegeListDiv>
 
       <div>
-        <MessegeTitle onClick={()=>goProfile(currentRoom.memberId)}><span>{currentRoom.name}</span></MessegeTitle>
+        <MessegeTitle><span onClick={()=>goProfile(currentRoom.memberId)}>{currentRoom.name}</span></MessegeTitle>
         <ExitImg
             src={exitBtnHover ? ExitBoxHover : ExitBox}
             onClickCapture={()=>setOpenRoom(false)}
