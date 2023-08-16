@@ -109,7 +109,11 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
         }
       </RecordDeleteDesign>
 
-      <RecordTitleDesign>{record.description}</RecordTitleDesign>
+      <RecordTitleDesign>
+        {record.description?.split("\n").map((line) => {
+          return (<span>{line}<br /></span>);
+        })}
+      </RecordTitleDesign>
       
       <RecordPlayerDesign>
         <audio controls onPlay={()=>(recordPlay(record.recordId))}>
