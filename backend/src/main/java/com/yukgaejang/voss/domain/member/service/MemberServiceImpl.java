@@ -252,6 +252,6 @@ public class MemberServiceImpl implements MemberService {
     public Page<GetMemberList> findMemberListByNickname(GetMemberListRequest getMemberListRequest) {
         String keyword = getMemberListRequest.getKeyword();
         PageRequest pageRequest = PageRequest.of(getMemberListRequest.getPage(), getMemberListRequest.getLimit());
-        return memberRepository.findMemberListByNickname(keyword, pageRequest);
+        return memberRepository.findMemberListByNicknameAndIsDeletedFalse(keyword, pageRequest);
     }
 }

@@ -33,7 +33,7 @@ public class MemberSupportRepositoryImpl implements MemberSupportRepository{
     }
 
     @Override
-    public Page<GetMemberList> findMemberListByNickname(String keyword, Pageable pageable) {
+    public Page<GetMemberList> findMemberListByNicknameAndIsDeletedFalse(String keyword, Pageable pageable) {
         List<GetMemberList> content = queryFactory
                 .selectFrom(member)
                 .where(nicknameContains(keyword).and(member.isDeleted.eq(false)))
