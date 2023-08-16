@@ -94,14 +94,14 @@ const Login = () => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setNickName(e.target.value);
+    setNickName(e.target.value.split(' ').join(''));
   };
 
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setEmail(e.target.value);
+    setEmail(e.target.value.split(' ').join(''));
     setEmailChecked(false);
     checkEmailReg();
   };
@@ -121,14 +121,14 @@ const Login = () => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setPassword(e.target.value);
+    setPassword(e.target.value.split(' ').join(''));
   };
 
   const handleRepasswordField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setRepassword(e.target.value);
+    setRepassword(e.target.value.split(' ').join(''));
   };
 
   const ShowPassword = () => {
@@ -247,6 +247,7 @@ const Login = () => {
           <Input
             $isChecked={isEmailReg}
             type="email"
+            value={email}
             onChange={handleEmailField}
             placeholder="이메일 인증을 해주세요"
           />
@@ -269,6 +270,7 @@ const Login = () => {
           <Input
             $isChecked={password.length >= 4}
             type={showPswd ? "text" : "password"}
+            value={password}
             onChange={handlePasswordField}
             placeholder="비밀번호를 4글자 이상 입력해주세요"
           />
@@ -281,6 +283,7 @@ const Login = () => {
           <Input
             $isChecked={repassword === password && repassword.length >= 4}
             type="password"
+            value={repassword}
             onChange={handleRepasswordField}
             placeholder="비밀번호를 확인해주세요"
           />
@@ -296,6 +299,7 @@ const Login = () => {
           <Input
             $isChecked={nickName.length >= 4}
             type="text"
+            value={nickName}
             onChange={handleUsernameField}
             placeholder="닉네임을 4글자 이상 입력해주세요"
           />

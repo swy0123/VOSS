@@ -5,7 +5,7 @@ export const Container = styled.div`
   /* margin-top: 10%; */
   height: 100%;
   width: 100%;
-  background-color: #202124;
+  background-color: #000000;
 `;
 
 export const Header = styled.div`
@@ -97,7 +97,7 @@ export const VedioInnerDiv = styled.div`
   width: 2%;
   top: 20px;
   left: 20px;
-  background-color: red;
+  /* background-color: red; */
   /* overflow: hidden; */
   border-radius: 12px;
   z-index: 10;

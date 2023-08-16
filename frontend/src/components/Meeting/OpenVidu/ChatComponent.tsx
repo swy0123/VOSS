@@ -1,6 +1,15 @@
 import React, { ChangeEvent, KeyboardEvent, useState, useEffect, useRef } from "react";
 import { styled } from "styled-components";
-import { ChatContainer, Chat, ChatScroll, ChattingDetail, ChattingLabel, Chatting, MessageInput, StyledInput } from "./ChatComponent.style";
+import {
+  ChatContainer,
+  Chat,
+  ChatScroll,
+  ChattingDetail,
+  ChattingLabel,
+  Chatting,
+  MessageInput,
+  StyledInput,
+} from "./ChatComponent.style";
 import { useRecoilState } from "recoil";
 import { recieveMsg, sendMsg } from "/src/recoil/MeetDub";
 
@@ -21,7 +30,7 @@ interface messageType {
 
 const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
   const [messageList, setMessageList] = useState<messageType[]>([]);
-  const [message, setMessage] = useState(chatProps.nicknameProps+"님이 입장하셨습니다.");
+  const [message, setMessage] = useState(chatProps.nicknameProps + "님이 입장하셨습니다.");
   const [connectionId, setConnectionId] = useState(chatProps.connectionIdProps);
   const [nickname, setNickname] = useState(chatProps.nicknameProps);
   const [streamManager, setStreamManager] = useState<any>(chatProps.streamManagerProps);
@@ -55,7 +64,11 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
           message: newMessage,
           nickname: nickname,
           streamId: streamManager.stream.streamId,
-          datetime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).slice(3)
+          datetime: new Date().toLocaleTimeString([], {
+            hourCycle: "h23",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         };
         streamManager.stream.session.signal({
           data: JSON.stringify(data),
@@ -76,63 +89,51 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
 
   useEffect(() => {
     sendMessage();
-  }, [])
+  }, []);
   useEffect(() => {
     scrollToBottom();
-  }, [messageList, chatProps.bottomOn])
+  }, [messageList, chatProps.bottomOn]);
 
   //명령어 전송
   useEffect(() => {
     if (send == "/open") {
       setSend("/none");
       sendMessage("/open");
-    }
-    else if (send == "/close") {
+    } else if (send == "/close") {
       setSend("/none");
       sendMessage("/close");
-    }
-    else if (send == "/startvideo") {
+    } else if (send == "/startvideo") {
       setSend("/none");
       sendMessage("/startvideo");
-    }
-    else if (send == "/playvideo") {
+    } else if (send == "/playvideo") {
       setSend("/none");
       sendMessage("/playvideo");
-    }
-    else if (send == "/pausevideo") {
+    } else if (send == "/pausevideo") {
       setSend("/none");
       sendMessage("/pausevideo");
-    }
-    else if (send == "/resetvideo") {
+    } else if (send == "/resetvideo") {
       setSend("/none");
       sendMessage("/resetvideo");
-    }
-    else if (send == "/recordstartvideo") {
+    } else if (send == "/recordstartvideo") {
       setSend("/none");
       sendMessage("/recordstartvideo");
-    }
-    else if (send == "/recordresetvideo") {
+    } else if (send == "/recordresetvideo") {
       setSend("/none");
       sendMessage("/recordresetvideo");
-    }
-    else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
+    } else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
       setSend("/none");
       sendMessage(send);
-    }
-    else if (send == "/golist") {
+    } else if (send == "/golist") {
       setSend("/none");
       sendMessage("/golist");
-    }
-    else if (send.length > 8 && send.substr(0, 8) == "/govideo") {
+    } else if (send.length > 8 && send.substr(0, 8) == "/govideo") {
+      setSend("/none");
+      sendMessage(send);
+    } else if (send.length > 11 && send.substr(0, 11) == "/selectrole") {
       setSend("/none");
       sendMessage(send);
     }
-    else if (send.length > 11 && send.substr(0, 11) == "/selectrole") {
-      setSend("/none");
-      sendMessage(send);
-    }
-  }, [send])
-
+  }, [send]);
 
   useEffect(() => {
     streamManager.stream.session.on("signal:chat", (event: any) => {
@@ -142,7 +143,12 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         connectionId: connectionId,
         nickname: data.nickname,
         message: data.message,
-        datetime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).slice(3)
+        datetime: new Date().toLocaleTimeString([], {
+          hourCycle: "h23",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        // .slice(3),
       });
       const document = window.document;
       setTimeout(() => {
@@ -155,50 +161,48 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       if (messageList[messageList.length - 1].message === "/open") {
         setRecieve("/open");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/close") {
+      } else if (messageList[messageList.length - 1].message === "/close") {
         setRecieve("/close");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/startvideo") {
+      } else if (messageList[messageList.length - 1].message === "/startvideo") {
         setRecieve("/startvideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/playvideo") {
+      } else if (messageList[messageList.length - 1].message === "/playvideo") {
         setRecieve("/playvideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/pausevideo") {
+      } else if (messageList[messageList.length - 1].message === "/pausevideo") {
         setRecieve("/pausevideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/resetvideo") {
+      } else if (messageList[messageList.length - 1].message === "/resetvideo") {
         setRecieve("/resetvideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/recordstartvideo") {
+      } else if (messageList[messageList.length - 1].message === "/recordstartvideo") {
         setRecieve("/recordstartvideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
+      } else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
         setRecieve("/recordresetvideo");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
+      } else if (
+        messageList[messageList.length - 1].message !== undefined &&
+        messageList[messageList.length - 1].message.substr(0, 8) === "/govideo"
+      ) {
         setRecieve(messageList[messageList.length - 1].message);
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/golist") {
+      } else if (messageList[messageList.length - 1].message === "/golist") {
         setRecieve("/golist");
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 13) === "/updaterecord") {
+      } else if (
+        messageList[messageList.length - 1].message !== undefined &&
+        messageList[messageList.length - 1].message.substr(0, 13) === "/updaterecord"
+      ) {
         setRecieve(messageList[messageList.length - 1].message);
         messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 11) === "/selectrole") {
+      } else if (
+        messageList[messageList.length - 1].message !== undefined &&
+        messageList[messageList.length - 1].message.substr(0, 11) === "/selectrole"
+      ) {
         setRecieve(messageList[messageList.length - 1].message);
-        console.log("setRecieve selectrole")
+        console.log("setRecieve selectrole");
         messageList.pop();
       }
     }
@@ -213,16 +217,10 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             <div key={i}>
               <ChattingDetail className="msg-detail">
                 <ChattingLabel>
-                  <div className="msg-sender">
-                    {data.nickname}
-                  </div>
-                  <div className="msg-datetime">
-                    {data.datetime}
-                  </div>
+                  <div className="msg-sender">{data.nickname}</div>
+                  <div className="msg-datetime">{data.datetime}</div>
                 </ChattingLabel>
-                <Chatting className="msg-content">
-                  {data.message}
-                </Chatting>
+                <Chatting className="msg-content">{data.message}</Chatting>
               </ChattingDetail>
             </div>
           ))}
@@ -240,7 +238,12 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
             onKeyPress={handlePressKey}
           />
           <div title="Send message">
-            <div id="sendButton" onClick={() => { sendMessage }}>
+            <div
+              id="sendButton"
+              onClick={() => {
+                sendMessage;
+              }}
+            >
               <div />
             </div>
           </div>
