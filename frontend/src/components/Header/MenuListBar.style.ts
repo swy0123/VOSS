@@ -25,4 +25,8 @@ export const Item = styled.div`
   font-size: 156x;
   margin: 12px auto;
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
