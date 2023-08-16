@@ -2,7 +2,7 @@ import { useRef, useState, useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { accentRecordState } from "../../../recoil/Training";
-import { accentScriptState, accentSttState, initialBtnState } from "/src/recoil/HW_Atom";
+import { accentClickableState, accentScriptState, accentSttState, initialBtnState } from "/src/recoil/HW_Atom";
 import SoundToText from "../AccentResult/SoundToText";
 import {
   Backdrop,

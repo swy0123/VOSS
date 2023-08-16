@@ -1,12 +1,14 @@
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import { Accuracy, ResultBox, Section, Text, Warning } from "./AccentResult.style";
-import { accentScriptState, accentSttState } from "/src/recoil/HW_Atom";
+import { Accuracy, ResultBox, Section, SpinnerDiv, Text, Warning } from "./AccentResult.style";
+import { accentClickableState, accentScriptState, accentSttState } from "/src/recoil/HW_Atom";
+import { ScaleLoader } from "react-spinners";
 
 function AccentResult() {
   const [accentStt, setAccentStt] = useRecoilState(accentSttState);
   const [accentScript, setAccentScript] = useRecoilState(accentScriptState);
   const [accuracyRate, setAccuracyRate] = useState<number>(0);
+  const [accentClickable, setaccentClickable] = useRecoilState<boolean>(accentClickableState);
 
   // 발음 정확도 분석
   function levenshteinDistance(str1: string, str2: string): number {
@@ -61,7 +63,13 @@ function AccentResult() {
   
   return (
     <ResultBox>
-      <Text placeholder="대사를 읽어보아요">{accentStt}</Text>
+      <Text placeholder="대사를 읽어보아요">
+        {accentStt}
+      </Text>
+
+      <SpinnerDiv $IsClickable={accentClickable}>
+        <ScaleLoader color="#0d0808" />
+      </SpinnerDiv>
       <Section>
         <Warning>발음 교정은 한국어만 가능합니다.</Warning>
         {accentScript !== "" ? (

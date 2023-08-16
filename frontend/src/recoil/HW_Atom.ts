@@ -118,6 +118,12 @@ export const scrollUserState = atom<boolean>({
   default: false,
 })
 
+// STT 스피너 
+export const accentClickableState = atom<boolean>({
+  key: "accentClickableState",
+  default: true,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",
