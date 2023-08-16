@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class UserCommentListResponse {
     private Long postId;
     private String postTitle;
+    private LocalDateTime postCreatedAt;
     private Long commentId;
     private String commentContent;
     private LocalDateTime commentCreatedAt;
@@ -19,6 +20,7 @@ public class UserCommentListResponse {
     public UserCommentListResponse(Post post, PostComment postComment) {
         this.postId = post.getId();
         this.postTitle = post.getTitle();
+        this.postCreatedAt = post.getCreatedAt();
         this.commentId = postComment.getId();
         this.commentContent = postComment.getContent();
         this.commentCreatedAt = postComment.getCreatedAt();
