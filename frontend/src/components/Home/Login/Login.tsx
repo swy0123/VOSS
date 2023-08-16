@@ -30,6 +30,7 @@ import {
 import { useCookies } from "react-cookie";
 import EmailModal from "./EmailModal";
 import AlertContext from "/src/context/alert/AlertContext";
+import { scrollEventState, scrollUserState } from "/src/recoil/HW_Atom";
 
 interface LoginProps {
   email: string;
@@ -50,6 +51,8 @@ const Login = () => {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const MAX_LENGTH = 50;
+  const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
+  const [scrollUser,setScrollUser] = useRecoilState(scrollUserState)
 
   const { alert: alertComp } = useContext(AlertContext);
   const onAlertClick = async (text:string) => {
@@ -135,7 +138,9 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container 
+      $isScroll={scrollEvent}
+      $isScrollUser={scrollUser}>
       <Title>
         <P>로그인</P>
         <H2>환영합니다</H2>

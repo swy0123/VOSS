@@ -23,12 +23,13 @@ import {
   Title,
   Thumbnail, 
   ProtectSection,
-  ImgSection} from "./Video.style";
+  ImgSection,
+  Manual} from "./Video.style";
   import Loading from '/src/components/Loading';
     
 function Video ({script, roles, lines}: ScriptData) {
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
-  const [playTrigger, setPlayTrigger] = useRecoilState<boolean>(PlayTriggerState)
+  const [playTrigger, setPlayTrigger] = useRecoilState<number>(PlayTriggerState)
   const [isRoleSelect,setIsRoleSelect] = useRecoilState<boolean[]>(RoleSelectState)
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [youtube, setYoutube] = useState<object|undefined>(undefined)
@@ -64,6 +65,7 @@ function Video ({script, roles, lines}: ScriptData) {
       playerVars:{
         "controls" : 0,
         "disablekb" : 1,
+        'autoplay' : 1,
       },
     });
     setYoutube(player)
@@ -87,6 +89,15 @@ function Video ({script, roles, lines}: ScriptData) {
     else if (playTrigger === 0){
       await youtube.seekTo(0)
       setPlayChange([2, 0]);
+    }
+
+    // 영상 맨 처음 시작
+    else if (playTrigger === 4){
+      if(!youtube){
+        await onYouTubeIframeAPIReady()
+      }
+      await youtube.playVideo()
+      setPlayChange([2, Math.floor(youtube.getCurrentTime() * 10)]);
     }
 
     // 뮤트 시키고 영상 재생
@@ -144,7 +155,7 @@ function Video ({script, roles, lines}: ScriptData) {
     if (firstScriptTag && firstScriptTag.parentNode) {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
-    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    // window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   }, [])
   
   // 로딩 페이지가 하나 더 있으면 좋겠다.
@@ -154,7 +165,7 @@ function Video ({script, roles, lines}: ScriptData) {
     <Container>
 
       <HeaderSection>
-        <Title>{script.title}<span style={{fontSize:'20px'}}>  Time : {time}</span></Title>
+        <Title>{script.title}</Title>
         <BackButton
           onClick={goDubbingList}>목록으로</BackButton>
       </HeaderSection>
@@ -180,7 +191,6 @@ function Video ({script, roles, lines}: ScriptData) {
             </RoleButton>
           ))}
       </RoleBox>
-
     </Container>
   )
 }

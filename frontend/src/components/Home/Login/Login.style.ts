@@ -1,6 +1,11 @@
-import { styled } from "styled-components";
+import { styled, keyframes, css  } from "styled-components";
 
-export const Container = styled.div`
+const moveUp = keyframes`
+    from { bottom: -300vh; }
+    to { bottom: 0; }
+`;
+
+export const Container = styled.div<{ $isScroll:number , isScrollUser:boolean }>`
   background-color: #ffffff;
   width: 380px;
   height: 600px;
@@ -10,8 +15,16 @@ export const Container = styled.div`
   border-radius: 24px 24px 0px 0px;
   text-align: center;
   position: fixed;
-  bottom: 0px;
   right: 15%;
+  bottom: ${({ $isScroll }) => ($isScroll >= 1700 ? "0" : "-300vh")};
+  ${({ $isScroll }) =>
+  $isScroll >= 1700
+    ? css `
+        animation: ${moveUp} 1.2s ease-in-out;
+    `
+    : css `
+        left: 50%;
+    `}
 `;
 
 export const P = styled.p`

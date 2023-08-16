@@ -3,10 +3,10 @@ import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { PlayTriggerState, dubbingRecordState, youtubeState } from '/src/recoil/HW_Atom';
 import {
+  Backdrop,
   CompleteBtn,
   MoonLoaderDiv,
   NowRecording,
-  ParcticeInfo,
   ParcticeStartSection,
   PracticeEnd,
   PracticeStart,
@@ -22,6 +22,7 @@ import { PlayChangebState, ScriptSelectState } from '/src/recoil/Training';
 import axios from "axios";
 import { Line, Script } from '/src/type/type';
 import { MoonLoader } from "react-spinners";
+import ConfirmContext from '/src/context/confirm/ConfirmContext';
 import AlertContext from '/src/context/alert/AlertContext';
 
 interface VideoProps {
@@ -42,13 +43,8 @@ function RecordButton({ script, lines }: VideoProps) {
   const [time, setTime] = useState(0);
   const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
-
   const [recordBtnClickable, setRecordBtnClickable] = useState<boolean>(true);
   const { alert: alertComp } = useContext(AlertContext);
-  const onAlertClick = async (text:string) => {
-    const result = await alertComp(text);
-    console.log("custom", result);
-  };
 
   const {
     startRecording,
@@ -63,6 +59,13 @@ function RecordButton({ script, lines }: VideoProps) {
         mimeType: 'audio/webm;codecs=opus',
       }
     });
+
+  const { confirm: confirmComp } = useContext(ConfirmContext);
+  const onConfirmClick = async (text: string) => {
+    const result = await confirmComp(text);
+    console.log("custom", result);
+    return result;
+  };
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -145,6 +148,13 @@ function RecordButton({ script, lines }: VideoProps) {
     setRecordBtnClickable(true)
   }
 
+  // 연습처음시작
+  const changePracticeInitial = () => {
+    setPracticeStart(false)
+    setPracticeEnd(true)
+    setPlayTrigger(4)
+  }
+
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
@@ -172,25 +182,31 @@ function RecordButton({ script, lines }: VideoProps) {
       setPracticeStart(true)
       setPracticeEnd(false)
       setTimeout(() => {
-        setPlayTrigger(2)
+      setPlayTrigger(2)
       }, 2500)
     }
   }, [stop])
+
+  const openAlert = async () => {
+    const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
+    if (nextAction) {
+      startOrStop();
+      stopRecording();
+      pauseRecording();
+      changePracticeStart();
+    }
+    return;
+  }
 
   return (
     <RecordBox>
       <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
-      <SectionBtn $IsClickable={recordBtnClickable}>
-        <MoonLoaderDiv>
-          {recordBtnClickable ? <></> :
-            <MoonLoader
-              color="white"
-              size={70}
-            />
-          }
-        </MoonLoaderDiv>
+      <SectionBtn 
+        $IsClickable={recordBtnClickable}
+        $IsRunning={isRunning}>
+      
         {!initialBtn && !isRunning ?
           <RestartBtn
             onClick={() => {
@@ -203,12 +219,12 @@ function RecordButton({ script, lines }: VideoProps) {
 
         {initialBtn ?
           (
-          <ParcticeStartSection>
-            <RecordBtn
+          <ParcticeStartSection $IsClickable={recordBtnClickable}>
+            <RecordBtn 
             onClick={() => {
               startOrStop()
               startRecording()
-              changePracticeEnd()
+              changePracticeInitial()
             }}
             onMouseEnter={() =>
               setPracticeStart(true)}
@@ -216,7 +232,15 @@ function RecordButton({ script, lines }: VideoProps) {
               setPracticeStart(false)
               setPracticeEnd(false)}}
             src="/src/assets/Training/startbtn.png"></RecordBtn>
-            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
+            {/* <ParcticeInfo>녹음과함께 재생</ParcticeInfo>/ */}
+            <MoonLoaderDiv>
+              {recordBtnClickable ? <></> :
+                <MoonLoader
+                  color="white"
+                  size={70}
+                />
+              }
+            </MoonLoaderDiv>
           </ParcticeStartSection>) :
           isRunning ?
             (<NowRecording>
@@ -240,7 +264,7 @@ function RecordButton({ script, lines }: VideoProps) {
                 <RecordBtn
                 onClick={() => {
                   if (stop >= script.durationInSec * 10) {
-                    onAlertClick("녹음을 완료/취소 해주세요")
+                    onAlertClick("녹음을 취소/완료 해주세요")
                     return
                   }
                   startOrStop()
@@ -265,8 +289,11 @@ function RecordButton({ script, lines }: VideoProps) {
               resetTimer()
             }}>완료</CompleteBtn> : ""}
       </SectionBtn>
+      {isRunning ? <Backdrop onClick={e => {
+        e.stopPropagation();
+        openAlert()
+      }}></Backdrop> : <></>}
       {recordBtnClickable ? <></> : <PreventClickDiv>잠시만 기다려 주세요</PreventClickDiv>}
-
     </RecordBox>
   )
 }

@@ -100,6 +100,24 @@ export const RecordTriggerState = atom<number>({
   default: 0,
 })
 
+// 발음교정 방 녹음 초기상태 표시
+export const initialBtnState = atom<boolean>({
+  key: "initialBtnState",
+  default: true,
+})
+
+// 메인페이지 스크롤이벤트
+export const scrollEventState = atom<number>({
+  key: "scrollEventState",
+  default: 0,
+})
+
+// 메인페이지 회원창 스크롤이벤트
+export const scrollUserState = atom<boolean>({
+  key: "scrollUserState",
+  default: false,
+})
+
 // // User가 선택한 Role
 // export const userSelectRoleState = atom<string[]>({
 //   key: "userSelectRoleState",

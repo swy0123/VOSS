@@ -31,6 +31,7 @@ import {
 } from "./Join.style";
 import { Icon } from "../Login/Login.style";
 import AlertContext from "/src/context/alert/AlertContext";
+import { scrollEventState, scrollUserState } from "/src/recoil/HW_Atom";
 
 const Login = () => {
   const [nickName, setNickName] = useState("");
@@ -45,6 +46,8 @@ const Login = () => {
   const [isEmailReg, setEmailReg] = useState<boolean>(false);
   const [isButtonActive, setButtonActive] = useState<boolean>(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [scrollUser,setScrollUser] = useRecoilState(scrollUserState)
+  const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
   const [config, setConfig] = useState({
     sex: "man",
     faceColor: "#ffe6c8",
@@ -218,7 +221,7 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container $isScroll={scrollEvent}>
       <Title>
         <P>회원 가입</P>
         <H2>반갑습니다</H2>
@@ -308,7 +311,10 @@ const Login = () => {
 
       <UnderText>
         <div className="first-text">이미 회원이신가요?</div>
-        <div className="second-text" onClick={() => setLoginMode(true)}>
+        <div className="second-text" 
+          onClick={() => {
+            setLoginMode(true)
+            setScrollUser(true)}}>
           {" "}
           로그인 하기
         </div>

@@ -9,10 +9,11 @@ export const RecordBox = styled.div`
   margin-top: 42px;
   height: 150px;
   width: 350px;
+
 `;
 export const StopWatch = styled.div`
   color: white;
-  margin: 20px 0px 5px 0px;
+  margin: 15px 0px 0px 0px;
   height: 20px;
 
 `;
@@ -35,11 +36,12 @@ export const PracticeStart = styled(State)<{ $practiceStart?: boolean }>`
 export const PracticeEnd = styled(State)<{ $practiceEnd?: boolean }>`
   display: ${(props) => (props.$practiceEnd ? "block" : "none")};
 `;
-export const SectionBtn = styled.div<{ $IsClickable: boolean }>`
+export const SectionBtn = styled.div<{ $IsClickable: boolean ,$IsRunning: boolean }>`
   display: flex;
   align-items: center;
   height: 60px;
   pointer-events: ${(props) => (props.$IsClickable ? "auto" : "none")};
+  z-index: ${(props) => (props.$IsRunning ? 500 : 0)};
 `;
 export const Button = styled.button`
   background-color: #3a3a3a;
@@ -83,7 +85,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -79.2px 0px 0px 24.2px;
+    margin: -79.2px 0px 0px 25.2px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -100,7 +102,7 @@ export const Waves = styled.div`
 export const PreventClickDiv = styled.div`
   /* position: absolute;
   top: 150px; */
-  margin-top: 20px;
+  margin-top: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,25 +118,35 @@ export const MoonLoaderDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
   width: 100px;
   height: 100px;
   z-index: -1;
-  /* top:50%;
+
+  top:48%;
   left: 50%;
-  transform: translate(-50%, 0); */
+  transform: translate(-50%, 0);
 `;
 
-export const ParcticeStartSection = styled.div`
+export const ParcticeStartSection = styled.div<{ $IsClickable: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100px;
   width: 100px;
-`
+  height: 100px;
+  margin-top : ${(props) => (props.$IsClickable ? "" : "116px")};
 
+`
 export const ParcticeInfo = styled.div`
   color: #BABABA;
   width: 150px;
   text-align: center;
 `
+
+export const Backdrop = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+`;
