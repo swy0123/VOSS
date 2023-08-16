@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled, keyframes } from "styled-components";
 import Login from "../components/Home/Login/Login";
 import Join from "../components/Home/Join/Join";
@@ -10,9 +10,10 @@ import { LoginModeAtom } from "../recoil/Auth";
 import mainimg from "/src/assets/main/mainimg.gif";
 import Custom from "../components/Util/Custom";
 import { scrollEventState } from "../recoil/HW_Atom";
+import { ContentDiv } from "../components/Home/HomeContent/HomeContent.style";
 
 export const Container = styled.div`
-  height: 4500px;
+  height: 450vh;
   position: relative;
   overflow: hidden;
 `
@@ -32,7 +33,7 @@ const pulsate = keyframes`
   50% { transform: scale(1.2); }
 `;
 
-export const ScrollSection = styled.div<{ $isScroll:number }>`
+export const ScrollSection = styled.div<{ $isScroll: number }>`
   display: flex;
   flex-direction : column;
   justify-content: space-between;
@@ -42,7 +43,7 @@ export const ScrollSection = styled.div<{ $isScroll:number }>`
   width: 50px;
   left: 48.2%;
   top: 82vh;
-  opacity: ${({ $isScroll }) => ($isScroll >= 3600  ? "0" : "1")};
+  opacity: ${({ $isScroll }) => ($isScroll >= 2500 ? "0" : "1")};
 `
 export const Scroll = styled.div`
   width: 50px;
@@ -62,8 +63,14 @@ export const ScrollY = styled.div`
 
 function Home() {
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const endDiv = useRef<HTMLDivElement>(null);
 
   const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
+  
+  
+
   useEffect(() => {
     const handleScroll = (event) => {
       setScrollEvent(window.scrollY)
@@ -76,21 +83,39 @@ function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    var divTop = endDiv.current?.getBoundingClientRect().bottom;
+    console.log(divTop)
+  }, [endDiv.current])
+
+  useEffect(() => {
+    if (scrollEvent < 1000) setLoginMode(true)
+  }, [scrollEvent])
+
+  const scrollToBottom = () => {
+    endDiv.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
 
   return (
-    <Container>
-      <Mainimg>
-        <div>
-          <ScrollY>{scrollEvent}</ScrollY>
-          <HomeContent></HomeContent>
-          {loginMode ? <Login /> : <Join />}
-        </div>
-        <ScrollSection $isScroll={scrollEvent}>
-          <Scroll>scroll</Scroll>
-          <ScrollImg src="/src/assets/main/scroll.png"></ScrollImg>
-        </ScrollSection>
-      </Mainimg>
-    </Container>
+    <div>
+      <Container>
+        <Mainimg>
+          <div>
+            <ScrollY>{scrollEvent}</ScrollY>
+            <HomeContent></HomeContent>
+            <ContentDiv $isScroll={scrollEvent}>
+              {loginMode ? <Login /> : <Join />}
+            </ContentDiv>
+          </div>
+          <ScrollSection $isScroll={scrollEvent}>
+            <Scroll>scroll</Scroll>
+            <ScrollImg src="/src/assets/main/scroll.png" onClick={scrollToBottom}></ScrollImg>
+          </ScrollSection>
+        </Mainimg>
+      </Container>
+      <div ref={endDiv}></div>
+    </div>
   );
 }
 
