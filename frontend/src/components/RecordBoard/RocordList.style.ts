@@ -37,12 +37,12 @@ export const RecordPlayerDesign = styled.div`
   display: flex;
   justify-content: center;
   width: 230px;
-  height: 28px;
+  height: 25px;
   /* border: solid 1px orange; */
   audio {
     cursor: pointer;
     width: 190px;
-    height: 28px;
+    height: 25px;
     color: red;
   };
   audio::-webkit-media-controls-current-time-display,
