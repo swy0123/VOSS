@@ -38,6 +38,9 @@ export const TagButton = styled.div<{ $IsClick: boolean }>`
 `;
 
 export const SearchDiv = styled.div`
+display: flex;
+justify-content: end;
+align-items: center;
   position: relative;
   height: 30px;
   margin: 20px 14px 10px 10px;
@@ -45,15 +48,15 @@ export const SearchDiv = styled.div`
 
 export const CreateRoom = styled.button`
   float: right;
-  height: 25px;
+  height: 28px;
   width: 100px;
   background-color: #22505B;
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
   color: white;
   margin-left: 10px;
   margin-right: 10px;
-  font-weight: 600;
+  /* font-weight: 600; */
   font-size: 14px;
   cursor: pointer;
   &:hover {
@@ -64,10 +67,13 @@ export const CreateRoom = styled.button`
 
 export const SearchInput = styled.input`
   float: right;
-  background-color: #444444;
+  padding-left: 5px;
+  background-color: rgba(239, 239, 239, 0.2);
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   height: 23px;
+  outline: none;
 `;
 
 export const SearchInputButton = styled.img`
@@ -75,7 +81,6 @@ export const SearchInputButton = styled.img`
   height: 14px;
   width: 14px;
   right: 128px;
-  top: 5px;
   cursor: pointer;
   &:hover {
     transform: scale(1.05);

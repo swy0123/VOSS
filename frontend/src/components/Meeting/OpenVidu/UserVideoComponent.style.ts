@@ -32,9 +32,9 @@ export const VedioInnerDiv = styled.div`
   left: 4%;
   top: 2%;
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   /* font-size: 5%; */
-  z-index: 5;
+  /* z-index: 3; */
 `;
 
 export const VedioMuteIcon = styled.img`
@@ -44,7 +44,7 @@ export const VedioMuteIcon = styled.img`
   color: white;
   width: 10%;
   /* height: 10%; */
-  z-index: 5;
+  /* z-index: 3; */
 `;
 export const VedioHoverMenu = styled.div`
   position: absolute;
@@ -59,7 +59,7 @@ export const VedioHoverMenu = styled.div`
   opacity: 0.8;
   font-size: 7%;
   cursor: pointer;
-  z-index: 10;
+  z-index: 3;
   top:50%;
   left:50%;
   transform: translate(-50%, -50%);
@@ -82,6 +82,7 @@ export const ProfileImg = styled.div`
   left: -10%;
   top: -10%;
   color: white;
+  background-color: #222222;
 
   img {
     border-radius: 100rem;

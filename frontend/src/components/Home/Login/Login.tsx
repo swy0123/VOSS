@@ -52,10 +52,10 @@ const Login = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const MAX_LENGTH = 50;
   const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
-  const [scrollUser,setScrollUser] = useRecoilState(scrollUserState)
+  const [scrollUser, setScrollUser] = useRecoilState(scrollUserState);
 
   const { alert: alertComp } = useContext(AlertContext);
-  const onAlertClick = async (text:string) => {
+  const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
   };
@@ -78,22 +78,20 @@ const Login = () => {
     console.log(cookies.rememberEmail);
   }, [checkbox]);
 
-
   const handleEmailField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setEmail(e.target.value);
-    console.log(checkbox)
+    setEmail(e.target.value.split(" ").join(""));
+    console.log(checkbox);
     if (checkbox) setCookie("rememberEmail", email);
   };
-
 
   const handlePasswordField = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > MAX_LENGTH) {
       e.target.value = e.target.value.slice(0, MAX_LENGTH);
     }
-    setPassword(e.target.value);
+    setPassword(e.target.value.split(" ").join(""));
   };
 
   const toggleModal = useCallback(() => {
@@ -109,7 +107,6 @@ const Login = () => {
     if (showPswd) setShowPswd(false);
     else setShowPswd(true);
   };
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -138,9 +135,7 @@ const Login = () => {
   };
 
   return (
-    <Container 
-      $isScroll={scrollEvent}
-      $isScrollUser={scrollUser}>
+    <Container $isScroll={scrollEvent} $isScrollUser={scrollUser}>
       <Title>
         <P>로그인</P>
         <H2>환영합니다</H2>
@@ -149,12 +144,19 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <InputDiv>
             <InputHeader>Email</InputHeader>
-            <Input type="email" defaultValue={email} onChange={handleEmailField} placeholder="이메일을 입력해주세요" />
+            <Input
+              type="email"
+              defaultValue={email}
+              value={email}
+              onChange={handleEmailField}
+              placeholder="이메일을 입력해주세요"
+            />
           </InputDiv>
           <InputDiv>
             <InputHeader>Password</InputHeader>
             <Input
               type={showPswd ? "text" : "password"}
+              value={password}
               onChange={handlePasswordField}
               placeholder="비밀번호를 입력해주세요"
               autoComplete="off"
@@ -195,12 +197,7 @@ const Login = () => {
         </div>
       </UnderText>
 
-      {isOpenModal && (
-        <EmailModal
-          toggleModal={toggleModal}
-        ></EmailModal>
-      )}
-
+      {isOpenModal && <EmailModal toggleModal={toggleModal}></EmailModal>}
     </Container>
   );
 };

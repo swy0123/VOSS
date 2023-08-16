@@ -40,8 +40,11 @@ export const BottomBar = styled.div`
   height:100%;
   width: 90%;
   border-radius: 15px;
-  background-color: #6C6C6C;
+  background-color: #222222;
   display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  color: white;
   justify-content: center;
   align-items: center;
   text-align:center;
@@ -57,7 +60,7 @@ export const CloseSectionBtn = styled.img`
 
 export const UnderBack = styled.div`
   position: fixed;
-  background-color: #202124;
+  background-color: #000000;
   background-size: cover;
   background-position: center center;
   height: 100%;

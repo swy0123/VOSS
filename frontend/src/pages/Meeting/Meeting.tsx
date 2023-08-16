@@ -101,7 +101,7 @@ function Meeting() {
             }}
           >
             <img style={{cursor:"pointer"}} src={Vector} />
-            더빙연습
+            더빙 연습
           </BottomBar>
         </ClosedBottomSection>
       ) : <></>}
