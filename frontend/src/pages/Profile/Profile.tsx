@@ -8,8 +8,8 @@ import FollowModal from "/src/components/Profile/ModalBox/FollowModal";
 import BadgeBox from "/src/components/Profile/BadgeBox/BadgeBox";
 import HistoryBox from "/src/components/Profile/HistoryBox/HistoryBox";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getProfile } from "/src/api/profile";
-import { ProfileState, ModalOpenState } from "/src/recoil/Auth";
+import { getProfile, getFollowers, getFollowings} from "/src/api/profile";
+import { ProfileState, ModalOpenState, FollowerListState, FollowingListState } from "/src/recoil/Auth";
 import {
   ProfileScrollDesign,
   ProfileDesign,
@@ -25,6 +25,8 @@ function Profile() {
   const id = parseInt(useParams().id || "");
   const [profile, setProfile] = useRecoilState(ProfileState)
   const [isModalOpen, setIsModalOpen] = useRecoilState(ModalOpenState)
+  const [followers, setFollowers] = useRecoilState(FollowerListState)
+  const [followings, setFollowings] = useRecoilState(FollowingListState)
 
   const navigate = useNavigate();
   const goToBoardData = () => navigate(`/boarddata/${id}`)
@@ -33,6 +35,12 @@ function Profile() {
   useEffect(() => {
     getProfile(id).then(profile => {
       if (profile) {setProfile(profile)};
+    })
+    getFollowings(id).then(followings => {
+      if (followings) { setFollowings(followings)};
+    })
+    getFollowers(id).then(followers => {
+      if (followers) { setFollowers(followers)};
     })
     setIsModalOpen(false)
   }, [id])

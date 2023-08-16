@@ -16,7 +16,9 @@ import {
 
 
 function PostList({ id, title, nickname, memberId, hasImageFile, hasOtherFile, comments, likes, createdAt, hits, page}: PostListType ) {
-  const today = new Date().toISOString();
+  let rawday = new Date();
+  rawday.setHours(rawday.getUTCHours() + 9);
+  const today = rawday.toISOString();
   const navigate = useNavigate()  
   const goPostDetail = (id: number) => navigate(`/freeboard/${id}`);
   const goProfile = (id: number) => navigate(`/profile/${id}`);

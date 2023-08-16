@@ -34,29 +34,41 @@ function BasicBox() {
   const [followerTabShow, setFollowerTabShow] = useRecoilState(FollowerTabState)
   const [followers, setFollowers] = useRecoilState(FollowerListState)
   const [followings, setFollowings] = useRecoilState(FollowingListState)
-  const [followerCount, setFollowerCount] = useState(0);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [profile, setProfile] = useRecoilState(ProfileState)
   const [currentUser, setCurrentUser] = useRecoilState(CurrentUserAtom);
   const [profileMenuShown, setProfileMenuShown] = useState(false)
   const [isOpenNicknameModal, setOpenNicknameModal] = useState<boolean>(false);
   const [isOpenPasswordModal, setOpenPasswordModal] = useState<boolean>(false);
+  const [showImgUpdate, setImgUpdate] = useState(false)
 
 
   const setFollow = () => {
-    profile.isFollowing
-      ? setFollowerCount(followerCount - 1)
-      : setFollowerCount(followerCount + 1);
+    console.log(123);
+    if (profile.isFollowing) {
+      deleteUnfollow(id).then(res => {
+        if (res) { getFollowers(id).then(followers => {
+            if (followers) { setFollowers(followers)};
+          })
+        }
+      })
+    } else {
+      postFollow(id).then(res => {
+        if (res) { getFollowers(id).then(followers => {
+            if (followers) { setFollowers(followers)};
+          })
+        }
+      })
+    };
     setProfile({ ...profile, isFollowing: !profile.isFollowing })
   };
-  const [showImgUpdate, setImgUpdate] = useState(false)
 
   useEffect(() => {
     getFollowings(id).then(followings => {
       if (followings) { setFollowings(followings) };
     })
     getFollowers(id).then(followers => {
-      if (followers) { setFollowers(followers); setFollowerCount(followers.length) };
+      if (followers) { setFollowers(followers) };
     })
   }, [isModalOpen])
 
@@ -130,15 +142,15 @@ function BasicBox() {
                   : null}
               </ProfileBtnDesign>
               : profile.isFollowing
-                ? <FollowingButton onClick={() => (setFollow(), deleteUnfollow(id))}>팔로잉</FollowingButton>
-                : <FollowButton onClick={() => (setFollow(), postFollow(id))}>팔로우</FollowButton>
+                ? <FollowingButton onClick={setFollow}>팔로잉</FollowingButton>
+                : <FollowButton onClick={setFollow}>팔로우</FollowButton>
             }
           </ProfileNameBoxDesign>
 
           <FollowBoxDesign>
             <ProfileFollowerDesign onClick={() => (setIsModalOpen(true), setFollowerTabShow(true))}>
               <p>팔로워</p>
-              <p>{followerCount} 명</p>
+              <p>{followers.length} 명</p>
             </ProfileFollowerDesign>
             <ProfileFollowingDesign onClick={() => (setIsModalOpen(true), setFollowerTabShow(false))}>
               <p>팔로잉</p>

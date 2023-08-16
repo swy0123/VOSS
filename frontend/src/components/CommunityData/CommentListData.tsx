@@ -76,7 +76,10 @@ function CommentListData () {
         <TitleCommentDesign style={{color: '#bababa'}}>
           <TitleDesign>{comment.postTitle}</TitleDesign>
           <TitleDateDesign>
-            {comment.postCreatedAt}
+            { today.slice(2, 10) === comment.postCreatedAt?.slice(2, 10)
+              ? comment.postCreatedAt?.slice(11, 16)
+              : comment.postCreatedAt?.slice(2, 10)
+            }
           </TitleDateDesign>
         </TitleCommentDesign>
 

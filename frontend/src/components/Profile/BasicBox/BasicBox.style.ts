@@ -105,17 +105,15 @@ export const FollowButton = styled.button`
   padding: 0.3vw;
   width: 6.2vw;
   height: 2.05vw;
-  background-color: #FFFFFF;
-  color: #132B31;
+  background-color: #132B31;
+  color: #EFEFEF;
   text-align: center;
   line-height: 50%;
   font-weight: bold;
-  border: solid 1px #FFFFFF;
-  border-radius: 7px;
+  border: solid 1px #EFEFEF;
+  border-radius: 0.8vw;
   cursor: pointer;
   font-size: 1vw;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-
   `;
 
 export const FollowingButton = styled.button`
@@ -123,16 +121,15 @@ export const FollowingButton = styled.button`
   padding: 0.3vw;
   width: 6.2vw;
   height: 2.05vw;
-  background-color: #333333;
-  color: #EFEFEF;
+  background-color: #EFEFEF;
+  color: #132B31;
   text-align: center;
   line-height: 50%;
   font-weight: bold;
-  border: solid 2px #EFEFEF;
-  border-radius: 7px;
+  border: solid 1px #EFEFEF;
+  border-radius: 0.8vw;
   cursor: pointer;
   font-size: 1vw;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   `;
 
 export const FollowBoxDesign = styled.div`
