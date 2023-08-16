@@ -14,8 +14,6 @@ import {
   PostCategoryLikeDesign,
   PaginationWrapper,
   PaginationItem,
-} from "/src/pages/FreeBoard/FreeBoard.style";
-import {
   PostListDesign,
   PostNumberDesign,
   PostTitleDesign,
@@ -24,8 +22,7 @@ import {
   PostCreatedatDesign,
   PostHitDesign,
   PostLikeDesign,
-} from "/src/components/FreeBoard/PostList/PostList.style";
-
+} from "./FreeBoardData.style";
 
 function FreeBoardData () {
   const id = parseInt(useParams().id || "0");
@@ -79,7 +76,7 @@ function FreeBoardData () {
 
   return(
     <div> 
-    <FreeBoardDesign style={{margin: '0px', height: '455px', borderBottom: 'solid 1px white'}}>
+    <FreeBoardDesign>
 
       <PostCategoryDesign>
         <PostCategoryNumberDesign>전체 ({(totalElements.toLocaleString())})</PostCategoryNumberDesign>
@@ -117,7 +114,7 @@ function FreeBoardData () {
         </PostListDesign>
       ))}
       </>
-      : <div style={{ height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
+      : <div style={{ height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
       }
 
     </FreeBoardDesign>
