@@ -57,8 +57,17 @@ export const Button = styled.button`
   width: 50px;
   cursor: pointer;
 `;
-export const RestartBtn = styled(Button)``;
-export const CompleteBtn = styled(Button)``;
+
+export const RestartBtn = styled.img`
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+`;
+export const CompleteBtn = styled.img`
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+`;
 
 export const RecordBtn = styled.img`
   width: 100px;

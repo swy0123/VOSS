@@ -102,7 +102,7 @@ function Home() {
       <Container>
         <Mainimg>
           <div>
-            <ScrollY>{scrollEvent}</ScrollY>
+            {/* <ScrollY>{scrollEvent}</ScrollY> */}
             <HomeContent></HomeContent>
             <ContentDiv $isScroll={scrollEvent}>
               {loginMode ? <Login /> : <Join />}

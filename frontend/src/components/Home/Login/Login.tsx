@@ -50,7 +50,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const MAX_LENGTH = 50;
+  const MAX_LENGTH = 60;
   const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
   const [scrollUser, setScrollUser] = useRecoilState(scrollUserState);
 
