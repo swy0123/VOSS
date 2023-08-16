@@ -53,6 +53,12 @@ export const CommentInfoDesign = styled.div`
     border-radius: 50%;
     width: 27px;
     height: 27px;
+  };
+  span {
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -83,12 +89,33 @@ export const CommentContentDiv = styled.div`
   /* border: solid 1px pink; */
 `;
 
-export const CommentContentTextArea = styled.textarea`
+export const EditCommentBox = styled.div`
+  display: flex;
   margin-top: 10px;
+  background-color: transparent;
+  width:  1000px;
+  /* border: solid 1px white; */
+`;
+
+export const CommentContentTextArea = styled.textarea`
   color: white;
   background-color: transparent;
   padding: 20px;
-  width:  940px;
+  width:  865px;
   margin-left: 10px;
   /* border: solid 1px orange; */
+`;
+
+export const EditBtn = styled.div`
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  line-height: 50px;
+  width: 70px;
+  height: 50px;
+  margin: 10px 10px 0 10px;
+  border-radius: 5px;
+  background-color: #EFEFEF;
+  color: #313131;
 `;

@@ -6,6 +6,7 @@ import Messenger from '../../components/Message/Messenger';
 import RecordButton from '../../components/VoiceAnalysis/RecordButton/RecordButton';
 import Recording from '../../components/VoiceAnalysis/Recording/Recording';
 import { 
+  OverflowHeaderHidden,
   Container, 
   LeftSection, 
   RightSection, 
@@ -15,6 +16,7 @@ function VoiceAnalysis() {
   return (
     <BackGroundImg>
       <Header/>
+      <OverflowHeaderHidden>
       <Container>
         <UpSection>
           <LeftSection>
@@ -27,6 +29,7 @@ function VoiceAnalysis() {
         </UpSection>
         <RecordButton></RecordButton>
       </Container>
+      </OverflowHeaderHidden>
       <Messenger/>
     </BackGroundImg>
   )

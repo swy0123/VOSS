@@ -1,10 +1,11 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { FreeBoardCommentCountState } from "/src/recoil/Community";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { createComment, getComments, deleteComment, updateComment } from "/src/api/FreeBoard";
 import { CommentType } from "/src/type/FreeBoard";
+import ConfirmContext from "/src/context/confirm/ConfirmContext";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import {
   CommentListDesign,
@@ -15,7 +16,9 @@ import {
   CommentUpdateDesign,
   CommentDeleteDesign,
   CommentContentDiv,
+  EditCommentBox,
   CommentContentTextArea,
+  EditBtn ,
  } from "./CommentList.style";
 
  const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
@@ -30,6 +33,13 @@ function CommentList() {
   const [editId, setEditId] = useState<number>(0);
   const [editContent, setEditContent] = useState<string>("");
   const goProfile = (memberId: number) => (navigate(`/profile/${memberId}`));
+  const { confirm: confirmComp } = useContext(ConfirmContext);
+
+  const onConfirmClick = async (text:string)  => {
+    const result = await confirmComp(text);
+      console.log("custom", result);
+    return result;
+  };
 
   const contentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (event.target.value.length > 500) {
@@ -76,19 +86,18 @@ function CommentList() {
       alert('댓글 내용이 비어있습니다')
       return;
     }
-    if (editContent.trim().length > 500) {
-      alert('500자를 초과하였습니다')
-      return;
-    }
     updateComment(id, commentId, editContent).then((res)=>{
       if (res) {commentsGet()}
     })
   };
 
-  const commentDelete = (commentId: number) => {
-    deleteComment(id, commentId).then((res)=>{
-      if (res) {commentsGet()}
-    })
+  const commentDelete = async (commentId: number) => {
+    const ret = await onConfirmClick("댓글을 삭제하시겠습니까?");
+    if(ret){
+      deleteComment(id, commentId).then((res)=>{
+        if (res) {commentsGet()}
+      })
+    };
   };
 
   useEffect(() => {
@@ -117,14 +126,15 @@ function CommentList() {
           <img 
             onClick={()=>goProfile(comment.memberId || me)}
             src={ comment.profileImage ? `${FILE_SERVER_URL}/${comment.profileImage}` : ProfileNull } alt="profileImg"/>
-          <span style={{cursor: 'pointer'}} onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>{"\u00A0"}|{"\u00A0"}{comment.createdAt?.slice(0, 10)} {comment.createdAt?.slice(11, 19)}
+          <span onClick={()=>goProfile(comment.memberId || me)}>{comment.nickname}</span>
+          {"\u00A0"}{"\u00A0"}|{"\u00A0"}{"\u00A0"}
+          {comment.createdAt?.slice(2, 10)} {comment.createdAt?.slice(11, 19)}
 
           { comment.memberId === me
           ? <>
             { comment.id === editId
               ? <>
-                <CommentUpdateDesign onClick={()=>commentUpdate(comment.id || 0)}>완료</CommentUpdateDesign>
-                <CommentDeleteDesign onClick={()=>(setEditId(0), setEditContent(""))}>취소</CommentDeleteDesign>
+                <CommentDeleteDesign style={{marginLeft: 'auto'}} onClick={()=>(setEditId(0), setEditContent(""))}>취소</CommentDeleteDesign>
                 </>
               : <>
                 <CommentUpdateDesign onClick={()=>((setEditId(comment.id || 0)), setEditContent(comment.content || ""))}>수정</CommentUpdateDesign>
@@ -137,15 +147,18 @@ function CommentList() {
           </CommentInfoDesign>
 
           { comment.id === editId
-            ? <CommentContentTextArea 
+            ? <EditCommentBox>
+              <CommentContentTextArea 
                 onChange={EditContentChange}
                 value={editContent}
                 autoFocus
               />
+              <EditBtn onClick={()=>commentUpdate(comment.id || 0)}>
+                댓글수정
+              </EditBtn>
+              </EditCommentBox>
             : <CommentContentDiv>
-              {comment.content?.split("\n").map((line) => {
-                return (<span>{line}<br /></span>);
-              })}
+              {comment.content}
               </CommentContentDiv>
           }
 

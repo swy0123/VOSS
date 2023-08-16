@@ -38,8 +38,10 @@ export const RecordSelect = styled.input`
 `
 
 export const RecordLable = styled.label`
+  font-size: 15px;
   font-weight: 100;
-  line-height: 30px;
+  text-align: center;
+  line-height: 15px;
   color: white;
 `
 
