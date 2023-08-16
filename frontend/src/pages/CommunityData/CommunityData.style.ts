@@ -47,7 +47,11 @@ export const DataSelectDesign = styled.label`
 display: flex;
 width: 120px;
 height: 70px;
+  cursor: pointer;
 /* border: solid 1px red; */
+input {
+    cursor: pointer;
+};
 div {
   margin-left: 10px;
   font-size: 12px;
@@ -67,12 +71,12 @@ export const CommentListDesign = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 1000px;
-  padding: 0 5px;
-  height: 110px;
+  padding: 10px 5px;
+  height: 90px;
   border-bottom: solid 1px #6c6c6c;
   border-top: solid 1px #6c6c6c;
   &:hover {
-    background-color: rgba(1, 1, 1, 0.5);
+    background-color: rgba(1, 1, 1, 0.25);
   }
   `;
 
@@ -88,7 +92,7 @@ display: flex;
 align-items: center;
 padding-left: 20px;
 width: 900px;
-height: 40px;
+height: 30px;
 /* border: solid 1px green; */
 img {
   height: 20px;
