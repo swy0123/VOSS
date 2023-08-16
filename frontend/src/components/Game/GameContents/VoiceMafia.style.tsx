@@ -7,6 +7,8 @@ export const GameNoticeDiv = styled.div`
 export const GameTitle = styled.img`
   width: 45%;
   height: 9%;
+  cursor: pointer;
+
 `;
 export const GameExplain = styled.div`
  margin-top: 30px;
@@ -87,7 +89,7 @@ export const OptionButton = styled.div<{ $IsColor: boolean }>`
 export const ReplayButton = styled.div`
   position: absolute;
   bottom: 10%;
-  left: 50%;
+  left: 41%;
   transform: translate(-50%, 0);
   display: flex;
   align-items: center;
@@ -101,6 +103,12 @@ export const ReplayButton = styled.div`
   color: white;
   cursor: pointer;
   `;
+
+export const FinishButton = styled(ReplayButton)`
+  left: 59%;
+  background-color: #ffae00;
+  
+`
 
 export const ResultBox = styled.img`
   width: 60%;

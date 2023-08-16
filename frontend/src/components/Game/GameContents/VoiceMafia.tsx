@@ -17,9 +17,13 @@ const sentence = [
     '(8/10)',
     '(9/10)',
     '(10/10)',
-  ];
+];
 
-function VoiceMafia() {
+export interface GameMainProps {
+SetPageMain: () => void;
+}
+
+function VoiceMafia(props:GameMainProps) {
     const [StartGame, setStartGame] = useState(true);
     const [CurrentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [ShowResult, setShowResult] = useState(false);
@@ -81,7 +85,9 @@ function VoiceMafia() {
     return (
         <GameMainContainer>
             <GameNoticeDiv>
-                <GameTitle src={GameTitleImg} />
+                <GameTitle 
+                    src={GameTitleImg}
+                    onClick={props.SetPageMain} />
                 <div>
                     {StartGame ? (
                         <GameExplain>
@@ -98,7 +104,9 @@ function VoiceMafia() {
                         </StartButton>
                     ): <></>}
                     {ShowResult && (
-                        <ResultBoard score={CurrentScore} handleReplayButtonClick={handleReplayButtonClick} />
+                        <ResultBoard 
+                        SetPageMain={props.SetPageMain}
+                        score={CurrentScore} handleReplayButtonClick={handleReplayButtonClick} />
                     )}
                 </div>
             </GameNoticeDiv>
