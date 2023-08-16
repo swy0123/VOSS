@@ -50,6 +50,7 @@ function VoiceMafia() {
     };
 
     const handleReplayButtonClick = () => {
+        getGameContents();
         setCurrentScore(0);
         setStartGame(true);
         setShowResult(false);
