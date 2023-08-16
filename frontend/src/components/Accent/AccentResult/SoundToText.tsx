@@ -20,7 +20,7 @@ const SoundToText = () => {
     recognition.start() 
   }
 
-  const stopListening = () => {
+  const accenting = () => {
     if(!recognition) return 
     setaccentClickable(false)
     recognition.onresult = (event: SpeechRecognitionEvent) => {
@@ -31,9 +31,16 @@ const SoundToText = () => {
     }
   }
 
+  const stopListening = () => {
+    if(recognition){recognition.stop()}
+    setIsListening(false)
+    setaccentClickable(true)
+  }
+
   return {
     isListening,
     startListening,
+    accenting,
     stopListening,
     hasRecognitionSupport: !! recognition
   }

@@ -63,7 +63,6 @@ export const CompleteBtn = styled(Button)``;
 export const RecordBtn = styled.img`
   width: 100px;
   cursor: pointer;
-  border: 1px solid red;
 `;
 
 export const NowRecording = styled.div`
