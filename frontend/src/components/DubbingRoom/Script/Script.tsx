@@ -21,7 +21,7 @@ interface VideoProps {
 function Script ({lines}: VideoProps) {
   const [isScriptSelect,setIsScriptSelect] = useRecoilState<boolean[]>(ScriptSelectState)
   const [playChange, setPlayChange] = useRecoilState<number[]>(PlayChangebState)
-  const intervalRef = useRef<number|undefined>(null);
+  const intervalRef = useRef<number|undefined>(undefined);
   const [time, setTime] = useRecoilState(timeState);
   const ScrollRef = useRef<number>(0)
 

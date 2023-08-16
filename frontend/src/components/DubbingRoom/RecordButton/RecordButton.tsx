@@ -44,6 +44,7 @@ function RecordButton({ script, lines }: VideoProps) {
   const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
   const [recordBtnClickable, setRecordBtnClickable] = useState<boolean>(true);
+  const [recordActive, setRecordActive] = useState<boolean>(false)
   const { alert: alertComp } = useContext(AlertContext);
 
   const {
@@ -148,13 +149,6 @@ function RecordButton({ script, lines }: VideoProps) {
     setRecordBtnClickable(true)
   }
 
-  // 연습처음시작
-  const changePracticeInitial = () => {
-    setPracticeStart(false)
-    setPracticeEnd(true)
-    setPlayTrigger(4)
-  }
-
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
@@ -187,6 +181,10 @@ function RecordButton({ script, lines }: VideoProps) {
     }
   }, [stop])
 
+  useEffect(()=>{
+    setTimeout(()=>{setRecordActive(true)},500)
+  },[])
+
   const openAlert = async () => {
     const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
     if (nextAction) {
@@ -199,7 +197,7 @@ function RecordButton({ script, lines }: VideoProps) {
   }
 
   return (
-    <RecordBox>
+    <RecordBox $recordActive={recordActive}>
       <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
@@ -224,7 +222,7 @@ function RecordButton({ script, lines }: VideoProps) {
             onClick={() => {
               startOrStop()
               startRecording()
-              changePracticeInitial()
+              changePracticeEnd()
             }}
             onMouseEnter={() =>
               setPracticeStart(true)}
