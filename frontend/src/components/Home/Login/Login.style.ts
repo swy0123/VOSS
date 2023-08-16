@@ -14,7 +14,7 @@ export const Container = styled.div<{ $isScroll:number , isScrollUser:boolean }>
   border-width: 1px;
   border-radius: 24px 24px 0px 0px;
   text-align: center;
-  position: fixed;
+  /* position: fixed;
   right: 15%;
   bottom: ${({ $isScroll }) => ($isScroll >= 1700 ? "0" : "-300vh")};
   ${({ $isScroll }) =>
@@ -24,7 +24,7 @@ export const Container = styled.div<{ $isScroll:number , isScrollUser:boolean }>
     `
     : css `
         left: 50%;
-    `}
+    `} */
 `;
 
 export const P = styled.p`

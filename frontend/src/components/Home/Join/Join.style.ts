@@ -15,7 +15,7 @@ export const Container = styled.div<{ $isScroll:number }>`
   border-style: solid;
   border-width: 1px;
   border-radius: 24px 24px 0px 0px;
-  position: fixed;
+  /* position: fixed;
   right: 15%;
   text-align: center;
 
@@ -31,7 +31,7 @@ export const Container = styled.div<{ $isScroll:number }>`
 
   .avatar-bar {
     text-align: left;
-  }
+  } */
 `;
 
 export const P = styled.p`
