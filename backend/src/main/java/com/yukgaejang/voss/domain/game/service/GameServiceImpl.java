@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -47,10 +49,22 @@ public class GameServiceImpl implements GameService{
 
     @Override
     public List<MafiaGameSourceListResponse> getRandomMafiaSourceListLimitCnt(int cnt) {
-        return mafiaGameSourceRepository.getRandomMafiaSourceListLimitCnt(cnt)
+        List<MafiaGameSourceListResponse> memberTypeList = mafiaGameSourceRepository.getRandomMafiaSourceListWhereTypeLimitCnt(3)
                 .stream()
                 .map(o -> new MafiaGameSourceListResponse(o))
                 .collect(Collectors.toList());
+        List<MafiaGameSourceListResponse> noMemberTypeList = mafiaGameSourceRepository.getRandomMafiaSourceListWhereTypeNotMemberLimitCnt(cnt)
+                .stream()
+                .map(o -> new MafiaGameSourceListResponse(o))
+                .collect(Collectors.toList());
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            int randomInt = random.nextInt(cnt);
+            if (noMemberTypeList.get(randomInt).getType() != Type.MEMBER) {
+                noMemberTypeList.set(randomInt, memberTypeList.get(i));
+            }
+        }
+        return noMemberTypeList;
     }
 
     @Override
