@@ -27,8 +27,8 @@ export const RecordDeleteDesign = styled.div`
 export const RecordTitleDesign = styled.div`
   padding: 15px 25px 25px 25px;
   width: 180px;
-  height: 55px;
-  font-size: 14px;
+  height: 50px;
+  font-size: 13px;
   overflow-wrap: break-word;
   /* border: solid 1px orange; */
 `;
@@ -93,7 +93,7 @@ export const RecordLikeNumDesign = styled.div`
 
 export const RecordSpace2Design = styled.div`
   width: 230px;
-  height: 30px;
+  height: 25px;
   /* border: solid 1px blue; */
 `;
 
@@ -102,8 +102,9 @@ display: flex;
 padding: 0 10px;
 width: 210px;
 height: 30px;
-font-size: 11px;
+font-size: 10px;
 line-height: 30px;
+color: rgba(193, 193, 193, 0.9);
 border-bottom: solid 1px #6c6c6c;
 /* border: solid 1px orange; */
 `;
@@ -126,14 +127,14 @@ display: flex;
 align-items: center;
 padding: 0 13px;
 width: 210px;
-height: 30px;
+height: 45px;
 font-size: 12px;
 /* border: solid 1px white; */
 img {
   cursor: pointer;
   border-radius: 50%;
-  height: 23px;
-  width: 23px;
+  height: 24px;
+  width: 24px;
 }
 span {
   cursor: pointer;
