@@ -33,7 +33,8 @@ function Game() {
             SetPageRegist={() => HandlePageState(2)}
           />
         ) : pageState == 1 ? (
-          <GameContents />
+          <GameContents 
+            SetPageMain={() => HandlePageState(0)}/>
         ) : pageState == 2 ? (
           <RegistVoice
             SetPageMain={() => HandlePageState(0)} />
