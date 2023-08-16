@@ -130,7 +130,9 @@ function PostDetail() {
       </FreeInfoDateDesign>
 
       <FreeContentDesign>
-        {post.content}
+        {post.content?.split("\n").map((line) => { //this.props.data.content: 내용
+          return (<span>{line}<br /></span>);
+        })}
         {imageFiles.map((file, index: number) => (
           <div key={index}>
             <br/><br/>

@@ -18,6 +18,7 @@ const Messenger = () =>{
   const isLogin = useRecoilValue(LoginState);
   const [isAlarm, setIsAlarm] = useRecoilState(MessengerAlarmState);
   const [liveRooms, setLiveRooms] = useRecoilState<number[]>(LiveRoomsState);
+  const [rooms, setRooms] = useRecoilState(RoomsState);
   const sendEnterMessage = () => {
     const enterMessage = {
       chatId: 1,
@@ -73,6 +74,8 @@ const Messenger = () =>{
           if (!liveRooms.includes(roomId)) {
             setLiveRooms(prev => [...prev, roomId]);
           }
+          const roomIndex = rooms.findIndex(room => room.chatId === roomId);
+          setRooms([rooms[roomIndex], ...rooms.slice(0, roomIndex), ...rooms.slice(roomIndex + 1)]);
         };
       };
 
