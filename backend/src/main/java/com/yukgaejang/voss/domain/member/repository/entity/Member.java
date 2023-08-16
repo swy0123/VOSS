@@ -20,9 +20,12 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean isDeleted = false;
+
     public void authorizeUser() {
         this.role = Role.MEMBER;
     }
+
 
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);

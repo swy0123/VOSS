@@ -76,8 +76,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean deleteMember(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        return false;
+    }
+
+    @Override
     public boolean modifyPassword(ModifyPasswordRequest modifyPasswordRequest, String email) {
-        System.out.println(email);
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
         
