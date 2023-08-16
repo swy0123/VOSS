@@ -2,7 +2,7 @@ import { atom } from "recoil";
 import { ScriptData, VideosType} from "../type/type";
 
 // 목소리 분석 녹음 기록
-export const analysisRecordState = atom({
+export const analysisRecordState = atom<string[][]>({
   key: 'analysisRecordState',
   default: [],
 })
@@ -57,4 +57,30 @@ export const videoListState = atom<VideosType[]>({
 export const videoFilterState = atom<VideosType[]>({
   key: 'videoFilterState',
   default: [],
+})
+
+
+// 목소리 분석 선택된 성별
+export const GenderSelectedState = atom<string[]>({
+  key: 'GenderSelectedState',
+  default: ["남성"],
+})
+
+// 목소리 분석 선택된 연령대
+export const AgeSelectedState = atom<string[]>({
+  key: 'AgeSelectedState',
+  default: ["어린이"],
+})
+
+
+// 목소리 분석 녹음된 성별
+export const GenderRecordedState = atom<string>({
+  key: 'GenderRecordedState',
+  default: "",
+})
+
+// 목소리 분석 녹음된 연령대
+export const AgeRecordedState = atom<string>({
+  key: 'AgeRecordedState',
+  default: "",
 })

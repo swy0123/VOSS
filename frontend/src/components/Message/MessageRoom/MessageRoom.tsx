@@ -219,7 +219,7 @@ useEffect(() => {
         }}> 
           <Input 
           type="text" 
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)} 
+          onChange={(e: ChangeEvent<HTMLInputElement>) => { if (e.target.value.length < 100) {setMessage(e.target.value)}}}
           value={message}
           />
           <Send

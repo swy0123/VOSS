@@ -1,5 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { makeAnalysisScript } from "../../../api/script";
+import { useRecoilState } from "recoil";
+import { GenderSelectedState, AgeSelectedState } from "/src/recoil/Training";
 import {
   AgeBox,
   AgeButton,
@@ -11,8 +13,8 @@ import {
   OptionCreate,
   OptionSelect,
   Options,
-  PlayButton,
-  PlayButtonActive,
+  // PlayButton,
+  // PlayButtonActive,
   ScriptBox,
   ScriptButtons,
   ScriptDiv,
@@ -30,8 +32,8 @@ function Script() {
   const ageOpt = ["어린이", "청소년", "청년", "중년", "장년"]
   const [isGenderSelect, setIsGenderSelect] = useState<boolean[]>([true, false])
   const [isAgeSelect, setIsAgeSelect] = useState<boolean[]>([true, false, false, false, false])
-  const [genderSelected, setGenderSelected] = useState<string[]>([])
-  const [ageSelected, setAgeSelected] = useState<string[]>([])
+  const [genderSelected, setGenderSelected] = useRecoilState(GenderSelectedState);
+  const [ageSelected, setAgeSelected] = useRecoilState(AgeSelectedState);
 
   const ChagneScripts = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputSctipts(e.target.value)
@@ -107,7 +109,7 @@ function Script() {
         </OptionSelect>
         <OptionCreate
           onClick={() => axiosMakeScript(
-            genderSelected, ageSelected
+            genderSelected[0], ageSelected[0]
           )}>생성</OptionCreate>
       </Options>
 

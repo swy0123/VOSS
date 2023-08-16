@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { FreeBoardCommentCountState } from "/src/recoil/Community";
@@ -8,6 +8,7 @@ import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import { getPost, deletePost, postLike, deleteLike } from "/src/api/FreeBoard";
 import { PostType, PostFilesType } from "/src/type/FreeBoard";
+import ConfirmContext from "/src/context/confirm/ConfirmContext";
 import CommentList from "/src/components/FreeBoard/CommentList/CommentList";
 import PostHitImg from "/src/assets/FreeBoard/PostHit.png";
 import PostComment from "/src/assets/FreeBoard/PostComment.png";
@@ -46,15 +47,27 @@ function PostDetail() {
   const [imageFiles, setImageFiles] = useState<PostFilesType[]>([]);
   const [otherFiles, setOtherFiles] = useState<PostFilesType[]>([]);
   const commentCount = useRecoilValue<number>(FreeBoardCommentCountState);
-  
+  const { confirm: confirmComp } = useContext(ConfirmContext);
+
+  const onConfirmClick = async (text:string)  => {
+    const result = await confirmComp(text);
+      console.log("custom", result);
+    return result;
+  };
+
   const goFreeBoard = () => navigate("/freeboard");
   const goUpdate = () => (navigate(`/freeboard/update/${id}`));
   const goProfile = () => (navigate(`/profile/${post.memberId}`));
-  const DeletePost = () => {
-    deletePost(id).then((res) => {
-      if (res) {navigate("/freeboard")}
-    })
+
+  const DeletePost = async () => {
+    const ret = await onConfirmClick("게시글을 삭제하시겠습니까");
+    if(ret){
+      deletePost(id).then((res) => {
+        if (res) navigate("/freeboard")
+      })
+    };
   };
+
   const LikePost = () => {
     if (liked) {
       deleteLike(id).then((dataLikes) =>{
@@ -130,7 +143,7 @@ function PostDetail() {
       </FreeInfoDateDesign>
 
       <FreeContentDesign>
-        {post.content?.split("\n").map((line) => { //this.props.data.content: 내용
+        {post.content?.split("\n").map((line) => {
           return (<span>{line}<br /></span>);
         })}
         {imageFiles.map((file, index: number) => (

@@ -7,6 +7,7 @@ import AccentResult from '../../components/Accent/AccentResult/AccentResult';
 import RecordButton from '../../components/Accent/RecordButton/RecordButton';
 import Recording from '../../components/Accent/Recording/Recording';
 import { 
+  OverflowHeaderHidden,
   Container, 
   LeftSection, 
   RightSection } from './Accent.style';
@@ -17,6 +18,7 @@ function Accent() {
   return (
     <BackGroundImg>
       <Header/>
+      <OverflowHeaderHidden>
       <Container>
 
         <LeftSection>
@@ -30,6 +32,7 @@ function Accent() {
         </RightSection>
 
       </Container>
+      </OverflowHeaderHidden>
       <Messenger/>
     </BackGroundImg>
   )

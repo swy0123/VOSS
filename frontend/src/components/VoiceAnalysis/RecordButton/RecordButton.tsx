@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useRecoilState } from "recoil";
-import { analysisRecordState } from "../../../recoil/Training";
+import { analysisRecordState, AgeSelectedState, GenderSelectedState,  AgeRecordedState, GenderRecordedState } from "../../../recoil/Training";
 import {
   Backdrop,
   CompleteBtn,
@@ -29,6 +29,10 @@ function RecordButton() {
   const stopRef = useRef<number | null>(null);
   const [stop, setStop] = useState(0);
   const { alert: alertComp } = useContext(AlertContext);
+  const [genderSelected, setGenderSelected] = useRecoilState(GenderSelectedState);
+  const [ageSelected, setAgeSelected] = useRecoilState(AgeSelectedState);
+  const [genderRecorded, setGenderRecorded] = useRecoilState(GenderRecordedState);
+  const [ageRecorded, setAgeRecorded] = useRecoilState(AgeRecordedState);
 
   const {
     startRecording,
@@ -87,7 +91,7 @@ function RecordButton() {
   };
 
   const addRecord = (mediaBlobUrl: string) => {
-    setAnalysisRecord([mediaBlobUrl, ...analysisRecord.slice(0, 4)]);
+    setAnalysisRecord([[mediaBlobUrl, ageRecorded, genderRecorded] , ...analysisRecord.slice(0, 4)]);
   };
 
   const changePracticeEnd = () => {
@@ -155,6 +159,8 @@ function RecordButton() {
             onClick={() => {
               startOrStop();
               startRecording();
+              setAgeRecorded(ageSelected[0])
+              setGenderRecorded(genderSelected[0])
               changePracticeEnd();
             }}
             onMouseEnter={() => setPracticeStart(true)}

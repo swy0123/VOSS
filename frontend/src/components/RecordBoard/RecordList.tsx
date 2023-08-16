@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { RecordsState } from "/src/recoil/Community";
 import { CurrentUserAtom } from "/src/recoil/Auth";
 import { recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
 import { RecordType } from "/src/type/FreeBoard";
+import ConfirmContext from "/src/context/confirm/ConfirmContext";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
@@ -32,6 +33,7 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
   const me = useRecoilValue(CurrentUserAtom).userid
   const [records, setRecords] = useRecoilState(RecordsState);
   const [isTrash, setTrash] = useState(false);
+  const { confirm: confirmComp } = useContext(ConfirmContext);
   
   const navigate = useNavigate();
   const goProfile = (id: number) => navigate(`/profile/${id}`)
@@ -79,14 +81,23 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
     });
   };
 
-  const recordDelete = (recordId: number) => {
-    deleteRecord(recordId).then((data) => {
-      if (data) {
-        setRecords((prevRecords) => (
-          prevRecords.filter((record) => record.recordId !== recordId)
-        ));
-      }
-    })
+  const onConfirmClick = async (text:string)  => {
+    const result = await confirmComp(text);
+      console.log("custom", result);
+    return result;
+  };
+
+  const recordDelete = async (recordId: number) => {
+    const ret = await onConfirmClick("녹음글을 삭제하시겠습니까?");
+    if(ret) {
+      deleteRecord(recordId).then((data) => {
+        if (data) {
+          setRecords((prevRecords) => (
+            prevRecords.filter((record) => record.recordId !== recordId)
+          ));
+        };
+      });
+    };
   };
 
   const DateDisplay = ( dateString: string ) => {
@@ -112,9 +123,7 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
       </RecordDeleteDesign>
 
       <RecordTitleDesign>
-        {record.description?.split("\n").map((line) => {
-          return (<span>{line}<br /></span>);
-        })}
+        {record.description}
       </RecordTitleDesign>
       
       <RecordPlayerDesign>

@@ -141,5 +141,8 @@ span {
   margin-left: 13px;
   text-align: end;
   line-height: 30px;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 `;
