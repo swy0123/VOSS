@@ -155,11 +155,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
 
   // 녹음파일 일시정지
   const handleAudioPause = () => {
-<<<<<<< HEAD
     setSend("/audiopause")
-=======
-    setSend("/audioPause")
->>>>>>> f5f1f150 (feat: 녹음 스톱워치 시계형식 S09P12B106-444)
   }
 
   useEffect(() => {
