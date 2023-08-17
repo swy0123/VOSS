@@ -1,7 +1,7 @@
 # 환경변수 목록 (로컬 환경, 젠킨스, 도커 파일에서 설정 요함)
 - DB_URL=jdbc:mariadb://3.36.98.75:33060/voss
-- DB_USERNAME=root
-- DB_PASSWORD=root
+- DB_USERNAME=ikdsikddi
+- DB_PASSWORD=iddkisdki
 - ACCESS_EXPIRATION=3600000
 - REFRESH_EXPIRATION=1209600000
 - CHATGPT_API_KEY=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
