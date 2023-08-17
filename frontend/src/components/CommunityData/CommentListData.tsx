@@ -84,7 +84,7 @@ function CommentListData () {
         </TitleCommentDesign>
 
         <TitleCommentDesign>
-          <TitleDesign>
+          <TitleDesign style={{fontSize: '14px'}}>
             <img src={ReplyIcon} alt="" />
             <div>{comment.commentContent}</div>
           </TitleDesign>
@@ -97,8 +97,10 @@ function CommentListData () {
         </TitleCommentDesign>
 
       </CommentListDesign>
-    ))}
-    
+    ))}</>
+    :  <div style={{ margin: '0 auto',  width: '1000px', height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 댓글이 없습니다</div>
+    }
+
       <br/>
       <PaginationWrapper>
         {currentPage > 1
@@ -115,9 +117,6 @@ function CommentListData () {
         : <PaginationItem>다음</PaginationItem>
         }
       </PaginationWrapper>
-    </>
-    :  <div style={{ margin: '0 auto',  width: '1000px', height: '10vw', textAlign: 'center', lineHeight: '10vw', fontSize: '1vw',}}>해당하는 댓글이 없습니다</div>
-    }
    </div>
   )
 }

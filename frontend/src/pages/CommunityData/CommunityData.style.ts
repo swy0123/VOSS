@@ -72,7 +72,6 @@ export const CommentListDesign = styled.div`
   justify-content: center;
   width: 1000px;
   padding: 10px 5px;
-  height: 90px;
   border-bottom: solid 1px #6c6c6c;
   border-top: solid 1px #6c6c6c;
   &:hover {
@@ -93,6 +92,7 @@ align-items: center;
 padding-left: 20px;
 width: 800px;
 height: 30px;
+font-size: 13px;
 /* border: solid 1px green; */
 img {
   height: 20px;
@@ -109,5 +109,6 @@ justify-content: center;
 align-items: center;
 width: 200px;
 height: 30px;
+font-size: 12px;
 /* border: solid 1px green; */
 `;
