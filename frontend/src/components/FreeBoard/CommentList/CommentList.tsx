@@ -102,7 +102,7 @@ function CommentList() {
 
   useEffect(() => {
     commentsGet();
-  }, []);
+  }, [id]);
 
   return (
     <CommentListDesign>
