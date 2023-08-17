@@ -17,7 +17,13 @@ export const RecordBtnBox = styled.div`
   width: 150px;
 
 `
+export const Audio = styled.audio`
+  height: 100px;
+  width: 200px;
+`
+
 export const StopWatch = styled.div`
+  margin-top: 20px;
   color: white;
   font-size: 20px;
   height: 25px;
