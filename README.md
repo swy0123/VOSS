@@ -2,6 +2,8 @@
 <h3 align="middle">모두가 성우가 되는 플랫폼</h3>
 <p align="middle"><img src="/img/logo.png" width="30%" /></p>
 
+<br>
+<br>
 
 # 🌌 서비스 소개
 ```
