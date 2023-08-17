@@ -13,6 +13,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   height: 88%;
+  margin-top: 20px;
 `
 
 export const DubbingBox = styled.div`
