@@ -20,7 +20,7 @@ public class PostListResponse {
     private boolean hasOtherFile;
     private LocalDateTime createdAt;
 
-    public PostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
+    public PostListResponse(Post post, Long comments, Integer likes, Long hasImageFile, Long hasOtherFile) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hits = post.getHit();
@@ -29,7 +29,7 @@ public class PostListResponse {
         this.createdAt = post.getCreatedAt();
         this.comments = comments;
         this.likes = likes;
-        this.hasImageFile = hasImageFile;
-        this.hasOtherFile = hasOtherFile;
+        this.hasImageFile = hasImageFile > 0;
+        this.hasOtherFile = hasOtherFile > 0;
     }
 }

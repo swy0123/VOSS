@@ -61,11 +61,20 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                                 .where(pc.post.id.eq(p.id)
                                         .and(pc.isDeleted.eq(0))),
                         p.postLikes.size(),
-                        pf.contentType.like("image%"),
-                        pf.contentType.notLike("image%")))
+                        JPAExpressions
+                                .select(pf.count())
+                                .from(pf)
+                                .where(pf.post.id.eq(p.id)
+                                        .and(pf.contentType.like("image%"))),
+                        JPAExpressions
+                                .select(pf.count())
+                                .from(pf)
+                                .where(pf.post.id.eq(p.id)
+                                        .and(pf.contentType.notLike("image%")))
+                        )
+                )
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(p.isDeleted.eq(0).and(builder))
                 .orderBy(createOrderSpecifier(pageable))
                 .offset(pageable.getOffset())
@@ -99,12 +108,21 @@ public class PostSupportRepositoryImpl implements PostSupportRepository {
                                 .where(pc.post.id.eq(p.id)
                                         .and(pc.isDeleted.eq(0))),
                         p.postLikes.size(),
-                        pf.contentType.like("image%"),
-                        pf.contentType.notLike("image%")))
+                        JPAExpressions
+                                .select(pf.count())
+                                .from(pf)
+                                .where(pf.post.id.eq(p.id)
+                                        .and(pf.contentType.like("image%"))),
+                        JPAExpressions
+                                .select(pf.count())
+                                .from(pf)
+                                .where(pf.post.id.eq(p.id)
+                                        .and(pf.contentType.notLike("image%")))
+                        )
+                )
                 .from(p)
                 .leftJoin(p.member).fetchJoin()
                 .leftJoin(pc).on(p.id.eq(pc.post.id).and(pc.isDeleted.eq(0))).fetchJoin()
-                .leftJoin(pf).on(p.id.eq(pf.post.id).and(pf.isDeleted.eq(0))).fetchJoin()
                 .where(
                         p.isDeleted.eq(0).and(p.member.id.eq(memberId))
                 )
