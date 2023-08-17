@@ -112,8 +112,6 @@ function RecordButton ({meetRoomId, script}: number | any) {
     }
   };
 
-  
-
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
@@ -245,21 +243,21 @@ function RecordButton ({meetRoomId, script}: number | any) {
         }
         </SectionBtn>
       </RecordBtnBox>
-      {/* <FileDownload 
+      <FileDownload 
         onClick={downloadVideo}
         $meetDubRecord={meetDubRecord}>
         <FileDownloadImg 
           src="/src/assets/Meeting/download.png">
         </FileDownloadImg>
-      </FileDownload> */}
-      <audio 
+      </FileDownload>
+      {/* <audio 
         ref={audioRef}
         src={meetDubRecord} controls style={{
         width :'200px',
         height : '50px'}}
         onPlay={() => handleAudioPlay()}
         onPause={() => handleAudioPause()}
-        ></audio>
+        ></audio> */}
     </Container>
   )
 }

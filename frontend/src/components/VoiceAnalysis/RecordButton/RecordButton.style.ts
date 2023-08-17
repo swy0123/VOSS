@@ -15,7 +15,7 @@ export const StopWatch = styled.div`
   color: white;
   margin-top: 20px;
   height: 20px;
-  width: 140px;
+  width: 115px;
 `;
 export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);

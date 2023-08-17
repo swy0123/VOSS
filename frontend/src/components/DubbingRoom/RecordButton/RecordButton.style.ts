@@ -12,9 +12,13 @@ export const RecordBox = styled.div<{ $recordActive: boolean }>`
   opacity: ${({ $recordActive }) => ($recordActive ? "1" : "0")};
 `;
 export const StopWatch = styled.div`
+  display: flex;
+  justify-content: space-between;
   color: white;
-  margin: 15px 0px 0px 0px;
+  margin: 0px;
   height: 20px;
+  width: 115px;
+
 `;
 export const State = styled.div<{ $practiceStart?: boolean }>`
   background-color: rgba(58, 58, 58, 0.7);

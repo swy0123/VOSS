@@ -6,7 +6,6 @@ export const Container = styled.div`
   align-items: center;
   height: 190px;
   width: 450px;
-  border: 1px solid blue;
 ` 
 
 export const RecordBtnBox = styled.div`
@@ -16,7 +15,6 @@ export const RecordBtnBox = styled.div`
   justify-content: space-between;
   height: 160px;
   width: 150px;
-  border: 1px solid pink;
 
 `
 export const StopWatch = styled.div`
@@ -128,7 +126,7 @@ export const FileDownload = styled.button<{$meetDubRecord:string}>`
   opacity: ${(props) => (props.$meetDubRecord ? 1:0)};
   background-color: transparent;
   border:none;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
 `
 
 export const FileDownloadImg = styled.img`
