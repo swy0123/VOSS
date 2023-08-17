@@ -15,6 +15,12 @@ export const Container = styled.div<{ $isScroll:number }>`
   border-style: solid;
   border-width: 1px;
   border-radius: 24px 24px 0px 0px;
+  position: fixed;
+
+  .avatar-bar {
+    text-align: left;
+  }
+  
   /* position: fixed;
   right: 15%;
   text-align: center;
