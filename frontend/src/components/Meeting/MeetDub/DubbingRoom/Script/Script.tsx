@@ -65,7 +65,8 @@ function Script ({lines}: VideoProps) {
           <Scripts
             key={index}
             id={String(line.startSec)}
-            $IsClick={isScriptSelect[index]}>
+            // $IsClick={isScriptSelect[index]}
+            >
             <Role>{line.name}</Role>
             <Sentence>{line.content}</Sentence>
             <Time>{formatTime(line.startSec)}</Time>
