@@ -14,7 +14,7 @@ export const RecordScrollDesign = styled.div`
 
 export const RecordMainDesign = styled.div`
   margin: 0 auto;
-  width: 1000px;
+  width: 1005px;
   color: white;
   margin-top: 40px;
   /* border: solid 1px white; */
@@ -128,5 +128,6 @@ export const RecordContentDesign = styled.div`
   justify-content: start;
   margin-top: 20px;
   width: 1005px;
+  overflow: auto;
   /* border: solid 1px green;  */
 `;
