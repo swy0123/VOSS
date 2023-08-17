@@ -1,7 +1,7 @@
 # VOSS: Be Boss of Voice
 
 <p align="center">
-  ![image](/uploads/ca986b192a39a1220b78e9241799ae44/image.png)
+  ![image](/uploads/ca986b192a39a1220b78e9241799ae44/image.png)<br>
   모두가 성우가 되는 플랫폼
 </p>
 
