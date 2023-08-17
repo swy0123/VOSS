@@ -25,7 +25,7 @@ const MemberDeleteModal = ({ toggleDeleteMemberModal }: PropsWithChildren<ModalD
   };
 
   const onClickButton = async () => {
-    const updateMemberRes = await deleteMember(checkPassword);
+    const updateMemberRes = await deleteMember();
 
     if (!updateMemberRes) {
       onAlertClick("잘못된 비밀번호입니다");
