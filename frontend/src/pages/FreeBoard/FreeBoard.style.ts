@@ -15,6 +15,7 @@ export const FreeBoardDesign = styled.div`
   margin-left: 15vw;
   width: 70vw;
   color: white;
+  margin-top: 40px;
   /* border: dotted 1px yellow; */
 `;
 
