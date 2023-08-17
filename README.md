@@ -1,6 +1,6 @@
-<p align="middle"><img src="/img/logo.png" width="30%" /></p>
 <h1 align="middle">VOSS</h1>
 <h3 align="middle">모두가 성우가 되는 플랫폼</h3>
+<p align="middle"><img src="/img/logo.png" width="30%" /></p>
 
 
 # 🌌 서비스 소개
