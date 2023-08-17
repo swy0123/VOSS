@@ -7,4 +7,6 @@ import java.util.List;
 public interface FollowSupportRepository {
     List<GetFollowMemberResponse> findFollowings(Long targetId, Long myId);
     List<GetFollowMemberResponse> findFollowers(Long targetId, Long myId);
+
+    void deleteFollowByMemberId(Long memberId);
 }

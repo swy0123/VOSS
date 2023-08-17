@@ -46,6 +46,13 @@ public class MemberController {
         return ResponseEntity.ok(memberService.modifyMember(modifyMemberRequest, authentication.getName()));
     }
 
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteMember(@RequestBody MemberDeleteRequest memberDeleteRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return ResponseEntity.ok(memberService.deleteMember(authentication.getName(), memberDeleteRequest));
+    }
+
     @PutMapping("/password")
     public ResponseEntity<Boolean> newPassword(@RequestBody ModifyPasswordRequest modifyPasswordRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

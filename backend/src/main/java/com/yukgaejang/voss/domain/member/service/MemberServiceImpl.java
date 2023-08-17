@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.member.service;
 
+import com.yukgaejang.voss.domain.badge.repository.BadgeRepository;
 import com.yukgaejang.voss.domain.badge.service.BadgeService;
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.exception.MemberEmailDuplicateException;
@@ -15,6 +16,7 @@ import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberRes
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
+import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
@@ -37,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final StatRepository statRepository;
+    private final AttendRepository attendRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -76,8 +79,29 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean deleteMember(String email, MemberDeleteRequest memberDeleteRequest) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        if (!passwordEncoder.matches(memberDeleteRequest.getPassword(), member.getPassword())) {
+            throw new WrongPasswordException("잘못된 비밀번호입니다");
+        }
+
+        memberRepository.markAsDeleted(member.getId());
+        followRepository.deleteFollowByMemberId(member.getId());
+
+        badgeService.deleteAttachBySenderIdOrReceiverId(member.getId());
+        notificationService.readAll(email);
+        attendRepository.deleteAttendByMemberId(member.getId());
+        // 게시글 삭제
+        // 녹음 게시글 삭제
+        // 댓글 삭제
+
+        return false;
+    }
+
+    @Override
     public boolean modifyPassword(ModifyPasswordRequest modifyPasswordRequest, String email) {
-        System.out.println(email);
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
         
@@ -236,6 +260,6 @@ public class MemberServiceImpl implements MemberService {
     public Page<GetMemberList> findMemberListByNickname(GetMemberListRequest getMemberListRequest) {
         String keyword = getMemberListRequest.getKeyword();
         PageRequest pageRequest = PageRequest.of(getMemberListRequest.getPage(), getMemberListRequest.getLimit());
-        return memberRepository.findMemberListByNickname(keyword, pageRequest);
+        return memberRepository.findMemberListByNicknameAndIsDeletedFalse(keyword, pageRequest);
     }
 }

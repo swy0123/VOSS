@@ -9,4 +9,6 @@ import java.util.List;
 public interface BadgeSupportRepository {
     List<ViewBadgeResponse> findAllBadgeByMember(Member member);
     List<BadgeListResponse> findAllBadge();
+
+    void deleteAttachBySenderIdOrReceiverId(Long memberId);
 }

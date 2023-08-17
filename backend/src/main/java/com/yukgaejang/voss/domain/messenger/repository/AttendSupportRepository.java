@@ -16,4 +16,6 @@ public interface AttendSupportRepository {
 
     Boolean hasUnreadMessage(Long memberId);
 
+    void deleteAttendByMemberId(Long memberId);
+
 }

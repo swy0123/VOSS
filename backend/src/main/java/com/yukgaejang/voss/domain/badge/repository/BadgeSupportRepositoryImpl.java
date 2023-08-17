@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.badge.repository.entity.QBadge;
 import com.yukgaejang.voss.domain.badge.service.dto.response.BadgeListResponse;
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import static com.yukgaejang.voss.domain.badge.repository.entity.QBadge.badge;
@@ -41,12 +42,20 @@ public class BadgeSupportRepositoryImpl implements BadgeSupportRepository {
                 .fetch();
     }
 
-    @Override
+
     public List<BadgeListResponse> findAllBadge() {
         return jpaQueryFactory
                 .select(Projections.constructor(BadgeListResponse.class, badge.id, badge.name))
                 .from(badge)
                 .fetch();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAttachBySenderIdOrReceiverId(Long memberId) {
+        jpaQueryFactory.delete(attach)
+                .where(attach.senderId.id.eq(memberId).or(attach.receiverId.id.eq(memberId)))
+                .execute();
     }
 
 

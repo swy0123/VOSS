@@ -1,5 +1,6 @@
 package com.yukgaejang.voss.domain.messenger.repository;
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yukgaejang.voss.domain.messenger.repository.entity.Attend;
 import jakarta.persistence.EntityManager;
@@ -79,5 +80,22 @@ public class AttendSupportRepositoryImpl implements AttendSupportRepository{
         LocalDateTime leaveTime = fetch.get(0).getLeaveTime();
         LocalDateTime receiveMessageTime = fetch.get(0).getReceiveMessageTime();
         return leaveTime.compareTo(receiveMessageTime) < 0 ? true : false;
+    }
+
+    public void deleteAttendByMemberId(Long memberId) {
+        queryFactory
+                .delete(attend)
+                .where(attend.chat.id.in(
+                        JPAExpressions
+                                .select(attend.chat.id)
+                                .from(attend)
+                                .where(attend.member.id.eq(memberId))
+                ))
+                .execute();
+
+        queryFactory
+                .delete(attend)
+                .where(attend.member.id.eq(memberId))
+                .execute();
     }
 }

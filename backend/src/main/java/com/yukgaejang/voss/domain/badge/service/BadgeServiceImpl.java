@@ -9,6 +9,7 @@ import com.yukgaejang.voss.domain.badge.service.dto.response.BadgeListResponse;
 import com.yukgaejang.voss.domain.badge.service.dto.response.ViewBadgeResponse;
 import com.yukgaejang.voss.domain.member.repository.MemberRepository;
 import com.yukgaejang.voss.domain.member.repository.entity.Member;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class BadgeServiceImpl implements BadgeService {
     @Override
     public List<BadgeListResponse> getBadgeList() {
         return badgeRepository.findAllBadge();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAttachBySenderIdOrReceiverId(Long memberId) {
+        badgeRepository.deleteAttachBySenderIdOrReceiverId(memberId);
     }
 
     private boolean gaveSameCertainly(Member sender, Member receiver, Badge badge) {

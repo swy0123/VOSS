@@ -54,4 +54,11 @@ public class FollowSupportRepositoryImpl implements FollowSupportRepository {
                         .exists())
                 .fetch();
     }
+
+    @Override
+    public void deleteFollowByMemberId(Long memberId) {
+        jpaQueryFactory.delete(follow)
+                .where(follow.follower.id.eq(memberId).or(follow.following.id.eq(memberId)))
+                .execute();
+    }
 }
