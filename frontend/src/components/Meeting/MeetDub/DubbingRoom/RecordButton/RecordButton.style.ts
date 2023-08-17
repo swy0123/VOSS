@@ -2,21 +2,31 @@ import { styled, keyframes } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   height: 190px;
   width: 450px;
 ` 
 
+export const ResultBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 400px;
+`
+
 export const RecordBtnBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 160px;
+  height: 180px;
   width: 150px;
-
 `
+
 export const Audio = styled.audio`
   height: 100px;
   width: 200px;
@@ -114,7 +124,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -79.2px 0px 0px 24.2px;
+    margin: -79px 0px 0px 24px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -129,7 +139,7 @@ export const Waves = styled.div`
 `
 
 export const FileDownload = styled.button<{$meetDubRecord:string}>`
-  opacity: ${(props) => (props.$meetDubRecord ? 1:0)};
+  display: ${(props) => (props.$meetDubRecord ? "bloak":"none")};
   background-color: transparent;
   border:none;
   /* border: 1px solid yellow; */
