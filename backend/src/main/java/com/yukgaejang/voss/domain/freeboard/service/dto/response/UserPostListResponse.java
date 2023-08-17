@@ -18,14 +18,14 @@ public class UserPostListResponse {
     private boolean hasOtherFile;
     private LocalDateTime createdAt;
 
-    public UserPostListResponse(Post post, Long comments, Integer likes, boolean hasImageFile, boolean hasOtherFile) {
+    public UserPostListResponse(Post post, Long comments, Integer likes, Long hasImageFile, Long hasOtherFile) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.hits = post.getHit();
         this.createdAt = post.getCreatedAt();
         this.comments = comments;
         this.likes = likes;
-        this.hasImageFile = hasImageFile;
-        this.hasOtherFile = hasOtherFile;
+        this.hasImageFile = hasImageFile > 0;
+        this.hasOtherFile = hasOtherFile > 0;
     }
 }
