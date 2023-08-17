@@ -92,7 +92,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -78.2px 0px 0px 25.2px;
+    margin: -79px 0px 0px 24px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
