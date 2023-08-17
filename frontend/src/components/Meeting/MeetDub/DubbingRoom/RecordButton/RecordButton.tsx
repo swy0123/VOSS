@@ -112,8 +112,6 @@ function RecordButton ({meetRoomId, script}: number | any) {
     }
   };
 
-  
-
   // 연습 멈춤 -> 재시작
   const changePracticeEnd = () => {
     setPracticeStart(false)
