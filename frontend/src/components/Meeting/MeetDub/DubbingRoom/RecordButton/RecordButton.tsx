@@ -252,14 +252,14 @@ function RecordButton ({meetRoomId, script}: number | any) {
           src="/src/assets/Meeting/download.png">
         </FileDownloadImg>
       </FileDownload>
-      {/* <audio 
+      <audio 
         ref={audioRef}
         src={meetDubRecord} controls style={{
         width :'200px',
         height : '50px'}}
         onPlay={() => handleAudioPlay()}
         onPause={() => handleAudioPause()}
-        ></audio> */}
+        ></audio>
     </Container>
   )
 }
