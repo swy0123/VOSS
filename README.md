@@ -1,9 +1,9 @@
 # VOSS: Be Boss of Voice
 
-<p align="center">
-  ![image](/uploads/ca986b192a39a1220b78e9241799ae44/image.png)<br>
-  모두가 성우가 되는 플랫폼
-</p>
+<p align="middle"><img src="/img/logo.png" width="30%" /></p>
+<h1 align="middle">VOSS</h1>
+<h3 align="middle">모두가 성우가 되는 플랫폼</h3>
+
 
 # 🌌 서비스 소개
 ```
