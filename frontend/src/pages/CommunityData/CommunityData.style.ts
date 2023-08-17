@@ -17,6 +17,7 @@ export const DataMainDesign = styled.div`
   margin: 6px auto 0 auto;
   width: 1005px;
   color: white;
+  margin-top: 20px;;
   /* border: solid 1px white; */
   `;
 

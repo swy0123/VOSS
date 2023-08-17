@@ -111,10 +111,11 @@ function SelectCategory() {
           </Training>
 
           <Meeting
+            onClick={goMeetingBoard}
             onMouseEnter={() => setMeetIsShown(true)}
             onMouseLeave={() => setMeetIsShown(false)}
           >
-            <Cartegory_units onClick={goMeetingBoard}>
+            <Cartegory_units>
               <Icon src="/src/assets/Category/Meeting.png" />
               <Title>Meeting</Title>
               <Description>

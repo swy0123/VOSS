@@ -16,6 +16,7 @@ export const RecordMainDesign = styled.div`
   margin: 0 auto;
   width: 1000px;
   color: white;
+  margin-top: 40px;
   /* border: solid 1px white; */
   `;
 

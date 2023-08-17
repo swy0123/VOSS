@@ -12,6 +12,7 @@ export const OverflowHeaderHidden = styled.div`
 export const Container = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 25px;
 `
 export const LeftSection = styled.div`
   display: flex;
