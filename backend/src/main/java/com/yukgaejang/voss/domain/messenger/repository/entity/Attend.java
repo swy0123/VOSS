@@ -23,6 +23,7 @@ public class Attend {
     @ManyToOne(fetch = FetchType.LAZY)
     private Chat chat;
 
+
     private LocalDateTime leaveTime;
     private LocalDateTime receiveMessageTime;
 

@@ -33,5 +33,5 @@ public interface MemberService {
 
     boolean modifyPassword(ModifyPasswordRequest modifyPasswordRequest, String name);
 
-    boolean deleteMember(String email);
+    boolean deleteMember(String email, MemberDeleteRequest memberDeleteRequest);
 }

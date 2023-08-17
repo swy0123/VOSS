@@ -16,6 +16,7 @@ import com.yukgaejang.voss.domain.member.service.dto.response.GetFollowMemberRes
 import com.yukgaejang.voss.domain.member.service.dto.response.GetMemberList;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberDetailResponse;
 import com.yukgaejang.voss.domain.member.service.dto.response.MemberInfoResponse;
+import com.yukgaejang.voss.domain.messenger.repository.AttendRepository;
 import com.yukgaejang.voss.domain.notification.service.NotificationService;
 import com.yukgaejang.voss.domain.practice.repository.StatRepository;
 import com.yukgaejang.voss.domain.practice.repository.entity.PracticeType;
@@ -38,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final StatRepository statRepository;
+    private final AttendRepository attendRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -77,17 +79,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean deleteMember(String email) {
-        Member member = memberRepository.findByEmail(email)
+    public boolean deleteMember(String email, MemberDeleteRequest memberDeleteRequest) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 이메일입니다."));
+
+        if (!passwordEncoder.matches(memberDeleteRequest.getPassword(), member.getPassword())) {
+            throw new WrongPasswordException("잘못된 비밀번호입니다");
+        }
 
         memberRepository.markAsDeleted(member.getId());
         followRepository.deleteFollowByMemberId(member.getId());
+
         badgeService.deleteAttachBySenderIdOrReceiverId(member.getId());
         notificationService.readAll(email);
-        // 채팅 삭제
-        // 자유 좋아요 삭제
-        // 녹음 좋아요 삭제
+        attendRepository.deleteAttendByMemberId(member.getId());
         // 게시글 삭제
         // 녹음 게시글 삭제
         // 댓글 삭제

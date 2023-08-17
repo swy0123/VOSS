@@ -53,7 +53,7 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email)
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 이메일이 존재하지 않습니다."));
 
         return org.springframework.security.core.userdetails.User.builder()
