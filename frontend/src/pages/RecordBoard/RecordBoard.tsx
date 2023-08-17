@@ -1,5 +1,4 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
@@ -19,12 +18,10 @@ import {
   InputBoxIpt,
   InputBoxBtn,
   OrderSelectDesign,
-  RecordContentDesign,
 } from "./RecordBoard.style";
 
 
 function RecordBoard () {
-  const navigate = useNavigate();
   const [input, setInput] = useRecoilState(RecordBoardInputState);
   const [sort, setSort] = useRecoilState(RecordBoardSortState);
   const [cond, setCond] = useRecoilState(RecordBoardCondState);
@@ -93,16 +90,7 @@ function RecordBoard () {
 
         </MenuBoxDesign>
 
-
-        <RecordContentDesign>
-        { records.length 
-        ?    
-        records.map((record) => (
-          <RecordList key={record.recordId} record={record} />
-        ))
-        : <div style={{ margin: '0 auto', height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
-        }
-        </RecordContentDesign>
+        <RecordList />
 
       </RecordMainDesign>
 

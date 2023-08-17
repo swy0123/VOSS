@@ -1,6 +1,20 @@
 import styled from "styled-components";
 
 
+export const RecordContentDesign = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  margin-top: 20px;
+  width: 1005px;
+  /* border: solid 1px green;  */
+  overflow: auto;
+  height: calc(99vh - 200px);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const RecordItemDesign = styled.div`
   display: flex;
   flex-direction: column;
