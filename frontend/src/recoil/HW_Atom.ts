@@ -94,6 +94,12 @@ export const VideoTriggerState = atom<number>({
   default: 0,
 })
 
+// 화상 더빙방 오디오와 비디오 컨트롤
+export const VideoAudioTriggerState = atom<number>({
+  key: "VideoAudioTriggerState",
+  default: 2,
+})
+
 // 화상 더빙방 비디오+녹음 컨트롤
 export const RecordTriggerState = atom<number>({
   key: "RecordTriggerState",

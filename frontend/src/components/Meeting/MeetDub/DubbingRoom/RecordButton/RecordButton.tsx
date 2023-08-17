@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import { MeetDubRecordState, RecordTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
+import { MeetDubRecordState, RecordTriggerState, VideoAudioTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
 import { recieveMsg, sendMsg } from '/src/recoil/MeetDub';
 import { 
   Container,
@@ -21,9 +21,10 @@ import { postStartRecording } from '/src/api/recoding';
 import { RecordingInfo } from '/src/type/hw_type';
 import { AxiosResponse } from 'axios';
 
-function RecordButton ({meetRoomId}: number | any) {
+function RecordButton ({meetRoomId, script}: number | any) {
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
   const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
+  const [recordVideoTrigger,setRecordVideoTrigger] = useRecoilState<number>(VideoAudioTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
@@ -38,6 +39,7 @@ function RecordButton ({meetRoomId}: number | any) {
   // 더빙 영상 동시제어
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const startOrStop = () => {
     if (!isRunning) {
@@ -60,11 +62,17 @@ function RecordButton ({meetRoomId}: number | any) {
     }
     setInitialBtn(false)
   }
-  const formatTime = (milliseconds: number) => {
+  const formatTimeLeft = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  const formatTimeRight = (durationInSec: number) => {
+    const minutes = Math.floor(durationInSec / 60)
+    const second = Math.floor(durationInSec % 60)
+    return `${minutes.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+  }
 
   const resetTimer = () => {
     clearInterval(intervalRef.current);
@@ -73,12 +81,14 @@ function RecordButton ({meetRoomId}: number | any) {
     setTime(0);
   };
   
-  const StartRecord = () => {
+  const StartRecord = async() => {
     const info: RecordingInfo = {
       "meetRoomId": meetRoomId,
       "command" : "START"
     }
-    void axiosRecording(info).then().catch(error=>console.log(error))
+    void await axiosRecording(info).then().catch(error=>console.log(error))
+    window.URL.revokeObjectURL(meetDubRecord);
+    setMeetDubRecord("")
   }
   
   const StopRecord = async() => {
@@ -87,9 +97,20 @@ function RecordButton ({meetRoomId}: number | any) {
       "command" : "STOP"
     }
     const file = await axiosRecording(info).then().catch(error=>console.log(error))
-    // console.log("여기요~~~",file.data.url)
-    setMeetDubRecord(file.data.url)
-    setSend(`/updaterecord${file.data.url}`)
+    
+    const setAudio = async ():Promise<void> => {
+      try {
+        const response = await fetch(file.data.url);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        
+        setMeetDubRecord(url)
+        setSend(`/updaterecord${url}`)
+      } catch (error) {
+        console.error('Error downloading video:', error);
+      }
+    };
+    setAudio();
   }
 
   const axiosRecording = async (info:RecordingInfo):Promise<void> => {
@@ -125,6 +146,16 @@ function RecordButton ({meetRoomId}: number | any) {
     setSend("/recordresetvideo")
   }
 
+  // 녹음파일 재생 
+  const handleAudioPlay = () => {
+    setSend("/audiopaly")
+  }
+
+  // 녹음파일 일시정지
+  const handleAudioPause = () => {
+    setSend("/audiopause")
+  }
+
   useEffect(() => {
     if(recieve=="/recordstartvideo") {
       startOrStop()
@@ -138,8 +169,29 @@ function RecordButton ({meetRoomId}: number | any) {
       setRecieve("/none");
     }
     else if(recieve.slice(0,13)=="/updaterecord") {
-      console.log("통신이 잘 되는가",recieve.slice(13))
       setMeetDubRecord(recieve.slice(13))
+      setRecieve("/none");
+    }
+    else if(recieve=="/audiopaly"){
+      // if (audioRef.current) {
+      //   audioRef.current.play(); // useRef로 audio 요소에 접근
+      // }
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.play();
+      }
+      // setRecordVideoTrigger(1)
+      setRecieve("/none");
+    }
+    else if(recieve=="/audiopause"){
+      // if (audioRef.current) {
+      //   audioRef.current.pause(); // useRef로 audio 요소에 접근
+      // }
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.pause();
+      }
+      // setRecordVideoTrigger(0)
       setRecieve("/none");
     }
   },[recieve])
@@ -165,7 +217,7 @@ function RecordButton ({meetRoomId}: number | any) {
   return(
     <Container>
       <RecordBtnBox>
-        <StopWatch>{formatTime(time)}</StopWatch>
+        <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
         <SectionBtn>
         <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
         <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
@@ -198,19 +250,29 @@ function RecordButton ({meetRoomId}: number | any) {
                 setPracticeStart(false)
                 setPracticeEnd(false)}}
               src="/src/assets/Training/startbtn.png"></RecordBtn>
-            <ParcticeInfo>녹음과함께 재생</ParcticeInfo>
           </ParcticeStartSection>
           )
         }
         </SectionBtn>
-        <FileDownload 
-          onClick={downloadVideo}
-          $meetDubRecord={meetDubRecord}>
-          <FileDownloadImg src="/src/assets/Meeting/download.png"></FileDownloadImg>
-        </FileDownload>
       </RecordBtnBox>
+      <FileDownload 
+        onClick={downloadVideo}
+        $meetDubRecord={meetDubRecord}>
+        <FileDownloadImg 
+          src="/src/assets/Meeting/download.png">
+        </FileDownloadImg>
+      </FileDownload>
+      <audio 
+        ref={audioRef}
+        src={meetDubRecord} controls style={{
+        width :'200px',
+        height : '50px'}}
+        onPlay={() => handleAudioPlay()}
+        onPause={() => handleAudioPause()}
+        ></audio>
     </Container>
   )
 }
+
 export default RecordButton
 

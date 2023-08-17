@@ -100,14 +100,14 @@ function RecordButton({ script, lines }: VideoProps) {
   const formatTimeLeft = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
-    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
   };
 
   const formatTimeRight = (durationInSec: number) => {
-    const minutes = Math.floor(durationInSec / 60);
-    const second = Math.floor(durationInSec % 60);
-    return `${minutes.toString().padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
-  };
+    const minutes = Math.floor(durationInSec / 60)
+    const second = Math.floor(durationInSec % 60)
+    return `${minutes.toString().padStart(2, '0')} : ${second.toString().padStart(2, '0')}`
+  }
 
   const getParamStr = () => {
     let param = "";
@@ -198,6 +198,19 @@ function RecordButton({ script, lines }: VideoProps) {
     return;
   };
 
+  const openConfirm = async () => {
+    const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
+    if (nextAction) {
+      setStop(0)
+      resetTimer()
+      stopRecording();
+      pauseRecording();
+      setPracticeStart(false);
+      setPracticeEnd(false);
+    }
+    return;
+  };
+
   return (
     <RecordBox $recordActive={recordActive}>
       <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
@@ -261,7 +274,7 @@ function RecordButton({ script, lines }: VideoProps) {
           <RecordBtn
             onClick={() => {
               if (stop >= script.durationInSec * 10) {
-                onAlertClick("녹음을 취소/완료 해주세요");
+                openConfirm()
                 return;
               }
               startOrStop();
