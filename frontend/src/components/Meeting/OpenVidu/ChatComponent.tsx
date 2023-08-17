@@ -125,9 +125,15 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       setSend("/none");
       sendMessage("/audiopaly");
     }
+<<<<<<< HEAD
     else if (send == "/audiopause") {
       setSend("/none");
       sendMessage("/audiopause");
+=======
+    else if (send == "/audioPause") {
+      setSend("/none");
+      sendMessage("/audioPause");
+>>>>>>> 996ee688 (feat: 녹은파일만 동시재생/일시정지 S09P12B106-444)
     }
     else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
       setSend("/none");
@@ -196,8 +202,13 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         setRecieve("/audiopaly");
         messageList.pop();
       }
+<<<<<<< HEAD
       else if (messageList[messageList.length - 1].message === "/audiopause") {
         setRecieve("/audiopause");
+=======
+      else if (messageList[messageList.length - 1].message === "/audioPause") {
+        setRecieve("/audioPause");
+>>>>>>> 996ee688 (feat: 녹은파일만 동시재생/일시정지 S09P12B106-444)
         messageList.pop();
       }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
