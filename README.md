@@ -40,7 +40,7 @@ VOSS : Be Boss of Voice
 
 **Framework |** React
 
-**Library |** React Query, Axios, Styled Components, Recoil
+**Library |** Axios, Styled Components, Recoil
 
 <br>
 <br>
