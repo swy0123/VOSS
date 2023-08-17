@@ -1,15 +1,15 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { RecordsState } from "/src/recoil/Community";
 import { CurrentUserAtom } from "/src/recoil/Auth";
-import { recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
-import { RecordType } from "/src/type/FreeBoard";
+import { getRecords, recordLike, playRecord, deleteRecord, deleteLike } from "/src/api/recordBoard";
+import { RecordsState, RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, RecordBoardCurrentPageState } from "/src/recoil/Community";
 import ConfirmContext from "/src/context/confirm/ConfirmContext";
 import ProfileNull from "/src/assets/Profile/ProfileNull.png";
 import PostLikeImg from "/src/assets/FreeBoard/PostLike.png";
 import LikeItImg from "/src/assets/FreeBoard/LikeIt.png";
 import {
+  RecordContentDesign,
   RecordDeleteDesign,
   RecordItemDesign,
   RecordTitleDesign,
@@ -26,13 +26,21 @@ import {
 
 const FILE_SERVER_URL = "https://b106-voss.s3.ap-northeast-2.amazonaws.com";
 
-const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
+const RecordList = () => {
+  const containerRef = useRef(null);
   let rawday = new Date();
   rawday.setHours(rawday.getUTCHours() + 9);
   const today = rawday.toISOString();
   const me = useRecoilValue(CurrentUserAtom).userid
+
+  const [input, setInput] = useRecoilState(RecordBoardInputState);
+  const [sort, setSort] = useRecoilState(RecordBoardSortState);
+  const [cond, setCond] = useRecoilState(RecordBoardCondState);
+  const [currentPage, setCurrentPage] = useRecoilState(RecordBoardCurrentPageState);
+
   const [records, setRecords] = useRecoilState(RecordsState);
   const [isTrash, setTrash] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { confirm: confirmComp } = useContext(ConfirmContext);
   
   const navigate = useNavigate();
@@ -108,8 +116,37 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
     return (`${year}년 ${month}월 ${day}일`)
   };
 
+  const fetchMoreData = () => {
+    const container = containerRef.current;
+    const isScrolledToBottom = container.scrollTop + container.clientHeight >= container.scrollHeight;
+
+    if (isScrolledToBottom) {
+      console.log(12331313123)
+      if (isLoading) return;
+      setLoading(true);
+      getRecords(sort, cond, input, currentPage).then((dataRecords) => {
+        if (dataRecords) {
+          setRecords([...records, ...dataRecords.content])
+          setCurrentPage(currentPage + 1);
+          setLoading(true)
+        }
+      });
+    }
+  }
+
+  useEffect(() => {
+    const container = containerRef.current;
+    container.addEventListener("scroll", fetchMoreData);
+    return () => {
+      container.removeEventListener("scroll", fetchMoreData);
+    };
+  }, []);
+
   return(
-    <RecordItemDesign>
+    <RecordContentDesign ref={containerRef}>
+    { records.length
+    ? <>{ records.map((record) => (
+      <RecordItemDesign key={record.recordId}>
 
       <RecordDeleteDesign>
         { me == record.memberId
@@ -156,7 +193,11 @@ const RecordList: React.FC<{ record: RecordType }> = ({ record }) => {
         <img onClick={()=>goProfile(record.memberId)} src={ record.profileImage ? `${FILE_SERVER_URL}/${record.profileImage}` : ProfileNull} alt="" />
         <span onClick={()=>goProfile(record.memberId)}>{record.nickname}</span>
       </RecordUsersDesign>
-    </RecordItemDesign>
+      </RecordItemDesign>
+      ))}</>
+    : <div style={{ margin: '0 auto', height: '20vw', textAlign: 'center', lineHeight: '20vw', fontSize: '1vw',}}>해당하는 게시글이 없습니다</div>
+    }
+    </RecordContentDesign>
   )
 }
 
