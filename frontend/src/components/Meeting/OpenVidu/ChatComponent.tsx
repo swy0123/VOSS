@@ -200,14 +200,6 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         setRecieve("/audiopause");
         messageList.pop();
       }
-      else if (messageList[messageList.length - 1].message === "/audiopaly") {
-        setRecieve("/audiopaly");
-        messageList.pop();
-      }
-      else if (messageList[messageList.length - 1].message === "/audioPause") {
-        setRecieve("/audioPause");
-        messageList.pop();
-      }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
         setRecieve(messageList[messageList.length - 1].message);
         messageList.pop();
