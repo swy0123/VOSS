@@ -87,6 +87,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
       "command" : "START"
     }
     void await axiosRecording(info).then().catch(error=>console.log(error))
+    window.URL.revokeObjectURL(meetDubRecord);
     setMeetDubRecord("")
   }
   
@@ -96,9 +97,20 @@ function RecordButton ({meetRoomId, script}: number | any) {
       "command" : "STOP"
     }
     const file = await axiosRecording(info).then().catch(error=>console.log(error))
-    setMeetDubRecord(file.data.url)
-    console.log("파일이 나와야해",file.data.url)
-    setSend(`/updaterecord${file.data.url}`)
+    
+    const setAudio = async ():Promise<void> => {
+      try {
+        const response = await fetch(file.data.url);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        
+        setMeetDubRecord(url)
+        setSend(`/updaterecord${url}`)
+      } catch (error) {
+        console.error('Error downloading video:', error);
+      }
+    };
+    setAudio();
   }
 
   const axiosRecording = async (info:RecordingInfo):Promise<void> => {
