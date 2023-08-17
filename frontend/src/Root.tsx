@@ -20,9 +20,9 @@ function App() {
     // 로컬스토리지에 이전 페이지 저장
     localStorage.setItem("prevPage", location.pathname);
     // 비로그인 유저면 홈으로 강제이동
-    if ( location.pathname !== "/" && ( !loginState || localStorage.getItem('access_Token')) ) {
+    if ( location.pathname !== "/" && ( !loginState || !localStorage.getItem("access_token")) ) {
       navigate("/");
-    } else if ( location.pathname === "/" && loginState && localStorage.getItem('access_Token') ) {
+    } else if ( location.pathname === "/" && loginState && localStorage.getItem("access_token") ) {
       navigate("/category");
     }
   }, [loginState, location]);
