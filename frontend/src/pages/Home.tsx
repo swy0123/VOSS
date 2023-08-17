@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { styled, keyframes } from "styled-components";
 import Login from "../components/Home/Login/Login";
 import Join from "../components/Home/Join/Join";
@@ -89,11 +89,29 @@ function Home() {
   }, [endDiv.current])
 
   useEffect(() => {
+    if(isEnd){
+      setIsEnd(false);
+      scrollToBottomFast();
+    } 
+
+  }, [isEnd])
+
+  useEffect(() => {
     if (scrollEvent < 1000) setLoginMode(true)
   }, [scrollEvent])
 
   const scrollToBottom = () => {
     endDiv.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const HandleIsEnd = useCallback(() => {
+    setIsEnd(!isEnd);
+  }, [isEnd]);
+
+
+  const scrollToBottomFast = () => {
+    console.log("scrollToBottomFast")
+    endDiv.current?.scrollIntoView({ behavior: "instant" });
   };
 
 
@@ -105,7 +123,7 @@ function Home() {
             {/* <ScrollY>{scrollEvent}</ScrollY> */}
             <HomeContent></HomeContent>
             <ContentDiv $isScroll={scrollEvent}>
-              {loginMode ? <Login /> : <Join />}
+              {loginMode ? <Login HandleIsEnd={HandleIsEnd}/> : <Join />}
             </ContentDiv>
           </div>
           <ScrollSection $isScroll={scrollEvent}>
