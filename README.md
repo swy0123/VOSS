@@ -1,7 +1,7 @@
 # VOSS: Be Boss of Voice
 
 <p align="center">
-  <img src="https://hackmd.io/_uploads/rJ0gHrsnn.png"><br>
+  ![image](/uploads/ca986b192a39a1220b78e9241799ae44/image.png)
   모두가 성우가 되는 플랫폼
 </p>
 
@@ -107,4 +107,4 @@ VOSS : Be Boss of Voice
 https://pitch-savory-ca1.notion.site/API-2122b52675504e37b426d4564a11347b?pvs=4
 
 ###  🧮ERD
-![](https://hackmd.io/_uploads/H1izEHo23.png)
+![VOSS](/uploads/258b5a30c776745a37de9ef366b4bbd6/VOSS.png)
