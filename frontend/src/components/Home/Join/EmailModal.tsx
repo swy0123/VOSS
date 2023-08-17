@@ -118,9 +118,10 @@ interface ModalDefaultType {
   toggleModal: () => void;
   email: string;
   isEmailCheckd: () => void;
+  HandleIsEnd: () => void;
 }
 
-const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<ModalDefaultType>) => {
+const EmailModal = ({ toggleModal, email, isEmailCheckd, HandleIsEnd }: PropsWithChildren<ModalDefaultType>) => {
   const [token, setToken] = useState("");
 
   const [count, setCount] = useState(298);
@@ -135,6 +136,8 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
   const onAlertClick = async (text:string) => {
     const result = await alertComp(text);
     console.log("custom", result);
+    
+    HandleIsEnd();
   };
 
   useEffect(() => {
@@ -159,12 +162,14 @@ const EmailModal = ({ toggleModal, email, isEmailCheckd }: PropsWithChildren<Mod
       token: token,
     };
     const emailCheck = await authEmailConfirm(props);
+    console.log(emailCheck)
     if (emailCheck) {
       onAlertClick("인증 완료");
       isEmailCheckd();
       toggleModal();
     }
     else{
+      console.log("dsssssssssd")
       onAlertClick("인증 코드를 확인해주세요");
     }
   };

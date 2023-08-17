@@ -250,6 +250,7 @@ function RecordButton({ script, lines }: VideoProps) {
             {/* <ParcticeInfo>녹음과함께 재생</ParcticeInfo>/ */}
             <MoonLoaderDiv>
               {recordBtnClickable ? <></> : <MoonLoader color="white" size={70} />}
+              
             </MoonLoaderDiv>
           </ParcticeStartSection>
         ) : isRunning ? (
@@ -303,7 +304,9 @@ function RecordButton({ script, lines }: VideoProps) {
         ) : (
           ""
         )}
+        
       </SectionBtn>
+      {recordBtnClickable ? <></> : <PreventClickDiv>잠시만 기다려 주세요</PreventClickDiv>}
       {isRunning ? (
         <Backdrop
           onClick={(e) => {
@@ -314,7 +317,6 @@ function RecordButton({ script, lines }: VideoProps) {
       ) : (
         <></>
       )}
-      {recordBtnClickable ? <></> : <PreventClickDiv>잠시만 기다려 주세요</PreventClickDiv>}
     </RecordBox>
   );
 }
