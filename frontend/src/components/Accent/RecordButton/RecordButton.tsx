@@ -133,6 +133,19 @@ function RecordButton() {
     return;
   };
 
+  const openConfirm = async () => {
+    const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
+    if (nextAction) {
+      setStop(0)
+      resetTimer()
+      stopRecording();
+      pauseRecording();
+      setPracticeStart(false);
+      setPracticeEnd(false);
+    }
+    return;
+  };
+
   return (
     <RecordBox>
       <StopWatch>
@@ -204,7 +217,7 @@ function RecordButton() {
                   return;
                 }
                 if (stop >= 200) {
-                  onAlertClick("녹음을 완료/취소 해주세요");
+                  openConfirm()
                   return;
                 }
                 startOrStop();

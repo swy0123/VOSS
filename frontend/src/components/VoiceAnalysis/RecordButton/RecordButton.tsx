@@ -123,10 +123,25 @@ function RecordButton() {
   const openAlert = async () => {
     const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
     if (nextAction) {
+      setTime(0);
+      setStop(0)
       startOrStop();
       stopRecording();
       pauseRecording();
       changePracticeStart();
+    }
+    return;
+  };
+
+  const openConfirm = async () => {
+    const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
+    if (nextAction) {
+      setStop(0)
+      resetTimer()
+      stopRecording();
+      pauseRecording();
+      setPracticeStart(false);
+      setPracticeEnd(false);
     }
     return;
   };
@@ -193,7 +208,7 @@ function RecordButton() {
           <RecordBtn
             onClick={() => {
               if (stop >= 200) {
-                onAlertClick("녹음을 취소/완료 해주세요");
+                openConfirm();
                 return;
               }
               startOrStop();
