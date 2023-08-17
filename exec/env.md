@@ -1,0 +1,21 @@
+# 환경변수 목록 (로컬 환경, 젠킨스, 도커 파일에서 설정 요함)
+- DB_URL=jdbc:mariadb://3.36.98.75:33060/voss
+- DB_USERNAME=root
+- DB_PASSWORD=root
+- ACCESS_EXPIRATION=3600000
+- REFRESH_EXPIRATION=1209600000
+- CHATGPT_API_KEY=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
+- REDIS_HOST=3.36.98.75
+- REDIS_PORT=6379
+- REDIS_PASSWORD=bella0303!
+- FIREBASE_SERVICE_KEY=/home/ubuntu/voss-server/serviceAccountKey.json
+- SMTP_EMAIL=tmdwhd0713
+- SMTP_PASSWORD=bella0303!
+- MONGODB_HOST=myopenvidu.kro.kr
+- MONGODB_PORT=33275
+- MONGODB_DATABASE=voss
+- AWS_S3_BUCKET=b106-voss
+- AWS_ACCESS_KEY=AKIAXYQOT3HIM2PXVX52
+- AWS_SECRET_KEY=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
+- OPENVIDU_SECRET=ikdsikddi
+- OPENVIDU_URL=https://i9b106.p.ssafy.io:9443
