@@ -102,10 +102,14 @@ function RecordButton() {
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     const centiseconds = Math.floor((milliseconds % 1000) / 10);
 <<<<<<< HEAD
+<<<<<<< HEAD
     return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
 =======
     return `0 : ${seconds.toString().padStart(2, "0")}.${centiseconds.toString().padStart(2, "0")}`;
 >>>>>>> 14a04af0 (feat: 녹음 스톱워치 시계형식 S09P12B106-444)
+=======
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+>>>>>>> ba84287c (feat: 녹음 스톱워치 시계형식 S09P12B106-444)
   };
 
   const addRecord = (mediaBlobUrl) => {
@@ -155,10 +159,14 @@ function RecordButton() {
       <StopWatch>
         <span>{formatTime(time)}</span>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <span> / 00 : 20</span>
 =======
         <span> / 0 : 20.00</span>
 >>>>>>> 14a04af0 (feat: 녹음 스톱워치 시계형식 S09P12B106-444)
+=======
+        <span> / 00 : 20</span>
+>>>>>>> ba84287c (feat: 녹음 스톱워치 시계형식 S09P12B106-444)
       </StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
