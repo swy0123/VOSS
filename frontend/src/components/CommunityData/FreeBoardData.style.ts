@@ -102,9 +102,7 @@ export const PostListDesign = styled.div`
   /* border: solid 1px white; */
   display: flex;
   width: 1000px;
-  height: 5.6vh;
-  height: 40px;
-  font-size: 0.8vw;
+  height: 50px;
   font-size: 11px;
   cursor: pointer;
   &:hover {
