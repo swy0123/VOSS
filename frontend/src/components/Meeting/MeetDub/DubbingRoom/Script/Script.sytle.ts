@@ -26,12 +26,13 @@ export const ScriptBox = styled.div`
     border: 1px solid #515151;
   }
 `
-export const Scripts = styled.div<{$IsClick:boolean}>`
+// export const Scripts = styled.div<{$IsClick:boolean}>`
+export const Scripts = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 20px 0px;
-  font-weight: ${props => props.$IsClick ? '800' : '100'};
-  font-size: ${props => props.$IsClick ? '18px' : '15px'};
+  font-weight: 200;
+  font-size: 15px;
 `
 export const Script_Unit = styled.p`
   text-align: left;
