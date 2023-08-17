@@ -36,8 +36,11 @@ interface LoginProps {
   email: string;
   password: string;
 }
+type Props = {
+  HandleIsEnd: () => void;
+}
 
-const Login = () => {
+const Login: React.FC<Props> = ({HandleIsEnd}) => {
   const navigate = useNavigate();
 
   const [cookies, setCookie, removeCookie] = useCookies(["rememberEmail"]);
@@ -50,7 +53,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [loginMode, setLoginMode] = useRecoilState(LoginModeAtom);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const MAX_LENGTH = 60;
+  const MAX_LENGTH = 50;
   const [scrollEvent, setScrollEvent] = useRecoilState(scrollEventState);
   const [scrollUser, setScrollUser] = useRecoilState(scrollUserState);
 
@@ -58,6 +61,7 @@ const Login = () => {
   const onAlertClick = async (text: string) => {
     const result = await alertComp(text);
     console.log("custom", result);
+    // return true;
   };
 
   useEffect(() => {
@@ -111,7 +115,8 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email === "" || password === "") {
-      onAlertClick("아이디와 비밀번호를 입력해주세요.");
+      await onAlertClick("아이디와 비밀번호를 입력해주세요.");
+      HandleIsEnd();
       return;
     }
     const LoginProps: LoginProps = {
@@ -130,12 +135,13 @@ const Login = () => {
       navigate("category");
     } else {
       console.log("fail");
-      onAlertClick("로그인이 실패하였습니다");
+      await onAlertClick("로그인이 실패하였습니다");
+      HandleIsEnd();
     }
   };
 
   return (
-    <Container $isScroll={scrollEvent} $isScrollUser={scrollUser}>
+    <Container $isScroll={scrollEvent}>
       <Title>
         <P>로그인</P>
         <H2>환영합니다</H2>
@@ -146,7 +152,6 @@ const Login = () => {
             <InputHeader>Email</InputHeader>
             <Input
               type="email"
-              defaultValue={email}
               value={email}
               onChange={handleEmailField}
               placeholder="이메일을 입력해주세요"

@@ -33,7 +33,7 @@ export const AlarmListBox = styled.div<{$IsClick:boolean}>`
   z-index: 9999;
 
   opacity: ${props => props.$IsClick ? 1 : 0};
-  z-index: ${props => props.$IsClick ? 9999 : -1};
+  display: ${props => props.$IsClick ? "block" : "none"};
 `
 
 export const Triangle = styled.div`
@@ -124,7 +124,7 @@ export const AlarmItem = styled.div`
   padding: 10px;
   font-size: 12px;
   cursor: pointer;
-
+  z-index: inherit;
   /* &:hover {
     transform: scale(1.04);
     transition: .3s;

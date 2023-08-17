@@ -35,11 +35,12 @@ export const Scripts = styled.div<{$IsClick:boolean}>`
   justify-content: space-between;
   font-weight: ${props => props.$IsClick ? '800' : '100'};
   font-size: ${props => props.$IsClick ? '17px' : '15px'};
+  color: ${props => props.$IsClick ? 'white' : 'gray'};
 `
 
 export const Script_Unit = styled.p`
   text-align: left;
-  color: white;
+  /* color: white; */
   margin: 0px;
 `
 
