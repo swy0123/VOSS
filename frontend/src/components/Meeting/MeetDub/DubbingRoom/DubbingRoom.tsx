@@ -28,7 +28,11 @@ function DubbingRoom ({meetRoomId}:number) {
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
   
-  const goDubbingList = async () => {
+  const goDubbingList = () => {
+    setSend("/golist")
+  }
+
+  const handleRecieveMsg = async () =>{
     setMeetDubSelect(0)
     setMeetDubRecord("")
     setUserSelectRole(Array(meetDubUser).fill(""))
@@ -38,7 +42,6 @@ function DubbingRoom ({meetRoomId}:number) {
       scriptId : 0
     }
     await postMeetScript(scriptData);
-    setSend("/golist")
   }
 
   const axiosVideo = async (id:number):Promise<void> => {
@@ -58,7 +61,7 @@ function DubbingRoom ({meetRoomId}:number) {
   //이벤트 수신 감지
   useEffect(()=>{
     if(recieve=="/golist") {
-      goDubbingList()
+      handleRecieveMsg();
       setRecieve("/none");
     }
   }, [recieve])

@@ -40,6 +40,9 @@ function Meeting() {
   const [meetDubSelect, setMeetDubSelect] = useRecoilState<number>(meetDubSelectState);
 
   // const [token, setToken] = useState<any>();
+  useEffect(()=>{
+    setMeetDubSelect(0);
+  },[])
 
   useEffect(()=>{
     console.log(state)
