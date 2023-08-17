@@ -59,9 +59,9 @@ function Recording (){
             </RecordLable>
             <audio src={file} controls style={{
               width :'40%',
-              height : '28px',
-            }} onPlay={() => handleAudioPlay(index)}
-            onPause={() => handleAudioPause(index)}/>
+              height : '28px',}} 
+              onPlay={() => handleAudioPlay(index)}
+              onPause={() => handleAudioPause(index)}/>
             <a href={file} download="my-audio-file.mp3">
               <DownloadImg src="/src/assets/Training/download.png"/>
             </a> 

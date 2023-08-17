@@ -98,9 +98,10 @@ function RecordButton() {
   };
 
   const formatTime = (milliseconds: number) => {
+    const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
     const centiseconds = Math.floor((milliseconds % 1000) / 10);
-    return `${seconds.toString().padStart(2, "0")} : ${centiseconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
   };
 
   const addRecord = (mediaBlobUrl) => {
@@ -132,11 +133,24 @@ function RecordButton() {
     return;
   };
 
+  const openConfirm = async () => {
+    const nextAction = await onConfirmClick("녹음을 중단하시겠습니까?");
+    if (nextAction) {
+      setStop(0)
+      resetTimer()
+      stopRecording();
+      pauseRecording();
+      setPracticeStart(false);
+      setPracticeEnd(false);
+    }
+    return;
+  };
+
   return (
     <RecordBox>
       <StopWatch>
         <span>{formatTime(time)}</span>
-        <span> / 20 : 00</span>
+        <span> / 00 : 20</span>
       </StopWatch>
       <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
       <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
@@ -203,7 +217,7 @@ function RecordButton() {
                   return;
                 }
                 if (stop >= 200) {
-                  onAlertClick("녹음을 완료/취소 해주세요");
+                  openConfirm()
                   return;
                 }
                 startOrStop();
