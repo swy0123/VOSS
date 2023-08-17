@@ -17,7 +17,7 @@ export const VideoBox = styled.div`
 `
 
 export const VideoItem = styled.div`
-  background-color: #131313;
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@ export const VideoItem = styled.div`
   }
 
   &:hover {
-    background-color: #132B31;
+    background-color: rgba(0, 0, 0, 0.7);
   }
 `
 // export const Thumbnail = styled.iframe`

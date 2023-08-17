@@ -17,7 +17,8 @@ import {
   Waves,
   FileDownload,
   FileDownloadImg,
-  Audio
+  Audio,
+  ResultBox,
 } from './RecordButton.style';
 import { postStartRecording } from '/src/api/recoding';
 import { RecordingInfo } from '/src/type/hw_type';
@@ -100,19 +101,21 @@ function RecordButton({ meetRoomId, script }: number | any) {
     }
     const file = await axiosRecording(info).then().catch(error => console.log(error))
 
-    const setAudio = async (): Promise<void> => {
-      try {
-        const response = await fetch(file.data.url);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
+    setMeetDubRecord(file.data.url)
+    setSend(`/updaterecord${file.data.url}`)
+    // const setAudio = async (): Promise<void> => {
+    //   try {
+    //     const response = await fetch(file.data.url);
+    //     const blob = await response.blob();
+    //     const url = window.URL.createObjectURL(blob);
 
-        setMeetDubRecord(url)
-        setSend(`/updaterecord${url}`)
-      } catch (error) {
-        console.error('Error downloading video:', error);
-      }
-    };
-    setAudio();
+    //     setMeetDubRecord(url)
+    //     setSend(`/updaterecord${url}`)
+    //   } catch (error) {
+    //     console.error('Error downloading video:', error);
+    //   }
+    // };
+    // setAudio();
   }
 
   const axiosRecording = async (info: RecordingInfo): Promise<void> => {
@@ -218,13 +221,23 @@ function RecordButton({ meetRoomId, script }: number | any) {
 
   return (
     <Container>
-      <RecordBtnBox>
+      <ResultBox>
         {/* <Audio
-          ref={audioRef}
-          src={meetDubRecord} controls
-          onPlay={() => handleAudioPlay()}
-          onPause={() => handleAudioPause()}
-        ></Audio> */}
+            ref={audioRef}
+            src={meetDubRecord} controls
+            onPlay={() => handleAudioPlay()}
+            onPause={() => handleAudioPause()}
+          ></Audio> */}
+
+        <FileDownload
+          onClick={downloadVideo}
+          $meetDubRecord={meetDubRecord}>
+          <FileDownloadImg
+            src="/src/assets/Meeting/download.png">
+          </FileDownloadImg>
+        </FileDownload>
+      </ResultBox>
+      <RecordBtnBox>
         <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
         <SectionBtn>
           <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
@@ -267,13 +280,6 @@ function RecordButton({ meetRoomId, script }: number | any) {
           }
         </SectionBtn>
       </RecordBtnBox>
-      <FileDownload
-        onClick={downloadVideo}
-        $meetDubRecord={meetDubRecord}>
-        <FileDownloadImg
-          src="/src/assets/Meeting/download.png">
-        </FileDownloadImg>
-      </FileDownload>
 
     </Container>
   )
