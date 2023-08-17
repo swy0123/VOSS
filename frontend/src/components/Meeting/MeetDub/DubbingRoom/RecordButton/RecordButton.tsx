@@ -3,37 +3,39 @@ import { useRecoilState } from 'recoil';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import { MeetDubRecordState, RecordTriggerState, VideoAudioTriggerState, VideoTriggerState, dubbingRecordState } from '/src/recoil/HW_Atom';
 import { recieveMsg, sendMsg } from '/src/recoil/MeetDub';
-import { 
+import {
   Container,
   NowRecording,
   ParcticeInfo,
   ParcticeStartSection,
   PracticeEnd,
   PracticeStart,
-  RecordBtn, 
-  RecordBtnBox, 
-  SectionBtn, 
-  StopWatch, 
+  RecordBtn,
+  RecordBtnBox,
+  SectionBtn,
+  StopWatch,
   Waves,
   FileDownload,
-  FileDownloadImg} from './RecordButton.style';
+  FileDownloadImg,
+  Audio
+} from './RecordButton.style';
 import { postStartRecording } from '/src/api/recoding';
 import { RecordingInfo } from '/src/type/hw_type';
 import { AxiosResponse } from 'axios';
 
-function RecordButton ({meetRoomId, script}: number | any) {
+function RecordButton({ meetRoomId, script }: number | any) {
   const [meetDubRecord, setMeetDubRecord] = useRecoilState(MeetDubRecordState)
-  const [recordTrigger,setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
-  const [recordVideoTrigger,setRecordVideoTrigger] = useRecoilState<number>(VideoAudioTriggerState)
+  const [recordTrigger, setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
+  const [recordVideoTrigger, setRecordVideoTrigger] = useRecoilState<number>(VideoAudioTriggerState)
   const [practiceStart, setPracticeStart] = useState(false)
   const [practiceEnd, setPracticeEnd] = useState(false)
   const [initialBtn, setInitialBtn] = useState(true)
   const [isRunning, setIsRunning] = useState(false);
-  
+
   // 스크립트 스크롤, 영상 자동정지 를 위한 State
-  const intervalRef = useRef<number|undefined>(undefined);
+  const intervalRef = useRef<number | undefined>(undefined);
   const [time, setTime] = useState(0);
-  const stopRef = useRef<number|undefined>(undefined);
+  const stopRef = useRef<number | undefined>(undefined);
   const [stop, setStop] = useState(0);
 
   // 더빙 영상 동시제어
@@ -80,30 +82,30 @@ function RecordButton ({meetRoomId, script}: number | any) {
     setIsRunning(false);
     setTime(0);
   };
-  
-  const StartRecord = async() => {
+
+  const StartRecord = async () => {
     const info: RecordingInfo = {
       "meetRoomId": meetRoomId,
-      "command" : "START"
+      "command": "START"
     }
-    void await axiosRecording(info).then().catch(error=>console.log(error))
+    void await axiosRecording(info).then().catch(error => console.log(error))
     window.URL.revokeObjectURL(meetDubRecord);
     setMeetDubRecord("")
   }
-  
-  const StopRecord = async() => {
+
+  const StopRecord = async () => {
     const info: RecordingInfo = {
       "meetRoomId": meetRoomId,
-      "command" : "STOP"
+      "command": "STOP"
     }
-    const file = await axiosRecording(info).then().catch(error=>console.log(error))
-    
-    const setAudio = async ():Promise<void> => {
+    const file = await axiosRecording(info).then().catch(error => console.log(error))
+
+    const setAudio = async (): Promise<void> => {
       try {
         const response = await fetch(file.data.url);
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-        
+
         setMeetDubRecord(url)
         setSend(`/updaterecord${url}`)
       } catch (error) {
@@ -113,12 +115,12 @@ function RecordButton ({meetRoomId, script}: number | any) {
     setAudio();
   }
 
-  const axiosRecording = async (info:RecordingInfo):Promise<void> => {
+  const axiosRecording = async (info: RecordingInfo): Promise<void> => {
     try {
-      const response:AxiosResponse<string|undefined> = await postStartRecording(info);
+      const response: AxiosResponse<string | undefined> = await postStartRecording(info);
       // console.log("화상 더빙 녹음 ==",response)
       return response
-    } 
+    }
     catch (error) {
       console.log(error);
     }
@@ -157,22 +159,22 @@ function RecordButton ({meetRoomId, script}: number | any) {
   }
 
   useEffect(() => {
-    if(recieve=="/recordstartvideo") {
+    if (recieve == "/recordstartvideo") {
       startOrStop()
       setRecordTrigger(1)
       setRecieve("/none");
     }
-    else if(recieve=="/recordresetvideo") {
+    else if (recieve == "/recordresetvideo") {
       startOrStop()
       setRecordTrigger(0)
       resetTimer()
       setRecieve("/none");
     }
-    else if(recieve.slice(0,13)=="/updaterecord") {
+    else if (recieve.slice(0, 13) == "/updaterecord") {
       setMeetDubRecord(recieve.slice(13))
       setRecieve("/none");
     }
-    else if(recieve=="/audiopaly"){
+    else if (recieve == "/audiopaly") {
       // if (audioRef.current) {
       //   audioRef.current.play(); // useRef로 audio 요소에 접근
       // }
@@ -183,7 +185,7 @@ function RecordButton ({meetRoomId, script}: number | any) {
       // setRecordVideoTrigger(1)
       setRecieve("/none");
     }
-    else if(recieve=="/audiopause"){
+    else if (recieve == "/audiopause") {
       // if (audioRef.current) {
       //   audioRef.current.pause(); // useRef로 audio 요소에 접근
       // }
@@ -194,9 +196,9 @@ function RecordButton ({meetRoomId, script}: number | any) {
       // setRecordVideoTrigger(0)
       setRecieve("/none");
     }
-  },[recieve])
+  }, [recieve])
 
-  const downloadVideo = async ():Promise<void> => {
+  const downloadVideo = async (): Promise<void> => {
     const videoUrl = meetDubRecord
 
     try {
@@ -214,62 +216,65 @@ function RecordButton ({meetRoomId, script}: number | any) {
     }
   };
 
-  return(
+  return (
     <Container>
       <RecordBtnBox>
+        {/* <Audio
+          ref={audioRef}
+          src={meetDubRecord} controls
+          onPlay={() => handleAudioPlay()}
+          onPause={() => handleAudioPause()}
+        ></Audio> */}
         <StopWatch>{`${formatTimeLeft(time)} / ${formatTimeRight(script.durationInSec)}`}</StopWatch>
         <SectionBtn>
-        <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
-        <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
-        { isRunning ? 
-          (<NowRecording>
-            <RecordBtn
-              onClick={() => {
-                changePracticeStart()
-                RecordChangeReset()
-                StopRecord()}}
-              onMouseEnter={() => 
-                setPracticeEnd(true)}
-              onMouseLeave={() => {
-                setPracticeStart(false)
-                setPracticeEnd(false)}}
-              src="/src/assets/Training/stopbtn.png">
-            </RecordBtn>
-            <Waves/>
-          </NowRecording>
-          ) : (
-            <ParcticeStartSection>
-            <RecordBtn
-              onClick={() => {
-                changePracticeEnd()
-                RecordChangeReady()
-                StartRecord()}}
-              onMouseEnter={() => 
-                setPracticeStart(true)}
-              onMouseLeave={() => {
-                setPracticeStart(false)
-                setPracticeEnd(false)}}
-              src="/src/assets/Training/startbtn.png"></RecordBtn>
-          </ParcticeStartSection>
-          )
-        }
+          <PracticeStart $practiceStart={practiceStart}>연습 시작</PracticeStart>
+          <PracticeEnd $practiceEnd={practiceEnd}>연습 종료</PracticeEnd>
+          {isRunning ?
+            (<NowRecording>
+              <RecordBtn
+                onClick={() => {
+                  changePracticeStart()
+                  RecordChangeReset()
+                  StopRecord()
+                }}
+                onMouseEnter={() =>
+                  setPracticeEnd(true)}
+                onMouseLeave={() => {
+                  setPracticeStart(false)
+                  setPracticeEnd(false)
+                }}
+                src="/src/assets/Training/stopbtn.png">
+              </RecordBtn>
+              <Waves />
+            </NowRecording>
+            ) : (
+              <ParcticeStartSection>
+                <RecordBtn
+                  onClick={() => {
+                    changePracticeEnd()
+                    RecordChangeReady()
+                    StartRecord()
+                  }}
+                  onMouseEnter={() =>
+                    setPracticeStart(true)}
+                  onMouseLeave={() => {
+                    setPracticeStart(false)
+                    setPracticeEnd(false)
+                  }}
+                  src="/src/assets/Training/startbtn.png"></RecordBtn>
+              </ParcticeStartSection>
+            )
+          }
         </SectionBtn>
       </RecordBtnBox>
-      <FileDownload 
+      <FileDownload
         onClick={downloadVideo}
         $meetDubRecord={meetDubRecord}>
-        <FileDownloadImg 
+        <FileDownloadImg
           src="/src/assets/Meeting/download.png">
         </FileDownloadImg>
       </FileDownload>
-      <audio 
-        ref={audioRef}
-        src={meetDubRecord} controls style={{
-        width :'200px',
-        height : '50px'}}
-        onPlay={() => handleAudioPlay()}
-        onPause={() => handleAudioPause()}
-        ></audio>
+
     </Container>
   )
 }
