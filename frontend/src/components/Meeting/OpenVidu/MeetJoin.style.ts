@@ -53,7 +53,7 @@ export const VideoContainer = styled.div`
 export const StreamContainer = styled.div<{
   $streamContainerProps: streamContainerProps;
 }>`
-  aspect-ratio: 3/2;
+  /* aspect-ratio: 3/2; */
   margin: auto 5px;
   position: relative;
   max-height: 95%;

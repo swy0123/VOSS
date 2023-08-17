@@ -58,7 +58,7 @@ const MeetJoin = (props: any) => {
   const [publisher, setPublisher] = useState<any>(undefined);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [meetDubUser, setMeetDubUser] = useRecoilState<number>(meetDubUserState);
-  const [chatActive, setChatActive] = useState(true);
+  const [chatActive, setChatActive] = useState(false);
 
   const [connectionId, setConnectionId] = useState("");
   const [nickname, setNickname] = useState(currentUser.nickname);
