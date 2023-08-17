@@ -37,23 +37,25 @@ export const ScrollSection = styled.div<{ $isScroll: number }>`
   display: flex;
   flex-direction : column;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   position: relative;
-  height: 90px;
-  width: 50px;
-  left: 48.2%;
-  top: 82vh;
+  height: 65px;
+  width: 40px;
+  left: 50%;
+  top: 88vh;
   opacity: ${({ $isScroll }) => ($isScroll >= 2500 ? "0" : "1")};
+  transform: translate(-50%,0);
 `
 export const Scroll = styled.div`
-  width: 50px;
+  width: 40px;
   color: white;
-  font-size: 20px;
+  font-size: 15px;
+  text-align: center;
 `
 
 export const ScrollImg = styled.img`
   animation: ${pulsate} 1.7s ease-in-out infinite;
-  width: 50px;
+  width: 30px;
 `
 
 export const ScrollY = styled.div`

@@ -81,12 +81,12 @@ function RecordButton ({meetRoomId, script}: number | any) {
     setTime(0);
   };
   
-  const StartRecord = () => {
+  const StartRecord = async() => {
     const info: RecordingInfo = {
       "meetRoomId": meetRoomId,
       "command" : "START"
     }
-    void axiosRecording(info).then().catch(error=>console.log(error))
+    void await axiosRecording(info).then().catch(error=>console.log(error))
     setMeetDubRecord("")
   }
   
@@ -161,24 +161,24 @@ function RecordButton ({meetRoomId, script}: number | any) {
       setRecieve("/none");
     }
     else if(recieve=="/audiopaly"){
-      if (audioRef.current) {
-        audioRef.current.play(); // useRef로 audio 요소에 접근
-      }
-      // const audioElement = document.getElementsByTagName('audio');
-      // if (audioElement !== undefined) {
-      //   audioElement.play();
+      // if (audioRef.current) {
+      //   audioRef.current.play(); // useRef로 audio 요소에 접근
       // }
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.play();
+      }
       // setRecordVideoTrigger(1)
       setRecieve("/none");
     }
     else if(recieve=="/audiopause"){
-      if (audioRef.current) {
-        audioRef.current.pause(); // useRef로 audio 요소에 접근
-      }
-      // const audioElement = document.getElementsByTagName('audio');
-      // if (audioElement !== undefined) {
-      //   audioElement.pause();
+      // if (audioRef.current) {
+      //   audioRef.current.pause(); // useRef로 audio 요소에 접근
       // }
+      const audioElement = document.getElementsByTagName('audio')[0];
+      if (audioElement !== undefined) {
+        audioElement.pause();
+      }
       // setRecordVideoTrigger(0)
       setRecieve("/none");
     }
@@ -250,14 +250,14 @@ function RecordButton ({meetRoomId, script}: number | any) {
           src="/src/assets/Meeting/download.png">
         </FileDownloadImg>
       </FileDownload>
-      {/* <audio 
+      <audio 
         ref={audioRef}
         src={meetDubRecord} controls style={{
         width :'200px',
         height : '50px'}}
         onPlay={() => handleAudioPlay()}
         onPause={() => handleAudioPause()}
-        ></audio> */}
+        ></audio>
     </Container>
   )
 }

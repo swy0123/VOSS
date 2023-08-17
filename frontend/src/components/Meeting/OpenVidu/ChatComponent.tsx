@@ -191,12 +191,6 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       } else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
         setRecieve("/recordresetvideo");
         messageList.pop();
-<<<<<<< HEAD
-      } else if (
-        messageList[messageList.length - 1].message !== undefined &&
-        messageList[messageList.length - 1].message.substr(0, 8) === "/govideo"
-      ) {
-=======
       }
       else if (messageList[messageList.length - 1].message === "/audiopaly") {
         setRecieve("/audiopaly");
@@ -215,7 +209,6 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
         messageList.pop();
       }
       else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
->>>>>>> 996ee68 (feat: 녹은파일만 동시재생/일시정지 S09P12B106-444)
         setRecieve(messageList[messageList.length - 1].message);
         messageList.pop();
       } else if (messageList[messageList.length - 1].message === "/golist") {
