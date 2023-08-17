@@ -36,11 +36,12 @@ const RecordList = () => {
   const [input, setInput] = useRecoilState(RecordBoardInputState);
   const [sort, setSort] = useRecoilState(RecordBoardSortState);
   const [cond, setCond] = useRecoilState(RecordBoardCondState);
-  const [currentPage, setCurrentPage] = useRecoilState(RecordBoardCurrentPageState);
-
+  
   const [records, setRecords] = useRecoilState(RecordsState);
   const [isTrash, setTrash] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  // const [currentPage, setCurrentPage] = useRecoilState(RecordBoardCurrentPageState);
+  const [currentPage, setCurrentPage] = useState(1);
   const { confirm: confirmComp } = useContext(ConfirmContext);
   
   const navigate = useNavigate();
@@ -116,36 +117,47 @@ const RecordList = () => {
     return (`${year}년 ${month}월 ${day}일`)
   };
 
-  const fetchMoreData = () => {
+  const handleScroll = (currentPage) => {
+    if (isLoading) return;
     const container = containerRef.current;
-    const isScrolledToBottom = container.scrollTop + container.clientHeight >= container.scrollHeight;
 
-    if (isScrolledToBottom) {
-      console.log(12331313123)
-      if (isLoading) return;
-      setLoading(true);
-      getRecords(sort, cond, input, currentPage).then((dataRecords) => {
-        if (dataRecords) {
-          setRecords([...records, ...dataRecords.content])
-          setCurrentPage(currentPage + 1);
-          setLoading(true)
-        }
-      });
+    if (container) {
+      const scrollOffset = container.scrollHeight - container.clientHeight;
+      const currentScroll = container.scrollTop;
+
+      if (currentScroll >= scrollOffset) {
+        if (isLoading) return;
+        setLoading(true)
+        setCurrentPage(prevPage => prevPage + 1);
+        getRecords(sort, cond, input, currentPage + 1).then((dataRecords) => {
+          if (dataRecords) {
+            if ( !dataRecords.content.length ) {
+              setLoading(true);
+              return;
+            } else {
+              setLoading(false);
+              setRecords(prev => [...prev, ...dataRecords.content])
+            }
+          }
+        });
+      }
     }
-  }
+  };
 
   useEffect(() => {
     const container = containerRef.current;
-    container.addEventListener("scroll", fetchMoreData);
+    const scrollHandler = () => handleScroll(currentPage);
+    container.addEventListener("scroll", scrollHandler);
     return () => {
-      container.removeEventListener("scroll", fetchMoreData);
+      container.removeEventListener("scroll", scrollHandler);
     };
-  }, []);
+  }, [currentPage]);
 
   return(
     <RecordContentDesign ref={containerRef}>
     { records.length
-    ? <>{ records.map((record) => (
+    ? <>
+      { records.map((record) => (
       <RecordItemDesign key={record.recordId}>
 
       <RecordDeleteDesign>

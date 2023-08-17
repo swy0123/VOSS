@@ -3,7 +3,7 @@ import { BackGroundImg } from "/src/components/BackGroundImg";
 import Header from "/src/components/Header/Header";
 import Messenger from "/src/components/Message/Messenger";
 import { useRecoilState } from "recoil";
-import { RecordsState, RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, RecordBoardCurrentPageState, ShowRecordCreateModalState } from "/src/recoil/Community";
+import { RecordsState, RecordBoardInputState, RecordBoardSortState, RecordBoardCondState, ShowRecordCreateModalState } from "/src/recoil/Community";
 import { getRecords } from "/src/api/recordBoard";
 import RecordList from "/src/components/RecordBoard/RecordList";
 import RecordCreateModal from "/src/components/RecordBoard/RecordCreateModal";
@@ -25,7 +25,6 @@ function RecordBoard () {
   const [input, setInput] = useRecoilState(RecordBoardInputState);
   const [sort, setSort] = useRecoilState(RecordBoardSortState);
   const [cond, setCond] = useRecoilState(RecordBoardCondState);
-  const [currentPage, setCurrentPage] = useRecoilState(RecordBoardCurrentPageState);
   const [records, setRecords] = useRecoilState(RecordsState);
   const [showCreateModal, setShowCreateModal] = useRecoilState(ShowRecordCreateModalState);
 

@@ -9,7 +9,7 @@ export const RecordContentDesign = styled.div`
   width: 1005px;
   /* border: solid 1px green;  */
   overflow: auto;
-  height: calc(99vh - 200px);
+  height: calc(98vh - 200px);
   &::-webkit-scrollbar {
     display: none;
   }
