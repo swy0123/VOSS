@@ -6,6 +6,7 @@ import { ScriptData } from "/src/type/type"
 import Script from "./Script/Script"
 import { 
   MeetDubRecordState,
+  RecordTriggerState,
   meetDubSelectState, 
   meetDubUserState } from "/src/recoil/HW_Atom"
 import { 
@@ -27,14 +28,21 @@ function DubbingRoom ({meetRoomId}:number) {
   const [video, setVideo] = useRecoilState<ScriptData | null>(videoState)
   const [send, setSend] = useRecoilState(sendMsg);
   const [recieve, setRecieve] = useRecoilState(recieveMsg);
+
+  
+  const [recordTrigger, setRecordTrigger] = useRecoilState<number>(RecordTriggerState)
   
   const goDubbingList = () => {
     setSend("/golist")
+    console.log("goDubbingList")
   }
 
   const handleRecieveMsg = async () =>{
+    console.log("handleRecieveMsg")
     setMeetDubSelect(0)
     setMeetDubRecord("")
+    setRecordTrigger(0);
+    setVideo(null)
     setUserSelectRole(Array(meetDubUser).fill(""))
     
     const scriptData:meetScriptData = {
