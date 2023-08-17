@@ -56,17 +56,30 @@ export const Button = styled.button`
   width: 50px;
   cursor: pointer;
 `;
+// export const RestartBtn = styled.img`
+//   height: 20px;
+//   width: 20px;
+//   cursor: pointer;
+// `;
+// export const CompleteBtn = styled.img`
+//   height: 25px;
+//   width: 25px;
+//   cursor: pointer;
+// `;
 export const RestartBtn = styled.img`
-  height: 20px;
-  width: 20px;
+position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 100px;
   cursor: pointer;
 `;
 export const CompleteBtn = styled.img`
+position: absolute;
   height: 25px;
   width: 25px;
+  left: 230px;
   cursor: pointer;
 `;
-
 export const RecordBtn = styled.img`
   width: 100px;
   cursor: pointer;
@@ -96,7 +109,7 @@ export const Waves = styled.div`
     content: "";
     position: absolute;
     background: white;
-    margin: -79.2px 0px 0px 25.2px;
+    margin: -79px 0px 0px 24px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -133,7 +146,7 @@ export const MoonLoaderDiv = styled.div`
   height: 100px;
   z-index: -1;
 
-  top: 48%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, 0);
 `;
@@ -144,7 +157,7 @@ export const ParcticeStartSection = styled.div<{ $IsClickable: boolean }>`
   align-items: center;
   width: 100px;
   height: 100px;
-  margin-top: ${(props) => (props.$IsClickable ? "" : "116px")};
+  margin-top: ${(props) => (props.$IsClickable ? "" : "148px")};
 `;
 export const ParcticeInfo = styled.div`
   color: #bababa;

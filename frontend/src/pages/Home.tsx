@@ -98,9 +98,9 @@ function Home() {
 
   }, [isEnd])
 
-  useEffect(() => {
-    if (scrollEvent < 1000) setLoginMode(true)
-  }, [scrollEvent])
+  // useEffect(() => {
+  //   if (scrollEvent < 1000) setLoginMode(true)
+  // }, [scrollEvent])
 
   const scrollToBottom = () => {
     endDiv.current?.scrollIntoView({ behavior: "smooth" });
@@ -125,7 +125,7 @@ function Home() {
             {/* <ScrollY>{scrollEvent}</ScrollY> */}
             <HomeContent></HomeContent>
             <ContentDiv $isScroll={scrollEvent}>
-              {loginMode ? <Login HandleIsEnd={HandleIsEnd}/> : <Join />}
+              {loginMode ? <Login HandleIsEnd={HandleIsEnd}/> : <Join HandleIsEnd={HandleIsEnd}/>}
             </ContentDiv>
           </div>
           <ScrollSection $isScroll={scrollEvent}>
