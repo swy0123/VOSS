@@ -62,6 +62,7 @@ const Login: React.FC<Props> = ({HandleIsEnd}) => {
     const result = await alertComp(text);
     console.log("custom", result);
     // return true;
+    HandleIsEnd();
   };
 
   useEffect(() => {
@@ -116,7 +117,6 @@ const Login: React.FC<Props> = ({HandleIsEnd}) => {
     e.preventDefault();
     if (email === "" || password === "") {
       await onAlertClick("아이디와 비밀번호를 입력해주세요.");
-      HandleIsEnd();
       return;
     }
     const LoginProps: LoginProps = {
@@ -136,7 +136,6 @@ const Login: React.FC<Props> = ({HandleIsEnd}) => {
     } else {
       console.log("fail");
       await onAlertClick("로그인이 실패하였습니다");
-      HandleIsEnd();
     }
   };
 
