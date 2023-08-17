@@ -76,15 +76,15 @@ const PasswordModal = ({ togglePasswordModal }: PropsWithChildren<ModalDefaultTy
   };
 
   const handleOriginField = (e: ChangeEvent<HTMLInputElement>) => {
-    setOriginalPassword(e.target.value);
+    setOriginalPassword(e.target.value.split(' ').join(''));
   };
 
   const handleNewField = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
+    setNewPassword(e.target.value.split(' ').join(''));
   };
 
   const handleCheckField = (e: ChangeEvent<HTMLInputElement>) => {
-    setCheckPassword(e.target.value);
+    setCheckPassword(e.target.value.split(' ').join(''));
   };
 
   const handleActivate = () => {
@@ -110,15 +110,15 @@ const PasswordModal = ({ togglePasswordModal }: PropsWithChildren<ModalDefaultTy
         <div>
           <InputDiv>
             <InputHeader>Password</InputHeader>
-            <Input type="password" onChange={handleOriginField} placeholder="기존 비밀번호를 입력해주세요" />
+            <Input type="password" value={originalPassword} onChange={handleOriginField} placeholder="기존 비밀번호를 입력해주세요" />
           </InputDiv>
           <InputDiv>
             <InputHeader>New Password</InputHeader>
-            <Input type="password" onChange={handleNewField} placeholder="새로운 비밀번호를 입력해주세요" />
+            <Input type="password" value={newPassword} onChange={handleNewField} placeholder="새로운 비밀번호를 입력해주세요" />
           </InputDiv>
           <InputDiv>
             <InputHeader>Check New Password</InputHeader>
-            <Input type="password" onChange={handleCheckField} placeholder="비밀번호를 확인해주세요" />
+            <Input type="password" value={checkPassword} onChange={handleCheckField} placeholder="비밀번호를 확인해주세요" />
           </InputDiv>
           <TagButton onClick={onClickButton}>
               <ButtonText>비밀번호 변경</ButtonText>

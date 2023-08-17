@@ -5,7 +5,7 @@ const moveUp = keyframes`
     to { bottom: 0; }
 `;
 
-export const Container = styled.div<{ $isScroll: number; isScrollUser: boolean }>`
+export const Container = styled.div<{ $isScroll: number }>`
   background-color: #ffffff;
   width: 380px;
   height: 600px;

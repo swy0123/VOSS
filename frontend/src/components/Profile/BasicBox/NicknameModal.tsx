@@ -66,7 +66,7 @@ const NicknameModal = ({ toggleNicknameModal, changeNickname, originNickname, or
   };
 
   const handleCheckField = (e: ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    setNickname(e.target.value.split(' ').join(''));
   };
 
   const handleActivate = () => {
