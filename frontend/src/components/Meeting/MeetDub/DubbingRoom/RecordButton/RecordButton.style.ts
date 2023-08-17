@@ -4,22 +4,25 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 150px;
-  width: 570px;
+  height: 190px;
+  width: 450px;
 ` 
 
 export const RecordBtnBox = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 130px;
-  width: 200px;
+  height: 160px;
+  width: 150px;
+
 `
 export const StopWatch = styled.div`
   color: white;
   font-size: 20px;
-  height: 10px;
-  width: 52px;
+  height: 25px;
+  width: 200px;
+  text-align: center;
 `
 export const State = styled.div<{$practiceStart?: boolean}>`
   background-color: rgba(58, 58, 58, 0.7);
@@ -78,6 +81,7 @@ export const ParcticeInfo = styled.div`
 export const RecordBtn = styled.img`
   width: 100px;
   cursor: pointer;
+
 `
 
 export const NowRecording = styled.div`
@@ -122,6 +126,7 @@ export const FileDownload = styled.button<{$meetDubRecord:string}>`
   opacity: ${(props) => (props.$meetDubRecord ? 1:0)};
   background-color: transparent;
   border:none;
+  /* border: 1px solid yellow; */
 `
 
 export const FileDownloadImg = styled.img`

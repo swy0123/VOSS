@@ -120,7 +120,16 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
     } else if (send == "/recordresetvideo") {
       setSend("/none");
       sendMessage("/recordresetvideo");
-    } else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
+    }
+    else if (send == "/audiopaly") {
+      setSend("/none");
+      sendMessage("/audiopaly");
+    }
+    else if (send == "/audiopause") {
+      setSend("/none");
+      sendMessage("/audiopause");
+    }
+    else if (send.length > 13 && send.substr(0, 13) == "/updaterecord") {
       setSend("/none");
       sendMessage(send);
     } else if (send == "/golist") {
@@ -182,10 +191,16 @@ const ChatComponent = ({ chatProps }: { chatProps: ChatProps }) => {
       } else if (messageList[messageList.length - 1].message === "/recordresetvideo") {
         setRecieve("/recordresetvideo");
         messageList.pop();
-      } else if (
-        messageList[messageList.length - 1].message !== undefined &&
-        messageList[messageList.length - 1].message.substr(0, 8) === "/govideo"
-      ) {
+      }
+      else if (messageList[messageList.length - 1].message === "/audiopaly") {
+        setRecieve("/audiopaly");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message === "/audiopause") {
+        setRecieve("/audiopause");
+        messageList.pop();
+      }
+      else if (messageList[messageList.length - 1].message !== undefined && messageList[messageList.length - 1].message.substr(0, 8) === "/govideo") {
         setRecieve(messageList[messageList.length - 1].message);
         messageList.pop();
       } else if (messageList[messageList.length - 1].message === "/golist") {
