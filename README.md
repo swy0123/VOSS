@@ -36,11 +36,11 @@ VOSS : Be Boss of Voice
 <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
 <img src="https://img.shields.io/badge/recoil-000000?style=for-the-badge&logo=recoil&logoColor=white">
 
-**Language |** Typescript
+**Language |** Typescript 5.0.2
 
-**Framework |** React
+**Framework |** React 18.2.0
 
-**Library |** Axios, Styled Components, Recoil
+**Library |** Axios 1.4.0, Styled Components 5.1.26, Recoil 0.7.7
 
 <br>
 <br>
