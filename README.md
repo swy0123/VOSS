@@ -89,6 +89,10 @@ VOSS : Be Boss of Voice
 
 </div>
 
+## 🔗 시스템 아키텍처
+<br>
+![image](/uploads/7437e4d0c213452996c3a76208519b03/image.png)
+
 <br>
 <br>
 
