@@ -15,7 +15,7 @@
 ## 웹사이트 수동 배포
 - 프로젝트를 서버 상에 clone
 - /frontend/ 폴더 수준에서 `npm run dev` 실행
-- [https://i9b106.p.ssafy.io/category](https://i9b106.p.ssafy.io/category)
+- [https://i9b106.p.ssafy.io](https://i9b106.p.ssafy.io)
 
 
 ## 서버 수동 배포
