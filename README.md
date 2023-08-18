@@ -95,9 +95,14 @@ VOSS : Be Boss of Voice
 # 🔥 기능소개
 
 ## 메인 화면
+로그인, 회원가입과 아바타 생성기
+<br>
+
 ![login](/uploads/f498dc53929cae7fc9e1d992601b182c/login.png)
 
 ![menu](/uploads/fe8da330743624afdd7ae00d3857dfd2/menu.png)
+
+![avatar](/uploads/c5139aeda8617881abc01d3b1c85de59/avatar.png)
 
 ## 🌼 개인 연습방
 다양한 AI와 더빙 콘텐츠로 혼자서도 다채롭게 성우 연습
@@ -111,8 +116,6 @@ VOSS : Be Boss of Voice
 
 ![accent](/uploads/b106a282d18c0474990711bc25f4d57f/accent.png)
 
-![avatar](/uploads/c5139aeda8617881abc01d3b1c85de59/avatar.png)
-
 
 ## 🌻 단체 연습방
 같은 관심사 사람들과 실시간으로 상호작용하며 성우 연습
@@ -125,6 +128,8 @@ VOSS : Be Boss of Voice
 ![meetingroom](/uploads/d0125d5e7a895e3064d5b74f6d718d11/meetingroom.png)
 
 ![givebadge](/uploads/efd050154dce2dd26e264af80bcdb757/givebadge.png)
+
+![message](/uploads/2aafa51d2d870fa4e4bdd24518930993/message.png)
 
 ## 💐 커뮤니티
 꿀팁 공유, 음성 자랑, 사용자 목소리와 함께하는 미니 게임까지 즐길 수 있는 커뮤니티
@@ -140,9 +145,8 @@ VOSS : Be Boss of Voice
 
 
 ## 마이페이지
-
-![message](/uploads/2aafa51d2d870fa4e4bdd24518930993/message.png)
-
+마이페이지, 팔로우, 연습기록과 사용자 정보 수정
+<br>
 ![profile](/uploads/d7975c5347a1d5b048856846f46b1fca/profile.png)
 
 
