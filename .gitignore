@@ -11,6 +11,7 @@ build/
 /backend/*.iws
 /backend/*.classpath
 /backend/*.project
+/backend/src/main/generated/
 
 # Ignore backend generated files
 /backend/spring-configuration-metadata.json
