@@ -1,4 +1,12 @@
-# 실행
+# 실행 버전 정보
+- node.js 9.6.7
+- Visual Studio Code 1.81.1
+- jdk 17.0.7
+- IntelliJ IDEA 2023.1.3
+- Ubuntu 20.04
+
+
+# 실행 방법
 ## 자동 배포
 - [젠킨스 주소](http://3.36.98.75:9090/)로 접속
 - root / bella0303! 입력 후 접속
