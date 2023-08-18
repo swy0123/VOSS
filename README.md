@@ -131,6 +131,8 @@ VOSS : Be Boss of Voice
 
 ![message](/uploads/2aafa51d2d870fa4e4bdd24518930993/message.png)
 
+![image](/uploads/9a0ae6130541dc1ffda03d59617f1c59/image.png)
+
 ## 💐 커뮤니티
 꿀팁 공유, 음성 자랑, 사용자 목소리와 함께하는 미니 게임까지 즐길 수 있는 커뮤니티
 <br>
