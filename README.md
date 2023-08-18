@@ -91,7 +91,7 @@ VOSS : Be Boss of Voice
 
 ## 🔗 시스템 아키텍처
 <br>
-![image](/uploads/7437e4d0c213452996c3a76208519b03/image.png)
+![image](/uploads/4c317e1e75c750ddc4b259e6578150a2/image.png)
 
 <br>
 <br>
