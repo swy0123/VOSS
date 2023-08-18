@@ -141,6 +141,8 @@ VOSS : Be Boss of Voice
 
 ![game](/uploads/34d64230a336555a9da61db4b66efbc1/game.png)
 
+![image](/uploads/2f160fe140348ed0023c9b63ad67ee8f/image.png)
+
 ![voicemafia](/uploads/f722a1056144752f4ccc5febf516d8f6/voicemafia.png)
 
 
