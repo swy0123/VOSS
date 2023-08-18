@@ -64,19 +64,6 @@ public class GameServiceImpl implements GameService{
                 noMemberTypeList.set(randomInt, memberTypeList.get(i));
             }
         }
-        List<MafiaGameSourceListResponse> actorVoice = mafiaGameSourceRepository.findById(64L).stream()
-                .map(o -> new MafiaGameSourceListResponse(o))
-                .collect(Collectors.toList());
-        List<MafiaGameSourceListResponse> aiVoice = mafiaGameSourceRepository.findById(102L).stream()
-                .map(o -> new MafiaGameSourceListResponse(o))
-                .collect(Collectors.toList());
-        List<MafiaGameSourceListResponse> coachVoice = mafiaGameSourceRepository.findById(156L).stream()
-                .map(o -> new MafiaGameSourceListResponse(o))
-                .collect(Collectors.toList());
-        noMemberTypeList.set(0, actorVoice.get(0));
-        noMemberTypeList.set(1, aiVoice.get(0));
-        noMemberTypeList.set(2, coachVoice.get(0));
-
         return noMemberTypeList;
     }
 
