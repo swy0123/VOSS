@@ -156,7 +156,7 @@ function Video ({script, roles, lines}: ScriptData) {
     <Container>
 
       <HeaderSection>
-        <Title>{script.title}<span style={{fontSize:'20px'}}>  Time : {time}</span></Title>
+        <Title>{script.title}</Title>
         <BackButton
           onClick={goDubbingList}>목록으로</BackButton>
       </HeaderSection>
