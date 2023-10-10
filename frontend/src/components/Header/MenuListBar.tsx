@@ -77,7 +77,7 @@ function MenuListBar({setMenuIsShown}:Headertype) {
       </Menuitems>
 
       <Menuitems>
-        <Item onClick={goMeetingBoard}>화상 연습</Item>  
+        <Item onClick={goMeetingBoard}>화상 회의</Item>  
       </Menuitems>     
     
       <Menuitems>
